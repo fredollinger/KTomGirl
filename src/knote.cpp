@@ -649,6 +649,7 @@ void KNote::slotUpdateDesktopActions()
 
 void KNote::buildGui()
 {
+  qDebug() << __PRETTY_FUNCTION__;
   createNoteHeader();
   createNoteEditor();
 
@@ -792,13 +793,11 @@ void KNote::createNoteHeader()
 
 void KNote::createNoteEditor()
 {
-  #if 0
   m_editor = new KNoteEdit( actionCollection(), this );
   m_noteLayout->addWidget( m_editor );
   m_editor->setNote( this );
   m_editor->installEventFilter( this ); // receive focus events for modified
   setFocusProxy( m_editor );
-  #endif
 }
 
 void KNote::slotRequestNewNote()

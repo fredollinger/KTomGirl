@@ -22,8 +22,9 @@ install: build/ktomgirl
 	cd build && su -c "make install"
 	#cd build && sudo make install
 test:
-	su -c "make install"
-	/usr/local/bin/ktomgirl ktomgirl.cpp
+	build/ktomgirl
+	#su -c "make install"
+	#/usr/local/bin/ktomgirl ktomgirl.cpp
 
 vcsCommitLayout.h:
 	$(UI) vcsCommitLayout.ui > vcsCommitLayout.h

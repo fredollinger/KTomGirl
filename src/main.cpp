@@ -60,11 +60,10 @@ int main( int argc, char *argv[] )
 
   // KUniqueApplication::addCmdLineOptions();
 
-
   // Create Application
-
   Application app;
   KGlobal::locale()->insertCatalog("libkdepim");
+  app.newInstance();
 
   // remove_sm_from_client_leader();
 

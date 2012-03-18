@@ -18,15 +18,18 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *******************************************************************/
 
+#include <QDebug>
 #include "application.h"
 #include "knotesapp.h"
 #include <kcmdlineargs.h>
+#include <kuniqueapplication.h> 
 //#include <kontactinterface/pimuniqueapplication.h>
 
 
 Application::Application() :
     mMainWindow( 0 )
 {
+  qDebug() << __PRETTY_FUNCTION__;
   mCmdLineArguments = KCmdLineArgs::parsedArgs();
 }
 
@@ -42,15 +45,18 @@ KCmdLineArgs *Application::args() const
 
 int Application::newInstance()
 {
+  qDebug() << __PRETTY_FUNCTION__;
   if ( !mMainWindow ) {
     mMainWindow = new KNotesApp();
+    qDebug() << __PRETTY_FUNCTION__ << "new mainwindow";
   } else {
     if ( !args()->isSet( "skip-note" ) ) {
       mMainWindow->newNote();
+    qDebug() << __PRETTY_FUNCTION__ << "new note";
     }
   }
 
-//  return KUniqueApplication::newInstance();
+  // return KUniqueApplication::newInstance();
   return 0;
 }
 // Sat Mar 17 21:19:22 PDT 2012

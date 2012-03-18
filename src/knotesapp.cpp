@@ -105,6 +105,7 @@ static bool qActionLessThan( const QAction *a1, const QAction *a2 )
 KNotesApp::KNotesApp()
   : QWidget(), m_alarm( 0 ), m_listener( 0 ), m_publisher( 0 ), m_find( 0 ), m_findPos( 0 )
 {
+  qDebug() << __PRETTY_FUNCTION__;
   // new KNotesAdaptor( this );
   //QDBusConnection::sessionBus().registerObject( "/KNotes" , this );
   kapp->setQuitOnLastWindowClosed( false );
@@ -170,7 +171,10 @@ KNotesApp::KNotesApp()
   KStandardAction::quit( this, SLOT( slotQuit() ),
                          actionCollection() )->setShortcut( 0 );
 
-  setXMLFile( componentData().componentName() + "appui.rc" );
+  // qDebug << componentData().componentName() + "appui.rc";
+  // setXMLFile( componentData().componentName() + "appui.rc" );
+  qDebug() << "setXMLFile";
+  setXMLFile("knotesappui.rc");
 
   m_guiBuilder = new KXMLGUIBuilder( this );
   m_guiFactory = new KXMLGUIFactory( m_guiBuilder, this );
@@ -181,7 +185,7 @@ KNotesApp::KNotesApp()
                                         this ) );
   m_noteMenu = static_cast<KMenu *>( m_guiFactory->container(
                                       "notes_menu", this ) );
-  m_tray->setContextMenu( m_contextMenu );
+  //m_tray->setContextMenu( m_contextMenu );
   // get the most recent XML UI file
   QString xmlFileName = componentData().componentName() + "ui.rc";
   QString filter = componentData().componentName() + '/' + xmlFileName;
