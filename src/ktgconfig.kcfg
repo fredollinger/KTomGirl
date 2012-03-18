@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name="KSGlobalConfig"/>
+  <include>kglobalsettings.h</include>
+  <group name="Projects">
+    <entry name="RecentProjects" type="StringList">
+      <label>List of recent projects</label>
+    </entry>
+    <entry name="LastOpenProject" type="String">
+      <label>Path to the last open project</label>
+    </entry>
+    <entry name="vcs" type="int">
+      <label>Which Version Control System is Used</label>
+    </entry>
+    <entry name="OpenedFiles" type="StringList">
+      <label>List of Files Which Were Still Open When We Closed</label>
+    </entry>
+  </group>
+</kcfg>
