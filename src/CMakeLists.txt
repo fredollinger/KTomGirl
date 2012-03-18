@@ -12,8 +12,8 @@ install(FILES ktgconfig.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
 
 set(ktomgirl_SRCS
-gnote.cpp
 main.cpp
+application.cpp
 )
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS})

@@ -25,10 +25,12 @@
 
 #include <string>
 
+#if 0
 #include <glibmm/optioncontext.h>
 #include <glibmm/ustring.h>
 #include <gtkmm/icontheme.h>
 #include <gtkmm/statusicon.h>
+#endif 
 
 #include "base/singleton.hpp"
 #include "actionmanager.hpp"

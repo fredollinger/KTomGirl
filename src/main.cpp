@@ -56,7 +56,7 @@ int main( int argc, char *argv[] )
 
   KCmdLineArgs::addCmdLineOptions( knotesOptions() );
 
-  KUniqueApplication::addCmdLineOptions();
+  // KUniqueApplication::addCmdLineOptions();
 
 
   // Create Application
@@ -64,7 +64,7 @@ int main( int argc, char *argv[] )
   Application app;
   KGlobal::locale()->insertCatalog("libkdepim");
 
-  remove_sm_from_client_leader();
+  // remove_sm_from_client_leader();
 
   return app.exec();
 }

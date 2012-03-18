@@ -28,11 +28,13 @@
 
 #include <boost/format.hpp>
 
+#if 0
 #include <glibmm/thread.h>
 #include <glibmm/i18n.h>
 #include <glibmm/optionentry.h>
 #include <gtkmm/main.h>
 #include <gtkmm/aboutdialog.h>
+#endif
 
 #if HAVE_PANELAPPLETMM
 #include <libpanelappletmm/init.h>
