@@ -75,6 +75,8 @@
 #include <QVBoxLayout>
 #include <QDesktopWidget>
 
+#include <QDebug>
+
 #ifdef Q_WS_X11
 #include <fixx11h.h>
 #include <QX11Info>
@@ -87,6 +89,7 @@ KNote::KNote( const QDomDocument& buildDoc, Journal *j, QWidget *parent )
     m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
 {
+  qDebug() << __PRETTY_FUNCTION__;
   setAcceptDrops( true );
   setAttribute( Qt::WA_DeleteOnClose );
   setDOMDocument( buildDoc );
@@ -793,6 +796,7 @@ void KNote::createNoteHeader()
 
 void KNote::createNoteEditor()
 {
+  qDebug() << __PRETTY_FUNCTION__;
   m_editor = new KNoteEdit( actionCollection(), this );
   m_noteLayout->addWidget( m_editor );
   m_editor->setNote( this );

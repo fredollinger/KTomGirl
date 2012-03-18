@@ -56,6 +56,8 @@
 #include <kcal/journal.h>
 #include <kiconloader.h>
 
+#include <QDebug>
+
 #include <QPixmap>
 #include <QClipboard>
 #include <QTcpServer>
@@ -230,13 +232,13 @@ KNotesApp::KNotesApp()
   m_alarm = new KNotesAlarm( m_manager, this );
 
    updateNetworkListener();
+  #endif
 
   if ( m_notes.size() == 0 && !kapp->isSessionRestored() ) {
       newNote();
   }
 
-  updateNoteActions();
-  #endif
+  // updateNoteActions();
 }
 
 KNotesApp::~KNotesApp()
