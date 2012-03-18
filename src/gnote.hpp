@@ -17,9 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-
 #ifndef _GNOTE_HPP_
 #define _GNOTE_HPP_
 
@@ -33,15 +30,19 @@
 #endif 
 
 #include "base/singleton.hpp"
+
+#if 0
 #include "actionmanager.hpp"
 #include "keybinder.hpp"
 #include "tray.hpp"
+#endif
 
 namespace gnote {
 
 class PreferencesDialog;
 class NoteManager;
 class RemoteControl;
+class IKeybinder;
 
 class Gnote
   : public base::Singleton<Gnote>
@@ -54,10 +55,12 @@ public:
     {
       return *m_manager;
     }
+#if 0
   IKeybinder & keybinder()
     {
       return *m_keybinder;
     }
+#endif
 
   void setup_global_actions();
   void start_tray_icon();
@@ -77,34 +80,42 @@ public:
   static std::string data_dir();
   static std::string old_note_dir();
 
+  #if 0
   static bool tray_icon_showing()
     {
       return s_tray_icon_showing;
     }
+
   bool is_panel_applet()
     {
       return m_is_panel_applet;
     }
+
   void set_tray(const Tray::Ptr & tray)
     {
       m_tray = tray;
     }
+
 private:
   void start_note_created(const Note::Ptr & start_note);
   std::string get_note_path(const std::string & override_path);
   void register_remote_control(NoteManager & manager);
 
+  Glib::RefPtr<Gtk::IconTheme> m_icon_theme;
+  #endif
   NoteManager *m_manager;
   IKeybinder  *m_keybinder;
-  Glib::RefPtr<Gtk::IconTheme> m_icon_theme;
+	
   static bool s_tray_icon_showing;
-  Glib::RefPtr<TrayIcon> m_tray_icon;
-  Tray::Ptr m_tray;
   bool m_is_panel_applet;
   PreferencesDialog *m_prefsdlg;
   RemoteControl     *m_remote_control;
-};
+  #if 0
+  Glib::RefPtr<TrayIcon> m_tray_icon;
+  Tray::Ptr m_tray;
 
+  #endif
+};
 
 class GnoteCommandLine
 {
@@ -112,37 +123,38 @@ public:
   GnoteCommandLine();
   ~GnoteCommandLine();
   int execute();
-
-  const gchar * note_path() const
+  bool        use_panel_applet() const;
+  bool        needs_execute() const;
+  #if 0
+  const char * note_path() const
     {
       return m_note_path ? m_note_path : "";
     }
-  bool        needs_execute() const;
-  bool        use_panel_applet() const
     {
       return m_use_panel;
     }
-  void parse(int &argc, gchar ** & argv);
+  void parse(int &argc, char ** & argv);
 
-  static gboolean parse_func(const gchar *option_name,
-                             const gchar *value,
+  static gboolean parse_func(const char *option_name,
+                             const char *value,
                              gpointer data,
                              GError **error);
+  #endif
 private:
   void        print_version();
 
-  GOptionContext *m_context;
+  // GOptionContext *m_context;
 
   bool        m_use_panel;
-  gchar *     m_note_path;
+  char *     m_note_path;
   bool        m_do_search;
   std::string m_search;
   bool        m_show_version;
   bool        m_do_new_note;
   std::string m_new_note_name;
-  gchar*      m_open_note;
+  char*      m_open_note;
   bool        m_open_start_here;
-  gchar*      m_highlight_search;
+  char*      m_highlight_search;
 
 
   // depend on m_open_note, set in on_post_parse

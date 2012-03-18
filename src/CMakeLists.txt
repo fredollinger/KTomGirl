@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 2.8)
 project(ktomgirl)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SIGC2 REQUIRED sigc++-2.0)
+include_directories(${SIGC2_INCLUDE_DIRS})
+
 find_package(KDE4 REQUIRED)
 include_directories(${KDE4_INCLUDES})
+find_package(LibXml2)
+include_directories(${LibXML_INCLUDE_DIRS})
 
 kde4_add_ui_files(ktomgirl_SRCS 
 )
@@ -14,14 +20,14 @@ install(FILES ktgconfig.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 set(ktomgirl_SRCS
 main.cpp
 application.cpp
+gnote.cpp
+actionmanager.cpp
 )
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS})
 
-target_link_libraries(ktomgirl ${KDE4_KDEUI_LIBS}
-${KDE4_KIO_LIBS}
-${KDE4_KDE3SUPPORT_LIBS}
-${KDE4_KTEXTEDITOR_LIBS})
+#target_link_libraries(yourapp ${SIGC2_LIBRARIES})
+target_link_libraries(ktomgirl ${LibXML_LIBRARIES} ${SIGC2_LIBRARIES} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
 
 install(TARGETS ktomgirl  DESTINATION ${BIN_INSTALL_DIR})
 install(FILES ktomgirl-kde4.rc DESTINATION ${DATA_INSTALL_DIR}/ktomgirl-kde4)
