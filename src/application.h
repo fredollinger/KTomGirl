@@ -34,7 +34,7 @@ class Application : public KApplication
     Application();
     ~Application();
 
-    // virtual int newInstance();
+    virtual int newInstance();
     KCmdLineArgs *args() const;
   private:
     KNotesApp *mMainWindow;

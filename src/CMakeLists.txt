@@ -18,6 +18,9 @@ install(FILES ktgconfig.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
 
 set(ktomgirl_SRCS
+knotesapp.cpp
+knoteedit.cpp
+knote.cpp
 main.cpp
 application.cpp
 gnote.cpp

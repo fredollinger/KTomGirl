@@ -35,7 +35,11 @@ Application::~Application()
   delete mMainWindow;
 }
 
-#if 0
+KCmdLineArgs *Application::args() const
+{
+  return mCmdLineArguments;
+}
+
 int Application::newInstance()
 {
   if ( !mMainWindow ) {
@@ -46,11 +50,7 @@ int Application::newInstance()
     }
   }
 
-  return KApplication::newInstance();
+//  return KUniqueApplication::newInstance();
+  return 0;
 }
-#endif
-
-KCmdLineArgs *Application::args() const
-{
-  return mCmdLineArguments;
-}
+// Sat Mar 17 21:19:22 PDT 2012

@@ -18,15 +18,18 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *******************************************************************/
 
-#include "knoteconfigdlg.h"
 #include "knote.h"
+#include "knotesapp.h"
+
+#if 0
+#include "knoteconfigdlg.h"
 #include "knotes/resourcemanager.h"
 #include "knotesadaptor.h"
 #include "knotesalarm.h"
-#include "knotesapp.h"
 #include "knotesglobalconfig.h"
 #include "knoteslegacy.h"
 #include "knotesnetrecv.h"
+#endif
 
 #include <kaction.h>
 #include <kactioncollection.h>
@@ -102,10 +105,11 @@ static bool qActionLessThan( const QAction *a1, const QAction *a2 )
 KNotesApp::KNotesApp()
   : QWidget(), m_alarm( 0 ), m_listener( 0 ), m_publisher( 0 ), m_find( 0 ), m_findPos( 0 )
 {
-  new KNotesAdaptor( this );
-  QDBusConnection::sessionBus().registerObject( "/KNotes" , this );
+  // new KNotesAdaptor( this );
+  //QDBusConnection::sessionBus().registerObject( "/KNotes" , this );
   kapp->setQuitOnLastWindowClosed( false );
 
+  #if 0
   // create the dock widget...
   m_tray = new KStatusNotifierItem(0);
 
@@ -116,6 +120,7 @@ KNotesApp::KNotesApp()
   m_tray->setStandardActionsEnabled(false);
   connect( m_tray, SIGNAL( activateRequested(bool, const QPoint &) ), this, SLOT( slotActivateRequested( bool, const QPoint& ) ) );
   connect( m_tray, SIGNAL( secondaryActivateRequested( const QPoint & ) ), this, SLOT( slotSecondaryActivateRequested( const QPoint& ) ) );
+  #endif 
 
   // set the initial style
 #ifdef __GNUC__
@@ -191,9 +196,10 @@ KNotesApp::KNotesApp()
   KConfigGroup config( KGlobal::config(), "Global Keybindings" );
 
   // clean up old config files
-  KNotesLegacy::cleanUp();
+  // KNotesLegacy::cleanUp();
 
   // create the resource manager
+  #if 0
   m_manager = new KNotesResourceManager();
   connect( m_manager, SIGNAL( sigRegisteredNote( KCal::Journal * ) ),
            this,      SLOT( createNote( KCal::Journal * ) ) );
@@ -226,6 +232,7 @@ KNotesApp::KNotesApp()
   }
 
   updateNoteActions();
+  #endif
 }
 
 KNotesApp::~KNotesApp()
@@ -264,8 +271,11 @@ bool KNotesApp::commitData( QSessionManager & )
 
 QString KNotesApp::newNote( const QString &name, const QString &text )
 {
-  // create the new note
+  QString qs;
+  return qs;
+  #if 0
   KCal::Journal *journal = new KCal::Journal();
+  // create the new note
 
   // new notes have the current date/time as title if none was given
   if ( !name.isEmpty() ) {
@@ -278,11 +288,12 @@ QString KNotesApp::newNote( const QString &name, const QString &text )
   // the body of the note
   journal->setDescription( text );
 
-  m_manager->addNewNote( journal );
+  // m_manager->addNewNote( journal );
 
   showNote( journal->uid() );
 
   return journal->uid();
+  #endif
 }
 
 QString KNotesApp::newNoteFromClipboard( const QString &name )
@@ -477,6 +488,7 @@ void KNotesApp::slotFindNext()
 
 void KNotesApp::slotPreferences()
 {
+  #if 0
   // create a new preferences dialog...
   KNoteConfigDlg *dialog = new KNoteConfigDlg( i18n( "Settings" ), this);
   connect( dialog, SIGNAL( configWrote( ) ),
@@ -484,6 +496,7 @@ void KNotesApp::slotPreferences()
   connect( dialog, SIGNAL( configWrote(  ) ),
            this,   SLOT( updateStyle() ) );
   dialog->show();
+  #endif
 }
 
 void KNotesApp::slotConfigureAccels()
@@ -532,9 +545,11 @@ void KNotesApp::slotConfigureAccels()
 
 void KNotesApp::slotNoteKilled( KCal::Journal *journal )
 {
+  #if 0
   m_noteUidModify.clear();
   m_manager->deleteNote( journal );
   saveNotes();
+  #endif
 }
 
 void KNotesApp::slotQuit()
@@ -563,6 +578,7 @@ void KNotesApp::showNote( KNote *note ) const
 
 void KNotesApp::createNote( KCal::Journal *journal )
 {
+  #if 0
   if( journal->uid() == m_noteUidModify)
   {
       KNote *note = m_notes.value( m_noteUidModify );
@@ -594,6 +610,7 @@ void KNotesApp::createNote( KCal::Journal *journal )
   if ( m_alarm ) {
     updateNoteActions();
   }
+  #endif
   //TODO
 #if 0
   if (m_tray->isVisible()) {
@@ -606,6 +623,7 @@ void KNotesApp::createNote( KCal::Journal *journal )
 
 void KNotesApp::killNote( KCal::Journal *journal )
 {
+  #if 0
   if(m_noteUidModify == journal->uid())
   {
 	  return;
@@ -617,6 +635,7 @@ void KNotesApp::killNote( KCal::Journal *journal )
     delete note;
     updateNoteActions();
   }
+  #endif
 }
 
 void KNotesApp::acceptConnection()
@@ -624,12 +643,14 @@ void KNotesApp::acceptConnection()
   // Accept the connection and make KNotesNetworkReceiver do the job
   QTcpSocket *s = m_listener->nextPendingConnection();
 
+  #if 0
   if ( s ) {
     KNotesNetworkReceiver *recv = new KNotesNetworkReceiver( s );
     connect( recv,
              SIGNAL( sigNoteReceived( const QString &, const QString & ) ),
              SLOT( newNote( const QString &, const QString & ) ) );
   }
+  #endif
 }
 
 void KNotesApp::saveNotes( const QString & uid )
@@ -640,15 +661,19 @@ void KNotesApp::saveNotes( const QString & uid )
 
 void KNotesApp::saveNotes()
 {
+  /*
   KNotesGlobalConfig::self()->writeConfig();
   m_manager->save();
+  */
 }
 
 void KNotesApp::saveConfigs()
 {
+  /*
   foreach ( KNote *note, m_notes ) {
     note->saveConfig();
   }
+  */
 }
 
 void KNotesApp::updateNoteActions()
@@ -701,6 +726,7 @@ void KNotesApp::updateNetworkListener()
     delete m_publisher;
     m_publisher=0;
 
+    #if 0
     if ( KNotesGlobalConfig::receiveNotes() ) {
         // create the socket and start listening for connections
         m_listener=KSocketFactory::listen( "knotes" , QHostAddress::Any,
@@ -710,6 +736,7 @@ void KNotesApp::updateNetworkListener()
         m_publisher=new DNSSD::PublicService(KNotesGlobalConfig::senderID(), "_knotes._tcp", KNotesGlobalConfig::port());
         m_publisher->publishAsync();
     }
+    #endif
 }
 
 void KNotesApp::updateStyle()
@@ -723,5 +750,3 @@ void KNotesApp::updateStyle()
     QApplication::postEvent( note, new QEvent( QEvent::LayoutRequest ) );
   }
 }
-
-#include "knotesapp.moc"

@@ -18,13 +18,15 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *******************************************************************/
 
-#include "version.h"
 #include "application.h"
+#include "version.h"
+#include "knote.h"
 
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <klocale.h>
 #include <kxerrorhandler.h>
+
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -163,3 +165,4 @@ void knotesAuthors(  KAboutData &aboutData )
                        KLocalizedString(),
                        "espen@kde.org" );
 }
+
