@@ -18,6 +18,7 @@ install(FILES ktgconfig.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
 
 set(ktomgirl_SRCS
+resourcemanager.cpp
 knotesapp.cpp
 knoteedit.cpp
 knote.cpp
@@ -30,7 +31,11 @@ actionmanager.cpp
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS})
 
 #target_link_libraries(yourapp ${SIGC2_LIBRARIES})
-target_link_libraries(ktomgirl ${LibXML_LIBRARIES} ${SIGC2_LIBRARIES} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
+# target_link_libraries(ktomgirl ${LibXML_LIBRARIES} ${SIGC2_LIBRARIES} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
+
+target_link_libraries(ktomgirl ${KDEPIMLIBS_KCAL_LIBS} kdepim ${KDEPIMLIBS_KRESOURCES_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
+${LibXML_LIBRARIES}  ${SIGC2_LIBRARIES} 
+${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
 
 install(TARGETS ktomgirl  DESTINATION ${BIN_INSTALL_DIR})
 install(FILES ktomgirl-kde4.rc DESTINATION ${DATA_INSTALL_DIR}/ktomgirl-kde4)

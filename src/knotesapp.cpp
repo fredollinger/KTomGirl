@@ -20,10 +20,10 @@
 
 #include "knote.h"
 #include "knotesapp.h"
+#include "resourcemanager.h"
 
 #if 0
 #include "knoteconfigdlg.h"
-#include "knotes/resourcemanager.h"
 #include "knotesadaptor.h"
 #include "knotesalarm.h"
 #include "knotesglobalconfig.h"
@@ -204,9 +204,9 @@ KNotesApp::KNotesApp()
   // clean up old config files
   // KNotesLegacy::cleanUp();
 
+  m_manager = new KNotesResourceManager();
   // create the resource manager
   #if 0
-  m_manager = new KNotesResourceManager();
   connect( m_manager, SIGNAL( sigRegisteredNote( KCal::Journal * ) ),
            this,      SLOT( createNote( KCal::Journal * ) ) );
   connect( m_manager, SIGNAL( sigDeregisteredNote( KCal::Journal * ) ),
@@ -233,6 +233,9 @@ KNotesApp::KNotesApp()
 
    updateNetworkListener();
   #endif
+
+  qDebug() << "calling newNote()";
+  newNote();
 
   if ( m_notes.size() == 0 && !kapp->isSessionRestored() ) {
       newNote();
@@ -277,10 +280,10 @@ bool KNotesApp::commitData( QSessionManager & )
 
 QString KNotesApp::newNote( const QString &name, const QString &text )
 {
+  qDebug() << __PRETTY_FUNCTION__;
   QString qs;
-  return qs;
-  #if 0
   KCal::Journal *journal = new KCal::Journal();
+  #if 0
   // create the new note
 
   // new notes have the current date/time as title if none was given
@@ -294,12 +297,14 @@ QString KNotesApp::newNote( const QString &name, const QString &text )
   // the body of the note
   journal->setDescription( text );
 
-  // m_manager->addNewNote( journal );
 
-  showNote( journal->uid() );
 
   return journal->uid();
   #endif
+  m_manager->addNewNote( journal );
+  // showNote( journal->uid() );
+  showNote( qs);
+  return qs;
 }
 
 QString KNotesApp::newNoteFromClipboard( const QString &name )
@@ -327,6 +332,7 @@ void KNotesApp::showAllNotes() const
 
 void KNotesApp::showNote( const QString &id ) const
 {
+  qDebug() << __PRETTY_FUNCTION__;
   KNote *note = m_notes.value( id );
   if ( note ) {
     showNote( note );
@@ -584,7 +590,8 @@ void KNotesApp::showNote( KNote *note ) const
 
 void KNotesApp::createNote( KCal::Journal *journal )
 {
-  #if 0
+  qDebug() << __PRETTY_FUNCTION__;
+  /*
   if( journal->uid() == m_noteUidModify)
   {
       KNote *note = m_notes.value( m_noteUidModify );
@@ -592,11 +599,14 @@ void KNotesApp::createNote( KCal::Journal *journal )
           note->changeJournal(journal);
       return;
   }
+  */
 
-  m_noteUidModify = journal->uid();
+  // m_noteUidModify = journal->uid();
   KNote *newNote = new KNote( m_noteGUI, journal, 0 );
-  m_notes.insert( newNote->noteId(), newNote );
 
+  #if 0
+  m_notes.insert( newNote->noteId(), newNote );
+   
   connect( newNote, SIGNAL( sigRequestNewNote() ),
            SLOT( newNote() ) );
   connect( newNote, SIGNAL( sigShowNextNote() ),
