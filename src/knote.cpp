@@ -93,7 +93,7 @@ KNote::KNote( const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   setAcceptDrops( true );
   setAttribute( Qt::WA_DeleteOnClose );
   setDOMDocument( buildDoc );
-  // setObjectName( m_journal->uid() );
+  setObjectName( m_journal->uid() );
   setXMLFile( componentData().componentName() + "ui.rc", false, false );
 
   // create the main layout
@@ -211,9 +211,9 @@ void KNote::saveConfig() const
 
 QString KNote::noteId() const
 {
-  QString qs;
-  return qs;
-  // return m_journal->uid();
+  //QString qs;
+  //return qs;
+  return m_journal->uid();
 }
 
 QString KNote::name() const

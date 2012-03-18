@@ -234,8 +234,10 @@ KNotesApp::KNotesApp()
    updateNetworkListener();
   #endif
 
-  qDebug() << "calling newNote()";
-  newNote();
+  qDebug() << "calling createNote()";
+  KCal::Journal *journal = new KCal::Journal();
+  createNote(journal);
+  showNote(journal->uid() );
 
   if ( m_notes.size() == 0 && !kapp->isSessionRestored() ) {
       newNote();
@@ -281,7 +283,6 @@ bool KNotesApp::commitData( QSessionManager & )
 QString KNotesApp::newNote( const QString &name, const QString &text )
 {
   qDebug() << __PRETTY_FUNCTION__;
-  QString qs;
   KCal::Journal *journal = new KCal::Journal();
   #if 0
   // create the new note
@@ -302,9 +303,9 @@ QString KNotesApp::newNote( const QString &name, const QString &text )
   return journal->uid();
   #endif
   m_manager->addNewNote( journal );
-  // showNote( journal->uid() );
-  showNote( qs);
-  return qs;
+  showNote( journal->uid() );
+  //showNote(journal);
+  return journal->uid();
 }
 
 QString KNotesApp::newNoteFromClipboard( const QString &name )
@@ -601,11 +602,11 @@ void KNotesApp::createNote( KCal::Journal *journal )
   }
   */
 
-  // m_noteUidModify = journal->uid();
+  m_noteUidModify = journal->uid();
   KNote *newNote = new KNote( m_noteGUI, journal, 0 );
 
-  #if 0
   m_notes.insert( newNote->noteId(), newNote );
+  #if 0
    
   connect( newNote, SIGNAL( sigRequestNewNote() ),
            SLOT( newNote() ) );
