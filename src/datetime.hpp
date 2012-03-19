@@ -32,7 +32,7 @@
 
 #include <string>
 
-#include <glib.h>
+#include <QDateTime>
 
 namespace sharp {
 
@@ -41,7 +41,7 @@ class DateTime
 {
 public:
   DateTime();
-  explicit DateTime(time_t t, glong _usec = 0);
+  explicit DateTime(time_t t, long _usec = 0);
   
   DateTime & add_days(int days);
   DateTime & add_hours(int hours);
@@ -68,24 +68,24 @@ public:
 
   bool operator==(const DateTime & dt) const;
 
-  glong sec() const
+  long sec() const
     {
-      return m_date.tv_sec;
+      return m_date.toTime_t();
     }
-  glong usec() const
+  long usec() const
     {
-      return m_date.tv_usec;
+      return m_date.toTime_t()*1000;
     }
-  void set_usec(glong _usec) 
+  void set_usec(long _usec) 
     {
-      m_date.tv_usec = _usec;
+      m_date.setTime_t(_usec/1000);
     }
 private:
   // return the string formatted according to strftime
   std::string _to_string(const char * format, struct tm *) const;
   // implementation detail. really make public if needed.
-  explicit DateTime(const GTimeVal & v);
-  GTimeVal m_date;
+  explicit DateTime(const QDateTime & v);
+  QDateTime m_date;
 };
 
 

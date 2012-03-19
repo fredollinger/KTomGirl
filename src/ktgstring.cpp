@@ -26,4 +26,15 @@ ustring::ustring() : m_qs()
 
 ustring::ustring(QString qs) : m_qs(qs)
 {}
+
+bool str_has_prefix(std::string st, const char *ch){
+	size_t found;
+
+	found = st.find_first_of(ch);
+	if (0 == found)
+		return true;
+
+	return false;
+}
+
 } // namespace KTGlib

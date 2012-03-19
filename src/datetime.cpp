@@ -23,12 +23,10 @@
  */
 
 
+#include "ktgstring.hpp"
 
 #include <time.h>
-
-#include <glibmm/convert.h>
-
-#include "sharp/datetime.hpp"
+#include "datetime.hpp"
 
 
 namespace sharp {
@@ -103,7 +101,7 @@ namespace sharp {
   {
     char output[256];
     strftime(output, sizeof(output), format, t);
-    return Glib::locale_to_utf8(output);
+    return KTGlib::locale_to_utf8(output);
   }
 
   std::string DateTime::to_string(const char * format) const

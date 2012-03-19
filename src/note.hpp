@@ -69,7 +69,8 @@ public:
     : m_data(_data)
     {
     }
-  ~NoteDataBufferSynchronizer();
+#if 0
+  // ~NoteDataBufferSynchronizer();
 
   const NoteData & synchronized_data() const
     {
@@ -96,6 +97,7 @@ public:
     }
  */
   // void set_buffer(const Glib::RefPtr<NoteBuffer> & b);
+#endif
   const std::string & text();
   void set_text(const std::string & t);
 
@@ -128,7 +130,7 @@ public:
   // typedef std::tr1::shared_ptr<Note> Ptr;
   typedef QSharedPointer<Note> Ptr;
   // typedef std::tr1::weak_ptr<Note> WeakPtr;
-  typedef QSharedPointer<Note> WeakPtr;
+  typedef QWeakPointer<Note> WeakPtr;
   // typedef std::list<Ptr> List;
   typedef QList<Ptr> List;
 

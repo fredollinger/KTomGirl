@@ -56,18 +56,22 @@ namespace gnote {
 
   void Tag::add_note(Note & note)
   {
+#if 0
     if(m_notes->find(note.uri()) == m_notes->end()) {
       (*m_notes)[note.uri()] = &note;
     }
+#endif
   }
 
 
   void Tag::remove_note(const Note & note)
   {
+#if 0
     NoteMap::iterator iter = m_notes->find(note.uri());
     if(iter != m_notes->end()) {
       m_notes->erase(iter);
     }
+#endif
   }
 
 

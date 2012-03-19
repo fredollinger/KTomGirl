@@ -20,13 +20,13 @@
 #ifndef _KTG_STRING_HPP_
 #define _KTG_STRING_HPP_
 
+#include <string>
+
 #include <QString>
 #include <QWidget>
 
 namespace KTGlib {
-
-
-
+bool str_has_prefix(std::string, const char *);
 class ustring 
 {
 
@@ -37,8 +37,6 @@ public:
   ~ustring();
   //inline ustring_Iterator<T>::ustring_Iterator();
   typedef QString::const_iterator const_interator;
-
-///usr/include/boost/range/const_iterator.hpp :37:58: error: no type named 'const_iterator' in 'class KTGlib::ustring'
 
 private:
   QString m_qs;
