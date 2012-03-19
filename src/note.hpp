@@ -16,10 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
-
-
 #ifndef __NOTE_HPP_
 #define __NOTE_HPP_
 
@@ -62,7 +58,7 @@ class NoteData;
 class NoteWindow;
 class NoteTagTable;
 
-class NoteDataBufferSynchronizer : QWidget
+class NoteDataBufferSynchronizer : public QWidget
 {
 
 Q_OBJECT
@@ -123,10 +119,11 @@ private:
 };
 
 
-class Note 
+class Note : public QWidget
   // : public std::tr1::enable_shared_from_this<Note>
   // public sigc::trackable
 {
+Q_OBJECT
 public:
   // typedef std::tr1::shared_ptr<Note> Ptr;
   typedef QSharedPointer<Note> Ptr;
@@ -135,6 +132,7 @@ public:
   // typedef std::list<Ptr> List;
   typedef QList<Ptr> List;
 
+  #if 0
 signals:
   void m_signal_opened(void);
   // void RenamedHandler(void);
@@ -143,7 +141,6 @@ signals:
   void TagRemovingHandler(void);
   void TagRemovedHandler(void);
 
-  #if 0
   typedef sigc::signal<void, const Note::Ptr&, const std::string& > RenamedHandler;
   typedef sigc::signal<void, const Note::Ptr&, const std::string& > RenamedHandler;
   typedef sigc::signal<void, const Note::Ptr&>                      SavedHandler;
@@ -332,5 +329,4 @@ namespace noteutils {
 }
 
 }
-
 #endif

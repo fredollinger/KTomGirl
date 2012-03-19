@@ -7,8 +7,9 @@ include_directories(${SIGC2_INCLUDE_DIRS})
 
 find_package(KDE4 REQUIRED)
 include_directories(${KDE4_INCLUDES})
-find_package(LibXml2)
+find_package(LibXml2 REQUIRED)
 include_directories(${LibXML_INCLUDE_DIRS})
+include_directories("/usr/include/libxml2")
 
 kde4_add_ui_files(ktomgirl_SRCS 
 )
@@ -16,8 +17,12 @@ kde4_add_ui_files(ktomgirl_SRCS
 kde4_add_kcfg_files(ktomgirl_SRCS ktgconfig.kcfgc)
 install(FILES ktgconfig.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
+set (CMAKE_CXX_FLAGS "-fexceptions")
 
 set(ktomgirl_SRCS
+ktgstring.cpp
+string.cpp
+tag.cpp
 resourcemanager.cpp
 knotesapp.cpp
 knoteedit.cpp
@@ -25,6 +30,7 @@ knote.cpp
 main.cpp
 application.cpp
 gnote.cpp
+note.cpp
 actionmanager.cpp
 )
 
