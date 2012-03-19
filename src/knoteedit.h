@@ -35,8 +35,12 @@ class KActionCollection;
 class KFontAction;
 class KFontSizeAction;
 class KToggleAction;
-class KNote;
 
+namespace knotes{
+	class KNote;
+}
+
+namespace knotes{
 class KNoteEdit
   : public KTextEdit
 {
@@ -122,5 +126,5 @@ class KNoteEdit
     KNote           *m_note;
     bool m_autoIndentMode;
 };
-
+} // namespace knotes
 #endif

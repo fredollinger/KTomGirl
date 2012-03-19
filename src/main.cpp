@@ -61,7 +61,7 @@ int main( int argc, char *argv[] )
   // KUniqueApplication::addCmdLineOptions();
 
   // Create Application
-  Application app;
+  knotes::Application app;
   KGlobal::locale()->insertCatalog("libkdepim");
   app.newInstance();
 

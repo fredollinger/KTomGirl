@@ -40,7 +40,7 @@
 static const short SEP = 5;
 static const short ICON_SIZE = 10;
 
-
+namespace knotes{
 KNoteEdit::KNoteEdit( KActionCollection *actions, QWidget *parent )
   : KTextEdit( parent ), m_note( 0 )
 {
@@ -587,4 +587,5 @@ void KNoteEdit::disableRichTextActions()
   m_textIncreaseIndent->setEnabled( false );
   m_textDecreaseIndent->setEnabled( false );
 }
-
+} // namespace knotes
+// Mon Mar 19 14:53:18 PDT 2012

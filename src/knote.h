@@ -50,7 +50,7 @@ namespace KCal {
 class Journal;
 }
 
-
+namespace knotes{
 class KNote
   : public QFrame, virtual public KXMLGUIClient
 {
@@ -169,5 +169,5 @@ class KNote
     bool m_blockEmitDataChanged;
     bool mBlockWriteConfigDuringCommitData;
 };
-
+} // namespace knotes
 #endif

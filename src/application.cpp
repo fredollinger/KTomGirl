@@ -25,7 +25,7 @@
 #include <kuniqueapplication.h> 
 //#include <kontactinterface/pimuniqueapplication.h>
 
-
+namespace knotes{
 Application::Application() :
     mMainWindow( 0 )
 {
@@ -59,4 +59,5 @@ int Application::newInstance()
   // return KUniqueApplication::newInstance();
   return 0;
 }
-// Sat Mar 17 21:19:22 PDT 2012
+} // namespace knotes
+// Mon Mar 19 14:33:57 PDT 2012

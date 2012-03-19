@@ -65,6 +65,7 @@
 #include <dnssd/publicservice.h>
 
 
+namespace knotes{
 class KNotesKeyDialog
   : public KDialog
 {
@@ -767,3 +768,4 @@ void KNotesApp::updateStyle()
     QApplication::postEvent( note, new QEvent( QEvent::LayoutRequest ) );
   }
 }
+} // namespace knotes

@@ -84,6 +84,7 @@
 
 using namespace KCal;
 
+namespace knotes{
 KNote::KNote( const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
     m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
@@ -1269,4 +1270,5 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
   return false;
 }
 
+}// namespace knotes
 // Sat Mar 17 20:19:36 PDT 2012

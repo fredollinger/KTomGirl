@@ -50,6 +50,8 @@ namespace DNSSD {
 class PublicService;
 }
 
+namespace knotes{
+// BEGIN class KNotesApp
 class KNotesApp
   : public QWidget, public KSessionManager, virtual public KXMLGUIClient
 {
@@ -135,6 +137,7 @@ class KNotesApp
 
     QDomDocument    m_noteGUI;
     QString m_noteUidModify;
-};
-
+}; // END class KNotesApp
+}  //namespace knotes
 #endif
+// Mon Mar 19 14:32:29 PDT 2012

@@ -21,13 +21,14 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include "knotesapp.h"
 #include <kcmdlineargs.h>
 #include <KParts/MainWindow>
 #include <KApplication>
 
 class KCmdLineArgs;
-class KNotesApp;
 
+namespace knotes{
 class Application : public KApplication
 {
   public:
@@ -40,5 +41,6 @@ class Application : public KApplication
     KNotesApp *mMainWindow;
     KCmdLineArgs *mCmdLineArguments;
 };
-
+} // namespace knotes
 #endif
+// Mon Mar 19 14:34:37 PDT 2012

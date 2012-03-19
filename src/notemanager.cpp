@@ -30,6 +30,7 @@
 #include "datetime.hpp"
 #include "debug.hpp"
 #include "gnote.hpp"
+#include "note.hpp"
 #include "notemanager.hpp"
 #include "preferences.hpp"
 #include "sharp.hpp"
@@ -113,4 +114,55 @@ void NoteManager::_common_init(const std::string & directory, const std::string 
   {
     delete m_addin_mgr;
   }
+
+// Create a new note with the specified title, and a simple
+// "Describe..." body or the body from the "New Note Template"
+// note if it exists.  If the "New Note Template" body is found
+// the text will not automatically be highlighted.
+// BEGIN NoteManager::create_new_note()
+#if 0
+Note::Ptr NoteManager::create_new_note (std::string title, const std::string & guid)
+{
+    Note::Ptr new_note = create_new_note (title, content, guid);
+    std::string body;
+    
+    title = split_title_from_content (title, body);
+    if (title.empty())
+      return Note::Ptr();
+      
+    Note::Ptr note_template = find(m_note_template_title);
+    if (note_template) {
+      // Use the body from the "New Note Template" note
+      std::string xml_content =
+        sharp::string_replace_first(note_template->xml_content(), 
+                                    m_note_template_title,
+                                    utils::XmlEncoder::encode (title));
+      return create_new_note (title, xml_content, guid);
+    }
+      
+    // Use a simple "Describe..." body and highlight
+    // it so it can be easily overwritten
+    body = _("Describe your new note here.");
+    
+    std::string header = title + "\n\n";
+    std::string content =
+      boost::str(boost::format("<note-content>%1%%2%</note-content>") %
+                 utils::XmlEncoder::encode (header) 
+                 % utils::XmlEncoder::encode (body));
+    
+    Note::Ptr new_note = create_new_note (title, content, guid);
+    
+    // Select the inital
+    // "Describe..." text so typing will overwrite the body text,
+    //NoteBuffer 
+    Glib::RefPtr<Gtk::TextBuffer> buffer = new_note->get_buffer();
+    Gtk::TextIter iter = buffer->get_iter_at_offset(header.size());
+    buffer->move_mark (buffer->get_selection_bound(), iter);
+    buffer->move_mark (buffer->get_insert(), buffer->end());
+    
+    return new_note;
 }
+#endif
+// END NoteManager::create_new_note()
+
+} // namespace gnote
