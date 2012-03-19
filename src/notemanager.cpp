@@ -120,9 +120,12 @@ void NoteManager::_common_init(const std::string & directory, const std::string 
 // note if it exists.  If the "New Note Template" body is found
 // the text will not automatically be highlighted.
 // BEGIN NoteManager::create_new_note()
-#if 0
 Note::Ptr NoteManager::create_new_note (std::string title, const std::string & guid)
 {
+	Note::Ptr new_note; // FIXME: remove this stub
+   	return new_note; 
+}
+#if 0
     Note::Ptr new_note = create_new_note (title, content, guid);
     std::string body;
     

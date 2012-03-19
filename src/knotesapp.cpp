@@ -18,18 +18,13 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *******************************************************************/
 
+// BEGIN gnote
+#include "notemanager.hpp"
+// END gnote
+
 #include "knote.h"
 #include "knotesapp.h"
 #include "resourcemanager.h"
-
-#if 0
-#include "knoteconfigdlg.h"
-#include "knotesadaptor.h"
-#include "knotesalarm.h"
-#include "knotesglobalconfig.h"
-#include "knoteslegacy.h"
-#include "knotesnetrecv.h"
-#endif
 
 #include <kaction.h>
 #include <kactioncollection.h>
@@ -63,7 +58,6 @@
 #include <QTcpServer>
 
 #include <dnssd/publicservice.h>
-
 
 namespace knotes{
 class KNotesKeyDialog
