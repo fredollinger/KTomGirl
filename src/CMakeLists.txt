@@ -17,9 +17,12 @@ kde4_add_ui_files(ktomgirl_SRCS
 kde4_add_kcfg_files(ktomgirl_SRCS ktgconfig.kcfgc)
 install(FILES ktgconfig.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
-set (CMAKE_CXX_FLAGS "-fexceptions")
+set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
 
 set(ktomgirl_SRCS
+sharp.cpp
+preferences.cpp
+notemanager.cpp
 debug.cpp
 ktgstring.cpp
 string.cpp
@@ -31,7 +34,6 @@ knote.cpp
 main.cpp
 application.cpp
 gnote.cpp
-note.cpp
 actionmanager.cpp
 )
 
