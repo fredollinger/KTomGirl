@@ -17,9 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace KTGlib {
+#include "ktgstring.hpp"
+#include <QString>
 
-  class ustring::ustring
-    : public QString(){}
-  
+namespace KTGlib {
+ustring::ustring() : m_qs()
+{}
+
+ustring::ustring(QString qs) : m_qs(qs)
+{}
 } // namespace KTGlib

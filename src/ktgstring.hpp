@@ -21,16 +21,28 @@
 #define _KTG_STRING_HPP_
 
 #include <QString>
+#include <QWidget>
 
 namespace KTGlib {
 
+
+
 class ustring 
-  : public QString
 {
+
 public:
-Q_Object
 
   ustring();
+  ustring(QString);
   ~ustring();
+  //inline ustring_Iterator<T>::ustring_Iterator();
+  typedef QString::const_iterator const_interator;
 
+///usr/include/boost/range/const_iterator.hpp :37:58: error: no type named 'const_iterator' in 'class KTGlib::ustring'
+
+private:
+  QString m_qs;
+}; // class ustring
+}  // namespace KTGlib
 #endif
+// Sun Mar 18 17:33:29 PDT 2012

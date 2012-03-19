@@ -20,6 +20,7 @@ install(FILES ktgconfig.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 set (CMAKE_CXX_FLAGS "-fexceptions")
 
 set(ktomgirl_SRCS
+debug.cpp
 ktgstring.cpp
 string.cpp
 tag.cpp

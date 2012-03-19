@@ -29,6 +29,7 @@
 
 #include <string>
 #include <vector>
+#include "ktgstring.hpp"
 
 // #include <glibmm/ustring.h>
 
@@ -56,7 +57,7 @@ namespace sharp {
 
   void string_split(std::vector<std::string> & split, const std::string & source,
                     const char * delimiters);
-  void ustring_split(std::vector<Glib::ustring> & split, const Glib::ustring & source,
+  void ustring_split(std::vector<KTGlib::ustring> & split, const KTGlib::ustring & source,
                     const char * delimiters);
 
   /** copy the substring for %source, starting at %start until the end */

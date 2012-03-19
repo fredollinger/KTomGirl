@@ -22,6 +22,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+#include <QDebug>
 #include <QString>
 
 #include "string.hpp"
@@ -75,10 +76,11 @@ namespace sharp {
     boost::split(split, source, boost::is_any_of(delimiters));
   }
 
-  void ustring_split(std::vector<Glib::ustring> & split, const Glib::ustring & source,
+  void ustring_split(std::vector<KTGlib::ustring> & split, const KTGlib::ustring & source,
                     const char * delimiters)
   {
-    boost::split(split, source, boost::is_any_of(delimiters));
+    qDebug() << __PRETTY_FUNCTION__<< "STUB";
+    // boost::split(split, source, boost::is_any_of(delimiters));
   }
 
   std::string string_substring(const std::string & source, int start)
