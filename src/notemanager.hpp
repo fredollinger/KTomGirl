@@ -56,6 +56,8 @@ public:
       //          const NoteChangedSlot & start_created = NoteChangedSlot());
     ~NoteManager();
 
+    Note::Ptr create_new_note (const QString&);
+
     //void on_setting_changed(Preferences*, GConfEntry*);
     const Note::List & get_notes() const
       { 
@@ -128,7 +130,6 @@ private:
     bool on_exiting_event();
     std::string make_new_file_name() const;
     std::string make_new_file_name(const std::string & guid) const;
-    Note::Ptr create_new_note (const QString&);
     //Note::Ptr create_new_note (std::string title, const std::string & guid);
     //Note::Ptr create_new_note (const std::string & title, const std::string & xml_content, 
     //                         const std::string & guid);

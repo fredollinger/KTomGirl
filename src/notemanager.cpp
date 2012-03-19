@@ -45,6 +45,7 @@ NoteManager::NoteManager(const std::string & directory, const std::string & back
 
 NoteManager::NoteManager() : QWidget()
 {
+	qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub";
 	std::string directory = "";
 	std::string backup = "";
 	_common_init(directory, backup);

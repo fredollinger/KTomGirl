@@ -261,6 +261,7 @@ KNotesApp::~KNotesApp()
   m_findPos = 0;
   //delete m_listener;
   delete m_manager;
+  delete m_gnmanager;
   delete m_guiBuilder;
   delete m_tray;
 }
@@ -604,7 +605,7 @@ void KNotesApp::createNote( KCal::Journal *journal )
   m_notes.insert( newNote->noteId(), newNote );
 
    // FIXME: Fix this
-   //gnote::Note::Ptr new_gnote = gnote::NoteManager::create_new_note (journal->uid() );
+   gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note (journal->uid() );
   #if 0
    
   connect( newNote, SIGNAL( sigRequestNewNote() ),
