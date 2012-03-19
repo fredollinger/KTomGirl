@@ -29,7 +29,9 @@
 #include <list>
 #include <string>
 #include <queue>
+
 #include <memory>
+#include <tr1/memory>
 
 class Tag;
 
@@ -127,11 +129,11 @@ class Note : public QWidget
 {
 Q_OBJECT
 public:
-  // typedef std::tr1::shared_ptr<Note> Ptr;
-  typedef QSharedPointer<Note> Ptr;
-  // typedef std::tr1::weak_ptr<Note> WeakPtr;
-  typedef QWeakPointer<Note> WeakPtr;
-  // typedef std::list<Ptr> List;
+  typedef std::tr1::shared_ptr<Note> Ptr;
+  //typedef QSharedPointer<Note> Ptr;
+  typedef std::tr1::weak_ptr<Note> WeakPtr;
+  //typedef QWeakPointer<Note> WeakPtr;
+  //typedef std::list<Ptr> List;
   typedef QList<Ptr> List;
 
   #if 0

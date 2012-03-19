@@ -17,9 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QString>
+#include <QDebug>
 
 #include <string.h>
-
 #include <exception>
 
 #include <boost/bind.hpp>
@@ -38,9 +39,16 @@
 
 namespace gnote {
 NoteManager::NoteManager(const std::string & directory, const std::string & backup) : QWidget()
-  {
+{
     _common_init(directory, backup);
-  }
+}
+
+NoteManager::NoteManager() : QWidget()
+{
+	std::string directory = "";
+	std::string backup = "";
+	_common_init(directory, backup);
+}
 
 void NoteManager::_common_init(const std::string & directory, const std::string & backup_directory)
   {
@@ -120,9 +128,12 @@ void NoteManager::_common_init(const std::string & directory, const std::string 
 // note if it exists.  If the "New Note Template" body is found
 // the text will not automatically be highlighted.
 // BEGIN NoteManager::create_new_note()
-Note::Ptr NoteManager::create_new_note (std::string title, const std::string & guid)
+// Note::Ptr NoteManager::create_new_note (std::string title, const std::string & guid)
+Note::Ptr NoteManager::create_new_note (const QString & qs)
 {
+	qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub";
 	Note::Ptr new_note; // FIXME: remove this stub
+	// FIXME: convert qs to guid
    	return new_note; 
 }
 #if 0

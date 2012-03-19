@@ -103,6 +103,7 @@ KNotesApp::KNotesApp()
   : QWidget(), m_alarm( 0 ), m_listener( 0 ), m_publisher( 0 ), m_find( 0 ), m_findPos( 0 )
 {
   qDebug() << __PRETTY_FUNCTION__;
+  m_gnmanager = new gnote::NoteManager();
   // new KNotesAdaptor( this );
   //QDBusConnection::sessionBus().registerObject( "/KNotes" , this );
   kapp->setQuitOnLastWindowClosed( false );
@@ -601,6 +602,9 @@ void KNotesApp::createNote( KCal::Journal *journal )
   KNote *newNote = new KNote( m_noteGUI, journal, 0 );
 
   m_notes.insert( newNote->noteId(), newNote );
+
+   // FIXME: Fix this
+   //gnote::Note::Ptr new_gnote = gnote::NoteManager::create_new_note (journal->uid() );
   #if 0
    
   connect( newNote, SIGNAL( sigRequestNewNote() ),

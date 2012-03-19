@@ -49,6 +49,7 @@ public:
     //typedef sigc::slot<void, const Note::Ptr &> NoteChangedSlot;
     
     NoteManager(const std::string & directory, const std::string & backup);
+    NoteManager();
     //NoteManager(const std::string & ,
      //           const NoteChangedSlot & start_created = NoteChangedSlot() );
     //NoteManager(const std::string & directory, const std::string & backup,
@@ -127,9 +128,10 @@ private:
     bool on_exiting_event();
     std::string make_new_file_name() const;
     std::string make_new_file_name(const std::string & guid) const;
-    Note::Ptr create_new_note (std::string title, const std::string & guid);
-    Note::Ptr create_new_note (const std::string & title, const std::string & xml_content, 
-                             const std::string & guid);
+    Note::Ptr create_new_note (const QString&);
+    //Note::Ptr create_new_note (std::string title, const std::string & guid);
+    //Note::Ptr create_new_note (const std::string & title, const std::string & xml_content, 
+    //                         const std::string & guid);
     /** add the note to the manager and setup signals */
     void add_note(const Note::Ptr &);
     void _common_init(const std::string & directory, const std::string & backup);

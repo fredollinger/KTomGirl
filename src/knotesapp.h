@@ -31,6 +31,8 @@
 #include <ksessionmanager.h>
 #include <kxmlguiclient.h>
 
+#include "notemanager.hpp";
+
 class QTcpServer;
 
 class KAction;
@@ -103,6 +105,7 @@ class KNotesApp
   private:
     void showNote( KNote *note ) const;
     void saveConfigs();
+    gnote::NoteManager *m_gnmanager;
 
   private slots:
     void acceptConnection();
