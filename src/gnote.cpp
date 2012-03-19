@@ -26,9 +26,13 @@
 
 #include <boost/format.hpp>
 
-#include <QDebug>
 
 #include "note.hpp"
+
+#include <QDebug>
+#include <QDir>
+#include <QSettings>
+#include <QString>
 
 #if 0
 #include <glibmm/thread.h>
@@ -184,6 +188,13 @@ bool GnoteCommandLine::use_panel_applet() const{
 
 bool gnote::GnoteCommandLine::needs_execute() const{
 	return true;
+}
+
+std::string Gnote::data_dir()
+{
+    //QString qs = QDir.homePath();
+    //return Glib::get_user_data_dir() + "/gnote";
+	return QSettings::fileName().toStdString();
 }
 
 } // namespace gnote

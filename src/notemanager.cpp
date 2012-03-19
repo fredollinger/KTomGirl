@@ -46,7 +46,7 @@ NoteManager::NoteManager(const std::string & directory, const std::string & back
 NoteManager::NoteManager() : QWidget()
 {
 	qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub";
-	std::string directory = "";
+	std::string directory = data_dir();
 	std::string backup = "";
 	_common_init(directory, backup);
 }
@@ -180,4 +180,19 @@ Note::Ptr NoteManager::create_new_note (const QString & qs)
 #endif
 // END NoteManager::create_new_note()
 
+// Create the notes directory if it doesn't exist yet.
+/*
+void NoteManager::create_notes_dir() const
+{
+    if (!directory_exists(m_notes_dir)) {
+      // First run. Create storage directory.
+      create_directory(m_notes_dir);
+    }
+    if (!directory_exists(m_backup_dir)) {
+      create_directory(m_backup_dir);
+    }
+}
+*/
+
 } // namespace gnote
+// Mon Mar 19 16:28:12 PDT 2012
