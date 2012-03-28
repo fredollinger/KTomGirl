@@ -26,7 +26,7 @@
 
 #include <boost/format.hpp>
 
-
+#include "ktglib.hpp"
 #include "note.hpp"
 
 #include <QDebug>
@@ -71,7 +71,7 @@ namespace gnote {
   Gnote::~Gnote()
   {
     delete m_prefsdlg;
-    delete m_manager;
+    // delete m_manager;
     // delete m_keybinder;
   }
 
@@ -172,10 +172,12 @@ bool gnote::GnoteCommandLine::needs_execute() const{
 
 std::string Gnote::data_dir()
 {
+	/*
 	QByteArray qba = qgetenv("HOME") + "/.config/ktomgirl";
 	QString qs = qba.data();
 	return qs.toStdString();
-    //return Glib::get_user_data_dir() + "/gnote";
+	*/
+	return KTGlib::get_user_data_dir().toStdString() + "/ktomgirl";
 }
 
 // get the data dir for tomboy
