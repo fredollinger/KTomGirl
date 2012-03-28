@@ -17,8 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include <boost/format.hpp>
 
 #include <glibmm/i18n.h>
@@ -26,7 +24,6 @@
 #include <gtkmm/main.h>
 #include <gtkmm/menuitem.h>
 #include <gtkmm/stock.h>
-
 
 #include "tray.hpp"
 #include "debug.hpp"
@@ -44,7 +41,6 @@
 #include "sharp/string.hpp"
 
 namespace gnote {
-
   std::string tray_util_get_tooltip_text()
   {
     std::string tip_text = _("Take notes");
@@ -59,8 +55,6 @@ namespace gnote {
       
     return tip_text;
   }
-
-
 
   bool                      NoteMenuItem::s_static_inited = false;
   Glib::RefPtr<Gdk::Pixbuf> NoteMenuItem::s_note_icon;
@@ -125,7 +119,6 @@ namespace gnote {
     }
     return Gtk::ImageMenuItem::on_button_release_event(ev);
   }
-
 
   bool NoteMenuItem::on_motion_notify_event(GdkEventMotion *ev)
   {
@@ -588,6 +581,5 @@ namespace gnote {
                              Gtk::ACCEL_VISIBLE);
     }
   }
-
-  
 }
+// Wed Mar 28 16:06:04 PDT 2012

@@ -18,9 +18,13 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *******************************************************************/
 
-// BEGIN gnote
+// BEGIN gnote INCLUDES
 #include "notemanager.hpp"
-// END gnote
+// END gnote INCLUDES
+
+// BEGIN ktomgirl INCLUDES
+#include "searchwindow.h"
+// END ktomgirl INCLUDES
 
 #include "knote.h"
 #include "knotesapp.h"
@@ -41,7 +45,7 @@
 #include <ksocketfactory.h>
 #include <kstandardaction.h>
 #include <kstandarddirs.h>
-#include <ksystemtrayicon.h>
+// #include <ksystemtrayicon.h>
 #include <kwindowsystem.h>
 #include <kxmlguibuilder.h>
 #include <kxmlguifactory.h>
@@ -63,18 +67,23 @@ namespace knotes{
 class KNotesKeyDialog
   : public KDialog
 {
-  public:
-    KNotesKeyDialog( KActionCollection *globals, QWidget *parent )
+public:
+KNotesKeyDialog( KActionCollection *globals, QWidget *parent )
       : KDialog( parent )
-    {
-      setCaption( i18n( "Configure Shortcuts" ) );
-      setButtons( Default | Ok | Cancel );
+{
+	setCaption( i18n( "Configure Shortcuts" ) );
+	setButtons( Default | Ok | Cancel );
 
-      m_keyChooser = new KShortcutsEditor( globals, this );
-      setMainWidget( m_keyChooser );
-      connect( this, SIGNAL( defaultClicked() ),
+	m_keyChooser = new KShortcutsEditor( globals, this );
+
+
+	// FIXME: SETMAINWIDGET IS DEPRECATED, REMOVE
+	// setMainWidget( m_keyChooser );
+
+
+	connect( this, SIGNAL( defaultClicked() ),
                m_keyChooser, SLOT( allDefault() ) );
-    }
+}
 
     void insert( KActionCollection *actions )
     {
@@ -108,15 +117,18 @@ KNotesApp::KNotesApp()
   //QDBusConnection::sessionBus().registerObject( "/KNotes" , this );
   kapp->setQuitOnLastWindowClosed( false );
 
-  #if 0
+  m_searchWindow = new ktomgirl::SearchWindow( this );
+  m_searchWindow->show();
+
   // create the dock widget...
   m_tray = new KStatusNotifierItem(0);
 
-  m_tray->setToolTipTitle( i18n( "KNotes: Sticky notes for KDE" ) );
+  m_tray->setToolTipTitle( i18n( "KTomGirl: Sticky Notes Clone of TomBoy for KDE" ) );
   m_tray->setIconByName( "knotes" );
   m_tray->setStatus( KStatusNotifierItem::Active );
   m_tray->setCategory( KStatusNotifierItem::ApplicationStatus );
   m_tray->setStandardActionsEnabled(false);
+  #if 0
   connect( m_tray, SIGNAL( activateRequested(bool, const QPoint &) ), this, SLOT( slotActivateRequested( bool, const QPoint& ) ) );
   connect( m_tray, SIGNAL( secondaryActivateRequested( const QPoint & ) ), this, SLOT( slotSecondaryActivateRequested( const QPoint& ) ) );
   #endif 

@@ -33,6 +33,8 @@
 
 #include "notemanager.hpp";
 
+#include "searchwindow.h"
+
 class QTcpServer;
 
 class KAction;
@@ -106,6 +108,7 @@ class KNotesApp
     void showNote( KNote *note ) const;
     void saveConfigs();
     gnote::NoteManager *m_gnmanager;
+    ktomgirl::SearchWindow *m_searchWindow;
 
   private slots:
     void acceptConnection();
