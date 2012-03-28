@@ -26,7 +26,7 @@
 #include <QString>
 
 #include "string.hpp"
-#include "ktgstring.hpp"
+#include "ktglib.hpp"
 
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/classification.hpp>

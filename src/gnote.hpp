@@ -60,6 +60,7 @@ public:
   static std::string cache_dir();
   static std::string conf_dir();
   static std::string data_dir();
+  static QString tomboy_data_dir();
   static std::string old_note_dir();
 
 private:

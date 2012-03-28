@@ -24,7 +24,7 @@ sharp.cpp
 preferences.cpp
 notemanager.cpp
 debug.cpp
-ktgstring.cpp
+ktglib.cpp
 string.cpp
 tag.cpp
 resourcemanager.cpp

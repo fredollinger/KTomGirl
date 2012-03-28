@@ -29,7 +29,7 @@
 
 #include <string>
 #include <vector>
-#include "ktgstring.hpp"
+#include "ktglib.hpp"
 
 // #include <glibmm/ustring.h>
 

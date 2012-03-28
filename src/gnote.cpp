@@ -175,11 +175,11 @@ std::string Gnote::data_dir()
 	QByteArray qba = qgetenv("HOME") + "/.config/ktomgirl";
 	QString qs = qba.data();
 	return qs.toStdString();
-    //QString qs = QDir.homePath();
-
     //return Glib::get_user_data_dir() + "/gnote";
-//	return settings->fileName().toStdString();
+}
 
+// get the data dir for tomboy
+QString Gnote::tomboy_data_dir(){
 }
 
 } // namespace gnote

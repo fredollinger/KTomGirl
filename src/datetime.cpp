@@ -23,7 +23,7 @@
  */
 
 
-#include "ktgstring.hpp"
+#include "ktglib.hpp"
 
 #include <time.h>
 #include "datetime.hpp"
