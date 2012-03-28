@@ -172,11 +172,6 @@ bool gnote::GnoteCommandLine::needs_execute() const{
 
 std::string Gnote::data_dir()
 {
-	/*
-	QByteArray qba = qgetenv("HOME") + "/.config/ktomgirl";
-	QString qs = qba.data();
-	return qs.toStdString();
-	*/
 	return KTGlib::get_user_data_dir().toStdString() + "/ktomgirl";
 }
 

@@ -1,9 +1,9 @@
-UI=uic-qt4
-#UI_HEADERS=vcsCommitLayout.h
+UIC=uic-qt4
+UI_HEADERS= ui_searchwindow.h
 
 .PHONY: ktgconfig.h
 
-all:
+all: ui_searchwindow.h
 	mkdir -p build
 	cd build && make 2>err
 setup:
@@ -26,8 +26,8 @@ test:
 	#su -c "make install"
 	#/usr/local/bin/ktomgirl ktomgirl.cpp
 
-vcsCommitLayout.h:
-	$(UI) vcsCommitLayout.ui > vcsCommitLayout.h
+ui_searchwindow.h:
+	$(UIC) searchwindow.ui > ui_searchwindow.h
 
 newprojectlayout4.h:
 	uic-qt4 ui/newprojectlayout4.ui > newprojectlayout4.h 
