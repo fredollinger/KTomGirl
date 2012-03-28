@@ -24,6 +24,8 @@
 
 #include "base/singleton.hpp"
 
+#include "QSettings"
+
 namespace gnote {
 class PreferencesDialog;
 class NoteManager;
@@ -61,16 +63,20 @@ public:
   static std::string old_note_dir();
 
 private:
-  void start_note_created(const Note::Ptr & start_note);
-  std::string get_note_path(const std::string & override_path);
+  // void start_note_created(const Note::Ptr & start_note);
   void register_remote_control(NoteManager & manager);
 
+  std::string get_note_path(const std::string & override_path);
+
   bool m_is_panel_applet;
+  bool m_keybinder;
   static bool s_tray_icon_showing;
 
   NoteManager *m_manager;
 
-  QSettings settings;
+  PreferencesDialog *m_prefsdlg;
+
+  QSettings *settings;
 };
 
 class GnoteCommandLine
