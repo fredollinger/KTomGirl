@@ -35,14 +35,6 @@
 #include <QString>
 
 #if 0
-#include <glibmm/thread.h>
-#include <glibmm/i18n.h>
-#include <glibmm/optionentry.h>
-#include <gtkmm/main.h>
-#include <gtkmm/aboutdialog.h>
-#endif
-
-#if 0
 #undef HAVE_PANELAPPLETMM
 #if HAVE_PANELAPPLETMM
 #include <libpanelappletmm/init.h>
@@ -51,19 +43,6 @@
 
 #include "gnote.hpp"
 #include "actionmanager.hpp"
-#if 0
-#include "addinmanager.hpp"
-#include "applicationaddin.hpp"
-#include "debug.hpp"
-#include "notemanager.hpp"
-#include "notewindow.hpp"
-#include "preferencesdialog.hpp"
-#include "recentchanges.hpp"
-#include "utils.hpp"
-#include "xkeybinder.hpp"
-#include "sharp/streamreader.hpp"
-#include "sharp/files.hpp"
-#endif
 
 #if 0
 #if HAVE_PANELAPPLETMM
@@ -194,8 +173,8 @@ std::string Gnote::data_dir()
 {
     //QString qs = QDir.homePath();
     //return Glib::get_user_data_dir() + "/gnote";
-	return QSettings::fileName().toStdString();
+	return settings.fileName().toStdString();
 }
 
 } // namespace gnote
-// Sat Mar 17 19:45:50 PDT 2012
+// Tue Mar 27 18:22:30 PDT 2012

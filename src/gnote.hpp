@@ -22,23 +22,9 @@
 
 #include <string>
 
-#if 0
-#include <glibmm/optioncontext.h>
-#include <glibmm/ustring.h>
-#include <gtkmm/icontheme.h>
-#include <gtkmm/statusicon.h>
-#endif 
-
 #include "base/singleton.hpp"
 
-#if 0
-#include "actionmanager.hpp"
-#include "keybinder.hpp"
-#include "tray.hpp"
-#endif
-
 namespace gnote {
-
 class PreferencesDialog;
 class NoteManager;
 class RemoteControl;
@@ -55,12 +41,6 @@ public:
     {
       return *m_manager;
     }
-#if 0
-  IKeybinder & keybinder()
-    {
-      return *m_keybinder;
-    }
-#endif
 
   void setup_global_actions();
   void start_tray_icon();
@@ -80,41 +60,17 @@ public:
   static std::string data_dir();
   static std::string old_note_dir();
 
-  #if 0
-  static bool tray_icon_showing()
-    {
-      return s_tray_icon_showing;
-    }
-
-  bool is_panel_applet()
-    {
-      return m_is_panel_applet;
-    }
-
-  void set_tray(const Tray::Ptr & tray)
-    {
-      m_tray = tray;
-    }
-
 private:
   void start_note_created(const Note::Ptr & start_note);
   std::string get_note_path(const std::string & override_path);
   void register_remote_control(NoteManager & manager);
 
-  Glib::RefPtr<Gtk::IconTheme> m_icon_theme;
-  #endif
-  NoteManager *m_manager;
-  IKeybinder  *m_keybinder;
-	
-  static bool s_tray_icon_showing;
   bool m_is_panel_applet;
-  PreferencesDialog *m_prefsdlg;
-  RemoteControl     *m_remote_control;
-  #if 0
-  Glib::RefPtr<TrayIcon> m_tray_icon;
-  Tray::Ptr m_tray;
+  static bool s_tray_icon_showing;
 
-  #endif
+  NoteManager *m_manager;
+
+  QSettings settings;
 };
 
 class GnoteCommandLine
@@ -125,25 +81,9 @@ public:
   int execute();
   bool        use_panel_applet() const;
   bool        needs_execute() const;
-  #if 0
-  const char * note_path() const
-    {
-      return m_note_path ? m_note_path : "";
-    }
-    {
-      return m_use_panel;
-    }
-  void parse(int &argc, char ** & argv);
 
-  static gboolean parse_func(const char *option_name,
-                             const char *value,
-                             gpointer data,
-                             GError **error);
-  #endif
 private:
   void        print_version();
-
-  // GOptionContext *m_context;
 
   bool        m_use_panel;
   char *     m_note_path;
@@ -156,13 +96,12 @@ private:
   bool        m_open_start_here;
   char*      m_highlight_search;
 
-
   // depend on m_open_note, set in on_post_parse
   std::string m_open_note_name;
   std::string m_open_note_uri;
   std::string m_open_external_note_path;
-};
+}; // class GnoteCommandLine
 
-}
-
+} // namespace gnote 
 #endif
+// Tue Mar 27 18:24:12 PDT 2012
