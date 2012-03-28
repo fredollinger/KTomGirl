@@ -182,6 +182,7 @@ std::string Gnote::data_dir()
 
 // get the data dir for tomboy
 QString Gnote::tomboy_data_dir(){
+	return KTGlib::get_user_data_dir() + "/tomboy";
 }
 
 } // namespace gnote
