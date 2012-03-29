@@ -33,6 +33,7 @@ SearchWindow::~SearchWindow()
 void SearchWindow::setStringList(int col, QStringList &qsl, QTableWidget *qtw){
 	int row = 0;
 	foreach (QString name, qsl){
+		qDebug() << name;
 		QTableWidgetItem *item = new QTableWidgetItem(name);
 		qtw->setItem ( row, col, item );
 		row++;
