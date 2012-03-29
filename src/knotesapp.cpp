@@ -132,6 +132,7 @@ KNotesApp::KNotesApp()
   connect( m_tray, SIGNAL( activateRequested(bool, const QPoint &) ), this, SLOT( slotActivateRequested( bool, const QPoint& ) ) );
   connect( m_tray, SIGNAL( secondaryActivateRequested( const QPoint & ) ), this, SLOT( slotSecondaryActivateRequested( const QPoint& ) ) );
   #endif 
+  m_tray->activate();
 
   // set the initial style
 #ifdef __GNUC__

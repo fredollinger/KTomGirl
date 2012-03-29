@@ -180,5 +180,13 @@ QString Gnote::tomboy_data_dir(){
 	return KTGlib::get_user_data_dir() + "/tomboy";
 }
 
+QStringList Gnote::get_note_list(){
+	QDir qdTomboy (tomboy_data_dir() );
+	QStringList qsl(qdTomboy.entryList());
+	return qsl;
+}
+
+
+
 } // namespace gnote
 // Tue Mar 27 18:22:30 PDT 2012
