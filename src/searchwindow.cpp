@@ -1,6 +1,7 @@
 #include <qdebug.h>
 
 #include <QMainWindow>
+#include <QTableWidget>
 
 #include "searchwindow.h"
 #include "gnote.hpp"
@@ -17,11 +18,25 @@ SearchWindow::SearchWindow(QWidget* pParent, const char* szName)
 	setupUi(this);
 
 	tableNotes->setModel(m_model);
+ 	connect (tableNotes, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(emitNoteSelected(int, int)));
+ 	connect (tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
 }
 
 SearchWindow::~SearchWindow()
 {
 
 }
+
+void
+SearchWindow::emitNoteSelected(int row, int col){
+	emit signalNoteSelected(row, col);
+}
+
+void
+SearchWindow::emitNoteSelected(QTableWidgetItem *item){
+	qDebug() << __PRETTY_FUNCTION__;
+	// emit signalItemNoteSelected(QTableViewItem*);
+}
+
 } // namespace ktomgirl
 // Wed Mar 28 14:37:50 PDT 2012

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QStringList>
 #include <QStringListModel>
+#include <QTableWidget>
 
 #include "ui_searchwindow.h"
 
@@ -17,6 +18,12 @@ public:
 private:
 	QStringList m_list;
 	QStringListModel *m_model;
+signals:
+	void signalNoteSelected(int,int);
+
+public slots:
+	void emitNoteSelected(int, int);
+	void emitNoteSelected(QTableWidgetItem*);
 /*
 private slots:
 	void slotLs(void);

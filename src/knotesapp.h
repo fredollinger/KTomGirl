@@ -31,7 +31,7 @@
 #include <ksessionmanager.h>
 #include <kxmlguiclient.h>
 
-#include "notemanager.hpp";
+#include "notemanager.hpp"
 
 #include "searchwindow.h"
 
@@ -85,8 +85,11 @@ class KNotesApp
                      const QString &text = QString() );
     QString newNoteFromClipboard( const QString &name = QString() );
 
+
     void hideAllNotes() const;
+    void openNote(int, int);
     void showAllNotes() const;
+
 
   protected slots:
     void slotActivateRequested( bool, const QPoint& pos);

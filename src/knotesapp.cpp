@@ -99,8 +99,7 @@ KNotesKeyDialog( KActionCollection *globals, QWidget *parent )
 
   private:
     KShortcutsEditor *m_keyChooser;
-};
-
+}; // class KNotesKeyDialog
 
 static bool qActionLessThan( const QAction *a1, const QAction *a2 )
 {
@@ -119,6 +118,8 @@ KNotesApp::KNotesApp()
 
   m_searchWindow = new ktomgirl::SearchWindow( this );
   m_searchWindow->show();
+
+  connect (m_searchWindow, SIGNAL(signalNoteSelected(int,int)), this, SLOT(openNote(int, int)));
 
   // create the dock widget...
   m_tray = new KStatusNotifierItem(0);
@@ -196,7 +197,7 @@ KNotesApp::KNotesApp()
                                         this ) );
   m_noteMenu = static_cast<KMenu *>( m_guiFactory->container(
                                       "notes_menu", this ) );
-  //m_tray->setContextMenu( m_contextMenu );
+  m_tray->setContextMenu( m_contextMenu );
   // get the most recent XML UI file
   QString xmlFileName = componentData().componentName() + "ui.rc";
   QString filter = componentData().componentName() + '/' + xmlFileName;
@@ -767,6 +768,11 @@ void KNotesApp::updateNetworkListener()
         m_publisher->publishAsync();
     }
     #endif
+}
+
+void KNotesApp::openNote(int row, int col){
+	qDebug() << __PRETTY_FUNCTION__ << "STUB";
+	return;
 }
 
 void KNotesApp::updateStyle()
