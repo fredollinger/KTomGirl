@@ -183,6 +183,7 @@ QString Gnote::tomboy_data_dir(){
 QStringList Gnote::get_note_list(){
 	QDir qdTomboy (tomboy_data_dir() );
 	QStringList qsl(qdTomboy.entryList());
+	qDebug() << qsl;
 	return qsl;
 }
 

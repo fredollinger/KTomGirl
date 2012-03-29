@@ -3,12 +3,15 @@
 #include <QMainWindow>
 
 #include "searchwindow.h"
+#include "gnote.hpp"
 
 namespace ktomgirl{
 SearchWindow::SearchWindow(QWidget* pParent, const char* szName) 
 {
  	m_model = new QStringListModel();
-     	m_list << "a" << "b" << "c";
+
+	m_list << gnote::Gnote::get_note_list();
+     	// m_list << "a" << "b" << "c";
      	m_model->setStringList(m_list);
 
 	setupUi(this);
