@@ -15,6 +15,8 @@ class SearchWindow : public QMainWindow, public Ui::SearchWindow
 public:
 	SearchWindow(QWidget* pParent = NULL, const char* szName = NULL);
 	~SearchWindow();
+
+	static void setStringList(int, QStringList&, QTableWidget*);
 private:
 	QStringList m_list;
 	QStringListModel *m_model;
