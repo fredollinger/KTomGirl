@@ -21,10 +21,9 @@ private:
 	QStringList m_list;
 	QStringListModel *m_model;
 signals:
-	void signalNoteSelected(int,int);
+	void signalNoteSelected(QString);
 
 public slots:
-	void emitNoteSelected(int, int);
 	void emitNoteSelected(QTableWidgetItem*);
 /*
 private slots:

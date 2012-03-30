@@ -16,12 +16,13 @@ SearchWindow::SearchWindow(QWidget* pParent, const char* szName)
      	// m_model->setStringList(m_list);
 
 	setupUi(this);
+	tableNotes->setRowCount(m_list.count());
+	tableNotes->setColumnCount(10);
 
 	// tableNotes->setModel(m_model);
 //	tableNotes << m_list;
 	
 	setStringList(0, m_list, tableNotes);
- 	connect (tableNotes, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(emitNoteSelected(int, int)));
  	connect (tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
 }
 
@@ -33,24 +34,19 @@ SearchWindow::~SearchWindow()
 void SearchWindow::setStringList(int col, QStringList &qsl, QTableWidget *qtw){
 	int row = 0;
 	foreach (QString name, qsl){
-		qDebug() << name;
+		qDebug() << name << row << col;
 		QTableWidgetItem *item = new QTableWidgetItem(name);
 		qtw->setItem ( row, col, item );
 		row++;
 	}
 }
 
-
-void
-SearchWindow::emitNoteSelected(int row, int col){
-	emit signalNoteSelected(row, col);
-}
-
 void
 SearchWindow::emitNoteSelected(QTableWidgetItem *item){
 	qDebug() << __PRETTY_FUNCTION__;
-	// emit signalItemNoteSelected(QTableViewItem*);
+	emit signalNoteSelected(item->data(Qt::DisplayRole).toString());
+
 }
 
 } // namespace ktomgirl
-// Wed Mar 28 14:37:50 PDT 2012
+// Thu Mar 29 19:54:15 PDT 2012
