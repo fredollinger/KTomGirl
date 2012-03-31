@@ -16,7 +16,7 @@ public:
 	SearchWindow(QWidget* pParent = NULL, const char* szName = NULL);
 	~SearchWindow();
 
-	static void setStringList(int, QStringList&, QTableWidget*);
+	static void setStringList(int, QStringList&, QTableWidget*, QString);
 private:
 	QStringList m_list;
 	QStringListModel *m_model;

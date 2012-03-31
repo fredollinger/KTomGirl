@@ -119,7 +119,7 @@ KNotesApp::KNotesApp()
   m_searchWindow = new ktomgirl::SearchWindow( this );
   m_searchWindow->show();
 
-  connect (m_searchWindow, SIGNAL(signalNoteSelected(int,int)), this, SLOT(openNote(int, int)));
+  connect (m_searchWindow, SIGNAL(signalNoteSelected(QString)), this, SLOT(openNote(QString)));
 
   // create the dock widget...
   m_tray = new KStatusNotifierItem(0);
@@ -770,8 +770,8 @@ void KNotesApp::updateNetworkListener()
     #endif
 }
 
-void KNotesApp::openNote(int row, int col){
-	qDebug() << __PRETTY_FUNCTION__ << "STUB";
+void KNotesApp::openNote(QString qs){
+	qDebug() << __PRETTY_FUNCTION__ << qs;
 	return;
 }
 

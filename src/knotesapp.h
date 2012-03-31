@@ -87,7 +87,7 @@ class KNotesApp
 
 
     void hideAllNotes() const;
-    void openNote(int, int);
+    void openNote(QString);
     void showAllNotes() const;
 
 
@@ -149,4 +149,4 @@ class KNotesApp
 }; // END class KNotesApp
 }  //namespace knotes
 #endif
-// Mon Mar 19 14:32:29 PDT 2012
+// Thu Mar 29 20:00:53 PDT 2012

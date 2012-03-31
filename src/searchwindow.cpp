@@ -22,7 +22,7 @@ SearchWindow::SearchWindow(QWidget* pParent, const char* szName)
 	// tableNotes->setModel(m_model);
 //	tableNotes << m_list;
 	
-	setStringList(0, m_list, tableNotes);
+	setStringList(0, m_list, tableNotes, gnote::Gnote::tomboy_data_dir() );
  	connect (tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
 }
 
@@ -31,20 +31,22 @@ SearchWindow::~SearchWindow()
 
 }
 
-void SearchWindow::setStringList(int col, QStringList &qsl, QTableWidget *qtw){
+void SearchWindow::setStringList(int col, QStringList &qsl, QTableWidget *qtw, QString filepath){
 	int row = 0;
 	foreach (QString name, qsl){
 		qDebug() << name << row << col;
 		QTableWidgetItem *item = new QTableWidgetItem(name);
 		qtw->setItem ( row, col, item );
+		qtw->setToolTip(filepath);
 		row++;
 	}
 }
 
 void
-SearchWindow::emitNoteSelected(QTableWidgetItem *item){
+SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 	qDebug() << __PRETTY_FUNCTION__;
-	emit signalNoteSelected(item->data(Qt::DisplayRole).toString());
+	// emit signalNoteSelected(tableNotes->item(row, col)->data(Qt::DisplayRole).toString());
+	emit signalNoteSelected(item->toolTip() + "/" + item->data(Qt::DisplayRole).toString());
 
 }
 
