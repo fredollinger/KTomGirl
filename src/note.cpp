@@ -275,6 +275,143 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
 // END NOTE
 
 // BEGIN NOTE ARCHIVER
+#if 0
+  std::string NoteArchiver::write_string(const NoteData & note)
+  {
+    std::string str;
+    sharp::XmlWriter xml;
+    obj().write(xml, note);
+    xml.close();
+    str = xml.to_string();
+    return str;
+  }
+#endif
+  
+
+  void NoteArchiver::write(const std::string & write_file, const NoteData & data)
+  {
+    obj().write_file(write_file, data);
+  }
+
+  void NoteArchiver::write_file(const std::string & _write_file, const NoteData & note)
+  {
+    std::string tmp_file = _write_file + ".tmp";
+    // TODO Xml doc settings
+    sharp::XmlWriter xml(tmp_file); //, XmlEncoder::DocumentSettings);
+    write(xml, note);
+    xml.close ();
+
+    try {
+      if (boost::filesystem::exists(_write_file)) {
+        std::string backup_path = _write_file + "~";
+        if (boost::filesystem::exists(backup_path)) {
+          boost::filesystem::remove(backup_path);
+        }
+      
+        // Backup the to a ~ file, just in case
+        boost::filesystem::rename(_write_file, backup_path);
+      
+        // Move the temp file to write_file
+        boost::filesystem::rename(tmp_file, _write_file);
+
+        // Delete the ~ file
+        boost::filesystem::remove(backup_path);
+      } 
+      else {
+        // Move the temp file to write_file
+        boost::filesystem::rename(tmp_file, _write_file);
+      }
+    }
+    catch(const std::exception & e)
+    {
+      ERR_OUT("filesystem error: '%s'", e.what());
+    }
+  }
+
+  void NoteArchiver::write(sharp::XmlWriter & xml, const NoteData & note)
+  {
+    xml.write_start_document();
+    xml.write_start_element("", "note", "http://beatniksoftware.com/tomboy");
+    xml.write_attribute_string("",
+                             "version",
+                             "",
+                             CURRENT_VERSION);
+    xml.write_attribute_string("xmlns",
+                             "link",
+                             "",
+                             "http://beatniksoftware.com/tomboy/link");
+    xml.write_attribute_string("xmlns",
+                             "size",
+                             "",
+                             "http://beatniksoftware.com/tomboy/size");
+
+    xml.write_start_element ("", "title", "");
+    xml.write_string (note.title());
+    xml.write_end_element ();
+
+    xml.write_start_element ("", "text", "");
+    xml.write_attribute_string ("xml", "space", "", "preserve");
+    // Insert <note-content> blob...
+    xml.write_raw (note.text());
+    xml.write_end_element ();
+
+    xml.write_start_element ("", "last-change-date", "");
+    xml.write_string (
+      sharp::XmlConvert::to_string (note.change_date()));
+    xml.write_end_element ();
+
+    xml.write_start_element ("", "last-metadata-change-date", "");
+    xml.write_string (
+      sharp::XmlConvert::to_string (note.metadata_change_date()));
+    xml.write_end_element ();
+
+    if (note.create_date().is_valid()) {
+      xml.write_start_element ("", "create-date", "");
+      xml.write_string (
+        sharp::XmlConvert::to_string (note.create_date()));
+      xml.write_end_element ();
+    }
+
+    xml.write_start_element ("", "cursor-position", "");
+    xml.write_string (boost::lexical_cast<std::string>(note.cursor_position()));
+    xml.write_end_element ();
+
+    xml.write_start_element ("", "width", "");
+    xml.write_string (boost::lexical_cast<std::string>(note.width()));
+    xml.write_end_element ();
+
+    xml.write_start_element("", "height", "");
+    xml.write_string(boost::lexical_cast<std::string>(note.height()));
+    xml.write_end_element();
+
+    xml.write_start_element("", "x", "");
+    xml.write_string (boost::lexical_cast<std::string>(note.x()));
+    xml.write_end_element();
+
+    xml.write_start_element ("", "y", "");
+    xml.write_string (boost::lexical_cast<std::string>(note.y()));
+    xml.write_end_element();
+
+    if (note.tags().size() > 0) {
+      xml.write_start_element ("", "tags", "");
+      for(NoteData::TagMap::const_iterator iter = note.tags().begin();
+          iter != note.tags().end(); ++iter) {
+        xml.write_start_element("", "tag", "");
+        xml.write_string(iter->second->name());
+        xml.write_end_element();
+      }
+      xml.write_end_element();
+    }
+
+    xml.write_start_element("", "open-on-startup", "");
+    xml.write_string(note.is_open_on_startup() ? "True" : "False");
+    xml.write_end_element();
+
+    xml.write_end_element(); // Note
+    xml.write_end_document();
+
+  }
+ 
   const char *NoteArchiver::CURRENT_VERSION = "0.3";
 //  const char *NoteArchiver::DATE_TIME_FORMAT = "%Y-%m-%dT%T.@7f@%z"; //"yyyy-MM-ddTHH:mm:ss.fffffffzzz";
 
