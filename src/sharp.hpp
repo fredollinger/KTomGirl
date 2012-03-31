@@ -6,9 +6,11 @@
  */
 
 #include <QDir>
+#include <QDateTime>
 #include <string>
 
 namespace sharp{
-	bool directory_exists(const std::string & directory);
-}
+
+bool directory_exists(const std::string & directory);
+} // namespace sharp 
 #endif

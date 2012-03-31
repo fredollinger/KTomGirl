@@ -23,9 +23,12 @@
  */
 
 
-#include "ktglib.hpp"
 
 #include <time.h>
+#include <sys/time.h>
+
+#include <QDateTime>
+
 #include "datetime.hpp"
 
 
@@ -101,7 +104,9 @@ namespace sharp {
   {
     char output[256];
     strftime(output, sizeof(output), format, t);
-    return KTGlib::locale_to_utf8(output);
+    return QString(output).toStdString();
+    // return Glib::locale_to_utf8(output);
+    //return QString::toS(output);
   }
 
   std::string DateTime::to_string(const char * format) const
@@ -123,7 +128,11 @@ namespace sharp {
     if(!is_valid()) {
       return retval;
     }
-    char *  iso8601 = g_time_val_to_iso8601(const_cast<GTimeVal*>(&m_date));
+    // char *  iso8601 = g_time_val_to_iso8601(const_cast<GTimeVal*>(&m_date));
+    QTime t(0, m_date.tv_sec, m_date.tv_usec);
+    retval = t.toString().toStdString();
+
+#if 0
     if(iso8601) {
       retval = iso8601;
       if(m_date.tv_usec == 0) {
@@ -134,16 +143,23 @@ namespace sharp {
       }
       g_free(iso8601);
     }
+#endif
     return retval;
   }
 
-  DateTime DateTime::now()
+DateTime DateTime::now()
   {
-    GTimeVal n;
-    g_get_current_time(&n);
-    return DateTime(n);
-  }
+	GTimeVal n;
+	//g_get_current_time(&n); 
+	struct timeval t;
+	gettimeofday(&t, NULL);
+	n.tv_sec = t.tv_sec;
+	n.tv_usec = t.tv_usec;
 
+	return DateTime(n);
+}
+
+#if 0
   DateTime DateTime::from_iso8601(const std::string &iso8601)
   {
     DateTime retval;
@@ -152,6 +168,7 @@ namespace sharp {
     }
     return DateTime();
   }
+#endif
 
 
   int DateTime::compare(const DateTime &a, const DateTime &b)

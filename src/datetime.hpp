@@ -21,10 +21,6 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-
-
-
-
 #ifndef __SHARP_DATETIME_HPP__
 #define __SHARP_DATETIME_HPP__
 
@@ -36,12 +32,13 @@
 
 namespace sharp {
 
+typedef long glong;
 
 class DateTime
 {
 public:
   DateTime();
-  explicit DateTime(time_t t, long _usec = 0);
+  explicit DateTime(time_t t, glong _usec = 0);
   
   DateTime & add_days(int days);
   DateTime & add_hours(int hours);
@@ -68,27 +65,32 @@ public:
 
   bool operator==(const DateTime & dt) const;
 
-  long sec() const
+  glong sec() const
     {
-      return m_date.toTime_t();
+      return m_date.tv_sec;
     }
-  long usec() const
+  glong usec() const
     {
-      return m_date.toTime_t()*1000;
+      return m_date.tv_usec;
     }
-  void set_usec(long _usec) 
+  void set_usec(glong _usec) 
     {
-      m_date.setTime_t(_usec/1000);
+      m_date.tv_usec = _usec;
     }
 private:
+struct GTimeVal {
+  glong tv_sec;
+  glong tv_usec;
+};
+
   // return the string formatted according to strftime
   std::string _to_string(const char * format, struct tm *) const;
   // implementation detail. really make public if needed.
-  explicit DateTime(const QDateTime & v);
-  QDateTime m_date;
-};
+  explicit DateTime(const GTimeVal & v);
+  GTimeVal m_date;
+}; // class datetime
 
 
-}
+} // namespace sharp
 
 #endif

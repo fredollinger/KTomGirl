@@ -8,4 +8,5 @@ bool directory_exists(const std::string & directory){
 	//return d.exists();
 	return true;
 }
+
 } // namespace sharp
