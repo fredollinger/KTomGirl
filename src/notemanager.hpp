@@ -57,6 +57,7 @@ public:
     ~NoteManager();
 
     Note::Ptr create_new_note (const QString&);
+    Note::Ptr load_note(const std::string & file_path);
 
     //void on_setting_changed(Preferences*, GConfEntry*);
     const Note::List & get_notes() const

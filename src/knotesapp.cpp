@@ -20,6 +20,7 @@
 
 // BEGIN gnote INCLUDES
 #include "notemanager.hpp"
+#include "gnote.hpp"
 // END gnote INCLUDES
 
 // BEGIN ktomgirl INCLUDES
@@ -771,12 +772,13 @@ void KNotesApp::updateNetworkListener()
 }
 
 void KNotesApp::openNote(QString qs){
-	qDebug() << __PRETTY_FUNCTION__ << qs;
+  const std::string abs_path = gnote::Gnote::tomboy_data_dir().toStdString() + "/" + qs.toStdString();
 
   qDebug() << "calling createNote()";
   KCal::Journal *journal = new KCal::Journal();
   createNote(journal);
   showNote(journal->uid() );
+  m_gnmanager->load_note(abs_path);
 	return;
 }
 
