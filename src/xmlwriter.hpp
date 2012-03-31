@@ -32,9 +32,9 @@
 
 #include <boost/noncopyable.hpp>
 
-#include <glib.h>
 #include <libxml/xmlwriter.h>
 
+#include "ktglib.hpp"
 
 namespace sharp {
 
@@ -94,7 +94,7 @@ namespace sharp {
       {
         return xmlTextWriterWriteRaw(m_writer, (const xmlChar*)raw.c_str());
       }
-    int write_char_entity(gunichar ch);
+    int write_char_entity(KTGlib::gunichar ch);
     int write_string(const std::string & );
 
     int close();

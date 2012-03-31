@@ -23,10 +23,11 @@
  */
 
 
-#include <glibmm/ustring.h>
+// #include <glibmm/ustring.h>
 
 #include "debug.hpp"
 #include "xmlwriter.hpp"
+#include "ktglib.hpp"
 
 namespace sharp {
 
@@ -58,10 +59,11 @@ namespace sharp {
   }
 
 
-  int XmlWriter::write_char_entity(gunichar ch)
+  int XmlWriter::write_char_entity(KTGlib::gunichar ch)
   {
-    Glib::ustring unistring(1, (gunichar)ch);
-    DBG_OUT("write entity %s", unistring.c_str());
+    //KTGlib::ustring unistring(1, (gunichar)ch);
+    KTGlib::ustring unistring(ch);
+    // DBG_OUT("write entity %s", unistring.c_str());
     return xmlTextWriterWriteString(m_writer, (const xmlChar*)unistring.c_str());
   }
 

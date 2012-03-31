@@ -42,6 +42,7 @@
 #include "notemanager.hpp"
 #include "xmlconvert.hpp"
 #include "xmlreader.hpp"
+#include "xmlwriter.hpp"
 
 namespace gnote {
 
@@ -392,6 +393,7 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
     xml.write_string (boost::lexical_cast<std::string>(note.y()));
     xml.write_end_element();
 
+    /*
     if (note.tags().size() > 0) {
       xml.write_start_element ("", "tags", "");
       for(NoteData::TagMap::const_iterator iter = note.tags().begin();
@@ -402,6 +404,7 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
       }
       xml.write_end_element();
     }
+    */
 
     xml.write_start_element("", "open-on-startup", "");
     xml.write_string(note.is_open_on_startup() ? "True" : "False");
