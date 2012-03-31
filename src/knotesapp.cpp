@@ -772,6 +772,11 @@ void KNotesApp::updateNetworkListener()
 
 void KNotesApp::openNote(QString qs){
 	qDebug() << __PRETTY_FUNCTION__ << qs;
+
+  qDebug() << "calling createNote()";
+  KCal::Journal *journal = new KCal::Journal();
+  createNote(journal);
+  showNote(journal->uid() );
 	return;
 }
 
