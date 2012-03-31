@@ -33,20 +33,11 @@
 #include <memory>
 #include <tr1/memory>
 
-class Tag;
-
 #include "base/singleton.hpp"
 
-#if 0
-#include <libxml/tree.h>
-#include <sigc++/signal.h>
-#include <gtkmm/textbuffer.h>
+#include "xml.hpp"
 
-#include "tag.hpp"
-#include "notebuffer.hpp"
-#include "utils.hpp"
-#include "sharp/datetime.hpp"
-#endif
+class Tag;
 
 namespace sharp {
   class XmlWriter;
@@ -136,22 +127,7 @@ public:
   //typedef std::list<Ptr> List;
   typedef QList<Ptr> List;
 
-  #if 0
-signals:
-  void m_signal_opened(void);
-  // void RenamedHandler(void);
-  void SavedHandler(void);
-  void TagAddedHandler(void);
-  void TagRemovingHandler(void);
-  void TagRemovedHandler(void);
-
-  typedef sigc::signal<void, const Note::Ptr&, const std::string& > RenamedHandler;
-  typedef sigc::signal<void, const Note::Ptr&, const std::string& > RenamedHandler;
-  typedef sigc::signal<void, const Note::Ptr&>                      SavedHandler;
-  typedef sigc::signal<void, const Note&, const Tag::Ptr&>     TagAddedHandler;
-  typedef sigc::signal<void, const Note&, const Tag &>         TagRemovingHandler;  
-  typedef sigc::signal<void, const Note::Ptr&, const std::string&>  TagRemovedHandler;  
-  #endif
+  static void parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags);
 
   typedef enum {
     NO_CHANGE,

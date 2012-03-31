@@ -20,6 +20,9 @@ install(FILES ktgconfig.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
 
 set(ktomgirl_SRCS
+xml.cpp
+xmlconvert.cpp
+xmlreader.cpp
 datetime.cpp
 note.cpp
 searchwindow.cpp

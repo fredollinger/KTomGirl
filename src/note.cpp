@@ -34,11 +34,14 @@
 
 #include <map>
 
+#include "debug.hpp"
 #include "note.hpp"
 #include "tag.hpp"
 #include "string.hpp"
 #include "datetime.hpp"
 #include "notemanager.hpp"
+#include "xmlconvert.hpp"
+#include "xmlreader.hpp"
 
 namespace gnote {
 
@@ -241,8 +244,35 @@ namespace gnote {
     return create_existing_note (data, read_file, manager);
   }
 
-// END NOTE
+// BEGIN PARSE_TAGS
+void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
+{
+  sharp::XmlNodeSet nodes = sharp::xml_node_xpath_find(tagnodes, "//*");
+    
+  if(nodes.empty()) {
+    return;
+  }
 
+  // BEGIN FOR
+  for(sharp::XmlNodeSet::const_iterator iter = nodes.begin();
+      iter != nodes.end(); ++iter) {
+
+        const xmlNodePtr node = *iter;
+     if(xmlStrEqual(node->name, (const xmlChar*)"tag") && (node->type == XML_ELEMENT_NODE)) 
+     {
+        xmlChar * content = xmlNodeGetContent(node);
+        if(content) 
+        {
+          DBG_OUT("found tag %s", content);
+          tags.push_back((const char*)content);
+          xmlFree(content);
+        }
+    }
+  } // END FOR
+}
+// END PARSE_TAGS
+
+// END NOTE
 
 // BEGIN NOTE ARCHIVER
   const char *NoteArchiver::CURRENT_VERSION = "0.3";
@@ -314,8 +344,8 @@ namespace gnote {
             Note::parse_tags(doc2->children, tag_strings);
             for(std::list<std::string>::const_iterator iter = tag_strings.begin();
                 iter != tag_strings.end(); ++iter) {
-              Tag::Ptr tag = TagManager::obj().get_or_create_tag(*iter);
-              note->tags()[tag->normalized_name()] = tag;
+              // Tag::Ptr tag = TagManager::obj().get_or_create_tag(*iter);
+              // note->tags()[tag->normalized_name()] = tag;
             }
             xmlFreeDoc(doc2);
           }
