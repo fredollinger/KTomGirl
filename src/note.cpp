@@ -240,5 +240,109 @@ namespace gnote {
     NoteData *data = NoteArchiver::read(read_file, url_from_path(read_file));
     return create_existing_note (data, read_file, manager);
   }
+
+// END NOTE
+
+
+// BEGIN NOTE ARCHIVER
+  const char *NoteArchiver::CURRENT_VERSION = "0.3";
+//  const char *NoteArchiver::DATE_TIME_FORMAT = "%Y-%m-%dT%T.@7f@%z"; //"yyyy-MM-ddTHH:mm:ss.fffffffzzz";
+
+  NoteData *NoteArchiver::read(const std::string & read_file, const std::string & uri)
+  {
+    return obj()._read(read_file, uri);
+  }
+
+
+  NoteData *NoteArchiver::_read(const std::string & read_file, const std::string & uri)
+  {
+    NoteData *note = new NoteData(uri);
+    std::string version;
+
+    sharp::XmlReader xml(read_file);
+
+    std::string name;
+
+    while (xml.read ()) {
+      switch (xml.get_node_type()) {
+      case XML_READER_TYPE_ELEMENT:
+        name = xml.get_name();
+        
+        if(name == "note") {
+          version = xml.get_attribute("version");
+        }
+        else if(name == "title") {
+          note->title() = xml.read_string();
+        } 
+        else if(name == "text") {
+          // <text> is just a wrapper around <note-content>
+          // NOTE: Use .text here to avoid triggering a save.
+          note->text() = xml.read_inner_xml();
+        }
+        else if(name == "last-change-date") {
+          note->set_change_date(
+            sharp::XmlConvert::to_date_time (xml.read_string()));
+        }
+        else if(name == "last-metadata-change-date") {
+          note->metadata_change_date() =
+            sharp::XmlConvert::to_date_time(xml.read_string());
+        }
+        else if(name == "create-date") {
+          note->create_date() =
+            sharp::XmlConvert::to_date_time (xml.read_string());
+        }
+        else if(name == "cursor-position") {
+          note->set_cursor_position(boost::lexical_cast<int>(xml.read_string()));
+        }
+        else if(name == "width") {
+          note->width() = boost::lexical_cast<int>(xml.read_string());
+        }
+        else if(name == "height") {
+          note->height() = boost::lexical_cast<int>(xml.read_string());
+        }
+        else if(name == "x") {
+          note->x() = boost::lexical_cast<int>(xml.read_string());
+        }
+        else if(name == "y") {
+          note->y() = boost::lexical_cast<int>(xml.read_string());
+        }
+        else if(name == "tags") {
+          xmlDocPtr doc2 = xmlParseDoc((const xmlChar*)xml.read_outer_xml().c_str());
+
+          if(doc2) {
+            std::list<std::string> tag_strings;
+            Note::parse_tags(doc2->children, tag_strings);
+            for(std::list<std::string>::const_iterator iter = tag_strings.begin();
+                iter != tag_strings.end(); ++iter) {
+              Tag::Ptr tag = TagManager::obj().get_or_create_tag(*iter);
+              note->tags()[tag->normalized_name()] = tag;
+            }
+            xmlFreeDoc(doc2);
+          }
+          else {
+            DBG_OUT("loading tag subtree failed");
+          }
+        }
+        else if(name == "open-on-startup") {
+          note->set_is_open_on_startup(xml.read_string() == "True");
+        }
+        break;
+
+      default:
+        break;
+      }
+    }
+    xml.close ();
+
+    if (version != NoteArchiver::CURRENT_VERSION) {
+      // Note has old format, so rewrite it.  No need
+      // to reread, since we are not adding anything.
+      DBG_OUT("Updating note XML from %s to newest format...", version.c_str());
+      NoteArchiver::write (read_file, *note);
+    }
+    return note;
+  }
+// END NOTE ARCHIVER
   
-}
+} // namespace gnote
+// Sat Mar 31 14:06:31 PDT 2012
