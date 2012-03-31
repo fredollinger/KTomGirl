@@ -128,22 +128,9 @@ namespace sharp {
     if(!is_valid()) {
       return retval;
     }
-    // char *  iso8601 = g_time_val_to_iso8601(const_cast<GTimeVal*>(&m_date));
     QTime t(0, m_date.tv_sec, m_date.tv_usec);
     retval = t.toString().toStdString();
 
-#if 0
-    if(iso8601) {
-      retval = iso8601;
-      if(m_date.tv_usec == 0) {
-        // see http://bugzilla.gnome.org/show_bug.cgi?id=581844
-        // when usec is 0, glib/libc does NOT add the usec values
-        // to the output
-        retval.insert(19, ".000000");
-      }
-      g_free(iso8601);
-    }
-#endif
     return retval;
   }
 
@@ -159,16 +146,14 @@ DateTime DateTime::now()
 	return DateTime(n);
 }
 
-#if 0
-  DateTime DateTime::from_iso8601(const std::string &iso8601)
-  {
-    DateTime retval;
-    if(g_time_val_from_iso8601(iso8601.c_str(), &retval.m_date)) {
-      return retval;
-    }
-    return DateTime();
-  }
-#endif
+DateTime DateTime::from_iso8601(const std::string &iso8601)
+{
+	GTimeVal retval;
+	QDateTime qdt = QDateTime::fromString(QString::fromStdString(iso8601), Qt::ISODate);
+	retval.tv_sec = qdt.toTime_t();
+	retval.tv_usec = 0;
+	return DateTime(retval);
+}
 
 
   int DateTime::compare(const DateTime &a, const DateTime &b)
