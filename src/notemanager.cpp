@@ -121,7 +121,7 @@ void NoteManager::_common_init(const std::string & directory, const std::string 
 
   NoteManager::~NoteManager()
   {
-    delete m_addin_mgr;
+    // delete m_addin_mgr;
   }
 
 // BEGIN NoteManager::create_new_note()

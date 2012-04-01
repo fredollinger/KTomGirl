@@ -219,13 +219,13 @@ namespace gnote {
 // END NOTEDATA
 
 // BEGIN NOTE
-  Note::Note(NoteData * _data, const std::string & filepath, NoteManager & _manager)
+Note::Note(NoteData * _data, const std::string & filepath, NoteManager & _manager)
     : m_data(_data)
     , m_filepath(filepath)
     , m_save_needed(false)
     , m_is_deleting(false)
     , m_manager(_manager)
-  {
+{
     /*
     for(NoteData::TagMap::const_iterator iter = _data->tags().begin();
         iter != _data->tags().end(); ++iter) {
@@ -234,11 +234,11 @@ namespace gnote {
     m_save_timeout = new utils::InterruptableTimeout();
     m_save_timeout->signal_timeout.connect(sigc::mem_fun(*this, &Note::on_save_timeout));
    */
-  }
+}
 
-  Note::~Note()
-  {
-  }
+Note::~Note()
+{
+}
 
   const std::string & Note::get_title() const
   {

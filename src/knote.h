@@ -58,8 +58,9 @@ class KNote
 {
   Q_OBJECT
   public:
-    KNote(gnote::Note::Ptr&, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
+    KNote(const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
     ~KNote();
+    void init( const QDomDocument& );
 
     void changeJournal(KCal::Journal *);
     void saveData( bool update = true);
@@ -130,7 +131,7 @@ class KNote
 
     void slotRequestNewNote();
   private:
-    gnote::Note m_gnote;
+    gnote::Note::Ptr m_gnote;
     void buildGui();
     void createActions();
     void createNoteEditor();

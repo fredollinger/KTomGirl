@@ -597,8 +597,8 @@ void KNotesApp::createNote( KCal::Journal *journal )
   qDebug() << __PRETTY_FUNCTION__;
 
   m_noteUidModify = journal->uid();
-  gnote::Note::Ptr note = m_gnmanager->create_new_note (journal->uid() );
-  KNote *newNote = new KNote( note, m_noteGUI, journal, 0 );
+  // gnote::Note::Ptr note = m_gnmanager->create_new_note (journal->uid() );
+  KNote *newNote = new KNote( m_noteGUI, journal, 0 );
   // FIXME: we must do this if we create a note which is actually new
   // gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note (journal->uid() );
   m_notes.insert( newNote->noteId(), newNote );
@@ -733,9 +733,9 @@ void KNotesApp::openNote(QString qs){
   qDebug() << q;
 */
 
-  gnote::Note::Ptr *note = m_gnmanager->load_note(abs_path);
+  gnote::Note::Ptr note = m_gnmanager->load_note(abs_path);
   m_noteUidModify = journal->uid();
-  KNote *newNote = new KNote(note, m_noteGUI, journal, 0);
+  KNote *newNote = new KNote(m_noteGUI, journal, 0);
   // FIXME: we must do this if we create a note which is actually new
   // gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note (journal->uid() );
   m_notes.insert( newNote->noteId(), newNote );

@@ -131,8 +131,6 @@ private:
 
 
 class Note : public QWidget
-  // : public std::tr1::enable_shared_from_this<Note>
-  // public sigc::trackable
 {
 Q_OBJECT
 public:
@@ -152,7 +150,6 @@ public:
   } ChangeType;
 
   ~Note();
-
 
   static std::string url_from_path(const std::string &);
   int get_hash_code() const;
@@ -260,6 +257,7 @@ private:
   void process_child_widget_queue();
 
   Note(NoteData * data, const std::string & filepath, NoteManager & manager);
+  Note(Note*);
 
   struct ChildWidgetData
   {

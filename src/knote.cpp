@@ -25,7 +25,7 @@
 #include "version.h"
 
 // gnote includes
-#include "note.hpp"
+// #include "note.hpp"
 
 // BEGIN KDE INCLUDES
 #include <kaction.h>
@@ -83,13 +83,13 @@
 using namespace KCal;
 
 namespace knotes{
-KNote::KNote( gnote::Note::Ptr &gnote, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
+KNote::KNote( const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
 //  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
     m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
-    , m_gnote(gnote)
 {
+
   qDebug() << __PRETTY_FUNCTION__;
   setAcceptDrops( true );
   setAttribute( Qt::WA_DeleteOnClose );
@@ -106,11 +106,31 @@ KNote::KNote( gnote::Note::Ptr &gnote, const QDomDocument& buildDoc, Journal *j,
   buildGui();
 
   prepare();
+
 }
 
 KNote::~KNote()
 {
   delete m_config;
+}
+
+void KNote::init( const QDomDocument& buildDoc ){
+  qDebug() << __PRETTY_FUNCTION__;
+  setAcceptDrops( true );
+  setAttribute( Qt::WA_DeleteOnClose );
+  setDOMDocument( buildDoc );
+  setObjectName( m_journal->uid() );
+  setXMLFile( componentData().componentName() + "ui.rc", false, false );
+
+  // create the main layout
+  m_noteLayout = new QVBoxLayout( this );
+  m_noteLayout->setMargin( 0 );
+
+  createActions();
+
+  buildGui();
+
+  prepare();
 }
 
 // -------------------- public slots -------------------- //
