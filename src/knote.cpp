@@ -3,6 +3,8 @@
 
  Copyright (c) 1997-2007, The KNotes Developers
 
+ 2012 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
@@ -18,20 +20,14 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *******************************************************************/
 
+// knotes includes
 #include "knote.h"
-#if 0
-#include "knotealarmdlg.h"
-#include "knotebutton.h"
-#include "knoteconfig.h"
-#include "knoteconfigdlg.h"
-#include "knoteedit.h"
-#include "knotehostdlg.h"
-#include "knoteprinter.h"
-#include "knotesglobalconfig.h"
-#include "knotesnetsend.h"
-#endif
 #include "version.h"
 
+// gnote includes
+#include "note.hpp"
+
+// BEGIN KDE INCLUDES
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kapplication.h>
@@ -61,9 +57,13 @@
 #include <kxmlguibuilder.h>
 #include <kxmlguifactory.h>
 #include <netwm.h>
+// END KDE INCLUDES
 
+// BEGIN QT INCLUDES
 #include <QBoxLayout>
 #include <QCheckBox>
+#include <QDebug>
+#include <QDesktopWidget>
 #include <QFile>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -73,9 +73,7 @@
 #include <QSizeGrip>
 #include <QTextStream>
 #include <QVBoxLayout>
-#include <QDesktopWidget>
-
-#include <QDebug>
+// END QT INCLUDES
 
 #ifdef Q_WS_X11
 #include <fixx11h.h>
@@ -85,11 +83,12 @@
 using namespace KCal;
 
 namespace knotes{
-KNote::KNote( const QDomDocument& buildDoc, Journal *j, QWidget *parent )
+KNote::KNote( gnote::Note::Ptr &gnote, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
 //  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
     m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
+    , m_gnote(gnote)
 {
   qDebug() << __PRETTY_FUNCTION__;
   setAcceptDrops( true );
@@ -102,15 +101,6 @@ KNote::KNote( const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   m_noteLayout = new QVBoxLayout( this );
   m_noteLayout->setMargin( 0 );
 
-  // if there is no title yet, use the start date if valid
-  // (KOrganizer's journals don't have titles but a valid start date)
-  /*
-  if ( m_journal->summary().isNull() && m_journal->dtStart().isValid() ) {
-    const QString s = KGlobal::locale()->formatDateTime( m_journal->dtStart() );
-    // m_journal->setSummary( s );
-  }
-  */
-
   createActions();
 
   buildGui();
@@ -122,17 +112,6 @@ KNote::~KNote()
 {
   delete m_config;
 }
-
-#if 0
-void KNote::changeJournal(KCal::Journal *journal)
-{
-   m_journal = journal;
-   m_editor->setText( m_journal->description() );
-   m_editor->document()->setModified( false );
-   m_label->setText( m_journal->summary() );
-   updateLabelAlignment();
-}
-#endif
 
 // -------------------- public slots -------------------- //
 
@@ -187,17 +166,6 @@ void KNote::saveData(bool update )
 
 void KNote::saveConfig() const
 {
-  #if 0
-  m_config->setWidth( width() );
-  if ( m_tool ) {
-    m_config->setHeight(
-        height() - ( m_tool->isHidden() ? 0 : m_tool->height() ) );
-  } else {
-    m_config->setHeight( 0 );
-  }
-  m_config->setPosition( pos() );
-  #endif
-
 #ifdef Q_WS_X11
   NETWinInfo wm_client( QX11Info::display(), winId(),
                         QX11Info::appRootWindow(), NET::WMDesktop );

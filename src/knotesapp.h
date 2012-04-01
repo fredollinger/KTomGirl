@@ -31,9 +31,9 @@
 #include <ksessionmanager.h>
 #include <kxmlguiclient.h>
 
-#include "notemanager.hpp"
-
 #include "searchwindow.h"
+
+#include "notemanager.hpp"
 
 class QTcpServer;
 

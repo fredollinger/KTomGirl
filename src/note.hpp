@@ -62,6 +62,19 @@ public:
     : m_data(_data)
     {
     }
+
+/* Warning! Since we are using a QWidget, data is all ready defined!
+ * thus, we need to use getData where gnote says data().
+ */
+  const NoteData & getData() const
+    {
+      return *m_data;
+    }
+
+  NoteData & getData()
+    {
+      return *m_data;
+    }
 #if 0
   // ~NoteDataBufferSynchronizer();
 
@@ -75,14 +88,17 @@ public:
       synchronize_text();
       return *m_data;
     }
+
   const NoteData & data() const
     {
       return *m_data;
     }
+
   NoteData & data()
     {
       return *m_data;
     }
+
   /*
   const Glib::RefPtr<NoteBuffer> & buffer() const
     {

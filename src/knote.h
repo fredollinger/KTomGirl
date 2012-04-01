@@ -33,6 +33,8 @@
 
 #include "knoteedit.h"
 
+#include "note.hpp"
+
 class QLabel;
 class QLayout;
 class QSizeGrip;
@@ -56,7 +58,7 @@ class KNote
 {
   Q_OBJECT
   public:
-    KNote( const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
+    KNote(gnote::Note::Ptr&, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
     ~KNote();
 
     void changeJournal(KCal::Journal *);
@@ -128,6 +130,7 @@ class KNote
 
     void slotRequestNewNote();
   private:
+    gnote::Note m_gnote;
     void buildGui();
     void createActions();
     void createNoteEditor();

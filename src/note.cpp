@@ -240,6 +240,11 @@ namespace gnote {
   {
   }
 
+  const std::string & Note::get_title() const
+  {
+    return m_data.getData().title();
+  }
+
   Note::Ptr Note::create_existing_note(NoteData *data,
                                  std::string filepath,
                                  NoteManager & manager)

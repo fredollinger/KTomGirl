@@ -3,6 +3,8 @@
 
  Copyright (c) 1997-2009, The KNotes Developers
 
+ 2012 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
@@ -19,18 +21,22 @@
 *******************************************************************/
 
 // BEGIN gnote INCLUDES
-#include "notemanager.hpp"
 #include "gnote.hpp"
+#include "note.hpp"
+#include "notemanager.hpp"
 // END gnote INCLUDES
 
-// BEGIN ktomgirl INCLUDES
+// BEGIN KTOMGIRL INCLUDES
 #include "searchwindow.h"
-// END ktomgirl INCLUDES
+// END   KTOMGIRL INCLUDES
 
+// BEGIN KNOTES INCLUDES
 #include "knote.h"
 #include "knotesapp.h"
 #include "resourcemanager.h"
+// END   KNOTES INCLUDES
 
+// BEGIN KDE INCLUDES
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kconfig.h>
@@ -46,21 +52,21 @@
 #include <ksocketfactory.h>
 #include <kstandardaction.h>
 #include <kstandarddirs.h>
-// #include <ksystemtrayicon.h>
 #include <kwindowsystem.h>
 #include <kxmlguibuilder.h>
 #include <kxmlguifactory.h>
 #include <KStatusNotifierItem>
-
 #include <kcal/calendarlocal.h>
 #include <kcal/journal.h>
 #include <kiconloader.h>
+// END   KDE INCLUDES
 
-#include <QDebug>
-
-#include <QPixmap>
+// BEGIN QT INCLUDES
 #include <QClipboard>
+#include <QDebug>
+#include <QPixmap>
 #include <QTcpServer>
+// END QT INCLUDES
 
 #include <dnssd/publicservice.h>
 
@@ -76,11 +82,6 @@ KNotesKeyDialog( KActionCollection *globals, QWidget *parent )
 	setButtons( Default | Ok | Cancel );
 
 	m_keyChooser = new KShortcutsEditor( globals, this );
-
-
-	// FIXME: SETMAINWIDGET IS DEPRECATED, REMOVE
-	// setMainWidget( m_keyChooser );
-
 
 	connect( this, SIGNAL( defaultClicked() ),
                m_keyChooser, SLOT( allDefault() ) );
@@ -98,7 +99,7 @@ KNotesKeyDialog( KActionCollection *globals, QWidget *parent )
         }
     }
 
-  private:
+private:
     KShortcutsEditor *m_keyChooser;
 }; // class KNotesKeyDialog
 
@@ -106,7 +107,6 @@ static bool qActionLessThan( const QAction *a1, const QAction *a2 )
 {
   return ( a1->text() < a2->text() );
 }
-
 
 KNotesApp::KNotesApp()
   : QWidget(), m_alarm( 0 ), m_listener( 0 ), m_publisher( 0 ), m_find( 0 ), m_findPos( 0 )
@@ -216,6 +216,7 @@ KNotesApp::KNotesApp()
   // KNotesLegacy::cleanUp();
 
   m_manager = new KNotesResourceManager();
+
   // create the resource manager
   #if 0
   connect( m_manager, SIGNAL( sigRegisteredNote( KCal::Journal * ) ),
@@ -226,17 +227,8 @@ KNotesApp::KNotesApp()
   // read the notes
   m_manager->load();
 
-  // read the old config files, convert and add them
-  KCal::CalendarLocal calendar( QString::fromLatin1( "UTC" ) );
-  if ( KNotesLegacy::convert( &calendar ) ) {
-    KCal::Journal::List notes = calendar.journals();
-    KCal::Journal::List::ConstIterator it;
-    for ( it = notes.constBegin(); it != notes.constEnd(); ++it ) {
-      m_manager->addNewNote( *it );
-    }
-
-    m_manager->save();
-  }
+  m_manager->save();
+}
 
   // set up the alarm reminder - do it after loading the notes because this
   // is used as a check if updateNoteActions has to be called for a new note
@@ -245,16 +237,15 @@ KNotesApp::KNotesApp()
    updateNetworkListener();
   #endif
 
-  qDebug() << "calling createNote()";
+/*
   KCal::Journal *journal = new KCal::Journal();
   createNote(journal);
   showNote(journal->uid() );
+*/
 
   if ( m_notes.size() == 0 && !kapp->isSessionRestored() ) {
       newNote();
   }
-
-  // updateNoteActions();
 }
 
 KNotesApp::~KNotesApp()
@@ -276,7 +267,7 @@ KNotesApp::~KNotesApp()
   m_findPos = 0;
   //delete m_listener;
   delete m_manager;
-  delete m_gnmanager;
+  // delete m_gnmanager;
   delete m_guiBuilder;
   delete m_tray;
 }
@@ -604,53 +595,14 @@ void KNotesApp::showNote( KNote *note ) const
 void KNotesApp::createNote( KCal::Journal *journal )
 {
   qDebug() << __PRETTY_FUNCTION__;
-  /*
-  if( journal->uid() == m_noteUidModify)
-  {
-      KNote *note = m_notes.value( m_noteUidModify );
-      if ( note )
-          note->changeJournal(journal);
-      return;
-  }
-  */
 
   m_noteUidModify = journal->uid();
-  KNote *newNote = new KNote( m_noteGUI, journal, 0 );
-
+  gnote::Note::Ptr note = m_gnmanager->create_new_note (journal->uid() );
+  KNote *newNote = new KNote( note, m_noteGUI, journal, 0 );
+  // FIXME: we must do this if we create a note which is actually new
+  // gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note (journal->uid() );
   m_notes.insert( newNote->noteId(), newNote );
 
-   // FIXME: Fix this
-   gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note (journal->uid() );
-  #if 0
-   
-  connect( newNote, SIGNAL( sigRequestNewNote() ),
-           SLOT( newNote() ) );
-  connect( newNote, SIGNAL( sigShowNextNote() ),
-           SLOT( slotWalkThroughNotes() ) ) ;
-  connect( newNote, SIGNAL( sigKillNote( KCal::Journal * ) ),
-           SLOT( slotNoteKilled( KCal::Journal * ) ) );
-  connect( newNote, SIGNAL( sigNameChanged(const QString &) ),
-           SLOT( updateNoteActions() ) );
-  connect( newNote, SIGNAL( sigDataChanged(const QString &) ),
-           SLOT( saveNotes(const QString &) ) );
-  connect( newNote, SIGNAL( sigColorChanged() ),
-           SLOT( updateNoteActions() ) );
-  connect( newNote, SIGNAL( sigFindFinished() ),
-           SLOT( slotFindNext() ) );
-
-  // don't call this during startup for each and every loaded note
-  if ( m_alarm ) {
-    updateNoteActions();
-  }
-  #endif
-  //TODO
-#if 0
-  if (m_tray->isVisible()) {
-    // we already booted, so this is a new note
-    // sucks, semantically speaking
-    newNote->slotRename();
-  }
-#endif
 }
 
 void KNotesApp::killNote( KCal::Journal *journal )
@@ -773,13 +725,23 @@ void KNotesApp::updateNetworkListener()
 
 void KNotesApp::openNote(QString qs){
   const std::string abs_path = gnote::Gnote::tomboy_data_dir().toStdString() + "/" + qs.toStdString();
-
-  qDebug() << "calling createNote()";
   KCal::Journal *journal = new KCal::Journal();
-  createNote(journal);
+
+/*
+  gnote::Note::Ptr note = m_gnmanager->load_note(abs_path);
+  QString title = QString::fromStdString(note->get_title());
+  qDebug() << q;
+*/
+
+  gnote::Note::Ptr *note = m_gnmanager->load_note(abs_path);
+  m_noteUidModify = journal->uid();
+  KNote *newNote = new KNote(note, m_noteGUI, journal, 0);
+  // FIXME: we must do this if we create a note which is actually new
+  // gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note (journal->uid() );
+  m_notes.insert( newNote->noteId(), newNote );
   showNote(journal->uid() );
-  m_gnmanager->load_note(abs_path);
-	return;
+
+  return;
 }
 
 void KNotesApp::updateStyle()
@@ -794,3 +756,4 @@ void KNotesApp::updateStyle()
   }
 }
 } // namespace knotes
+// Sat Mar 31 19:25:46 PDT 2012
