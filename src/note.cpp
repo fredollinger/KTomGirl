@@ -35,6 +35,7 @@
 #include <map>
 
 #include "debug.hpp"
+#include "files.hpp"
 #include "note.hpp"
 #include "tag.hpp"
 #include "string.hpp"
@@ -237,6 +238,40 @@ namespace gnote {
 
   Note::~Note()
   {
+  }
+
+  Note::Ptr Note::create_existing_note(NoteData *data,
+                                 std::string filepath,
+                                 NoteManager & manager)
+  {
+    if (!data->change_date().is_valid()) {
+      sharp::DateTime d(boost::filesystem::last_write_time(filepath));
+      data->set_change_date(d);
+    }
+    if (!data->create_date().is_valid()) {
+      if(data->change_date().is_valid()) {
+        data->create_date() = data->change_date();
+      }
+      else {
+        sharp::DateTime d(boost::filesystem::last_write_time(filepath));
+        data->create_date() = d;
+      }
+    }
+    return Note::Ptr(new Note(data, filepath, manager));
+  }
+
+  /// <summary>
+  /// Returns a Tomboy URL from the given path.
+  /// </summary>
+  /// <param name="filepath">
+  /// A <see cref="System.String"/>
+  /// </param>
+  /// <returns>
+  /// A <see cref="System.String"/>
+  /// </returns>
+  std::string Note::url_from_path(const std::string & filepath)
+  {
+    return "note://gnote/" + sharp::file_basename(filepath);
   }
 
   Note::Ptr Note::load(const std::string & read_file, NoteManager & manager)
