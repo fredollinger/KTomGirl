@@ -101,10 +101,10 @@ KNote::~KNote()
 
 void KNote::load_gnote(const std::string &abs_path)
 {
-  gnote::Note::Ptr m_gnote = m_gnmanager->load_note(abs_path);
-  QString title = QString::fromStdString(m_gnote->get_title());
-  setName(title);
-
+ gnote::Note::Ptr m_gnote = m_gnmanager->load_note(abs_path);
+ setName(QString::fromStdString(m_gnote->get_title()));
+ QString content = QString::fromStdString(m_gnote->text_content());
+ setText(content);
 }
 
 void KNote::init( const QDomDocument& buildDoc ){
@@ -231,7 +231,7 @@ void KNote::setName( const QString& name )
 
 void KNote::setText( const QString& text )
 {
-  // m_editor->setText( text );
+  m_editor->setText( text );
 
   saveData();
 }

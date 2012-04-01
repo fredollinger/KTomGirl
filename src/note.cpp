@@ -45,6 +45,43 @@
 #include "xmlreader.hpp"
 #include "xmlwriter.hpp"
 
+namespace utils{
+    std::string encode(const std::string & source)
+    {
+      sharp::XmlWriter xml;
+      xml.write_string(source);
+
+      xml.close();
+      return xml.to_string();
+    }
+
+
+    std::string decode(const std::string & source)
+    {
+      // TODO there is probably better than a std::string for that.
+      // this will do for now.
+      std::string builder;
+
+      sharp::XmlReader xml;
+      xml.load_buffer(source);
+
+      while (xml.read ()) {
+        switch (xml.get_node_type()) {
+        case XML_READER_TYPE_TEXT:
+        case XML_READER_TYPE_WHITESPACE:
+          builder += xml.get_value();
+          break;
+        default:
+          break;
+        }
+      }
+
+      xml.close ();
+
+      return builder;
+    }
+}
+
 namespace gnote {
 
   class NoteData
@@ -313,6 +350,28 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
 }
 // END PARSE_TAGS
 
+  std::string Note::text_content()
+  {
+    /*
+    if(m_buffer) {
+      return m_buffer->get_slice(m_buffer->begin(), m_buffer->end());
+    }
+    */
+    return utils::decode(xml_content());
+  }
+
+  void Note::set_text_content(const std::string & text)
+  {
+  /*
+    if(m_buffer) {
+      m_buffer->set_text(text);
+    }
+    else {
+      ERR_OUT("Setting text content for closed notes not supported");
+    }
+  */
+  }
+
 // END NOTE
 
 // BEGIN NOTE ARCHIVER
@@ -553,6 +612,99 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
     return note;
   }
 // END NOTE ARCHIVER
+
+
+// BEGIN NoteDataBufferSynchronizer
+  NoteDataBufferSynchronizer::~NoteDataBufferSynchronizer()
+  {
+    delete m_data;
+  }
+
+/*
+  void NoteDataBufferSynchronizer::set_buffer(const Glib::RefPtr<NoteBuffer> & b)
+  {
+    m_buffer = b;
+    m_buffer->signal_changed().connect(sigc::mem_fun(*this, &NoteDataBufferSynchronizer::buffer_changed));
+    m_buffer->signal_apply_tag()
+      .connect(sigc::mem_fun(*this, &NoteDataBufferSynchronizer::buffer_tag_applied));
+    m_buffer->signal_remove_tag()
+      .connect(sigc::mem_fun(*this, &NoteDataBufferSynchronizer::buffer_tag_removed));
+
+    synchronize_buffer();
+
+    invalidate_text();
+  }
+*/
+
+  const std::string & NoteDataBufferSynchronizer::text()
+  {
+    synchronize_text();
+    return m_data->text();
+  }
+
+  void NoteDataBufferSynchronizer::set_text(const std::string & t)
+  {
+    m_data->text() = t;
+    synchronize_buffer();
+  }
+
+  void NoteDataBufferSynchronizer::invalidate_text()
+  {
+    m_data->text() = "";
+  }
+
+  bool NoteDataBufferSynchronizer::is_text_invalid() const
+  {
+    return m_data->text().empty();
+  }
+
+  void NoteDataBufferSynchronizer::synchronize_text() const
+  {
+/*
+    if(is_text_invalid() && m_buffer) {
+      m_data->text() = NoteBufferArchiver::serialize(m_buffer);
+    }
+*/
+  }
+
+void NoteDataBufferSynchronizer::synchronize_buffer()
+{
+/*
+    if(!is_text_invalid() && m_buffer) {
+      // Don't create Undo actions during load
+      m_buffer->undoer().freeze_undo ();
+
+      m_buffer->erase(m_buffer->begin(), m_buffer->end());
+
+      // Load the stored xml text
+      NoteBufferArchiver::deserialize (m_buffer,
+                                       m_buffer->begin(),
+                                       m_data->text());
+      m_buffer->set_modified(false);
+
+      Gtk::TextIter cursor;
+      if (m_data->cursor_position() != 0) {
+        // Move cursor to last-saved position
+        cursor = m_buffer->get_iter_at_offset (m_data->cursor_position());
+      } 
+      else {
+        // Avoid title line
+        cursor = m_buffer->get_iter_at_line(2);
+      }
+      m_buffer->place_cursor(cursor);
+
+      // New events should create Undo actions
+      m_buffer->undoer().thaw_undo ();
+    }
+*/
+}
+
+  void NoteDataBufferSynchronizer::buffer_changed()
+  {
+    invalidate_text();
+  }
+
+// END NoteDataBufferSynchronizer
   
 } // namespace gnote
 // Sat Mar 31 14:06:31 PDT 2012

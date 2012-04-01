@@ -57,12 +57,14 @@ class NoteDataBufferSynchronizer : public QWidget
 Q_OBJECT
 
 public:
+
   // takes ownership
   NoteDataBufferSynchronizer(NoteData * _data)
     : m_data(_data)
     {
     }
 
+  ~NoteDataBufferSynchronizer();
 /* Warning! Since we are using a QWidget, data is all ready defined!
  * thus, we need to use getData where gnote says data().
  */
@@ -75,8 +77,6 @@ public:
     {
       return *m_data;
     }
-#if 0
-  // ~NoteDataBufferSynchronizer();
 
   const NoteData & synchronized_data() const
     {
@@ -98,15 +98,6 @@ public:
     {
       return *m_data;
     }
-
-  /*
-  const Glib::RefPtr<NoteBuffer> & buffer() const
-    {
-      return m_buffer;
-    }
- */
-  // void set_buffer(const Glib::RefPtr<NoteBuffer> & b);
-#endif
   const std::string & text();
   void set_text(const std::string & t);
 
@@ -116,16 +107,8 @@ private:
   void synchronize_text() const;
   void synchronize_buffer();
   void buffer_changed();
-  #if 0
-  // void buffer_tag_applied(const Glib::RefPtr<Gtk::TextBuffer::Tag> &,
-                          const Gtk::TextBuffer::iterator &,
-                          const Gtk::TextBuffer::iterator &);
-  void buffer_tag_removed(const Glib::RefPtr<Gtk::TextBuffer::Tag> &,
-                          const Gtk::TextBuffer::iterator &,
-                          const Gtk::TextBuffer::iterator &);
+  // QSharedPointer<NoteBuffer> m_buffer;
 
-  Glib::RefPtr<NoteBuffer> m_buffer;
-  #endif
   NoteData * m_data;
 };
 
@@ -198,46 +181,39 @@ public:
       return m_manager;
     }
   // const Glib::RefPtr<NoteTagTable> & get_tag_table();
+/*
   bool has_buffer() const
     {
       return m_buffer;
     }
+*/
   // const Glib::RefPtr<NoteBuffer> & get_buffer();
+/*
   bool has_window() const 
     { 
       return (m_window != NULL); 
     }
-  NoteWindow * get_window();
+*/
+  // NoteWindow * get_window();
   bool is_special() const;
   bool is_new() const;
+/*
   bool is_loaded() const
     {
       return (m_buffer);
     }
+*/
+/*
   bool is_opened() const
     { 
       return (m_window != NULL); 
     }
+*/
   bool is_pinned() const;
   void set_pinned(bool pinned) const;
   bool is_open_on_startup() const;
   void set_is_open_on_startup(bool);
   // void get_tags(std::list<Tag::Ptr> &) const;
-
-  #if 0
-  // sigc::signal<void,Note&> & signal_opened()
-    // { return m_signal_opened; }
-   RenamedHandler & signal_renamed()
-    { return m_signal_renamed; }
-  SavedHandler & signal_saved()
-    { return m_signal_saved; }
-  TagAddedHandler    & signal_tag_added()
-    { return m_signal_tag_added; }
-  TagRemovingHandler & signal_tag_removing()
-    { return m_signal_tag_removing; }
-  TagRemovedHandler  & signal_tag_removed()
-    { return m_signal_tag_removed; }
-  #endif
 
 private:
   void on_buffer_changed();
@@ -261,16 +237,7 @@ private:
 
   struct ChildWidgetData
   {
-  #if 0
-    ChildWidgetData(const Glib::RefPtr<Gtk::TextChildAnchor> & _anchor,
-                    Gtk::Widget *_widget)
-      : anchor(_anchor)
-      , widget(_widget)
-      {
-      }
-    Glib::RefPtr<Gtk::TextChildAnchor> anchor;
-    Gtk::Widget *widget;
-  #endif
+
   };
 
   NoteDataBufferSynchronizer m_data;
@@ -279,8 +246,7 @@ private:
   bool                       m_is_deleting;
   
   NoteManager               &m_manager;
-  NoteWindow                *m_window;
-  bool  m_buffer;
+  // NoteWindow                *m_window;
 	
   // Glib::RefPtr<NoteBuffer>   m_buffer;
   // Glib::RefPtr<NoteTagTable> m_tag_table;
@@ -288,14 +254,6 @@ private:
   // utils::InterruptableTimeout *m_save_timeout;
   std::queue<ChildWidgetData> m_child_widget_queue;
 
-  #if 0
-  // sigc::signal<void,Note&> m_signal_opened;
-  RenamedHandler     m_signal_renamed;
-  SavedHandler       m_signal_saved;
-  TagAddedHandler    m_signal_tag_added;
-  TagRemovingHandler m_signal_tag_removing;
-  TagRemovedHandler  m_signal_tag_removed;
-  #endif
 };
 
 class NoteArchiver
