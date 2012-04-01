@@ -84,12 +84,23 @@
 using namespace KCal;
 
 namespace knotes{
+
 KNote::KNote( gnote::NoteManager *gnmanager, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
 //  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
     m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnmanager(gnmanager)
+{ 
+	init(buildDoc);
+}
+
+KNote::KNote( gnote::Note::Ptr &gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
+  : QFrame( parent), m_label( 0 ), m_grip( 0 ),
+//  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
+    m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
+    m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
+    , m_gnoteptr(gnoteptr)
 { 
 	init(buildDoc);
 }
@@ -101,9 +112,9 @@ KNote::~KNote()
 
 void KNote::load_gnote(const std::string &abs_path)
 {
- gnote::Note::Ptr m_gnote = m_gnmanager->load_note(abs_path);
- setName(QString::fromStdString(m_gnote->get_title()));
- QString content = QString::fromStdString(m_gnote->text_content());
+ gnote::Note::Ptr m_gnoteptr = m_gnmanager->load_note(abs_path);
+ setName(QString::fromStdString(m_gnoteptr->get_title()));
+ QString content = QString::fromStdString(m_gnoteptr->text_content());
  setText(content);
 }
 
