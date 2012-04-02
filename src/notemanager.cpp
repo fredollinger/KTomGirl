@@ -163,5 +163,41 @@ Note::Ptr NoteManager::create_new_note (const QString & qs)
     }
   }
 
+// BEGIN LOAD_NOTES
+ void NoteManager::load_notes()
+  {
+    std::list<std::string> files;
+    sharp::directory_get_files_with_ext(m_notes_dir, ".note", files);
+
+    for(std::list<std::string>::const_iterator iter = files.begin();
+        iter != files.end(); ++iter) {
+      const std::string & file_path(*iter);
+      try {
+        Note::Ptr note = Note::load(file_path, *this);
+        add_note(note);
+      } 
+      catch (const std::exception & e) {
+        ERR_OUT("Error parsing note XML, skipping \"%s\": %s",
+                file_path.c_str(), e.what());
+      }
+    }
+    // post_load();
+    // Make sure that a Start Note Uri is set in the preferences, and
+    // make sure that the Uri is valid to prevent bug #508982. This
+    // has to be done here for long-time Tomboy users who won't go
+    // through the create_start_notes () process.
+    #if 0
+    if (start_note_uri().empty() ||
+        !find_by_uri(start_note_uri())) {
+      // Attempt to find an existing Start Here note
+      Note::Ptr start_note = find (_("Start Here"));
+      if (start_note) {
+        Preferences::obj().set<std::string>(Preferences::START_NOTE_URI, start_note->uri());
+      }
+    }
+    #endif
+}
+// END LOAD_NOTES
+
 } // namespace gnote
 // Sat Mar 31 09:48:39 PDT 2012

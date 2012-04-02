@@ -115,25 +115,15 @@ signals:
     	void m_signal_start_note_created(void);
 
 private:
-    // TrieController *create_trie_controller();
-    // AddinManager *create_addin_manager() const;
     bool create_directory(const std::string & directory) const;
     void on_note_rename(const Note::Ptr & note, const std::string & old_title);
     void create_start_notes();
     void on_note_save(const Note::Ptr & note);
     void load_notes();
-    // void migrate_notes(const std::string & old_note_dir);
     void post_load();
-#if 0
-    bool first_run() const;
-    void create_notes_dir() const;
-#endif   
     bool on_exiting_event();
     std::string make_new_file_name() const;
     std::string make_new_file_name(const std::string & guid) const;
-    //Note::Ptr create_new_note (std::string title, const std::string & guid);
-    //Note::Ptr create_new_note (const std::string & title, const std::string & xml_content, 
-    //                         const std::string & guid);
     /** add the note to the manager and setup signals */
     void add_note(const Note::Ptr &);
     void _common_init(const std::string & directory, const std::string & backup);
@@ -142,9 +132,16 @@ private:
     std::string m_backup_dir;
     Note::List m_notes;
     AddinManager   *m_addin_mgr;
-    // TrieController *m_trie_controller;
     std::string m_note_template_title;
     std::string m_start_note_uri;
+
+#if 0
+    //Note::Ptr create_new_note (std::string title, const std::string & guid);
+    //Note::Ptr create_new_note (const std::string & title, const std::string & xml_content, 
+    //                         const std::string & guid);
+    bool first_run() const;
+    void create_notes_dir() const;
+#endif   
   };
 
 
