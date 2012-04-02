@@ -117,10 +117,6 @@ KNotesApp::KNotesApp()
   //QDBusConnection::sessionBus().registerObject( "/KNotes" , this );
   kapp->setQuitOnLastWindowClosed( false );
 
-  m_searchWindow = new ktomgirl::SearchWindow( this );
-  m_searchWindow->show();
-
-  connect (m_searchWindow, SIGNAL(signalNoteSelected(QString)), this, SLOT(openNote(QString)));
 
   // create the dock widget...
   m_tray = new KStatusNotifierItem(0);
@@ -246,7 +242,13 @@ KNotesApp::KNotesApp()
   if ( m_notes.size() == 0 && !kapp->isSessionRestored() ) {
       newNote();
   }
+
+  m_searchWindow = new ktomgirl::SearchWindow( this );
+  m_searchWindow->loadNotes(m_gnmanager->get_notes());
+  m_searchWindow->show();
+  connect (m_searchWindow, SIGNAL(signalNoteSelected(QString)), this, SLOT(openNote(QString)));
 }
+// END KNotesApp::KNotesApp()
 
 KNotesApp::~KNotesApp()
 {

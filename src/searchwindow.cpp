@@ -1,20 +1,28 @@
+// BEGIN QT INCLUDES
 #include <qdebug.h>
-
 #include <QMainWindow>
 #include <QTableWidget>
+// END QT INCLUDES
 
+#include <iostream>
+
+// KTOMGIRL INCLUDES
 #include "searchwindow.h"
+
+// GNOTE INCLUDES
 #include "gnote.hpp"
+#include "note.hpp"
 
 namespace ktomgirl{
-SearchWindow::SearchWindow(QWidget* pParent, const char* szName) 
+SearchWindow::SearchWindow(QWidget* pParent, const char* szName) :
+m_row(0)
 {
  	m_model = new QStringListModel();
 
 	m_list << gnote::Gnote::get_note_list();
 
 	setupUi(this);
-	tableNotes->setRowCount(m_list.count());
+	tableNotes->setRowCount(m_list.count()+100);
 	tableNotes->setColumnCount(10);
 
 	setStringList(0, m_list, tableNotes, gnote::Gnote::tomboy_data_dir() );
@@ -26,22 +34,36 @@ SearchWindow::~SearchWindow()
 
 }
 
+// FIXME: NOT DONE
+void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
+	qDebug() << __PRETTY_FUNCTION__;
+	QString qs;
+        
+	for(gnote::Note::List::const_iterator iter = notesCopy.begin();
+		iter != notesCopy.end(); ++iter) {
+
+		const gnote::Note::Ptr & note(*iter);
+		qs = QString::fromStdString(note->get_title());
+		qDebug() << __PRETTY_FUNCTION__ << qs << m_row;
+
+		QTableWidgetItem *item = new QTableWidgetItem(qs);
+		tableNotes->setItem ( m_row, 0, item );
+		m_row++;
+	}
+	return;
+}
+
 void SearchWindow::setStringList(int col, QStringList &qsl, QTableWidget *qtw, QString filepath){
-	int row = 0;
 	foreach (QString name, qsl){
-		qDebug() << name << row << col;
 		QTableWidgetItem *item = new QTableWidgetItem(name);
-		qtw->setItem ( row, col, item );
+		qtw->setItem ( m_row, col, item );
 		qtw->setToolTip(filepath+"/"+name);
-		qDebug() << filepath+"/"+name;
-		row++;
+		m_row++;
 	}
 }
 
 void
 SearchWindow::emitNoteSelected(QTableWidgetItem* item){
-	qDebug() << __PRETTY_FUNCTION__ << item->toolTip();
-	// emit signalNoteSelected(tableNotes->item(row, col)->data(Qt::DisplayRole).toString());
 	emit signalNoteSelected(item->toolTip() + "/" + item->data(Qt::DisplayRole).toString());
 
 }

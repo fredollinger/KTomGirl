@@ -173,7 +173,7 @@ bool gnote::GnoteCommandLine::needs_execute() const{
 
 std::string Gnote::data_dir()
 {
-	return KTGlib::get_user_data_dir().toStdString() + "/ktomgirl";
+	return KTGlib::get_user_data_dir().toStdString() + "/tomboy";
 }
 
 // get the data dir for tomboy

@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
+
 #include <QString>
 #include <QDebug>
 
@@ -167,10 +169,13 @@ Note::Ptr NoteManager::create_new_note (const QString & qs)
   }
 
 // BEGIN LOAD_NOTES
- void NoteManager::load_notes()
-  {
+void NoteManager::load_notes()
+{
+    qDebug() << __PRETTY_FUNCTION__;
     std::list<std::string> files;
     sharp::directory_get_files_with_ext(m_notes_dir, ".note", files);
+
+    qDebug() << "note list len: " <<  files.size();
 
     for(std::list<std::string>::const_iterator iter = files.begin();
         iter != files.end(); ++iter) {
@@ -183,6 +188,7 @@ Note::Ptr NoteManager::create_new_note (const QString & qs)
         ERR_OUT("Error parsing note XML, skipping \"%s\": %s",
                 file_path.c_str(), e.what());
       }
+      std::cout << "adding note: " << file_path;
     }
     // post_load();
     // Make sure that a Start Note Uri is set in the preferences, and
