@@ -71,6 +71,9 @@ void NoteManager::_common_init(const std::string & directory, const std::string 
     m_notes_dir = directory;
     m_backup_dir = backup_directory;
 
+    // FIXME: We need to re-implement first run jazz...eventually...first:
+    load_notes ();
+
 #if 0
     bool is_first_run = first_run ();
     create_notes_dir ();
