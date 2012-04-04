@@ -277,6 +277,12 @@ Note::~Note()
 {
 }
 
+  const std::string & Note::uri() const
+  {
+    return m_data.data().uri();
+  }
+
+
   const std::string & Note::get_title() const
   {
     return m_data.getData().title();

@@ -208,5 +208,17 @@ void NoteManager::load_notes()
 }
 // END LOAD_NOTES
 
+  Note::Ptr NoteManager::find_by_uri(const std::string & uri) const
+  {
+    for(Note::List::const_iterator iter = m_notes.begin();
+        iter != m_notes.end(); ++iter) {
+      const Note::Ptr & note(*iter);
+      if (note->uri() == uri) {
+        return note;
+      }
+    }
+    return Note::Ptr();
+  }
+
 } // namespace gnote
 // Sat Mar 31 09:48:39 PDT 2012
