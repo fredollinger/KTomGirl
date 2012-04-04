@@ -220,5 +220,17 @@ void NoteManager::load_notes()
     return Note::Ptr();
   }
 
+  Note::Ptr NoteManager::find(const std::string & linked_title) const
+  {
+    for(Note::List::const_iterator iter = m_notes.begin();
+        iter != m_notes.end(); ++iter) {
+      const Note::Ptr & note(*iter);
+      if (sharp::string_to_lower(note->get_title()) == sharp::string_to_lower(linked_title))
+        return note;
+    }
+    return Note::Ptr();
+  }
+
+
 } // namespace gnote
 // Sat Mar 31 09:48:39 PDT 2012

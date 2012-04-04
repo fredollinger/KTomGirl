@@ -733,7 +733,11 @@ void KNotesApp::openNote(QString qs){
   KNote *newNote = new KNote( m_gnmanager, m_noteGUI, journal, 0);
   newNote->load_gnote(abs_path);
   m_notes.insert( newNote->noteId(), newNote );
+
   showNote(journal->uid() );
+
+  gnote::Note::Ptr noteptr = m_gnmanager->find_by_uri(qs.toStdString() );
+  qDebug() << noteptr.data()->QString::toStdString(title());
 
   return;
 }
