@@ -109,6 +109,7 @@ class KNote
     virtual bool eventFilter( QObject *, QEvent * );
 
   private slots:
+    void slotDataChanged(const QString&);
     void slotUpdateReadOnly();
 
     void slotSend();

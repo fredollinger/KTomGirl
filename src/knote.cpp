@@ -105,23 +105,13 @@ void KNote::load_gnote(){
 	setName(QString::fromStdString(m_gnoteptr->get_title()));
 	QString content = QString::fromStdString(m_gnoteptr->text_content());
 	setText(content);
-//	connect( this, SIGNAL( sigDataChanged(const QString &) ),
- //             m_gnoteptr, SLOT( slotDataChanged(const QString &) ) );
-
-//home/follinge/projects/KTomGirl/src/knote.cpp :108:68: error: no matching function for call to 'knotes::KNote::connect(knotes::KNote* const, const char [33], gnote::Note::Ptr&, const char [34])'
-
-// /usr/include/qt4/QtCore/qobject.h:198:17: note: candidates are: static bool QObject::connect(const QObject*, const char*, const QObject*, const char*, Qt::ConnectionType)
+	connect( this, SIGNAL( sigDataChanged(const QString &) ),
+              this, SLOT( slotDataChanged(const QString &) ) );
 }
 
-/*
-void KNote::load_gnote(const std::string &abs_path)
-{
- gnote::Note::Ptr m_gnoteptr = m_gnmanager->load_note(abs_path);
- setName(QString::fromStdString(m_gnoteptr->get_title()));
- QString content = QString::fromStdString(m_gnoteptr->text_content());
- setText(content);
+void KNote::slotDataChanged(const QString &qs){
+  qDebug() << __PRETTY_FUNCTION__ << qs;
 }
-*/
 
 void KNote::init( const QDomDocument& buildDoc ){
   qDebug() << __PRETTY_FUNCTION__;
