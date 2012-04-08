@@ -11,7 +11,9 @@
 // GNOTE INCLUDES
 #include "note.hpp"
 
+
 namespace ktomgirl{
+class KTGItem;
 class SearchWindow : public QMainWindow, public Ui::SearchWindow
 {
 	Q_OBJECT
@@ -31,6 +33,7 @@ private:
 	int m_row; // current row
 signals:
 	void signalNoteSelected(QString);
+ 	void itemDoubleClicked(KTGItem*);
 
 public slots:
 	void emitNoteSelected(QTableWidgetItem*);

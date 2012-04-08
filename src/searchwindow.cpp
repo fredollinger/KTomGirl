@@ -8,6 +8,7 @@
 
 // KTOMGIRL INCLUDES
 #include "searchwindow.h"
+#include "ktgitem.h"
 
 // GNOTE INCLUDES
 #include "gnote.hpp"
@@ -46,7 +47,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		qs = QString::fromStdString(note->get_title());
 		qDebug() << __PRETTY_FUNCTION__ << qs << m_row;
 
-		QTableWidgetItem *item = new QTableWidgetItem(qs);
+		KTGItem *item = new KTGItem(qs);
 		tableNotes->setItem ( m_row, 0, item );
 		m_row++;
 	}
@@ -55,7 +56,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 
 void SearchWindow::setStringList(int col, QStringList &qsl, QTableWidget *qtw, QString filepath){
 	foreach (QString name, qsl){
-		QTableWidgetItem *item = new QTableWidgetItem(name);
+		KTGItem *item = new KTGItem(name);
 		qtw->setItem ( m_row, col, item );
 		qtw->setToolTip(filepath+"/"+name);
 		m_row++;
