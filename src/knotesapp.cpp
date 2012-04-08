@@ -71,9 +71,7 @@
 
 #include <dnssd/publicservice.h>
 
-namespace ktomgirl{
-	class KTGItem;
-}
+using namespace ktomgirl;
 
 namespace knotes{
 class KNotesKeyDialog
@@ -730,16 +728,17 @@ void KNotesApp::updateNetworkListener()
     #endif
 }
 
-void KNotesApp::openNote(ktomgirl::KTGItem *item){
+void KNotesApp::openNote(KTGItem *item){
+  qDebug() << QString::fromStdString(item->get_note()->uri());
+   KCal::Journal *journal = new KCal::Journal();
+   m_noteUidModify = journal->uid();
+  KNote *newNote = new KNote( m_gnmanager, m_noteGUI, journal, 0);
+  showNote(journal->uid() );
 /*
   const std::string abs_path = gnote::Gnote::tomboy_data_dir().toStdString() + "/" + qs.toStdString();
-  KCal::Journal *journal = new KCal::Journal();
 
-  m_noteUidModify = journal->uid();
-  KNote *newNote = new KNote( m_gnmanager, m_noteGUI, journal, 0);
   newNote->load_gnote(abs_path);
   m_notes.insert( newNote->noteId(), newNote );
-  showNote(journal->uid() );
 */
 
   return;
