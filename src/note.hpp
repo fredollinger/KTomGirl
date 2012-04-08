@@ -121,6 +121,7 @@ class Note : public QWidget
 Q_OBJECT
 // BEGIN NOTE public:
 public:
+  std::string m_text_content;
   typedef std::tr1::shared_ptr<Note> Ptr;
   typedef std::tr1::weak_ptr<Note> WeakPtr;
   typedef QList<Ptr> List;
@@ -135,6 +136,7 @@ public:
 
   ~Note();
 
+  void changed(void);
   static std::string url_from_path(const std::string &);
   int get_hash_code() const;
   static Note::Ptr create_new_note(const std::string & title,
@@ -192,8 +194,8 @@ public:
 // END NOTE public:
 
 // BEGIN NOTE public slots:
-public slots:
-  void slotNoteChanged(const QString&);
+// public slots:
+//   void slotNoteChanged(const QString&);
 // END NOTE public slots:
 
 private:

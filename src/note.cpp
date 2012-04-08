@@ -276,6 +276,10 @@ Note::~Note()
 {
 }
 
+void Note::changed(){
+    m_save_needed = true;
+}
+
 // BEGIN NOTE::SAVE()
 void Note::save()
 {
@@ -385,15 +389,18 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
 }
 // END PARSE_TAGS
 
-  std::string Note::text_content()
-  {
+std::string Note::text_content()
+{
+
+	m_text_content=utils::decode(xml_content());
+	return m_text_content;
     /*
     if(m_buffer) {
       return m_buffer->get_slice(m_buffer->begin(), m_buffer->end());
     }
     */
-    return utils::decode(xml_content());
-  }
+    // return utils::decode(xml_content());
+}
 
   void Note::set_text_content(const std::string & text)
   {
@@ -407,9 +414,11 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
   */
   }
 
+/*
 void Note::slotNoteChanged(const QString &qs){
 	qDebug() << __PRETTY_FUNCTION__ << "FIXME: STUB";
 }
+*/
 
 // END NOTE
 
@@ -426,7 +435,6 @@ void Note::slotNoteChanged(const QString &qs){
     return str;
   }
 #endif
-  
 
   void NoteArchiver::write(const std::string & write_file, const NoteData & data)
   {

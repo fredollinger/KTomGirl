@@ -111,6 +111,10 @@ void KNote::load_gnote(){
 
 void KNote::slotDataChanged(const QString &qs){
   qDebug() << __PRETTY_FUNCTION__ << qs;
+  // This cues the note up for a save next time it is requested
+  // we do this to save resources so we don't save every single note
+  // that is closed only those who have changed.
+  m_gnoteptr->changed();
 }
 
 void KNote::init( const QDomDocument& buildDoc ){
