@@ -20,6 +20,7 @@ install(FILES ktgconfig.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
 
 set(ktomgirl_SRCS
+actionmanager.cpp
 ktgitem.cpp
 note.cpp
 knote.cpp
@@ -43,7 +44,6 @@ knoteedit.cpp
 main.cpp
 application.cpp
 gnote.cpp
-actionmanager.cpp
 )
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS})

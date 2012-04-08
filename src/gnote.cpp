@@ -29,6 +29,7 @@
 
 #include "ktglib.hpp"
 #include "note.hpp"
+#include "actionmanager.hpp"
 
 #include <QDebug>
 #include <QDir>
@@ -43,7 +44,7 @@
 #endif
 
 #include "gnote.hpp"
-#include "actionmanager.hpp"
+// #include "actionmanager.hpp"
 
 #if 0
 #if HAVE_PANELAPPLETMM

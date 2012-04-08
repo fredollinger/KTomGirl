@@ -23,12 +23,6 @@
 #include <string>
 #include <list>
 
-#if 0
-#include <gtkmm/action.h>
-#include <gtkmm/uimanager.h>
-#include <gdkmm/pixbuf.h>
-#endif
-
 #include "base/singleton.hpp"
 
 namespace gnote {
@@ -44,4 +38,3 @@ public:
 } // namespace gnote
 #endif // __ACTIONMANAGER_HPP_
 // Sat Mar 17 19:14:42 PDT 2012
-
