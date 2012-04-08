@@ -32,6 +32,7 @@
 #include <kxmlguiclient.h>
 
 #include "searchwindow.h"
+// #include "ktgitem.h"
 
 #include "notemanager.hpp"
 
@@ -46,6 +47,10 @@ class KNotesResourceManager;
 class KXMLGUIBuilder;
 class KXMLGUIFactory;
 class KStatusNotifierItem;
+
+namespace ktomgirl{
+	class KTGItem;
+}
 
 namespace KCal {
 class Journal;
@@ -87,7 +92,7 @@ class KNotesApp
 
 
     void hideAllNotes() const;
-    void openNote(QString);
+    void openNote(ktomgirl::KTGItem*);
     void showAllNotes() const;
 
 

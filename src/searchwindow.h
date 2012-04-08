@@ -32,8 +32,7 @@ private:
 	QStringListModel *m_model;
 	int m_row; // current row
 signals:
-	void signalNoteSelected(QString);
- 	void itemDoubleClicked(KTGItem*);
+	void signalNoteSelected(KTGItem*);
 
 public slots:
 	void emitNoteSelected(QTableWidgetItem*);

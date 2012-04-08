@@ -28,7 +28,6 @@
 #include "note.hpp"
 
 namespace ktomgirl{
-
 KTGItem::KTGItem(QString &qs, const gnote::Note::Ptr &note) : QTableWidgetItem(qs)
 , m_note(note)
 {
@@ -36,6 +35,10 @@ KTGItem::KTGItem(QString &qs, const gnote::Note::Ptr &note) : QTableWidgetItem(q
 
 KTGItem::~KTGItem()
 {
+}
+
+gnote::Note::Ptr KTGItem::get_note(){
+	return m_note;
 }
 
 } // namespace ktomgirl

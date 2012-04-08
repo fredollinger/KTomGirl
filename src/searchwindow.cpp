@@ -67,7 +67,7 @@ void SearchWindow::setStringList(int col, QStringList &qsl, QTableWidget *qtw, Q
 
 void
 SearchWindow::emitNoteSelected(QTableWidgetItem* item){
-	emit signalNoteSelected(item->toolTip() + "/" + item->data(Qt::DisplayRole).toString());
+	emit signalNoteSelected(static_cast<KTGItem*>(item));
 
 }
 

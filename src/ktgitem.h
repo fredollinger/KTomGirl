@@ -24,14 +24,15 @@
 #define __KTG_ITEM_HPP__
 
 #include <QTableWidget>
+#include <QObject>
 #include "note.hpp"
 
 namespace ktomgirl {
-class KTGItem : public QObject, public QTableWidgetItem {
-	Q_OBJECT;
+class KTGItem : public QTableWidgetItem {
 public:
   KTGItem(QString&, const gnote::Note::Ptr&);
-  ~KTGItem();
+  ~KTGItem(void); 
+  gnote::Note::Ptr get_note(void);
 private:
   const gnote::Note::Ptr &m_note;
 };

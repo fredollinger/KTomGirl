@@ -27,6 +27,7 @@
 // END gnote INCLUDES
 
 // BEGIN KTOMGIRL INCLUDES
+#include "ktgitem.h"
 #include "searchwindow.h"
 // END   KTOMGIRL INCLUDES
 
@@ -69,6 +70,10 @@
 // END QT INCLUDES
 
 #include <dnssd/publicservice.h>
+
+namespace ktomgirl{
+	class KTGItem;
+}
 
 namespace knotes{
 class KNotesKeyDialog
@@ -246,7 +251,7 @@ KNotesApp::KNotesApp()
   m_searchWindow = new ktomgirl::SearchWindow( this );
   m_searchWindow->loadNotes(m_gnmanager->get_notes());
   m_searchWindow->show();
-  connect (m_searchWindow, SIGNAL(signalNoteSelected(QString)), this, SLOT(openNote(QString)));
+  connect (m_searchWindow, SIGNAL(signalNoteSelected(KTGItem*)), this, SLOT(openNote(KTGItem*)));
 }
 // END KNotesApp::KNotesApp()
 
@@ -725,7 +730,8 @@ void KNotesApp::updateNetworkListener()
     #endif
 }
 
-void KNotesApp::openNote(QString qs){
+void KNotesApp::openNote(ktomgirl::KTGItem *item){
+/*
   const std::string abs_path = gnote::Gnote::tomboy_data_dir().toStdString() + "/" + qs.toStdString();
   KCal::Journal *journal = new KCal::Journal();
 
@@ -734,6 +740,7 @@ void KNotesApp::openNote(QString qs){
   newNote->load_gnote(abs_path);
   m_notes.insert( newNote->noteId(), newNote );
   showNote(journal->uid() );
+*/
 
   return;
 }
