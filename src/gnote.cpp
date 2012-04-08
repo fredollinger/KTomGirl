@@ -189,7 +189,5 @@ QStringList Gnote::get_note_list(){
 	return qsl;
 }
 
-
-
 } // namespace gnote
 // Tue Mar 27 18:22:30 PDT 2012

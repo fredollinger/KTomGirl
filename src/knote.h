@@ -61,9 +61,10 @@ class KNote
     // CONSTRUCTOR
     // KNote(const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
     KNote( gnote::NoteManager *gnmanager, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
-    KNote( gnote::Note::Ptr&, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
+    KNote( gnote::Note::Ptr, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
     ~KNote();
     void init( const QDomDocument& );
+    void load_gnote();
     void load_gnote(const std::string&);
 
     void changeJournal(KCal::Journal *);

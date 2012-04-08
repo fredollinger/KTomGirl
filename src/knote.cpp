@@ -85,6 +85,7 @@ using namespace KCal;
 
 namespace knotes{
 
+/*
 KNote::KNote( gnote::NoteManager *gnmanager, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
 //  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
@@ -94,8 +95,10 @@ KNote::KNote( gnote::NoteManager *gnmanager, const QDomDocument& buildDoc, Journ
 { 
 	init(buildDoc);
 }
+*/
 
-KNote::KNote( gnote::Note::Ptr &gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
+//home/follinge/projects/KTomGirl/src/knotesapp.cpp :769:70: error: no matching function for call to 'knotes::KNote::KNote(gnote::Note::Ptr, QDomDocument&, KCal::Journal*&, int)'
+KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
 //  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
     m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
@@ -108,6 +111,12 @@ KNote::KNote( gnote::Note::Ptr &gnoteptr, const QDomDocument& buildDoc, Journal 
 KNote::~KNote()
 {
   delete m_config;
+}
+
+void KNote::load_gnote(){
+ setName(QString::fromStdString(m_gnoteptr->get_title()));
+ QString content = QString::fromStdString(m_gnoteptr->text_content());
+ setText(content);
 }
 
 void KNote::load_gnote(const std::string &abs_path)
@@ -170,17 +179,6 @@ void KNote::slotKill( bool force )
 
 void KNote::saveData(bool update )
 {
-  /*
-  m_journal->setSummary( m_label->text() );
-  m_journal->setDescription( m_editor->text() );
-  m_journal->setCustomProperty( "KNotes", "FgColor",
-                                m_config->fgColor().name() );
-  m_journal->setCustomProperty( "KNotes", "BgColor",
-                                m_config->bgColor().name() );
-  m_journal->setCustomProperty( "KNotes", "RichText",
-                                m_config->richText() ? "true" : "false" );
-  */
-
   if(update)
   {
      emit sigDataChanged(noteId());
@@ -205,8 +203,6 @@ void KNote::saveConfig() const
 
 QString KNote::noteId() const
 {
-  //QString qs;
-  //return qs;
   return m_journal->uid();
 }
 

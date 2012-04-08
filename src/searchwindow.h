@@ -36,13 +36,9 @@ signals:
 
 public slots:
 	void emitNoteSelected(QTableWidgetItem*);
-/*
-private slots:
-	void slotLs(void);
-	void slotLsDone(uint);
-	void slotReadStd(void);
-	void slotStarted(void);
-*/
+
+// private slots:
+
 }; // class SearchWindow
 } // namespace ktomgirl
 #endif // SEARCH_WINDOW_H

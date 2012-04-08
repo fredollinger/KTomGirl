@@ -54,17 +54,6 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 	return;
 }
 
-/*
-void SearchWindow::setStringList(int col, QStringList &qsl, QTableWidget *qtw, QString filepath){
-	foreach (QString name, qsl){
-		KTGItem *item = new KTGItem(name);
-		qtw->setItem ( m_row, col, item );
-		qtw->setToolTip(filepath+"/"+name);
-		m_row++;
-	}
-}
-*/
-
 void
 SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 	emit signalNoteSelected(static_cast<KTGItem*>(item));

@@ -627,22 +627,6 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
     delete m_data;
   }
 
-/*
-  void NoteDataBufferSynchronizer::set_buffer(const Glib::RefPtr<NoteBuffer> & b)
-  {
-    m_buffer = b;
-    m_buffer->signal_changed().connect(sigc::mem_fun(*this, &NoteDataBufferSynchronizer::buffer_changed));
-    m_buffer->signal_apply_tag()
-      .connect(sigc::mem_fun(*this, &NoteDataBufferSynchronizer::buffer_tag_applied));
-    m_buffer->signal_remove_tag()
-      .connect(sigc::mem_fun(*this, &NoteDataBufferSynchronizer::buffer_tag_removed));
-
-    synchronize_buffer();
-
-    invalidate_text();
-  }
-*/
-
   const std::string & NoteDataBufferSynchronizer::text()
   {
     synchronize_text();
@@ -667,43 +651,10 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
 
   void NoteDataBufferSynchronizer::synchronize_text() const
   {
-/*
-    if(is_text_invalid() && m_buffer) {
-      m_data->text() = NoteBufferArchiver::serialize(m_buffer);
-    }
-*/
   }
 
 void NoteDataBufferSynchronizer::synchronize_buffer()
 {
-/*
-    if(!is_text_invalid() && m_buffer) {
-      // Don't create Undo actions during load
-      m_buffer->undoer().freeze_undo ();
-
-      m_buffer->erase(m_buffer->begin(), m_buffer->end());
-
-      // Load the stored xml text
-      NoteBufferArchiver::deserialize (m_buffer,
-                                       m_buffer->begin(),
-                                       m_data->text());
-      m_buffer->set_modified(false);
-
-      Gtk::TextIter cursor;
-      if (m_data->cursor_position() != 0) {
-        // Move cursor to last-saved position
-        cursor = m_buffer->get_iter_at_offset (m_data->cursor_position());
-      } 
-      else {
-        // Avoid title line
-        cursor = m_buffer->get_iter_at_line(2);
-      }
-      m_buffer->place_cursor(cursor);
-
-      // New events should create Undo actions
-      m_buffer->undoer().thaw_undo ();
-    }
-*/
 }
 
   void NoteDataBufferSynchronizer::buffer_changed()

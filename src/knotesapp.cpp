@@ -603,10 +603,10 @@ void KNotesApp::createNote( KCal::Journal *journal )
 
   m_noteUidModify = journal->uid();
   // gnote::Note::Ptr note = m_gnmanager->create_new_note (journal->uid() );
-  KNote *newNote = new KNote( m_gnmanager, m_noteGUI, journal, 0 );
+  // KNote *newNote = new KNote( m_gnmanager, m_noteGUI, journal, 0 );
   // FIXME: we must do this if we create a note which is actually new
   // gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note (journal->uid() );
-  m_notes.insert( newNote->noteId(), newNote );
+  // m_notes.insert( newNote->noteId(), newNote );
 
 }
 
@@ -766,8 +766,8 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   KCal::Journal *journal = new KCal::Journal();
 
   m_noteUidModify = journal->uid();
-  KNote *newNote = new KNote( m_gnmanager, m_noteGUI, journal, 0);
-  newNote->load_gnote(abs_path);
+  KNote *newNote = new KNote( item->get_note(), m_noteGUI, journal, 0);
+  newNote->load_gnote();
   m_notes.insert( newNote->noteId(), newNote );
   showNote(journal->uid() );
 
