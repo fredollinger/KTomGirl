@@ -294,6 +294,7 @@ void Note::save()
       return;
 
     DBG_OUT("Saving '%s'...", m_data.data().title().c_str());
+    qDebug() << __PRETTY_FUNCTION__ << "SAVING";
 
  //   try {
       NoteArchiver::write(m_filepath, m_data.synchronized_data());
@@ -404,6 +405,8 @@ std::string Note::text_content()
 
   void Note::set_text_content(const std::string & text)
   {
+	m_text_content = text;
+	return;
   /*
     if(m_buffer) {
       m_buffer->set_text(text);

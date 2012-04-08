@@ -216,19 +216,7 @@ KNotesApp::KNotesApp()
 
   m_manager = new KNotesResourceManager();
 
-  // create the resource manager
-  #if 0
-  connect( m_manager, SIGNAL( sigRegisteredNote( KCal::Journal * ) ),
-           this,      SLOT( createNote( KCal::Journal * ) ) );
-  connect( m_manager, SIGNAL( sigDeregisteredNote( KCal::Journal * ) ),
-           this,      SLOT( killNote( KCal::Journal * ) ) );
-
-  // read the notes
-  m_manager->load();
-
-  m_manager->save();
-}
-
+#if 0
   // set up the alarm reminder - do it after loading the notes because this
   // is used as a check if updateNoteActions has to be called for a new note
   m_alarm = new KNotesAlarm( m_manager, this );
@@ -650,9 +638,9 @@ void KNotesApp::saveNotes( const QString & uid )
 
 void KNotesApp::saveNotes()
 {
+  // m_manager->save();
   /*
   KNotesGlobalConfig::self()->writeConfig();
-  m_manager->save();
   */
 }
 
