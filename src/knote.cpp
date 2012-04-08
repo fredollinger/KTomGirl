@@ -26,7 +26,7 @@
 
 // gnote includes
 #include "note.hpp"
-#include "notemanager.hpp"
+// #include "notemanager.hpp"
 
 // BEGIN KDE INCLUDES
 #include <kaction.h>
@@ -85,19 +85,6 @@ using namespace KCal;
 
 namespace knotes{
 
-/*
-KNote::KNote( gnote::NoteManager *gnmanager, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
-  : QFrame( parent), m_label( 0 ), m_grip( 0 ),
-//  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
-    m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
-    m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
-    , m_gnmanager(gnmanager)
-{ 
-	init(buildDoc);
-}
-*/
-
-//home/follinge/projects/KTomGirl/src/knotesapp.cpp :769:70: error: no matching function for call to 'knotes::KNote::KNote(gnote::Note::Ptr, QDomDocument&, KCal::Journal*&, int)'
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
 //  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
@@ -119,6 +106,7 @@ void KNote::load_gnote(){
  setText(content);
 }
 
+/*
 void KNote::load_gnote(const std::string &abs_path)
 {
  gnote::Note::Ptr m_gnoteptr = m_gnmanager->load_note(abs_path);
@@ -126,6 +114,7 @@ void KNote::load_gnote(const std::string &abs_path)
  QString content = QString::fromStdString(m_gnoteptr->text_content());
  setText(content);
 }
+*/
 
 void KNote::init( const QDomDocument& buildDoc ){
   qDebug() << __PRETTY_FUNCTION__;
