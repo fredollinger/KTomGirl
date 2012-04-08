@@ -26,7 +26,7 @@ m_row(0)
 	tableNotes->setRowCount(m_list.count()+100);
 	tableNotes->setColumnCount(10);
 
-	setStringList(0, m_list, tableNotes, gnote::Gnote::tomboy_data_dir() );
+	// setStringList(0, m_list, tableNotes, gnote::Gnote::tomboy_data_dir() );
  	connect (tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
 }
 
@@ -47,13 +47,14 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		qs = QString::fromStdString(note->get_title());
 		qDebug() << __PRETTY_FUNCTION__ << qs << m_row;
 
-		KTGItem *item = new KTGItem(qs);
+		KTGItem *item = new KTGItem(qs, note);
 		tableNotes->setItem ( m_row, 0, item );
 		m_row++;
 	}
 	return;
 }
 
+/*
 void SearchWindow::setStringList(int col, QStringList &qsl, QTableWidget *qtw, QString filepath){
 	foreach (QString name, qsl){
 		KTGItem *item = new KTGItem(name);
@@ -62,6 +63,7 @@ void SearchWindow::setStringList(int col, QStringList &qsl, QTableWidget *qtw, Q
 		m_row++;
 	}
 }
+*/
 
 void
 SearchWindow::emitNoteSelected(QTableWidgetItem* item){

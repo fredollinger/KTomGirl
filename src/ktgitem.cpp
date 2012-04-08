@@ -25,8 +25,12 @@
 #include <QTableWidget>
 #include "ktgitem.h"
 
+#include "note.hpp"
+
 namespace ktomgirl{
-KTGItem::KTGItem(QString qs) : QTableWidgetItem(qs)
+
+KTGItem::KTGItem(QString &qs, const gnote::Note::Ptr &note) : QTableWidgetItem(qs)
+, m_note(note)
 {
 }
 
