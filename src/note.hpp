@@ -3,6 +3,9 @@
  *
  * Copyright (C) 2009 Hubert Figuiere
  *
+ * Modified heavily 2012 by Fred Ollinger <follinge@gmail.com>
+ * for KTomGirl
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -107,7 +110,6 @@ private:
   void synchronize_text() const;
   void synchronize_buffer();
   void buffer_changed();
-  // QSharedPointer<NoteBuffer> m_buffer;
 
   NoteData * m_data;
 };
@@ -118,10 +120,7 @@ class Note : public QWidget
 Q_OBJECT
 public:
   typedef std::tr1::shared_ptr<Note> Ptr;
-  //typedef QSharedPointer<Note> Ptr;
   typedef std::tr1::weak_ptr<Note> WeakPtr;
-  //typedef QWeakPointer<Note> WeakPtr;
-  //typedef std::list<Ptr> List;
   typedef QList<Ptr> List;
 
   static void parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags);
@@ -180,55 +179,17 @@ public:
     {
       return m_manager;
     }
-  // const Glib::RefPtr<NoteTagTable> & get_tag_table();
-/*
-  bool has_buffer() const
-    {
-      return m_buffer;
-    }
-*/
-  // const Glib::RefPtr<NoteBuffer> & get_buffer();
-/*
-  bool has_window() const 
-    { 
-      return (m_window != NULL); 
-    }
-*/
-  // NoteWindow * get_window();
+
   bool is_special() const;
   bool is_new() const;
-/*
-  bool is_loaded() const
-    {
-      return (m_buffer);
-    }
-*/
-/*
-  bool is_opened() const
-    { 
-      return (m_window != NULL); 
-    }
-*/
+
   bool is_pinned() const;
   void set_pinned(bool pinned) const;
   bool is_open_on_startup() const;
   void set_is_open_on_startup(bool);
-  // void get_tags(std::list<Tag::Ptr> &) const;
 
 private:
   void on_buffer_changed();
-  /*
-  void on_buffer_tag_applied(const Glib::RefPtr<Gtk::TextTag> &tag, 
-                             const Gtk::TextBuffer::iterator &, 
-                             const Gtk::TextBuffer::iterator &);
-  void on_buffer_tag_removed(const Glib::RefPtr<Gtk::TextTag> &tag,
-                             const Gtk::TextBuffer::iterator &, 
-                             const Gtk::TextBuffer::iterator &);
-  void on_buffer_insert_mark_set(const Gtk::TextBuffer::iterator & iter,
-                                 const Glib::RefPtr<Gtk::TextBuffer::Mark> & insert);
-  bool on_window_configure(GdkEventConfigure *ev);
-  bool on_window_destroyed(GdkEventAny *ev);
-  */
   void on_save_timeout();
   void process_child_widget_queue();
 
@@ -244,14 +205,7 @@ private:
   std::string                m_filepath;
   bool                       m_save_needed;
   bool                       m_is_deleting;
-  
   NoteManager               &m_manager;
-  // NoteWindow                *m_window;
-	
-  // Glib::RefPtr<NoteBuffer>   m_buffer;
-  // Glib::RefPtr<NoteTagTable> m_tag_table;
-
-  // utils::InterruptableTimeout *m_save_timeout;
   std::queue<ChildWidgetData> m_child_widget_queue;
 
 };
