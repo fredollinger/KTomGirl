@@ -769,6 +769,10 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   KNote *newNote = new KNote( item->get_note(), m_noteGUI, journal, 0);
   newNote->load_gnote();
   m_notes.insert( newNote->noteId(), newNote );
+
+
+    //void sigDataChanged(const QString &);
+
   showNote(journal->uid() );
 
   return;

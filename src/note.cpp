@@ -276,6 +276,36 @@ Note::~Note()
 {
 }
 
+// BEGIN NOTE::SAVE()
+void Note::save()
+{
+    // Prevent any other condition forcing a save on the note
+    // if Delete has been called.
+    if (m_is_deleting)
+      return;
+      
+    // Do nothing if we don't need to save.  Avoids unneccessary saves
+    // e.g on forced quit when we call save for every note.
+    if (!m_save_needed)
+      return;
+
+    DBG_OUT("Saving '%s'...", m_data.data().title().c_str());
+
+ //   try {
+      NoteArchiver::write(m_filepath, m_data.synchronized_data());
+  //  } 
+/*
+    catch (const sharp::Exception & e) {
+      // Probably IOException or UnauthorizedAccessException?
+      ERR_OUT("Exception while saving note: %s", e.what());
+      show_io_error_dialog(m_window);
+    }
+*/
+
+//     m_signal_saved(shared_from_this());
+}
+// END NOTE::SAVE()
+
   const std::string & Note::uri() const
   {
     return m_data.data().uri();
@@ -377,7 +407,12 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
   */
   }
 
+void Note::slotNoteChanged(const QString &qs){
+	qDebug() << __PRETTY_FUNCTION__ << "FIXME: STUB";
+}
+
 // END NOTE
+
 
 // BEGIN NOTE ARCHIVER
 #if 0
@@ -661,8 +696,8 @@ void NoteDataBufferSynchronizer::synchronize_buffer()
   {
     invalidate_text();
   }
-
 // END NoteDataBufferSynchronizer
+
   
 } // namespace gnote
 // Sat Mar 31 14:06:31 PDT 2012

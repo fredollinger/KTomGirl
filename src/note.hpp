@@ -115,9 +115,11 @@ private:
 };
 
 
+// BEGIN CLASS NOTE
 class Note : public QWidget
 {
 Q_OBJECT
+// BEGIN NOTE public:
 public:
   typedef std::tr1::shared_ptr<Note> Ptr;
   typedef std::tr1::weak_ptr<Note> WeakPtr;
@@ -187,6 +189,12 @@ public:
   void set_pinned(bool pinned) const;
   bool is_open_on_startup() const;
   void set_is_open_on_startup(bool);
+// END NOTE public:
+
+// BEGIN NOTE public slots:
+public slots:
+  void slotNoteChanged(const QString&);
+// END NOTE public slots:
 
 private:
   void on_buffer_changed();
