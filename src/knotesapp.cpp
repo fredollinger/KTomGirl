@@ -728,6 +728,8 @@ void KNotesApp::updateNetworkListener()
     #endif
 }
 
+#if 0
+// old broken ver
 void KNotesApp::openNote(KTGItem *item){
   qDebug() << QString::fromStdString(item->get_note()->uri());
    KCal::Journal *journal = new KCal::Journal();
@@ -743,6 +745,7 @@ void KNotesApp::openNote(KTGItem *item){
 
   return;
 }
+#endif
 
 void KNotesApp::updateStyle()
 {
@@ -755,5 +758,21 @@ void KNotesApp::updateStyle()
     QApplication::postEvent( note, new QEvent( QEvent::LayoutRequest ) );
   }
 }
+
+void KNotesApp::openNote(ktomgirl::KTGItem *item){
+  // const std::string abs_path = gnote::Gnote::tomboy_data_dir().toStdString() + "/" + qs.toStdString();
+  const std::string abs_path = item->get_note()->file_path();
+  qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(abs_path);
+  KCal::Journal *journal = new KCal::Journal();
+
+  m_noteUidModify = journal->uid();
+  KNote *newNote = new KNote( m_gnmanager, m_noteGUI, journal, 0);
+  newNote->load_gnote(abs_path);
+  m_notes.insert( newNote->noteId(), newNote );
+  showNote(journal->uid() );
+
+  return;
+}
+
 } // namespace knotes
 // Sat Mar 31 19:25:46 PDT 2012

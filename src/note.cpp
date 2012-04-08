@@ -18,6 +18,7 @@
  */
 
 #include <QSharedPointer>
+#include <QDebug>
 
 #include "config.h"
 
@@ -83,17 +84,22 @@ namespace utils{
 }
 
 namespace gnote {
-
-  class NoteData
-  {
+class NoteData
+{
+/* This holds the actual data, text, and on on of the note */
   public:
-    // typedef std::map<std::string, Tag::Ptr> TagMap;
     NoteData(const std::string & _uri);
+
+    const std::string & full_path() const
+      {
+        return m_full_path;
+      }
 
     const std::string & uri() const
       {
         return m_uri;
       }
+
     const std::string & title() const
       {
         return m_title;
@@ -122,11 +128,18 @@ namespace gnote {
       {
         return m_change_date;
       }
+
     void set_change_date(const sharp::DateTime & date)
       {
         m_change_date = date;
         m_metadata_change_date = date;
       }
+
+    void set_full_path(const std::string & path)
+      {
+        m_full_path = path;
+      }
+
     const sharp::DateTime & metadata_change_date() const
       {
         return m_metadata_change_date;
@@ -175,18 +188,6 @@ namespace gnote {
       {
         return m_y;
       }
-/*
-    const TagMap & tags() const
-      {
-        return m_tags;
-      }
-*/
-/*
-    TagMap & tags()
-      {
-        return m_tags;
-      }
-*/
     
     bool is_open_on_startup() const
       {
@@ -204,6 +205,7 @@ namespace gnote {
     const std::string m_uri;
     std::string       m_title;
     std::string       m_text;
+    std::string       m_full_path; // full path to the note
     sharp::DateTime             m_create_date;
     sharp::DateTime             m_change_date;
     sharp::DateTime             m_metadata_change_date;
@@ -211,11 +213,8 @@ namespace gnote {
     int               m_width, m_height;
     int               m_x, m_y;
     bool              m_open_on_startup;
-
-    // TagMap m_tags;
-  
     static const int  s_noPosition;
-  }; // class NoteData
+}; // class NoteData
 
   const int  NoteData::s_noPosition = -1;
 
@@ -529,8 +528,10 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
   }
 
 
+// FIXME: Here we add the full path to note
   NoteData *NoteArchiver::_read(const std::string & read_file, const std::string & uri)
   {
+    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(read_file);
     NoteData *note = new NoteData(uri);
     std::string version;
 

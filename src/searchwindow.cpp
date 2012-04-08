@@ -37,7 +37,7 @@ SearchWindow::~SearchWindow()
 
 // FIXME: NOT DONE
 void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
-	qDebug() << __PRETTY_FUNCTION__;
+	// qDebug() << __PRETTY_FUNCTION__;
 	QString qs;
         
 	for(gnote::Note::List::const_iterator iter = notesCopy.begin();
@@ -45,7 +45,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 
 		const gnote::Note::Ptr & note(*iter);
 		qs = QString::fromStdString(note->get_title());
-		qDebug() << __PRETTY_FUNCTION__ << qs << m_row;
+		// qDebug() << __PRETTY_FUNCTION__ << qs << m_row;
 
 		KTGItem *item = new KTGItem(qs, note);
 		tableNotes->setItem ( m_row, 0, item );
