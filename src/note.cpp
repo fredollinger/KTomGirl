@@ -444,8 +444,9 @@ void Note::slotNoteChanged(const QString &qs){
     obj().write_file(write_file, data);
   }
 
-  void NoteArchiver::write_file(const std::string & _write_file, const NoteData & note)
-  {
+// BEGIN NoteArchiver::write_file()
+void NoteArchiver::write_file(const std::string & _write_file, const NoteData & note)
+{
     std::string tmp_file = _write_file + ".tmp";
     // TODO Xml doc settings
     sharp::XmlWriter xml(tmp_file); //, XmlEncoder::DocumentSettings);
@@ -563,7 +564,8 @@ void Note::slotNoteChanged(const QString &qs){
     xml.write_end_element(); // Note
     xml.write_end_document();
 
-  }
+}
+// END NoteArchiver::write_file()
  
   const char *NoteArchiver::CURRENT_VERSION = "0.3";
 //  const char *NoteArchiver::DATE_TIME_FORMAT = "%Y-%m-%dT%T.@7f@%z"; //"yyyy-MM-ddTHH:mm:ss.fffffffzzz";
@@ -574,9 +576,9 @@ void Note::slotNoteChanged(const QString &qs){
   }
 
 
-// FIXME: Here we add the full path to note
-  NoteData *NoteArchiver::_read(const std::string & read_file, const std::string & uri)
-  {
+// BEGIN NoteArchiver::_read()
+NoteData *NoteArchiver::_read(const std::string & read_file, const std::string & uri)
+{
     qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(read_file);
     NoteData *note = new NoteData(uri);
     std::string version;
@@ -664,8 +666,8 @@ void Note::slotNoteChanged(const QString &qs){
     }
     return note;
   }
+// END NoteArchiver::_read()
 // END NOTE ARCHIVER
-
 
 // BEGIN NoteDataBufferSynchronizer
   NoteDataBufferSynchronizer::~NoteDataBufferSynchronizer()
