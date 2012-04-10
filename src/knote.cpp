@@ -98,6 +98,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 KNote::~KNote()
 {
   qDebug() << __PRETTY_FUNCTION__;
+
   m_gnoteptr->save();
   delete m_config;
 }
@@ -1141,6 +1142,7 @@ void KNote::resizeEvent( QResizeEvent *qre )
 
 void KNote::closeEvent( QCloseEvent * event )
 {
+  qDebug() << __PRETTY_FUNCTION__;
   m_gnoteptr->save();
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
   slotClose();

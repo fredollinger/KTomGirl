@@ -283,6 +283,7 @@ void Note::changed(){
 // BEGIN NOTE::SAVE()
 void Note::save()
 {
+    qDebug() << __PRETTY_FUNCTION__;
     // Prevent any other condition forcing a save on the note
     // if Delete has been called.
     if (m_is_deleting)
@@ -290,8 +291,14 @@ void Note::save()
       
     // Do nothing if we don't need to save.  Avoids unneccessary saves
     // e.g on forced quit when we call save for every note.
-    if (!m_save_needed)
-      return;
+/*
+    if (!m_save_needed){
+	qDebug() << "no save needed";
+	return;
+    }
+    else
+	qDebug() << "no save needed";
+*/
 
     DBG_OUT("Saving '%s'...", m_data.data().title().c_str());
     qDebug() << __PRETTY_FUNCTION__ << "SAVING";
@@ -471,17 +478,20 @@ void NoteArchiver::write_file(const std::string & _write_file, const NoteData & 
       } 
       else {
         // Move the temp file to write_file
+	qDebug() << "moving temp file to write file";
         boost::filesystem::rename(tmp_file, _write_file);
       }
     }
     catch(const std::exception & e)
     {
       ERR_OUT("filesystem error: '%s'", e.what());
+	qDebug() << "save fail";
     }
   }
 
   void NoteArchiver::write(sharp::XmlWriter & xml, const NoteData & note)
   {
+    qDebug() << __PRETTY_FUNCTION__;
     xml.write_start_document();
     xml.write_start_element("", "note", "http://beatniksoftware.com/tomboy");
     xml.write_attribute_string("",
