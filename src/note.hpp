@@ -121,6 +121,7 @@ class Note : public QWidget
 Q_OBJECT
 // BEGIN NOTE public:
 public:
+  void set_text_content(const std::string & text);
   std::string m_text_content;
   typedef std::tr1::shared_ptr<Note> Ptr;
   typedef std::tr1::weak_ptr<Note> WeakPtr;
@@ -168,7 +169,6 @@ public:
   std::string get_complete_note_xml();
   void load_foreign_note_xml(const std::string & foreignNoteXml, ChangeType changeType);
   std::string text_content();
-  void set_text_content(const std::string & text);
   const NoteData & data() const;
   NoteData & data();
 

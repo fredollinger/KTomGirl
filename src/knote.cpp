@@ -97,8 +97,10 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 
 KNote::~KNote()
 {
-  qDebug() << __PRETTY_FUNCTION__;
+  qDebug() << __PRETTY_FUNCTION__ << text();
 
+  //void set_text_content(const std::string & text);
+  m_gnoteptr->set_text_content(text().toStdString());
   m_gnoteptr->save();
   delete m_config;
 }
@@ -206,9 +208,9 @@ QString KNote::name() const
 
 QString KNote::text() const
 {
-  QString qs;
-  return qs;
-  //return m_editor->text();
+  //QString qs;
+  // return qs;
+  return m_editor->text();
 }
 
 void KNote::setName( const QString& name )
@@ -1142,7 +1144,8 @@ void KNote::resizeEvent( QResizeEvent *qre )
 
 void KNote::closeEvent( QCloseEvent * event )
 {
-  qDebug() << __PRETTY_FUNCTION__;
+  qDebug() << __PRETTY_FUNCTION__ << text();
+  m_gnoteptr->set_text_content(text().toStdString());
   m_gnoteptr->save();
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
   slotClose();

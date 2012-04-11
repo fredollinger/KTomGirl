@@ -216,20 +216,6 @@ KNotesApp::KNotesApp()
 
   m_manager = new KNotesResourceManager();
 
-#if 0
-  // set up the alarm reminder - do it after loading the notes because this
-  // is used as a check if updateNoteActions has to be called for a new note
-  m_alarm = new KNotesAlarm( m_manager, this );
-
-   updateNetworkListener();
-  #endif
-
-/*
-  KCal::Journal *journal = new KCal::Journal();
-  createNote(journal);
-  showNote(journal->uid() );
-*/
-
   if ( m_notes.size() == 0 && !kapp->isSessionRestored() ) {
       newNote();
   }
@@ -260,7 +246,7 @@ KNotesApp::~KNotesApp()
   m_findPos = 0;
   //delete m_listener;
   delete m_manager;
-  // delete m_gnmanager;
+  delete m_gnmanager;
   delete m_guiBuilder;
   delete m_tray;
 }
