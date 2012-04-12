@@ -68,13 +68,14 @@ public:
     }
 
   ~NoteDataBufferSynchronizer();
+
 /* Warning! Since we are using a QWidget, data is all ready defined!
  * thus, we need to use getData where gnote says data().
  */
-  const NoteData & getData() const
-    {
+const NoteData & getData() const
+{
       return *m_data;
-    }
+}
 
   NoteData & getData()
     {
@@ -83,12 +84,12 @@ public:
 
   const NoteData & synchronized_data() const
     {
-      synchronize_text();
+      // synchronize_text();
       return *m_data;
     }
   NoteData & synchronized_data()
     {
-      synchronize_text();
+      // synchronize_text();
       return *m_data;
     }
 
@@ -107,7 +108,7 @@ public:
 private:
   void invalidate_text();
   bool is_text_invalid() const;
-  void synchronize_text() const;
+  void synchronize_text(std::string&) const;
   void synchronize_buffer();
   void buffer_changed();
 
@@ -149,7 +150,7 @@ public:
                                         NoteManager & manager);
   void delete_note();
   static Note::Ptr load(const std::string &, NoteManager &);
-  void save();
+  void save(std::string);
   void queue_save(ChangeType c);
 
   const std::string & uri() const;

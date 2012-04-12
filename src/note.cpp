@@ -281,13 +281,12 @@ void Note::changed(){
 }
 
 // BEGIN NOTE::SAVE()
-void Note::save()
+void Note::save(std::string text)
 {
-    qDebug() << __PRETTY_FUNCTION__;
-    // Prevent any other condition forcing a save on the note
-    // if Delete has been called.
-    if (m_is_deleting)
-      return;
+	// Prevent any other condition forcing a save on the note
+	// if Delete has been called.
+	if (m_is_deleting)
+		return;
       
     // Do nothing if we don't need to save.  Avoids unneccessary saves
     // e.g on forced quit when we call save for every note.
@@ -300,20 +299,10 @@ void Note::save()
 	qDebug() << "no save needed";
 */
 
-    DBG_OUT("Saving '%s'...", m_data.data().title().c_str());
-    qDebug() << __PRETTY_FUNCTION__ << "SAVING";
+	// DBG_OUT("Saving '%s'...", m_data.data().title().c_str());
+	qDebug() << __PRETTY_FUNCTION__ << "SAVING" << QString::fromStdString(text);
 
- //   try {
-      NoteArchiver::write(m_filepath, m_data.synchronized_data());
-  //  } 
-/*
-    catch (const sharp::Exception & e) {
-      // Probably IOException or UnauthorizedAccessException?
-      ERR_OUT("Exception while saving note: %s", e.what());
-      show_io_error_dialog(m_window);
-    }
-*/
-
+	NoteArchiver::write(m_filepath, text);
 //     m_signal_saved(shared_from_this());
 }
 // END NOTE::SAVE()
@@ -412,16 +401,8 @@ std::string Note::text_content()
 
   void Note::set_text_content(const std::string & text)
   {
-	m_text_content = text;
-	return;
-  /*
-    if(m_buffer) {
-      m_buffer->set_text(text);
-    }
-    else {
-      ERR_OUT("Setting text content for closed notes not supported");
-    }
-  */
+    m_text_content = text;
+    return;
   }
 
 /*
@@ -687,7 +668,7 @@ NoteData *NoteArchiver::_read(const std::string & read_file, const std::string &
 
   const std::string & NoteDataBufferSynchronizer::text()
   {
-    synchronize_text();
+    // synchronize_text();
     return m_data->text();
   }
 
@@ -707,9 +688,12 @@ NoteData *NoteArchiver::_read(const std::string & read_file, const std::string &
     return m_data->text().empty();
   }
 
-  void NoteDataBufferSynchronizer::synchronize_text() const
+/*
+  void NoteDataBufferSynchronizer::synchronize_text(std::string &text) const
   {
+	m_data->text() = text;
   }
+*/
 
 void NoteDataBufferSynchronizer::synchronize_buffer()
 {

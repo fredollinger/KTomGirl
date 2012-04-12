@@ -101,7 +101,7 @@ KNote::~KNote()
 
   //void set_text_content(const std::string & text);
   m_gnoteptr->set_text_content(text().toStdString());
-  m_gnoteptr->save();
+  // m_gnoteptr->save();
   delete m_config;
 }
 
@@ -1145,8 +1145,8 @@ void KNote::resizeEvent( QResizeEvent *qre )
 void KNote::closeEvent( QCloseEvent * event )
 {
   qDebug() << __PRETTY_FUNCTION__ << text();
-  m_gnoteptr->set_text_content(text().toStdString());
-  m_gnoteptr->save();
+  // m_gnoteptr->set_text_content(text().toStdString());
+  m_gnoteptr->save(text().toStdString());
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
   slotClose();
 }
