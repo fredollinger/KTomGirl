@@ -93,6 +93,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
     , m_gnoteptr(gnoteptr)
 { 
 	init(buildDoc);
+	j->setUid(QString::fromStdString(gnoteptr->uid()));
   	m_gnoteptr->set_is_open(true);
 }
 
