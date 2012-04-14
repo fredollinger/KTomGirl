@@ -732,10 +732,12 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(abs_path);
   KCal::Journal *journal = new KCal::Journal();
 
-  m_noteUidModify = journal->uid();
   KNote *newNote = new KNote( item->get_note(), m_noteGUI, journal, 0);
   newNote->load_gnote();
   m_notes.insert( newNote->noteId(), newNote );
+
+  m_noteUidModify = journal->uid();
+  newNote->setObjectName( journal->uid() );
 
   showNote(journal->uid() );
 

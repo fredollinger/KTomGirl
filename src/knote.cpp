@@ -131,6 +131,7 @@ void KNote::init( const QDomDocument& buildDoc ){
   setAcceptDrops( true );
   setAttribute( Qt::WA_DeleteOnClose );
   setDOMDocument( buildDoc );
+  // FIXME: we need to ultimately get rid of next line...
   setObjectName( m_journal->uid() );
   setXMLFile( componentData().componentName() + "ui.rc", false, false );
 
