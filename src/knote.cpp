@@ -99,8 +99,9 @@ KNote::~KNote()
 {
   qDebug() << __PRETTY_FUNCTION__ << text();
 
+  // FIXME: save before delete
   //void set_text_content(const std::string & text);
-  m_gnoteptr->set_text_content(text().toStdString());
+  // m_gnoteptr->set_text_content(text().toStdString());
   // m_gnoteptr->save();
   delete m_config;
 }

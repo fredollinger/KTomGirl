@@ -702,40 +702,22 @@ void KNotesApp::updateNetworkListener()
     #endif
 }
 
-#if 0
-// old broken ver
-void KNotesApp::openNote(KTGItem *item){
-  qDebug() << QString::fromStdString(item->get_note()->uri());
-   KCal::Journal *journal = new KCal::Journal();
-   m_noteUidModify = journal->uid();
-  KNote *newNote = new KNote( m_gnmanager, m_noteGUI, journal, 0);
-  showNote(journal->uid() );
-/*
-  const std::string abs_path = gnote::Gnote::tomboy_data_dir().toStdString() + "/" + qs.toStdString();
-
-  newNote->load_gnote(abs_path);
-  m_notes.insert( newNote->noteId(), newNote );
-*/
-
-  return;
-}
-#endif
-
 void KNotesApp::updateStyle()
 {
 #ifdef __GNUC__
 #warning FIXME!
 #endif
-  //    KNote::setStyle( KNotesGlobalConfig::style() );
-
   foreach ( KNote *note, m_notes ) {
     QApplication::postEvent( note, new QEvent( QEvent::LayoutRequest ) );
   }
 }
 
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
-  // const std::string abs_path = gnote::Gnote::tomboy_data_dir().toStdString() + "/" + qs.toStdString();
   const std::string abs_path = item->get_note()->file_path();
+
+  // FIXME: Need to tell whether the note is open or not
+  // if note is open the we raise window NOT opening again...
+
   qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(abs_path);
   KCal::Journal *journal = new KCal::Journal();
 
@@ -743,9 +725,6 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   KNote *newNote = new KNote( item->get_note(), m_noteGUI, journal, 0);
   newNote->load_gnote();
   m_notes.insert( newNote->noteId(), newNote );
-
-
-    //void sigDataChanged(const QString &);
 
   showNote(journal->uid() );
 

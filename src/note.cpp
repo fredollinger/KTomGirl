@@ -261,15 +261,8 @@ Note::Note(NoteData * _data, const std::string & filepath, NoteManager & _manage
     , m_save_needed(false)
     , m_is_deleting(false)
     , m_manager(_manager)
+    , m_is_open(false)
 {
-    /*
-    for(NoteData::TagMap::const_iterator iter = _data->tags().begin();
-        iter != _data->tags().end(); ++iter) {
-      add_tag(iter->second);
-    }
-    m_save_timeout = new utils::InterruptableTimeout();
-    m_save_timeout->signal_timeout.connect(sigc::mem_fun(*this, &Note::on_save_timeout));
-   */
 }
 
 Note::~Note()
@@ -287,6 +280,11 @@ void Note::save(std::string text)
 	// if Delete has been called.
 	if (m_is_deleting)
 		return;
+
+	// FIXME:
+	// Save is broken and messing things up. Until we figure it out,
+	// let's just bail...
+	return;
       
     // Do nothing if we don't need to save.  Avoids unneccessary saves
     // e.g on forced quit when we call save for every note.
@@ -367,7 +365,7 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
     return;
   }
 
-  // BEGIN FOR
+  // BEGIN PARSE_TAGS FOR LOOP
   for(sharp::XmlNodeSet::const_iterator iter = nodes.begin();
       iter != nodes.end(); ++iter) {
 
@@ -382,7 +380,7 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
           xmlFree(content);
         }
     }
-  } // END FOR
+  } // BEGIN PARSE_TAGS FOR LOOP
 }
 // END PARSE_TAGS
 
@@ -404,6 +402,7 @@ std::string Note::text_content()
     m_text_content = text;
     return;
   }
+
 
 /*
 void Note::slotNoteChanged(const QString &qs){
@@ -707,4 +706,4 @@ void NoteDataBufferSynchronizer::synchronize_buffer()
 
   
 } // namespace gnote
-// Sat Mar 31 14:06:31 PDT 2012
+// Sat Apr 14 10:42:16 PDT 2012

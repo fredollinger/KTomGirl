@@ -60,14 +60,13 @@ class NoteDataBufferSynchronizer : public QWidget
 Q_OBJECT
 
 public:
+// takes ownership
+NoteDataBufferSynchronizer(NoteData * _data)
+   : m_data(_data)
+{
+}
 
-  // takes ownership
-  NoteDataBufferSynchronizer(NoteData * _data)
-    : m_data(_data)
-    {
-    }
-
-  ~NoteDataBufferSynchronizer();
+~NoteDataBufferSynchronizer();
 
 /* Warning! Since we are using a QWidget, data is all ready defined!
  * thus, we need to use getData where gnote says data().
@@ -153,6 +152,8 @@ public:
   void save(std::string);
   void queue_save(ChangeType c);
 
+  bool is_open() {return m_is_open;};
+  void set_is_open(bool b){ m_is_open = b; };
   const std::string & uri() const;
   const std::string id() const;
   const std::string & file_path() const
@@ -192,6 +193,7 @@ public:
   void set_pinned(bool pinned) const;
   bool is_open_on_startup() const;
   void set_is_open_on_startup(bool);
+  bool m_is_open;
 // END NOTE public:
 
 // BEGIN NOTE public slots:
@@ -199,6 +201,7 @@ public:
 //   void slotNoteChanged(const QString&);
 // END NOTE public slots:
 
+// END NOTE private:
 private:
   void on_buffer_changed();
   void on_save_timeout();
@@ -218,9 +221,11 @@ private:
   bool                       m_is_deleting;
   NoteManager               &m_manager;
   std::queue<ChildWidgetData> m_child_widget_queue;
+// END NOTE private:
 
-};
+}; // END class NOTE
 
+// BEGIN class NOTEARCHIVER
 class NoteArchiver
   : public base::Singleton<NoteArchiver>
 {
