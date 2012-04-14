@@ -109,10 +109,10 @@ KNote::~KNote()
 }
 
 void KNote::load_gnote(){
-	qDebug() << __PRETTY_FUNCTION__ << "FIXME: STUB";
 	setName(QString::fromStdString(m_gnoteptr->get_title()));
 	QString content = QString::fromStdString(m_gnoteptr->text_content());
 	setText(content);
+	qDebug() << __PRETTY_FUNCTION__ << " uid " << QString::fromStdString(m_gnoteptr->uid());
 	connect( this, SIGNAL( sigDataChanged(const QString &) ),
               this, SLOT( slotDataChanged(const QString &) ) );
 }

@@ -316,12 +316,15 @@ void Note::save(std::string text)
     return m_data.getData().title();
   }
 
-  const std::string & Note::uid() const {
-	// FIXME: need to parse out the uid...
+/*  Parse guid from file path.
+ *  We assume that the filepath + guid + ".note" is the m_fullpath.
+ *  If this changes then obviously we break this... 
+ */
+std::string Note::uid() const {
 	size_t len = m_filepath.length();
 	size_t begin = m_filepath.find_last_of("/");
-	return m_filepath.substr(begin, (len - 5) + begin);
-  }
+	return m_filepath.substr(begin+1, len - 6 - begin);
+}
 
   Note::Ptr Note::create_existing_note(NoteData *data,
                                  std::string filepath,
