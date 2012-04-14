@@ -93,11 +93,13 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
     , m_gnoteptr(gnoteptr)
 { 
 	init(buildDoc);
+  	m_gnoteptr->set_is_open(true);
 }
 
 KNote::~KNote()
 {
   qDebug() << __PRETTY_FUNCTION__ << text();
+  m_gnoteptr->set_is_open(false);
 
   // FIXME: save before delete
   //void set_text_content(const std::string & text);
