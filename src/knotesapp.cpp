@@ -717,6 +717,9 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   if (item->get_note()->is_open()) {
 	qDebug() << __PRETTY_FUNCTION__<< "note is open";
+	//Knote *knote = this->findChild<QKnote *>(QString::fromStdString(abs_pth));
+	//knote->raise();
+	//knote->setFocus();
 	return;
   }
   else 

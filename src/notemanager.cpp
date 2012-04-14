@@ -220,5 +220,11 @@ void NoteManager::load_notes()
     return Note::Ptr();
   }
 
+
+std::string NoteManager::make_new_file_name(const std::string & guid) const
+{
+	return m_notes_dir + "/" + guid + ".note";
+}
+
 } // namespace gnote
-// Sat Mar 31 09:48:39 PDT 2012
+// Sat Apr 14 13:43:31 PDT 2012

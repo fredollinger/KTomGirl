@@ -316,6 +316,13 @@ void Note::save(std::string text)
     return m_data.getData().title();
   }
 
+  const std::string & Note::uid() const {
+	// FIXME: need to parse out the uid...
+	size_t len = m_filepath.length();
+	size_t begin = m_filepath.find_last_of("/");
+	return m_filepath.substr(begin, (len - 5) + begin);
+  }
+
   Note::Ptr Note::create_existing_note(NoteData *data,
                                  std::string filepath,
                                  NoteManager & manager)
