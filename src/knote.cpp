@@ -85,6 +85,9 @@ using namespace KCal;
 
 namespace knotes{
 
+static const QString startTitle = "<font color=\"Blue\" size=\"18\"><u>";
+static const QString endTitle = "</u></font><br>";
+
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
 //  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
@@ -92,8 +95,8 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnoteptr(gnoteptr)
 { 
-	init(buildDoc);
 	j->setUid(QString::fromStdString(gnoteptr->uid()));
+	init(buildDoc);
   	m_gnoteptr->set_is_open(true);
 }
 
@@ -113,7 +116,8 @@ void KNote::load_gnote(){
 	setName(QString::fromStdString(m_gnoteptr->get_title()));
 	QString content = QString::fromStdString(m_gnoteptr->text_content());
 	setText(content);
-	qDebug() << __PRETTY_FUNCTION__ << " uid " << QString::fromStdString(m_gnoteptr->uid());
+	formatTitle();
+	// qDebug() << __PRETTY_FUNCTION__ << " uid " << QString::fromStdString(m_gnoteptr->uid());
 	connect( this, SIGNAL( sigDataChanged(const QString &) ),
               this, SLOT( slotDataChanged(const QString &) ) );
 }
@@ -131,7 +135,6 @@ void KNote::init( const QDomDocument& buildDoc ){
   setAcceptDrops( true );
   setAttribute( Qt::WA_DeleteOnClose );
   setDOMDocument( buildDoc );
-  // FIXME: we need to ultimately get rid of next line...
   setObjectName( m_journal->uid() );
   setXMLFile( componentData().componentName() + "ui.rc", false, false );
 
@@ -792,6 +795,30 @@ void KNote::createNoteEditor()
   m_editor->setNote( this );
   m_editor->installEventFilter( this ); // receive focus events for modified
   setFocusProxy( m_editor );
+
+  #if 0
+  // BEGIN SET TITLE BLUE
+  m_textCursor = new QTextCursor( m_editor->document() );
+  QTextBlockFormat format = m_textCursor->blockFormat();
+
+  // format.setTextColor(QColor(Qt:blue));
+  format.setNonBreakableLines(true);
+  m_textCursor->setBlockFormat(format);
+  m_textCursor->movePosition(QTextCursor::Start); 
+
+  QString line = titleHtml + "Title" + endHtml;
+
+  m_textCursor->insertHtml(line);
+  m_textCursor->insertBlock();
+
+  format.setNonBreakableLines(false);
+  format.setBackground(QColor("lightyellow"));
+  m_textCursor->setBlockFormat(format);
+  //m_textCursor->insertText(tr("The background color of a text block can be "
+                         //"changed to highlight text."));
+  m_textCursor->insertBlock();
+  // END SET TITLE BLUE
+  #endif
 }
 
 void KNote::slotRequestNewNote()
@@ -1260,6 +1287,14 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
   }
 
   return false;
+}
+
+void KNote::formatTitle(){
+  QTextCursor cursor(m_editor->document());
+  cursor.setPosition(0, QTextCursor::MoveAnchor);  
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  QString s=cursor.selectedText();
+  cursor.insertHtml(startTitle+s+endTitle);  
 }
 
 }// namespace knotes

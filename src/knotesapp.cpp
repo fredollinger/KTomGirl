@@ -715,23 +715,15 @@ void KNotesApp::updateStyle()
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   if (item->get_note()->is_open()) {
-	qDebug() << __PRETTY_FUNCTION__<< "note is open" << QString::fromStdString ( item->get_note()->uid() );
+	// qDebug() << __PRETTY_FUNCTION__<< "note is open" << QString::fromStdString ( item->get_note()->uid() );
 
   	showNote(QString::fromStdString ( item->get_note()->uid() ));
-	//KNote *knote = this->findChild<KNote *>(QString::fromStdString ( item->get_note()->file_path() ));
-	//knote->raise();
-	//knote->setFocus();
 	return;
   }
-  else 
-	qDebug() << __PRETTY_FUNCTION__<< "note is NOT open";
 
   const std::string abs_path = item->get_note()->file_path();
 
-  // FIXME: Need to tell whether the note is open or not
-  // if note is open the we raise window NOT opening again...
-
-  qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(abs_path);
+  // qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(abs_path);
   KCal::Journal *journal = new KCal::Journal();
 
   KNote *newNote = new KNote( item->get_note(), m_noteGUI, journal, 0);
@@ -742,7 +734,6 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   newNote->setObjectName( journal->uid() );
 
   showNote(journal->uid() );
-
 
   return;
 }

@@ -136,8 +136,7 @@ class KNote
 
     void slotRequestNewNote();
   private:
-    gnote::Note::Ptr m_gnoteptr;
-    // gnote::NoteManager *m_gnmanager;
+    void formatTitle();
     void buildGui();
     void createActions();
     void createNoteEditor();
@@ -154,6 +153,14 @@ class KNote
     void toDesktop( int desktop );
 
   private:
+    gnote::Note::Ptr m_gnoteptr;
+    // BEGIN DEPRECATED
+    // To make the title blue
+    //QTextBlock       *m_titleBlock;
+    //QTextCursor      *m_textCursor;
+    //QTextBlockFormat *m_titleFormat;
+    // END DEPRECATED
+
     QLayout       *m_noteLayout;
     QLabel        *m_label;
     QSizeGrip     *m_grip;
