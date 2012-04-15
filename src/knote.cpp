@@ -85,7 +85,7 @@ using namespace KCal;
 
 namespace knotes{
 
-static const QString startTitle = "<font color=\"Blue\" size=\"18\"><u>";
+static const QString startTitle = "<font color=\"Blue\" size=\"16\"><u>";
 static const QString endTitle = "</u></font><br>";
 
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
@@ -128,6 +128,8 @@ void KNote::slotDataChanged(const QString &qs){
   // we do this to save resources so we don't save every single note
   // that is closed only those who have changed.
   m_gnoteptr->changed();
+  getTitle();
+  formatTitle();
 }
 
 void KNote::init( const QDomDocument& buildDoc ){
@@ -1287,6 +1289,13 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
   }
 
   return false;
+}
+
+QString KNote::getTitle(){
+	QString t = m_editor->toPlainText();
+	QString str = t.section('\n', 0, 1);
+	qDebug() << __PRETTY_FUNCTION__ << str;
+	return t;
 }
 
 void KNote::formatTitle(){

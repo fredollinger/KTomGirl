@@ -66,6 +66,8 @@ class KNote
     void load_gnote();
     // void load_gnote(const std::string&);
 
+    QString getTitle(void);
+
     void changeJournal(KCal::Journal *);
     void saveData( bool update = true);
     void saveConfig() const;
