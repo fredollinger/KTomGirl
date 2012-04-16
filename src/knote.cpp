@@ -135,8 +135,8 @@ void KNote::slotDataChanged(const QString &qs){
   QString t = getTitle();
 
   // Sync title bar with title
-
-  m_label->setText(t);
+  setWindowTitle(t);
+  //m_label->setText(t);
   /* Make sure the title is blue, big, and underlined
    * and ensure that other things are not... */
   formatTitle();
