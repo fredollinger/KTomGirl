@@ -735,6 +735,10 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   showNote(journal->uid() );
 
+  // FIXME: Finish this
+  //connect( newNote, SIGNAL( sigNameChanged(QString&) ),
+	//m_searchWindow , SLOT( itemNameChanged(QString&, KTGItem*) ) );
+
   return;
 }
 

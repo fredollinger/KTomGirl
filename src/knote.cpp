@@ -88,6 +88,9 @@ namespace knotes{
 static const QString startTitle = "<font color=\"Blue\" size=\"16\"><u>";
 static const QString endTitle = "</u></font><br>";
 
+static const QString startNormal = "<font color=\"Black\" size=\"12\">";
+static const QString endNormal = "</font><br>";
+
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
 //  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
@@ -123,13 +126,29 @@ void KNote::load_gnote(){
 }
 
 void KNote::slotDataChanged(const QString &qs){
+  if (m_blockEmitDataChanged) return;
+
+  m_blockEmitDataChanged = true;
+
   qDebug() << __PRETTY_FUNCTION__ << qs;
+
+  QString t = getTitle();
+
+  // Sync title bar with title
+
+  m_label->setText(t);
+  /* Make sure the title is blue, big, and underlined
+   * and ensure that other things are not... */
+  formatTitle();
+
+  // m_gnoteptr->set_title(t.toStdString());
   // This cues the note up for a save next time it is requested
   // we do this to save resources so we don't save every single note
   // that is closed only those who have changed.
   m_gnoteptr->changed();
-  getTitle();
-  formatTitle();
+  emit sigNameChanged(t);
+
+  m_blockEmitDataChanged = false;
 }
 
 void KNote::init( const QDomDocument& buildDoc ){
@@ -1295,15 +1314,28 @@ QString KNote::getTitle(){
 	QString t = m_editor->toPlainText();
 	QString str = t.section('\n', 0, 1);
 	qDebug() << __PRETTY_FUNCTION__ << str;
-	return t;
+	return t.trimmed();
 }
 
 void KNote::formatTitle(){
   QTextCursor cursor(m_editor->document());
+
+  //BEGIN BLUE
+  /* Make the first line blue and underlined */
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
   cursor.insertHtml(startTitle+s+endTitle);  
+  //END BLUE
+
+  // BEGIN SECOND LINE
+  /* Make second line normal: sometimes we get spillover from first line 
+  cursor.setPosition(1, QTextCursor::MoveAnchor);  
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  s=cursor.selectedText();
+  cursor.insertHtml(startNormal+s+endNormal);  
+*/
+  // END SECOND LINE
 }
 
 }// namespace knotes
