@@ -736,8 +736,11 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   showNote(journal->uid() );
 
   // FIXME: Finish this
-  //connect( newNote, SIGNAL( sigNameChanged(QString&) ),
-	//m_searchWindow , SLOT( itemNameChanged(QString&, KTGItem*) ) );
+
+//home/follinge/projects/KTomGirl/src/knotesapp.cpp:740:62: error: no matching function for call to 'knotes::KNotesApp::connect(knotes::KNote*&, const char [32], ktomgirl::KTGItem*&, const char [25], Qt::ConnectionType)'
+//usr/include/qt4/QtCore/qobject.h:198:17: note: candidates are: static bool QObject::connect(const QObject*, const char*, const QObject*, const char*, Qt::ConnectionType)
+  connect( newNote, SIGNAL( sigNameChanged(const QString&) ),
+	item, SLOT( setName(const QString&)), Qt::QueuedConnection  );
 
   return;
 }

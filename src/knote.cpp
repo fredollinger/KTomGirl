@@ -130,9 +130,8 @@ void KNote::slotDataChanged(const QString &qs){
 
   m_blockEmitDataChanged = true;
 
-  qDebug() << __PRETTY_FUNCTION__ << qs;
 
-  QString t = getTitle();
+  const QString t = getTitle();
 
   // Sync title bar with title
   setWindowTitle(t);
@@ -146,6 +145,7 @@ void KNote::slotDataChanged(const QString &qs){
   // we do this to save resources so we don't save every single note
   // that is closed only those who have changed.
   m_gnoteptr->changed();
+  qDebug() << __PRETTY_FUNCTION__ << "emitting name changed" << qs;
   emit sigNameChanged(t);
 
   m_blockEmitDataChanged = false;

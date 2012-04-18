@@ -35,6 +35,8 @@ public:
   gnote::Note::Ptr get_note(void);
 private:
   const gnote::Note::Ptr &m_note;
+public slots:
+	void setName(const QString&);
 };
 } // namespace ktomgirl 
 #endif // __KTG_ITEM_HPP__

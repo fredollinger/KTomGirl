@@ -37,8 +37,6 @@ signals:
 public slots:
 	void emitNoteSelected(QTableWidgetItem*);
 
-// private slots:
-
 }; // class SearchWindow
 } // namespace ktomgirl
 #endif // SEARCH_WINDOW_H

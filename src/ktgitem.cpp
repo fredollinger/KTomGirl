@@ -22,6 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QDebug>
 #include <QTableWidget>
 #include "ktgitem.h"
 
@@ -39,6 +40,11 @@ KTGItem::~KTGItem()
 
 gnote::Note::Ptr KTGItem::get_note(){
 	return m_note;
+}
+
+void KTGItem::setName(const QString &qs){
+	qDebug() << __PRETTY_FUNCTION__;
+	setText(qs);
 }
 
 } // namespace ktomgirl
