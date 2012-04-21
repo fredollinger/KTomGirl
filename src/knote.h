@@ -32,6 +32,7 @@
 #include <KSharedConfig>
 
 #include "knoteedit.h"
+#include "ktgitem.h"
 
 #include "note.hpp"
 
@@ -47,6 +48,10 @@ class KNoteEdit;
 class KSelectAction;
 class KToggleAction;
 class KToolBar;
+
+namespace ktomgirl {
+	class KTGItem;	
+}
 
 namespace KCal {
 class Journal;
@@ -93,6 +98,7 @@ class KNote
     void sigRequestNewNote();
     void sigShowNextNote();
     void sigNameChanged(const QString &);
+    void sigNameChanged(const QString &, ktomgirl::KTGItem&);
     void sigDataChanged(const QString &);
     void sigColorChanged();
     void sigKillNote( KCal::Journal * );
