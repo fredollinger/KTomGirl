@@ -60,9 +60,14 @@ SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 }
 
 void
-SearchWindow::setItemName(const QString &old, const QString &neu){
-	qDebug() << __PRETTY_FUNCTION__<< old << neu;
-	//item.setText(new);
+SearchWindow::setItemName(const QString &neu, const QString &old){
+	
+	QList<QTableWidgetItem*> ql = tableNotes->findItems ( old, Qt::MatchExactly);
+	if (ql.count() < 1){
+		qDebug() << __PRETTY_FUNCTION__<< "ERR: no note named" <<  neu << ql.count();
+		return;
+	}
+	ql[0]->setText(neu);
 }
 
 // Thu Mar 29 19:54:15 PDT 2012

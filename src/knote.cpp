@@ -133,7 +133,6 @@ void KNote::slotDataChanged(const QString &qs){
 
   m_blockEmitDataChanged = true;
 
-
   const QString t = getTitle();
 
   // Sync title bar with title
@@ -150,7 +149,7 @@ void KNote::slotDataChanged(const QString &qs){
   m_gnoteptr->changed();
   qDebug() << __PRETTY_FUNCTION__ << "emitting name changed" << qs;
   emit sigNameChanged(t);
-  emit sigNameChanged(t, t);
+  emit sigNameChanged(t, QString::fromStdString(m_gnoteptr->get_title()) );
 
   m_blockEmitDataChanged = false;
 }
