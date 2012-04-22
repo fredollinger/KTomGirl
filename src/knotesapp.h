@@ -36,8 +36,6 @@
 
 #include "notemanager.hpp"
 
-using namespace ktomgirl;
-
 class QTcpServer;
 
 class KAction;
@@ -94,7 +92,7 @@ class KNotesApp
 
 
     void hideAllNotes() const;
-    void openNote(KTGItem*);
+    void openNote(ktomgirl::KTGItem*);
     void showAllNotes() const;
 
 
@@ -118,7 +116,7 @@ class KNotesApp
     void showNote( KNote *note ) const;
     void saveConfigs();
     gnote::NoteManager *m_gnmanager;
-    ktomgirl::SearchWindow *m_searchWindow;
+    SearchWindow *m_searchWindow;
 
   private slots:
     void acceptConnection();

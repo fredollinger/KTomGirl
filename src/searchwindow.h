@@ -13,7 +13,9 @@
 
 
 namespace ktomgirl{
-class KTGItem;
+	class KTGItem;
+}
+
 class SearchWindow : public QMainWindow, public Ui::SearchWindow
 {
 	Q_OBJECT
@@ -32,12 +34,14 @@ private:
 	QStringListModel *m_model;
 	int m_row; // current row
 signals:
-	void signalNoteSelected(KTGItem*);
+	void signalNoteSelected(ktomgirl::KTGItem*);
+
 
 public slots:
 	void emitNoteSelected(QTableWidgetItem*);
+	void setItemName(const QString&, const QString&);
+
 
 }; // class SearchWindow
-} // namespace ktomgirl
 #endif // SEARCH_WINDOW_H
 // Wed Mar 28 14:36:01 PDT 2012

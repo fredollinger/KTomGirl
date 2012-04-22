@@ -99,6 +99,7 @@ class KNote
     void sigShowNextNote();
     void sigNameChanged(const QString &);
     void sigNameChanged(const QString &, ktomgirl::KTGItem&);
+    void sigNameChanged(const QString &, const QString &);
     void sigDataChanged(const QString &);
     void sigColorChanged();
     void sigKillNote( KCal::Journal * );

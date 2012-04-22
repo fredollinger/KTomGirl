@@ -39,5 +39,6 @@ public slots:
 	void setName(const QString&);
 };
 } // namespace ktomgirl 
+//Q_DECLARE_METATYPE( ktomgirl::KTGItem );
 #endif // __KTG_ITEM_HPP__
 // Sat Apr  7 19:43:45 PDT 2012

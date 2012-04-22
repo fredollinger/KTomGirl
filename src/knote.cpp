@@ -150,6 +150,7 @@ void KNote::slotDataChanged(const QString &qs){
   m_gnoteptr->changed();
   qDebug() << __PRETTY_FUNCTION__ << "emitting name changed" << qs;
   emit sigNameChanged(t);
+  emit sigNameChanged(t, t);
 
   m_blockEmitDataChanged = false;
 }

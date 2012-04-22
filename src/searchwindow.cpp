@@ -14,7 +14,6 @@
 #include "gnote.hpp"
 #include "note.hpp"
 
-namespace ktomgirl{
 SearchWindow::SearchWindow(QWidget* pParent, const char* szName) :
 m_row(0)
 {
@@ -47,7 +46,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		qs = QString::fromStdString(note->get_title());
 		// qDebug() << __PRETTY_FUNCTION__ << qs << m_row;
 
-		KTGItem *item = new KTGItem(qs, note);
+		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
 		tableNotes->setItem ( m_row, 0, item );
 		m_row++;
 	}
@@ -56,9 +55,14 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 
 void
 SearchWindow::emitNoteSelected(QTableWidgetItem* item){
-	emit signalNoteSelected(static_cast<KTGItem*>(item));
+	emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
 
 }
 
-} // namespace ktomgirl
+void
+SearchWindow::setItemName(const QString &old, const QString &neu){
+	qDebug() << __PRETTY_FUNCTION__<< old << neu;
+	//item.setText(new);
+}
+
 // Thu Mar 29 19:54:15 PDT 2012
