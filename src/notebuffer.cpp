@@ -62,7 +62,7 @@ namespace gnote {
 // BEGIN NoteBufferArchiver::serialize()
 // This is taken almost directly from GAIM.  There must be a
 // better way to do this...
-void NoteBufferArchiver::serialize(const std::string &str)
+std::string NoteBufferArchiver::serialize(const std::string &str)
 {
     sharp::XmlWriter xml;
 
@@ -80,7 +80,11 @@ void NoteBufferArchiver::serialize(const std::string &str)
     xml.write_string(str);
 
     xml.write_end_element (); // </note-content>
-    return;
+    xml.close();
+    std::string serializedBuffer = xml.to_string();
+    // FIXME: there is some sort of attempt to ensure the endline are the
+    // same on all platforms.
+    return serializedBuffer;
 }
 // END NoteBufferArchiver::serialize()
 
