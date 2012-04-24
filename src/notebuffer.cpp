@@ -41,4 +41,47 @@ namespace gnote {
   NoteBuffer::~NoteBuffer()
   {
   }
+
+#if 0
+  std::string NoteBufferArchiver::serialize(const Glib::RefPtr<Gtk::TextBuffer> & buffer, 
+                                            const Gtk::TextIter & end)
+  {
+    sharp::XmlWriter xml;
+    
+    serialize(buffer, start, end, xml);
+    xml.close();
+    std::string serializedBuffer = xml.to_string();
+    // FIXME: there is some sort of attempt to ensure the endline are the
+    // same on all platforms.
+    return serializedBuffer;
+  }
+#endif
+
+  
+// FIXME: We do nothing yet...
+// BEGIN NoteBufferArchiver::serialize()
+// This is taken almost directly from GAIM.  There must be a
+// better way to do this...
+void NoteBufferArchiver::serialize(const std::string &str)
+{
+    sharp::XmlWriter xml;
+
+    xml.write_start_element ("", "note-content", "");
+    xml.write_attribute_string ("", "version", "", "0.1");
+    xml.write_attribute_string("xmlns",
+                               "link",
+                               "",
+                               "http://beatniksoftware.com/tomboy/link");
+    xml.write_attribute_string("xmlns",
+                               "size",
+                               "",
+                               "http://beatniksoftware.com/tomboy/size");
+
+    xml.write_string(str);
+
+    xml.write_end_element (); // </note-content>
+    return;
+}
+// END NoteBufferArchiver::serialize()
+
 } // namespace gnote

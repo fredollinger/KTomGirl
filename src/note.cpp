@@ -284,6 +284,7 @@ void Note::save(std::string text)
 	// FIXME:
 	// Save is broken and messing things up. Until we figure it out,
 	// let's just bail...
+	qDebug() << __PRETTY_FUNCTION__ << "SAVING" << QString::fromStdString(text);
 	return;
       
     // Do nothing if we don't need to save.  Avoids unneccessary saves
@@ -294,7 +295,7 @@ void Note::save(std::string text)
 	return;
     }
     else
-	qDebug() << "no save needed";
+	qDebug() << "save needed";
 */
 
 	// DBG_OUT("Saving '%s'...", m_data.data().title().c_str());
