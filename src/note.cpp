@@ -299,7 +299,7 @@ void Note::save(std::string text)
 */
 
 	// DBG_OUT("Saving '%s'...", m_data.data().title().c_str());
-	qDebug() << __PRETTY_FUNCTION__ << "SAVING" << QString::fromStdString(text);
+	//qDebug() << __PRETTY_FUNCTION__ << "SAVING" << QString::fromStdString(text);
 
 	NoteArchiver::write(m_filepath, text);
 //     m_signal_saved(shared_from_this());
@@ -714,6 +714,12 @@ void NoteDataBufferSynchronizer::synchronize_buffer()
     invalidate_text();
   }
 // END NoteDataBufferSynchronizer
+
+const NoteData & synchronized_data() const
+{
+      synchronize_text();
+      return *m_data;
+}
 
   
 } // namespace gnote

@@ -193,11 +193,14 @@ void KNoteEdit::setText( const QString& text )
 
 QString KNoteEdit::text() const
 {
+    return toPlainText();
+  /*
   if ( acceptRichText() ) {
     return toHtml();
   } else {
     return toPlainText();
   }
+ */
 }
 
 void KNoteEdit::setTextFont( const QFont &font )
