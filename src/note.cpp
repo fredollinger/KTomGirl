@@ -424,18 +424,17 @@ void Note::slotNoteChanged(const QString &qs){
 // END NOTE
 
 
+// FIXME START HERE
 // BEGIN NOTE ARCHIVER
-#if 0
-  std::string NoteArchiver::write_string(const NoteData & note)
-  {
+std::string NoteArchiver::write_string(const NoteData & note)
+{
     std::string str;
     sharp::XmlWriter xml;
     obj().write(xml, note);
     xml.close();
     str = xml.to_string();
     return str;
-  }
-#endif
+}
 
   void NoteArchiver::write(const std::string & write_file, const NoteData & data)
   {
