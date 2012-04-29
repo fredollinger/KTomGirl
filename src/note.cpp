@@ -715,11 +715,13 @@ void NoteDataBufferSynchronizer::synchronize_buffer()
   }
 // END NoteDataBufferSynchronizer
 
+/*
 const NoteData & synchronized_data() const
 {
       synchronize_text();
       return *m_data;
 }
+*/
 
   
 } // namespace gnote
