@@ -202,8 +202,9 @@ public:
 //   void slotNoteChanged(const QString&);
 // END NOTE public slots:
 
-// END NOTE private:
+// BEGIN NOTE private:
 private:
+  void write(const std::string & _write_file, const NoteData & note);
   void on_buffer_changed();
   void on_save_timeout();
   void process_child_widget_queue();
@@ -211,13 +212,14 @@ private:
   Note(NoteData * data, const std::string & filepath, NoteManager & manager);
   Note(Note*);
 
-  struct ChildWidgetData
-  {
-
-  };
+  struct ChildWidgetData{};
 
   NoteDataBufferSynchronizer m_data;
   std::string                m_filepath;
+  /* FO: I added this. I can't wrap my mind around the whole convulted mess
+   * that is NoteData and so on...
+   */
+  std::string                m_title;
   bool                       m_save_needed;
   bool                       m_is_deleting;
   NoteManager               &m_manager;

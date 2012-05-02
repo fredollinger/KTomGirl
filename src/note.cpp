@@ -281,28 +281,10 @@ void Note::save(std::string text)
 	if (m_is_deleting)
 		return;
 
-	// FIXME:
-	// Save is broken and messing things up. Until we figure it out,
-	// let's just bail...
 	qDebug() << __PRETTY_FUNCTION__ << "SAVING" << QString::fromStdString(text);
-	return;
-      
-    // Do nothing if we don't need to save.  Avoids unneccessary saves
-    // e.g on forced quit when we call save for every note.
-/*
-    if (!m_save_needed){
-	qDebug() << "no save needed";
-	return;
-    }
-    else
-	qDebug() << "save needed";
-*/
 
-	// DBG_OUT("Saving '%s'...", m_data.data().title().c_str());
-	//qDebug() << __PRETTY_FUNCTION__ << "SAVING" << QString::fromStdString(text);
+//    NoteArchiver::write(m_filepath, text);
 
-	NoteArchiver::write(m_filepath, text);
-//     m_signal_saved(shared_from_this());
 }
 // END NOTE::SAVE()
 
@@ -314,6 +296,7 @@ void Note::save(std::string text)
 
   const std::string & Note::get_title() const
   {
+    //return m_title;
     return m_data.getData().title();
   }
 
@@ -421,10 +404,31 @@ void Note::slotNoteChanged(const QString &qs){
 }
 */
 
+// BEGIN Note:set_title()
+void Note::set_title(const std::string & new_title)
+{
+    //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(new_title);
+    m_data.data().title() = new_title;
+
+    qDebug() << __PRETTY_FUNCTION__ << "title: "<< QString::fromStdString(m_data.data().title());
+    //m_title = new_title;
+    /*
+    if (m_data.data().title() != new_title) {
+
+      std::string old_title = m_data.data().title();
+      m_data.data().title() = new_title;
+
+      // FIXME: Mark note as needing to save
+      //queue_save (CONTENT_CHANGED); // TODO: Right place for this?
+    }
+    */
+}
+// END Note:set_title()
+
+
 // END NOTE
 
 
-// FIXME START HERE
 // BEGIN NOTE ARCHIVER
 std::string NoteArchiver::write_string(const NoteData & note)
 {
@@ -436,14 +440,60 @@ std::string NoteArchiver::write_string(const NoteData & note)
     return str;
 }
 
+
+// BEGIN Note::write_file()
+void Note::write(const std::string & _write_file, const NoteData & note)
+{
+    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(_write_file);
+    return;
+    #if 0
+    std::string tmp_file = _write_file + ".tmp";
+    // TODO Xml doc settings
+    sharp::XmlWriter xml(tmp_file); //, XmlEncoder::DocumentSettings);
+    write(xml, note);
+    xml.close ();
+
+    try {
+      if (boost::filesystem::exists(_write_file)) {
+        std::string backup_path = _write_file + "~";
+        if (boost::filesystem::exists(backup_path)) {
+          boost::filesystem::remove(backup_path);
+        }
+      
+        // Backup the to a ~ file, just in case
+        boost::filesystem::rename(_write_file, backup_path);
+      
+        // Move the temp file to write_file
+        boost::filesystem::rename(tmp_file, _write_file);
+
+        // Delete the ~ file
+        boost::filesystem::remove(backup_path);
+      } 
+      else {
+        // Move the temp file to write_file
+	qDebug() << "moving temp file to write file";
+        boost::filesystem::rename(tmp_file, _write_file);
+      }
+    }
+    catch(const std::exception & e)
+    {
+      ERR_OUT("filesystem error: '%s'", e.what());
+	qDebug() << "save fail";
+    }
+#endif
+}
+// END Note::write_file()
+
   void NoteArchiver::write(const std::string & write_file, const NoteData & data)
   {
     obj().write_file(write_file, data);
   }
 
+// STARTHERE
 // BEGIN NoteArchiver::write_file()
 void NoteArchiver::write_file(const std::string & _write_file, const NoteData & note)
 {
+    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(_write_file);
     std::string tmp_file = _write_file + ".tmp";
     // TODO Xml doc settings
     sharp::XmlWriter xml(tmp_file); //, XmlEncoder::DocumentSettings);
@@ -481,7 +531,8 @@ void NoteArchiver::write_file(const std::string & _write_file, const NoteData & 
 
   void NoteArchiver::write(sharp::XmlWriter & xml, const NoteData & note)
   {
-    qDebug() << __PRETTY_FUNCTION__;
+
+    qDebug() << __PRETTY_FUNCTION__ << "title: "<< QString::fromStdString(note.title());
     xml.write_start_document();
     xml.write_start_element("", "note", "http://beatniksoftware.com/tomboy");
     xml.write_attribute_string("",

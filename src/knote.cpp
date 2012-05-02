@@ -99,31 +99,31 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 //  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
     m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
-    , m_gnoteptr(gnoteptr)
+    , m_gnote(gnoteptr)
 { 
 	j->setUid(QString::fromStdString(gnoteptr->uid()));
 	init(buildDoc);
-  	m_gnoteptr->set_is_open(true);
+  	m_gnote->set_is_open(true);
 }
 
 KNote::~KNote()
 {
   qDebug() << __PRETTY_FUNCTION__ << text();
-  m_gnoteptr->set_is_open(false);
+  m_gnote->set_is_open(false);
 
   // FIXME: save before delete
   //void set_text_content(const std::string & text);
-  // m_gnoteptr->set_text_content(text().toStdString());
-  // m_gnoteptr->save();
+  // m_gnote->set_text_content(text().toStdString());
+  // m_gnote->save();
   delete m_config;
 }
 
 void KNote::load_gnote(){
-	setName(QString::fromStdString(m_gnoteptr->get_title()));
-	QString content = QString::fromStdString(m_gnoteptr->text_content());
+	setName(QString::fromStdString(m_gnote->get_title()));
+	QString content = QString::fromStdString(m_gnote->text_content());
 	setText(content);
 	formatTitle();
-	// qDebug() << __PRETTY_FUNCTION__ << " uid " << QString::fromStdString(m_gnoteptr->uid());
+	// qDebug() << __PRETTY_FUNCTION__ << " uid " << QString::fromStdString(m_gnote->uid());
 	connect( this, SIGNAL( sigDataChanged(const QString &) ),
               this, SLOT( slotDataChanged(const QString &) ) );
 }
@@ -135,6 +135,8 @@ void KNote::slotDataChanged(const QString &qs){
 
   const QString t = getTitle();
 
+  m_gnote->set_title(t.toStdString());
+
   // Sync title bar with title
   setWindowTitle(t);
   //m_label->setText(t);
@@ -142,14 +144,14 @@ void KNote::slotDataChanged(const QString &qs){
    * and ensure that other things are not... */
   formatTitle();
 
-  // m_gnoteptr->set_title(t.toStdString());
+  // m_gnote->set_title(t.toStdString());
   // This cues the note up for a save next time it is requested
   // we do this to save resources so we don't save every single note
   // that is closed only those who have changed.
-  m_gnoteptr->changed();
+  m_gnote->changed();
   qDebug() << __PRETTY_FUNCTION__ << "emitting name changed" << qs;
   emit sigNameChanged(t);
-  emit sigNameChanged(t, QString::fromStdString(m_gnoteptr->get_title()) );
+  emit sigNameChanged(t, QString::fromStdString(m_gnote->get_title()) );
 
   m_blockEmitDataChanged = false;
 }
@@ -1201,8 +1203,8 @@ void KNote::resizeEvent( QResizeEvent *qre )
 void KNote::closeEvent( QCloseEvent * event )
 {
   qDebug() << __PRETTY_FUNCTION__ << text();
-  // m_gnoteptr->set_text_content(text().toStdString());
-  m_gnoteptr->save(text().toStdString());
+  // m_gnote->set_text_content(text().toStdString());
+  m_gnote->save(text().toStdString());
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
   slotClose();
 }
@@ -1317,7 +1319,7 @@ QString KNote::getTitle(){
 	QString t = m_editor->toPlainText();
 	QString str = t.section('\n', 0, 1);
 	qDebug() << __PRETTY_FUNCTION__ << str;
-	return t.trimmed();
+	return str.trimmed();
 }
 
 void KNote::formatTitle(){
@@ -1342,4 +1344,4 @@ void KNote::formatTitle(){
 }
 
 }// namespace knotes
-// Sat Mar 17 20:19:36 PDT 2012
+// Sun Apr 29 15:05:32 PDT 2012

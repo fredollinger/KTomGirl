@@ -162,7 +162,7 @@ class KNote
     void toDesktop( int desktop );
 
   private:
-    gnote::Note::Ptr m_gnoteptr;
+    gnote::Note::Ptr m_gnote;
     // BEGIN DEPRECATED
     // To make the title blue
     //QTextBlock       *m_titleBlock;
