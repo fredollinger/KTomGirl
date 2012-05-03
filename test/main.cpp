@@ -26,10 +26,14 @@
 
 int main( int argc, char *argv[] )
 {
- QApplication app(argc, argv);
-  // Create Application
-  gnote::NoteManager *nm = new gnote::NoteManager();
-  gnote::Note::List m_notes = nm->get_notes();
+	QApplication app(argc, argv);
+	gnote::NoteManager *nm = new gnote::NoteManager();
+	gnote::Note::List m_notes = nm->get_notes();
 
-  return app.exec();
+	// open a specific note and get output into qstring
+	// save note into new qstring
+	// compare the two, they should be the same
+	// quit somehow
+
+	return app.exec();
 }
