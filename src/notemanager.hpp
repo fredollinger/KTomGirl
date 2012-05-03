@@ -43,23 +43,16 @@ class NoteManager : public QWidget
 Q_OBJECT
 // BEGIN PUBLIC
 public:
-    //typedef std::tr1::shared_ptr<NoteManager> Ptr;
     typedef QSharedPointer<NoteManager> Ptr;
-    // typedef sigc::signal<void, const Note::Ptr &> ChangedHandler;
-    //typedef sigc::slot<void, const Note::Ptr &> NoteChangedSlot;
     
     NoteManager(const std::string & directory, const std::string & backup);
     NoteManager();
-    //NoteManager(const std::string & ,
-     //           const NoteChangedSlot & start_created = NoteChangedSlot() );
-    //NoteManager(const std::string & directory, const std::string & backup,
-      //          const NoteChangedSlot & start_created = NoteChangedSlot());
     ~NoteManager();
 
-    Note::Ptr create_new_note (const QString&);
+    //Note::Ptr create_new_note (const QString&);
+    Note::Ptr create_new_note (const std::string &);
     Note::Ptr load_note(const std::string & file_path);
 
-    //void on_setting_changed(Preferences*, GConfEntry*);
     const Note::List & get_notes() const
       { 
         return m_notes;
@@ -67,7 +60,6 @@ public:
 
     // the trie for the note names
     size_t trie_max_length();
-    // TrieHit<Note::WeakPtr>::ListPtr find_trie_matches(const std::string &);
 
     AddinManager & get_addin_manager()
       {
@@ -95,16 +87,6 @@ public:
     Note::Ptr get_or_create_template_note();
     static std::string get_note_template_content(const std::string & title);
     static std::string split_title_from_content (std::string title, std::string & body);
-
-    //ChangedHandler signal_note_deleted;
-    //ChangedHandler signal_note_added;
-    /** this signal is emitted when the start note has been created
-     *  This is supposed to happen once in a life time *sigh*
-     *  This to avoid relying a the Gnote class for that.
-     */
-
-//    Note::RenamedHandler   signal_note_renamed;
- //   Note::SavedHandler     signal_note_saved;
 // END PUBLIC
 
 signals:

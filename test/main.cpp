@@ -18,11 +18,18 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *******************************************************************/
 
+#include "../src/notemanager.hpp"
 #include "../src/version.h"
-#include "../src/knote.h"
-#include <QDebug>
-#include <QWidget>
+
+
+#include <QApplication>
 
 int main( int argc, char *argv[] )
 {
+ QApplication app(argc, argv);
+  // Create Application
+  gnote::NoteManager *nm = new gnote::NoteManager();
+  gnote::Note::List m_notes = nm->get_notes();
+
+  return app.exec();
 }

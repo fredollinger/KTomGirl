@@ -19,7 +19,7 @@
 
 #include <iostream>
 
-#include <QString>
+//#include <QString>
 #include <QDebug>
 
 #include <string.h>
@@ -135,7 +135,7 @@ void NoteManager::_common_init(const std::string & directory, const std::string 
 // note if it exists.  If the "New Note Template" body is found
 // the text will not automatically be highlighted.
 // Note::Ptr NoteManager::create_new_note (std::string title, const std::string & guid)
-Note::Ptr NoteManager::create_new_note (const QString & qs)
+Note::Ptr NoteManager::create_new_note (const std::string &qs)
 {
 	qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub";
 	Note::Ptr new_note; // FIXME: remove this stub
@@ -185,8 +185,8 @@ void NoteManager::load_notes()
         add_note(note);
       } 
       catch (const std::exception & e) {
-        ERR_OUT("Error parsing note XML, skipping \"%s\": %s",
-                file_path.c_str(), e.what());
+        //ERR_OUT("Error parsing note XML, skipping \"%s\": %s",
+                //file_path.c_str(), e.what());
       }
       std::cout << "adding note: " << file_path;
     }

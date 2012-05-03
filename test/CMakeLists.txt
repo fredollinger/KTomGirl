@@ -25,6 +25,9 @@ main.cpp
 ../src/sharp.cpp
 ../src/notebuffer.cpp
 ../src/note.cpp
+../src/gnote.cpp
+../src/preferences.cpp
+../src/notemanager.cpp
 )
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS})
