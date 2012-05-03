@@ -524,7 +524,7 @@ void NoteArchiver::write_file(const std::string & _write_file, const NoteData & 
     }
     catch(const std::exception & e)
     {
-      ERR_OUT("filesystem error: '%s'", e.what());
+      //ERR_OUT("filesystem error: '%s'", e.what());
 	qDebug() << "save fail";
     }
   }

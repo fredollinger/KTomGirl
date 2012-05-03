@@ -189,7 +189,7 @@ namespace sharp {
   {
     XmlReader* self = (XmlReader*)arg;
     self->m_error = true;
-    ERR_OUT("XML error %s", msg ? msg : "unknown parse error");
+    // ERR_OUT("XML error %s", msg ? msg : "unknown parse error");
   }
 
 }
