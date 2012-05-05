@@ -107,7 +107,8 @@ const NoteData & getData() const
 private:
   void invalidate_text();
   bool is_text_invalid() const;
-  void synchronize_text(std::string&) const;
+  //void synchronize_text(std::string&) const;
+  // synchronize xml version of text w/ plain text version
   void synchronize_buffer();
   void buffer_changed();
 

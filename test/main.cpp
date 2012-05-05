@@ -20,6 +20,7 @@
 
 #include "../src/notemanager.hpp"
 #include "../src/notedata.hpp"
+#include "../src/notebuffer.hpp"
 #include "../src/version.h"
 
 
@@ -34,12 +35,17 @@ int main( int argc, char *argv[] )
 
 	QString qs = "new_title\nsome shit";
 
+	/*
 	notes[0]->set_title("new_title");
 	notes[0]->set_text_content(qs.toStdString() );
 
 	qDebug() << QString::fromStdString(notes[0]->get_title());
 	qDebug() << QString::fromStdString(notes[0]->text_content_plain());
+	*/
+
+	qDebug() << QString::fromStdString(gnote::NoteBufferArchiver::serialize(qs.toStdString()));	
 	//qDebug() << QString::fromStdString(notes[0]->get_text());
 
 	return app.exec();
 }
+// Sat May  5 10:26:49 PDT 2012

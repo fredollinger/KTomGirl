@@ -96,7 +96,7 @@ private:
 class NoteBufferArchiver
 {
 public:
-	std::string serialize(const std::string&);
+	static std::string serialize(const std::string&);
 
 };
 

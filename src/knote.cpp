@@ -114,6 +114,7 @@ KNote::~KNote()
   // FIXME: save before delete
   //void set_text_content(const std::string & text);
   // m_gnote->set_text_content(text().toStdString());
+  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
   m_gnote->save();
   delete m_config;
 }

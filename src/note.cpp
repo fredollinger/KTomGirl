@@ -38,6 +38,7 @@
 #include "debug.hpp"
 #include "files.hpp"
 #include "note.hpp"
+#include "notebuffer.hpp"
 #include "tag.hpp"
 #include "string.hpp"
 #include "datetime.hpp"
@@ -89,6 +90,7 @@ class NoteData
 /* This holds the actual data, text, and on on of the note */
   public:
     NoteData(const std::string & _uri);
+    std::string       m_text;
 
     const std::string & full_path() const
       {
@@ -204,7 +206,6 @@ class NoteData
   private:
     const std::string m_uri;
     std::string       m_title;
-    std::string       m_text;
     std::string       m_full_path; // full path to the note
     sharp::DateTime             m_create_date;
     sharp::DateTime             m_change_date;
@@ -572,7 +573,8 @@ void NoteArchiver::write(sharp::XmlWriter & xml, const NoteData & note)
     xml.write_attribute_string ("xml", "space", "", "preserve");
     // Insert <note-content> blob... BLOB
     // FIXME: let's eventually try to get this to work:
-    xml.write_raw (note.text());
+
+   xml.write_raw (NoteBufferArchiver::serialize(note.text()));
     // for now we'll do this...
     //xml.write_raw (note.text_plain());
 
@@ -748,7 +750,9 @@ NoteData *NoteArchiver::_read(const std::string & read_file, const std::string &
 
   const std::string & NoteDataBufferSynchronizer::text()
   {
-    // synchronize_text();
+    //synchronize_text();
+
+    //return NoteBufferArchiver::serialize(m_data->text());
     return m_data->text();
   }
 
@@ -808,6 +812,18 @@ void Note::set_text(const std::string & t)
     //synchronize_buffer();
 }
 #endif
+
+//void NoteDataBufferSynchronizer::synchronize_text() const
+//      m_data->text() = NoteBufferArchiver::serialize(m_data->text());
+/*
+  {
+    if(is_text_invalid() && m_buffer) {
+      m_data->text() = NoteBufferArchiver::serialize(m_buffer);
+    }
+*/
+    	//m_text = NoteBufferArchiver::serialize(s);
+    	//m_text = NoteBufferArchiver::serialize(neu);
+ //   }
 
   
 } // namespace gnote
