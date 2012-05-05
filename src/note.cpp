@@ -380,6 +380,15 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
 }
 // END PARSE_TAGS
 
+// FIXME: We need to get rid of this, we will turn the qtextedit content
+// which is html into the form of xml used in the tomboy spec for text
+// so we can have things like lists and bolded text and so on
+// this is down the road. When we get there, get rid of this...
+std::string Note::text_content_plain(){
+    	qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(m_text_content);
+	return m_text_content;
+}
+
 std::string Note::text_content()
 {
 
@@ -395,7 +404,10 @@ std::string Note::text_content()
 
   void Note::set_text_content(const std::string & text)
   {
+    m_data.data().text() = text;
     m_text_content = text;
+    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(m_text_content);
+    //m_buffer->set_text(text);
     return;
   }
 
@@ -532,8 +544,9 @@ void NoteArchiver::write_file(const std::string & _write_file, const NoteData & 
     }
   }
 
-  void NoteArchiver::write(sharp::XmlWriter & xml, const NoteData & note)
-  {
+// BEGIN NOTEARCHIVER::WRITE
+void NoteArchiver::write(sharp::XmlWriter & xml, const NoteData & note)
+{
 
     qDebug() << __PRETTY_FUNCTION__ << "title: "<< QString::fromStdString(note.title());
     xml.write_start_document();
@@ -557,8 +570,12 @@ void NoteArchiver::write_file(const std::string & _write_file, const NoteData & 
 
     xml.write_start_element ("", "text", "");
     xml.write_attribute_string ("xml", "space", "", "preserve");
-    // Insert <note-content> blob...
+    // Insert <note-content> blob... BLOB
+    // FIXME: let's eventually try to get this to work:
     xml.write_raw (note.text());
+    // for now we'll do this...
+    //xml.write_raw (note.text_plain());
+
     xml.write_end_element ();
 
     xml.write_start_element ("", "last-change-date", "");
@@ -619,7 +636,7 @@ void NoteArchiver::write_file(const std::string & _write_file, const NoteData & 
     xml.write_end_document();
 
 }
-// END NoteArchiver::write_file()
+// END WRITE()
  
   const char *NoteArchiver::CURRENT_VERSION = "0.3";
 //  const char *NoteArchiver::DATE_TIME_FORMAT = "%Y-%m-%dT%T.@7f@%z"; //"yyyy-MM-ddTHH:mm:ss.fffffffzzz";
@@ -779,17 +796,18 @@ const NoteData & synchronized_data() const
   
 void Note::save()
 {
-	qDebug() << __PRETTY_FUNCTION__ << "SAVING";
-//    try {
+      qDebug() << __PRETTY_FUNCTION__ << "SAVING";
       NoteArchiver::write(m_filepath, m_data.synchronized_data());
- //   } 
-
-  //  catch (const sharp::Exception & e) {
-      // Probably IOException or UnauthorizedAccessException?
-      //ERR_OUT("Exception while saving note: %s", e.what());
-      //show_io_error_dialog(m_window);
-   // }
 }
+
+
+#if 0
+void Note::set_text(const std::string & t)
+{
+    m_data->text() = t;
+    //synchronize_buffer();
+}
+#endif
 
   
 } // namespace gnote

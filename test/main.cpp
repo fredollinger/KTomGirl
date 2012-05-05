@@ -19,6 +19,7 @@
 *******************************************************************/
 
 #include "../src/notemanager.hpp"
+#include "../src/notedata.hpp"
 #include "../src/version.h"
 
 
@@ -31,22 +32,14 @@ int main( int argc, char *argv[] )
 	gnote::NoteManager *nm = new gnote::NoteManager();
 	gnote::Note::List notes = nm->get_notes();
 
-	#if 0
-	for(gnote::Note::List::const_iterator iter = notes.begin();
-		iter != notes.end(); ++iter) {
-		const gnote::Note::Ptr & note(*iter);
-		qDebug() << QString::fromStdString(note->get_title());
-		qDebug() << QString::fromStdString(note->file_path());
-	}
-	#endif
+	QString qs = "new_title\nsome shit";
+
 	notes[0]->set_title("new_title");
+	notes[0]->set_text_content(qs.toStdString() );
+
 	qDebug() << QString::fromStdString(notes[0]->get_title());
-	qDebug() << QString::fromStdString(notes[0]->file_path());
-	notes[0]->save();
-	// open a specific note and get output into qstring
-	// save note into new qstring
-	// compare the two, they should be the same
-	// quit somehow
+	qDebug() << QString::fromStdString(notes[0]->text_content_plain());
+	//qDebug() << QString::fromStdString(notes[0]->get_text());
 
 	return app.exec();
 }

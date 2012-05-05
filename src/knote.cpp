@@ -129,12 +129,13 @@ void KNote::load_gnote(){
 }
 
 void KNote::slotDataChanged(const QString &qs){
+
+   qDebug() << __PRETTY_FUNCTION__ << qs;
   if (m_blockEmitDataChanged) return;
 
   m_blockEmitDataChanged = true;
 
   const QString t = getTitle();
-
 
   // Sync title bar with title
   setWindowTitle(t);
@@ -148,10 +149,9 @@ void KNote::slotDataChanged(const QString &qs){
   // we do this to save resources so we don't save every single note
   // that is closed only those who have changed.
   m_gnote->changed();
-  qDebug() << __PRETTY_FUNCTION__ << "emitting name changed" << qs;
+  //qDebug() << __PRETTY_FUNCTION__ << "emitting name changed" << qs;
   emit sigNameChanged(t, QString::fromStdString(m_gnote->get_title()) );
-  //m_gnote->set_title(t.toStdString());
-  emit sigNameChanged(t);
+  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
 
   m_blockEmitDataChanged = false;
 }

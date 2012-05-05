@@ -173,6 +173,7 @@ public:
   std::string get_complete_note_xml();
   void load_foreign_note_xml(const std::string & foreignNoteXml, ChangeType changeType);
   std::string text_content();
+  std::string text_content_plain();
   const NoteData & data() const;
   NoteData & data();
 

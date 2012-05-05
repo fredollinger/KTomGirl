@@ -34,6 +34,7 @@ bool NoteData::has_position()
     return (m_x != s_noPosition) && (m_y != s_noPosition);
 }
 
+
 bool NoteData::has_extent()
 {
     return (m_width != 0) && (m_height != 0);
