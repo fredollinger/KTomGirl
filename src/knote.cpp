@@ -114,7 +114,7 @@ KNote::~KNote()
   // FIXME: save before delete
   //void set_text_content(const std::string & text);
   // m_gnote->set_text_content(text().toStdString());
-  // m_gnote->save();
+  m_gnote->save();
   delete m_config;
 }
 
@@ -135,7 +135,6 @@ void KNote::slotDataChanged(const QString &qs){
 
   const QString t = getTitle();
 
-  m_gnote->set_title(t.toStdString());
 
   // Sync title bar with title
   setWindowTitle(t);
@@ -150,8 +149,9 @@ void KNote::slotDataChanged(const QString &qs){
   // that is closed only those who have changed.
   m_gnote->changed();
   qDebug() << __PRETTY_FUNCTION__ << "emitting name changed" << qs;
-  emit sigNameChanged(t);
   emit sigNameChanged(t, QString::fromStdString(m_gnote->get_title()) );
+  //m_gnote->set_title(t.toStdString());
+  emit sigNameChanged(t);
 
   m_blockEmitDataChanged = false;
 }

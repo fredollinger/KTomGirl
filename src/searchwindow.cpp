@@ -68,6 +68,7 @@ SearchWindow::setItemName(const QString &neu, const QString &old){
 		return;
 	}
 	ql[0]->setText(neu);
+	//ql[0]->get_note()->set_title(neu);
+	static_cast<ktomgirl::KTGItem*>(ql[0])->get_note()->set_title(neu.toStdString());
 }
-
-// Thu Mar 29 19:54:15 PDT 2012
+// Fri May  4 20:24:40 PDT 2012

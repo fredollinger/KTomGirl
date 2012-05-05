@@ -432,6 +432,7 @@ void Note::set_title(const std::string & new_title)
 // BEGIN NOTE ARCHIVER
 std::string NoteArchiver::write_string(const NoteData & note)
 {
+    qDebug() << __PRETTY_FUNCTION__;
     std::string str;
     sharp::XmlWriter xml;
     obj().write(xml, note);
@@ -630,7 +631,7 @@ void NoteArchiver::write_file(const std::string & _write_file, const NoteData & 
 // BEGIN NoteArchiver::_read()
 NoteData *NoteArchiver::_read(const std::string & read_file, const std::string & uri)
 {
-    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(read_file);
+    //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(read_file);
     NoteData *note = new NoteData(uri);
     std::string version;
 
@@ -772,6 +773,20 @@ const NoteData & synchronized_data() const
       return *m_data;
 }
 */
+
+  
+ void Note::save()
+ {
+//    try {
+      NoteArchiver::write(m_filepath, m_data.synchronized_data());
+ //   } 
+
+  //  catch (const sharp::Exception & e) {
+      // Probably IOException or UnauthorizedAccessException?
+      //ERR_OUT("Exception while saving note: %s", e.what());
+      //show_io_error_dialog(m_window);
+   // }
+}
 
   
 } // namespace gnote
