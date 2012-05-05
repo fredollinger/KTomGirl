@@ -1204,7 +1204,8 @@ void KNote::closeEvent( QCloseEvent * event )
 {
   qDebug() << __PRETTY_FUNCTION__ << text();
   // m_gnote->set_text_content(text().toStdString());
-  m_gnote->save(text().toStdString());
+  //m_gnote->save(text().toStdString());
+  m_gnote->save();
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
   slotClose();
 }

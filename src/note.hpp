@@ -149,7 +149,7 @@ public:
                                         NoteManager & manager);
   void delete_note();
   static Note::Ptr load(const std::string &, NoteManager &);
-  void save(std::string);
+  //void save(std::string);
   void save();
   void queue_save(ChangeType c);
 

@@ -273,6 +273,7 @@ void Note::changed(){
     m_save_needed = true;
 }
 
+#if 0
 // BEGIN NOTE::SAVE()
 void Note::save(std::string text)
 {
@@ -287,6 +288,7 @@ void Note::save(std::string text)
 
 }
 // END NOTE::SAVE()
+#endif
 
   const std::string & Note::uri() const
   {
@@ -775,8 +777,9 @@ const NoteData & synchronized_data() const
 */
 
   
- void Note::save()
- {
+void Note::save()
+{
+	qDebug() << __PRETTY_FUNCTION__ << "SAVING";
 //    try {
       NoteArchiver::write(m_filepath, m_data.synchronized_data());
  //   } 
