@@ -30,18 +30,14 @@ m_row(0)
 	tableNotes->verticalHeader()->setVisible(false);
 	tableNotes->setShowGrid(false);
 
-	// setStringList(0, m_list, tableNotes, gnote::Gnote::tomboy_data_dir() );
  	connect (tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
 }
 
 SearchWindow::~SearchWindow()
 {
-
 }
 
-// FIXME: NOT DONE
 void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
-	// qDebug() << __PRETTY_FUNCTION__;
 	QString qs;
         
 	for(gnote::Note::List::const_iterator iter = notesCopy.begin();
@@ -49,7 +45,6 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 
 		const gnote::Note::Ptr & note(*iter);
 		qs = QString::fromStdString(note->get_title());
-		// qDebug() << __PRETTY_FUNCTION__ << qs << m_row;
 
 		// BEGIN ITEM ONE
 		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
@@ -64,8 +59,6 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		tableNotes->setItem ( m_row, 1, item );
 		// END ITEM TWO
 
-		
-
 		m_row++;
 	}
 	tableNotes->setRowCount(m_row);
@@ -75,7 +68,6 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 void
 SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 	emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
-
 }
 
 void
@@ -87,7 +79,6 @@ SearchWindow::setItemName(const QString &neu, const QString &old){
 		return;
 	}
 	ql[0]->setText(neu);
-	//ql[0]->get_note()->set_title(neu);
 	static_cast<ktomgirl::KTGItem*>(ql[0])->get_note()->set_title(neu.toStdString());
 }
 // Sun May  6 10:11:19 PDT 2012
