@@ -23,7 +23,12 @@ m_row(0)
 
 	setupUi(this);
 	tableNotes->setRowCount(m_list.count()+1);
-	tableNotes->setColumnCount(10);
+	tableNotes->setColumnCount(2);
+	QStringList qsl; 
+	qsl << "Note" << "Last Changed";
+	tableNotes->setHorizontalHeaderLabels(qsl);
+	tableNotes->verticalHeader()->setVisible(false);
+	tableNotes->setShowGrid(false);
 
 	// setStringList(0, m_list, tableNotes, gnote::Gnote::tomboy_data_dir() );
  	connect (tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
