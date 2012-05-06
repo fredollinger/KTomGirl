@@ -226,5 +226,11 @@ std::string NoteManager::make_new_file_name(const std::string & guid) const
 	return m_notes_dir + "/" + guid + ".note";
 }
 
+bool NoteManager::first_run() const
+{
+    return QDir(QString::fromStdString(m_notes_dir)).exists();
+    // return !directory_exists(m_notes_dir);
+}
+
 } // namespace gnote
-// Sat Apr 14 13:43:31 PDT 2012
+// Sat May  5 21:39:13 PDT 2012
