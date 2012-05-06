@@ -51,9 +51,20 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		qs = QString::fromStdString(note->get_title());
 		// qDebug() << __PRETTY_FUNCTION__ << qs << m_row;
 
+		// BEGIN ITEM ONE
 		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
 		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 		tableNotes->setItem ( m_row, 0, item );
+		// END ITEM ONE
+
+		// BEGIN ITEM TWO
+		qs = "";
+		item = new ktomgirl::KTGItem(qs, note);
+		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
+		tableNotes->setItem ( m_row, 1, item );
+		// END ITEM TWO
+
+		
 
 		m_row++;
 	}
