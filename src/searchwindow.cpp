@@ -52,7 +52,9 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		// qDebug() << __PRETTY_FUNCTION__ << qs << m_row;
 
 		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
+		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 		tableNotes->setItem ( m_row, 0, item );
+
 		m_row++;
 	}
 	tableNotes->setRowCount(m_row);
@@ -77,4 +79,4 @@ SearchWindow::setItemName(const QString &neu, const QString &old){
 	//ql[0]->get_note()->set_title(neu);
 	static_cast<ktomgirl::KTGItem*>(ql[0])->get_note()->set_title(neu.toStdString());
 }
-// Fri May  4 20:24:40 PDT 2012
+// Sun May  6 10:11:19 PDT 2012
