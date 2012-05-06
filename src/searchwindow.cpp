@@ -22,7 +22,7 @@ m_row(0)
 	m_list << gnote::Gnote::get_note_list();
 
 	setupUi(this);
-	tableNotes->setRowCount(m_list.count()+100);
+	tableNotes->setRowCount(m_list.count()+1);
 	tableNotes->setColumnCount(10);
 
 	// setStringList(0, m_list, tableNotes, gnote::Gnote::tomboy_data_dir() );
@@ -50,6 +50,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		tableNotes->setItem ( m_row, 0, item );
 		m_row++;
 	}
+	tableNotes->setRowCount(m_row);
 	return;
 }
 
