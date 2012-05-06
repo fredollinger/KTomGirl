@@ -28,35 +28,16 @@
 
 #include <boost/format.hpp>
 
+#include "actionmanager.hpp"
 #include "ktglib.hpp"
 #include "note.hpp"
-#include "actionmanager.hpp"
+#include "gnote.hpp"
 
 #include <QDebug>
 #include <QDir>
 #include <QSettings>
 #include <QString>
 
-#if 0
-#undef HAVE_PANELAPPLETMM
-#if HAVE_PANELAPPLETMM
-#include <libpanelappletmm/init.h>
-#endif
-#endif
-
-#include "gnote.hpp"
-// #include "actionmanager.hpp"
-
-#if 0
-#if HAVE_PANELAPPLETMM
-#include "applet.hpp"
-#endif
-
-#if ENABLE_DBUS
-#include "remotecontrolproxy.hpp"
-#include "dbus/remotecontrolclient.hpp"
-#endif
-#endif
 
 namespace gnote {
 
@@ -64,7 +45,6 @@ namespace gnote {
 
   Gnote::Gnote()
     : m_manager(NULL)
-    // , m_keybinder(NULL)
     , m_is_panel_applet(false)
     , m_prefsdlg(NULL)
   {
@@ -74,8 +54,6 @@ namespace gnote {
   Gnote::~Gnote()
   {
     delete m_prefsdlg;
-    // delete m_manager;
-    // delete m_keybinder;
   }
 
 
@@ -94,30 +72,8 @@ int Gnote::main(int argc, char **argv)
     }
 #endif
 
-    // m_icon_theme = Gtk::IconTheme::get_default();
-    //m_icon_theme->append_search_path(DATADIR"/icons");
-    //m_icon_theme->append_search_path(DATADIR"/gnote/icons");
-
-    // std::string note_path = get_note_path(cmd_line.note_path());
-    // m_manager = new NoteManager(note_path, sigc::mem_fun(*this, &Gnote::start_note_created));
-    // m_keybinder = new XKeybinder();
-
-    // TODO
-    // SyncManager::init()
-
     ActionManager & am(ActionManager::obj());
     am.load_interface();
-    // register_remote_control(*m_manager);
-    // setup_global_actions();
-    
-    #if 0
-    std::list<ApplicationAddin*> addins;
-    m_manager->get_addin_manager().get_application_addins(addins);
-    for(std::list<ApplicationAddin*>::const_iterator iter = addins.begin();
-        iter != addins.end(); ++iter) {
-      (*iter)->initialize();
-    }
-    #endif
 
 #ifndef ENABLE_DBUS
     if(cmd_line.needs_execute()) {
@@ -128,19 +84,6 @@ int Gnote::main(int argc, char **argv)
     if(m_is_panel_applet) {
       qDebug () << "starting applet";
       s_tray_icon_showing = true;
-
- 	/*
-      am["CloseWindowAction"]->set_visible(true);
-      am["QuitGNoteAction"]->set_visible(false);
-	*/
-      
-      // register panel applet factory
-
-#if 0
-      Gnome::Panel::init("gnote", VERSION, argc, argv);
-
-      panel::register_applet();
-#endif
       return 0;
 
     }
