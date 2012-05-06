@@ -45,6 +45,7 @@ Q_OBJECT
 public:
     typedef QSharedPointer<NoteManager> Ptr;
     
+    bool first_run() const;
     NoteManager(const std::string & directory, const std::string & backup);
     NoteManager();
     ~NoteManager();
@@ -100,7 +101,6 @@ private:
     bool create_directory(const std::string & directory) const;
     void on_note_rename(const Note::Ptr & note, const std::string & old_title);
     void create_start_notes();
-    bool first_run() const;
     void on_note_save(const Note::Ptr & note);
     void load_notes();
     void post_load();

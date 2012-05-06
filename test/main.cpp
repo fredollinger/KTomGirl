@@ -42,8 +42,9 @@ int main( int argc, char *argv[] )
 	qDebug() << QString::fromStdString(notes[0]->get_title());
 	qDebug() << QString::fromStdString(notes[0]->text_content_plain());
 	*/
+	qDebug() << nm->first_run();
 
-	qDebug() << QString::fromStdString(gnote::NoteBufferArchiver::serialize(qs.toStdString()));	
+	//qDebug() << QString::fromStdString(gnote::NoteBufferArchiver::serialize(qs.toStdString()));	
 	//qDebug() << QString::fromStdString(notes[0]->get_text());
 
 	return app.exec();
