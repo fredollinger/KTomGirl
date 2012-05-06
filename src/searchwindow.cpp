@@ -30,6 +30,11 @@ m_row(0)
 	tableNotes->verticalHeader()->setVisible(false);
 	tableNotes->setShowGrid(false);
 
+	qsl.clear();
+	qsl << "Notebooks";
+	tableNotebooks->setHorizontalHeaderLabels(qsl);
+	tableNotebooks->horizontalHeader()->setVisible(true);
+
  	connect (tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
 }
 

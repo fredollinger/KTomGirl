@@ -50,6 +50,8 @@ public:
     NoteManager();
     ~NoteManager();
 
+    void create_notes_dir(void) const;
+
     //Note::Ptr create_new_note (const QString&);
     Note::Ptr create_new_note (const std::string &);
     Note::Ptr load_note(const std::string & file_path);
@@ -96,6 +98,7 @@ signals:
 	void signal_note_renamed(void);
 	void signal_note_saved(void);
     	void m_signal_start_note_created(void);
+
 
 private:
     bool create_directory(const std::string & directory) const;

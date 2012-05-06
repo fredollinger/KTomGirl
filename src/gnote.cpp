@@ -118,7 +118,11 @@ bool gnote::GnoteCommandLine::needs_execute() const{
 
 std::string Gnote::data_dir()
 {
-	return KTGlib::get_user_data_dir().toStdString() + "/tomboy";
+	return KTGlib::get_user_data_dir().toStdString() + "/ktomgirl";
+}
+
+QString Gnote::gnote_data_dir(){
+	return KTGlib::get_user_data_dir() + "/gnote";
 }
 
 // get the data dir for tomboy

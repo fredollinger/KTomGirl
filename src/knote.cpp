@@ -892,47 +892,6 @@ void KNote::createNoteFooter()
 
 void KNote::prepare()
 {
-  // the config file location
-  // const QString configFile = KGlobal::dirs()->saveLocation( "appdata", "notes/" ) + m_journal->uid();
-
-  // no config file yet? -> use the default display config if available
-  // we want to write to configFile, so use "false"
-  // const bool newNote = !KIO::NetAccess::exists( KUrl( configFile ),
-                                          //KIO::NetAccess::DestinationSide, 0 );
-
-  #if 0
-  m_config = new KNoteConfig( KSharedConfig::openConfig( configFile,
-                                                         KConfig::NoGlobals ) );
-  m_config->readConfig();
-  m_config->setVersion( KNOTES_VERSION );
-
-  if ( newNote ) {
-    // until kdelibs provides copying of KConfigSkeletons (KDE 3.4)
-    KNotesGlobalConfig *globalConfig = KNotesGlobalConfig::self();
-    m_config->setBgColor( globalConfig->bgColor() );
-    m_config->setFgColor( globalConfig->fgColor() );
-    m_config->setWidth( globalConfig->width() );
-    m_config->setHeight( globalConfig->height() );
-
-    m_config->setFont( globalConfig->font() );
-    m_config->setTitleFont( globalConfig->titleFont() );
-    m_config->setAutoIndent( globalConfig->autoIndent() );
-    m_config->setRichText( globalConfig->richText() );
-    m_config->setTabSize( globalConfig->tabSize() );
-    m_config->setReadOnly( globalConfig->readOnly() );
-
-    m_config->setDesktop( globalConfig->desktop() );
-    m_config->setHideNote( globalConfig->hideNote() );
-    m_config->setPosition( globalConfig->position() );
-    m_config->setShowInTaskbar( globalConfig->showInTaskbar() );
-    m_config->setRememberDesktop( globalConfig->rememberDesktop() );
-    m_config->setKeepAbove( globalConfig->keepAbove() );
-    m_config->setKeepBelow( globalConfig->keepBelow() );
-
-    m_config->writeConfig();
-  }
-  #endif
-
   // set up the look&feel of the note
   setFrameStyle( Panel | Raised );
   setMinimumSize( 20, 20 );

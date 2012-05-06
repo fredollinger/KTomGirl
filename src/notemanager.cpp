@@ -73,12 +73,13 @@ void NoteManager::_common_init(const std::string & directory, const std::string 
     m_notes_dir = directory;
     m_backup_dir = backup_directory;
 
+    create_notes_dir ();
+
     // FIXME: We need to re-implement first run jazz...eventually...first:
     load_notes ();
 
 #if 0
     bool is_first_run = first_run ();
-    create_notes_dir ();
 
     const std::string old_note_dir = Gnote::old_note_dir();
     const bool migration_needed
@@ -171,7 +172,7 @@ Note::Ptr NoteManager::create_new_note (const std::string &qs)
 // BEGIN LOAD_NOTES
 void NoteManager::load_notes()
 {
-    qDebug() << __PRETTY_FUNCTION__;
+    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(m_notes_dir);
     std::list<std::string> files;
     sharp::directory_get_files_with_ext(m_notes_dir, ".note", files);
 
@@ -229,8 +230,31 @@ std::string NoteManager::make_new_file_name(const std::string & guid) const
 bool NoteManager::first_run() const
 {
     return QDir(QString::fromStdString(m_notes_dir)).exists();
-    // return !directory_exists(m_notes_dir);
 }
+
+// Create the notes directory if it doesn't exist yet.
+void NoteManager::create_notes_dir() const
+{
+
+    if (QDir(QString::fromStdString(m_notes_dir)).exists()){
+//    if (!directory_exists(m_notes_dir)) 
+      // First run. Create storage directory.
+ 	create_directory(m_notes_dir);
+//	QDir::mkdir(QString::fromStdString(m_notes_dir));
+    }
+    //if (!directory_exists(m_backup_dir)) {
+    if (QDir(QString::fromStdString(m_backup_dir)).exists()){
+      create_directory(m_backup_dir);
+    }
+}
+
+// For overriding in test methods.
+bool NoteManager::create_directory(const std::string & directory) const
+{
+    boost::filesystem::path p(directory);
+    return boost::filesystem::create_directory(p);
+}
+ 
 
 } // namespace gnote
 // Sat May  5 21:39:13 PDT 2012
