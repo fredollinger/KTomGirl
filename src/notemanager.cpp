@@ -47,7 +47,7 @@ NoteManager::NoteManager(const std::string & directory, const std::string & back
 
 NoteManager::NoteManager() : QWidget()
 {
-	qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub";
+	qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub" << QString::fromStdString(Gnote::data_dir());
 	std::string directory = Gnote::data_dir();
 	std::string backup = "";
 	_common_init(directory, backup);
@@ -236,23 +236,25 @@ bool NoteManager::first_run() const
 void NoteManager::create_notes_dir() const
 {
 
-    if (QDir(QString::fromStdString(m_notes_dir)).exists()){
+ 	create_directory(m_notes_dir);
+    //if (QDir(QString::fromStdString(m_notes_dir)).exists()){
 //    if (!directory_exists(m_notes_dir)) 
       // First run. Create storage directory.
  	create_directory(m_notes_dir);
 //	QDir::mkdir(QString::fromStdString(m_notes_dir));
-    }
+    //}
     //if (!directory_exists(m_backup_dir)) {
-    if (QDir(QString::fromStdString(m_backup_dir)).exists()){
-      create_directory(m_backup_dir);
-    }
+//    if (QDir(QString::fromStdString(m_backup_dir)).exists()){
+ //     create_directory(m_backup_dir);
+  //  }
 }
 
 // For overriding in test methods.
-bool NoteManager::create_directory(const std::string & directory) const
+bool NoteManager::create_directory(const std::string & path) const
 {
-    boost::filesystem::path p(directory);
-    return boost::filesystem::create_directory(p);
+    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(path);
+    QDir dir;
+    return dir.mkdir(QString::fromStdString(path));
 }
  
 

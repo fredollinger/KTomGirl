@@ -114,7 +114,7 @@ static bool qActionLessThan( const QAction *a1, const QAction *a2 )
 KNotesApp::KNotesApp()
   : QWidget(), m_alarm( 0 ), m_listener( 0 ), m_publisher( 0 ), m_find( 0 ), m_findPos( 0 )
 {
-  qDebug() << __PRETTY_FUNCTION__;
+  // qDebug() << __PRETTY_FUNCTION__;
   m_gnmanager = new gnote::NoteManager();
   // new KNotesAdaptor( this );
   //QDBusConnection::sessionBus().registerObject( "/KNotes" , this );
@@ -318,7 +318,7 @@ void KNotesApp::showAllNotes() const
 
 void KNotesApp::showNote( const QString &id ) const
 {
-  qDebug() << __PRETTY_FUNCTION__;
+  // qDebug() << __PRETTY_FUNCTION__;
   KNote *note = m_notes.value( id );
   if ( note ) {
     showNote( note );
