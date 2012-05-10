@@ -36,6 +36,9 @@ m_row(0)
 	tableNotebooks->horizontalHeader()->setVisible(true);
 
  	connect (tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
+
+	//connect (actionNew_Note, SIGNAL(triggered()), this, SLOT(slotNewNote()));
+
 }
 
 SearchWindow::~SearchWindow()
@@ -86,4 +89,5 @@ SearchWindow::setItemName(const QString &neu, const QString &old){
 	ql[0]->setText(neu);
 	static_cast<ktomgirl::KTGItem*>(ql[0])->get_note()->set_title(neu.toStdString());
 }
-// Sun May  6 10:11:19 PDT 2012
+
+// Wed May  9 19:59:40 PDT 2012

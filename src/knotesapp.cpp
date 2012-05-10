@@ -150,6 +150,7 @@ KNotesApp::KNotesApp()
 
   connect( action, SIGNAL( triggered() ), SLOT( newNote() ) );
 
+
   action  = new KAction( KIcon( "edit-paste" ),
                          i18n( "New Note From Clipboard" ), this );
   actionCollection()->addAction( "new_note_clipboard", action );
@@ -224,6 +225,8 @@ KNotesApp::KNotesApp()
   m_searchWindow->loadNotes(m_gnmanager->get_notes());
   m_searchWindow->show();
 
+  connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( newNote() ) );
+
   // qRegisterMetaType<ktomgirl::KTGItem>( "ktomgirl::KTGItem" );
 
   connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
@@ -269,6 +272,7 @@ QString KNotesApp::newNote( const QString &name, const QString &text )
 {
   qDebug() << __PRETTY_FUNCTION__;
   KCal::Journal *journal = new KCal::Journal();
+  m_gnmanager->create_new_note(journal->uid().toStdString());
   #if 0
   // create the new note
 
@@ -282,8 +286,6 @@ QString KNotesApp::newNote( const QString &name, const QString &text )
 
   // the body of the note
   journal->setDescription( text );
-
-
 
   return journal->uid();
   #endif
