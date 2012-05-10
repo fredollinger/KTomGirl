@@ -57,10 +57,19 @@ void KNotesResourceManager::save()
 }
 
 // when adding a new note, make sure a config file exists!!
-
 void KNotesResourceManager::addNewNote( KCal::Journal *journal )
 {
-
+  qDebug() << __PRETTY_FUNCTION__;
+  // TODO: Make this configurable
+  /*
+  ResourceNotes *resource = m_manager->standardResource();
+  if ( resource ) {
+    resource->addNote( journal );
+    registerNote( resource, journal );
+  } else {
+    kWarning( 5500 ) << "no resource!";
+  }
+*/
 }
 
 void KNotesResourceManager::registerNote( ResourceNotes *resource,

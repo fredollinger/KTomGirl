@@ -148,7 +148,7 @@ KNotesApp::KNotesApp()
   action->setGlobalShortcut( KShortcut( Qt::ALT + Qt::SHIFT + Qt::Key_N ),
                              KAction::DefaultShortcut );
 
-  connect( action, SIGNAL( triggered() ), SLOT( newNote() ) );
+  connect( action, SIGNAL( triggered() ), SLOT( createNote() ) );
 
 
   action  = new KAction( KIcon( "edit-paste" ),
@@ -184,8 +184,6 @@ KNotesApp::KNotesApp()
   KStandardAction::quit( this, SLOT( slotQuit() ),
                          actionCollection() )->setShortcut( 0 );
 
-  // qDebug << componentData().componentName() + "appui.rc";
-  // setXMLFile( componentData().componentName() + "appui.rc" );
   qDebug() << "setXMLFile";
   setXMLFile("knotesappui.rc");
 
@@ -270,26 +268,19 @@ bool KNotesApp::commitData( QSessionManager & )
 
 QString KNotesApp::newNote( const QString &name, const QString &text )
 {
-  qDebug() << __PRETTY_FUNCTION__;
   KCal::Journal *journal = new KCal::Journal();
-  m_gnmanager->create_new_note(journal->uid().toStdString());
-  #if 0
-  // create the new note
 
-  // new notes have the current date/time as title if none was given
-  if ( !name.isEmpty() ) {
-    journal->setSummary( name );
-  } else {
-    journal->setSummary( KGlobal::locale()->formatDateTime(
-                                               QDateTime::currentDateTime() ) );
-  }
+  //gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note (journal->uid().toStdString());
+  //Note::Ptr new_gnote = m_gnmanager->create_new_note(journal->uid().toStdString());
 
-  // the body of the note
-  journal->setDescription( text );
+  qDebug() << __PRETTY_FUNCTION__ << "crashing";
+  // KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
 
-  return journal->uid();
-  #endif
+//home/follinge/projects/KTomGirl/src/knote.h:68:5: note: candidates are: knotes::KNote::KNote(gnote::Note::Ptr, const QDomDocument&, KCal::Journal*, QWidget*)
+
   m_manager->addNewNote( journal );
+  //QMap<QString, KNote *> m_notes;
+  //m_notes.insert( journal->uid(), newNote );
   showNote( journal->uid() );
   //showNote(journal);
   return journal->uid();
@@ -320,7 +311,7 @@ void KNotesApp::showAllNotes() const
 
 void KNotesApp::showNote( const QString &id ) const
 {
-  // qDebug() << __PRETTY_FUNCTION__;
+  qDebug() << __PRETTY_FUNCTION__ << id;
   KNote *note = m_notes.value( id );
   if ( note ) {
     showNote( note );
@@ -576,11 +567,17 @@ void KNotesApp::showNote( KNote *note ) const
   note->setFocus();
 }
 
+// FIXME: Get this working!!
 void KNotesApp::createNote( KCal::Journal *journal )
 {
   qDebug() << __PRETTY_FUNCTION__;
 
   m_noteUidModify = journal->uid();
+
+  // FIXME: This is the one!!
+  //Note::Ptr NoteManager::create_new_note(const std::string & title, const std::string & xml_content, 
+
+  //Note::Ptr new_gnote = m_gnmanager->create_new_note(journal->uid().toStdString());
   // gnote::Note::Ptr note = m_gnmanager->create_new_note (journal->uid() );
   // KNote *newNote = new KNote( m_gnmanager, m_noteGUI, journal, 0 );
   // FIXME: we must do this if we create a note which is actually new
@@ -733,6 +730,7 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   KNote *newNote = new KNote( item->get_note(), m_noteGUI, journal, 0);
   newNote->load_gnote();
+
   m_notes.insert( newNote->noteId(), newNote );
 
   m_noteUidModify = journal->uid();

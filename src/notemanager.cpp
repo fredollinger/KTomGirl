@@ -140,6 +140,7 @@ Note::Ptr NoteManager::create_new_note (const std::string &qs)
 {
 	qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub";
 	Note::Ptr new_note; // FIXME: remove this stub
+    	add_note(new_note);
 	// FIXME: convert qs to guid
    	return new_note; 
 }
@@ -256,6 +257,70 @@ bool NoteManager::create_directory(const std::string & path) const
     QDir dir;
     return dir.mkdir(QString::fromStdString(path));
 }
+
+// FIXME: Get this working!!
+  // Create a new note with the specified Xml content
+  Note::Ptr NoteManager::create_new_note(const std::string & title, const std::string & xml_content, 
+                                        const std::string & guid)
+  { 
+    if (title.empty())
+      throw sharp::Exception("Invalid title");
+
+    if (find(title))
+      throw sharp::Exception("A note with this title already exists: " + title);
+
+    std::string filename;
+    if (!guid.empty())
+      filename = make_new_file_name (guid);
+    else
+      filename = make_new_file_name ();
+
+    Note::Ptr new_note = Note::create_new_note (title, filename, *this);
+    new_note->set_xml_content(xml_content);
+    new_note->signal_renamed().connect(sigc::mem_fun(*this, &NoteManager::on_note_rename));
+    new_note->signal_saved().connect(sigc::mem_fun(*this, &NoteManager::on_note_save));
+
+    m_notes.push_back(new_note);
+
+    // Load all the addins for the new note
+    m_addin_mgr->load_addins_for_note (new_note);
+
+    signal_note_added(new_note);
+
+    return new_note;
+  }
+
+  /// <summary>
+  /// Get the existing template note or create a new one
+  /// if it doesn't already exist.
+  /// </summary>
+  /// <returns>
+  /// A <see cref="Note"/>
+  /// </returns>
+  Note::Ptr NoteManager::get_or_create_template_note()
+  {
+    Note::Ptr template_note = find(m_note_template_title);
+    if (!template_note) {
+      template_note =
+        create (m_note_template_title,
+                get_note_template_content(m_note_template_title));
+          
+      // Select the initial text
+      Glib::RefPtr<NoteBuffer> buffer = template_note->get_buffer();
+      Gtk::TextIter iter = buffer->get_iter_at_line_offset(2, 0);
+      buffer->move_mark(buffer->get_selection_bound(), iter);
+      buffer->move_mark(buffer->get_insert(), buffer->end());
+
+      // Flag this as a template note
+      Tag::Ptr tag = TagManager::obj().get_or_create_system_tag(TagManager::TEMPLATE_NOTE_SYSTEM_TAG);
+      template_note->add_tag(tag);
+
+      template_note->queue_save(Note::CONTENT_CHANGED);
+    }
+      
+    return template_note;
+  }
+   
  
 
 } // namespace gnote
