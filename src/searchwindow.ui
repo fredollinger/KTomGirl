@@ -108,10 +108,16 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew_Note"/>
    </widget>
    <addaction name="menuSearch"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionNew_Note">
+   <property name="text">
+    <string>New Note</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
