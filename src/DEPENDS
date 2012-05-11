@@ -1,2 +1,3 @@
 kdepim-dev
 libboost-thread-dev
+libboost-filesystem1.42-dev
