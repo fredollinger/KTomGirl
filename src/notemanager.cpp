@@ -258,6 +258,7 @@ bool NoteManager::create_directory(const std::string & path) const
     return dir.mkdir(QString::fromStdString(path));
 }
 
+#if 0
 // FIXME: Get this working!!
   // Create a new note with the specified Xml content
   Note::Ptr NoteManager::create_new_note(const std::string & title, const std::string & xml_content, 
@@ -320,8 +321,7 @@ bool NoteManager::create_directory(const std::string & path) const
       
     return template_note;
   }
-   
- 
+#endif
 
 } // namespace gnote
 // Sat May  5 21:39:13 PDT 2012

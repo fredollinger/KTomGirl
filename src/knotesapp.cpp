@@ -223,7 +223,7 @@ KNotesApp::KNotesApp()
   m_searchWindow->loadNotes(m_gnmanager->get_notes());
   m_searchWindow->show();
 
-  connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( newNote() ) );
+  connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
 
   // qRegisterMetaType<ktomgirl::KTGItem>( "ktomgirl::KTGItem" );
 
@@ -567,12 +567,16 @@ void KNotesApp::showNote( KNote *note ) const
   note->setFocus();
 }
 
+void KNotesApp::createNote( KCal::Journal *journal ){
+  qDebug() << __PRETTY_FUNCTION__;
+}
+
 // FIXME: Get this working!!
-void KNotesApp::createNote( KCal::Journal *journal )
+void KNotesApp::createNote( )
 {
   qDebug() << __PRETTY_FUNCTION__;
 
-  m_noteUidModify = journal->uid();
+  //m_noteUidModify = journal->uid();
 
   // FIXME: This is the one!!
   //Note::Ptr NoteManager::create_new_note(const std::string & title, const std::string & xml_content, 
