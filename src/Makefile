@@ -12,7 +12,7 @@ setup:
 err:
 	vim build/err
 clean:
-	cd build && make clean
+	rm -f ui_searchwindow.h && cd build && make clean
 dist-clean:
 	rm $(UI_HEADERS)
 

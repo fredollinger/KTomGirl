@@ -126,6 +126,7 @@ class KNotesApp
     void updateNetworkListener();
     void updateStyle();
 
+    void createNote();
     void createNote( KCal::Journal *journal );
     void killNote( KCal::Journal *journal );
 
