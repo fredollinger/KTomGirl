@@ -53,7 +53,7 @@ public:
     void create_notes_dir(void) const;
 
     //Note::Ptr create_new_note (const QString&);
-    Note::Ptr create_new_note (const std::string &);
+    Note::Ptr create_new_note (const std::string &, const std::string &);
     Note::Ptr load_note(const std::string & file_path);
 
     const Note::List & get_notes() const

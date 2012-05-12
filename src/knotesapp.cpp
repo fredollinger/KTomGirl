@@ -569,17 +569,20 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   qDebug() << __PRETTY_FUNCTION__;
 }
 
-// FIXME: Get this working!!
 void KNotesApp::createNote( )
 {
   qDebug() << __PRETTY_FUNCTION__;
 
   KCal::Journal *journal = new KCal::Journal();
 
-  gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(journal->uid().toStdString());
+  // FIXME: Need to be flexible about this:
+  std::string title = "New Note";
+
+  gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(title, journal->uid().toStdString());
   m_manager->addNewNote( journal );
 
   KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
+  newNote->setText(QString::fromStdString(title));
 
   m_notes.insert( journal->uid(), newNote );
 
