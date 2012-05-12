@@ -576,18 +576,18 @@ void KNotesApp::createNote( )
   KCal::Journal *journal = new KCal::Journal();
 
   // FIXME: Need to be flexible about this:
-  std::string title = "New Note";
+  QString title = "New Note";
 
-  gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(title, journal->uid().toStdString());
+  gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(title.toStdString(), journal->uid().toStdString());
   m_manager->addNewNote( journal );
 
   KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
   newNote->load_gnote();
-  newNote->setText(QString::fromStdString(title));
+  newNote->setText(QString::fromStdString(title.toStdString()));
   newNote->setObjectName( journal->uid() );
 
   m_notes.insert( journal->uid(), newNote );
-
+  m_searchWindow->newItem(new_gnote);
 
   showNote( journal->uid() );
   return; 

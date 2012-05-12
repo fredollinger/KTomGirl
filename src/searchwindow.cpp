@@ -91,7 +91,24 @@ SearchWindow::setItemName(const QString &neu, const QString &old){
 }
 
 void
-SearchWindow::newItem(const QString &name, const gnote::Note::Ptr & note){
+SearchWindow::newItem(gnote::Note::Ptr & note){
+	QString name = QString::fromStdString(note->get_title());
+
+	// BEGIN FIRST ITEM
+	ktomgirl::KTGItem *item = new ktomgirl::KTGItem(name, note);
+	item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
+	tableNotes->insertRow ( 0 );
+	tableNotes->setItem ( 0 , 0, item );
+	// END FIRST ITEM
+
+	// BEGIN SECOND ITEM
+	name = "";
+	item = new ktomgirl::KTGItem(name, note);
+	item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
+	tableNotes->setItem ( 0 , 1, item );
+	// END SECOND ITEM
+
+	m_row++;
 	return;
 }
 
