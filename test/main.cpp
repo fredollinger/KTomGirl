@@ -33,7 +33,11 @@ int main( int argc, char *argv[] )
 	gnote::NoteManager *nm = new gnote::NoteManager();
 	gnote::Note::List notes = nm->get_notes();
 
-	QString qs = "new_title\nsome shit";
+	std::string uid = "bob";
+
+	gnote::Note::Ptr note = nm->create_new_note (uid);
+	qDebug() << QString::fromStdString(note->uid());
+	
 
 	/*
 	notes[0]->set_title("new_title");
@@ -42,7 +46,7 @@ int main( int argc, char *argv[] )
 	qDebug() << QString::fromStdString(notes[0]->get_title());
 	qDebug() << QString::fromStdString(notes[0]->text_content_plain());
 	*/
-	qDebug() << nm->first_run();
+	//qDebug() << nm->first_run();
 
 	//qDebug() << QString::fromStdString(gnote::NoteBufferArchiver::serialize(qs.toStdString()));	
 	//qDebug() << QString::fromStdString(notes[0]->get_text());

@@ -825,6 +825,35 @@ void Note::set_text(const std::string & t)
     	//m_text = NoteBufferArchiver::serialize(neu);
  //   }
 
+  /// <summary>
+  /// Creates a New Note with the given values.
+  /// </summary>
+  /// <param name="title">
+  /// A <see cref="System.String"/>
+  /// </param>
+  /// <param name="filepath">
+  /// A <see cref="System.String"/>
+  /// </param>
+  /// <param name="manager">
+  /// A <see cref="NoteManager"/>
+  /// </param>
+  /// <returns>
+  /// A <see cref="Note"/>
+  /// </returns>
+
+  Note::Ptr Note::create_new_note(const std::string & title,
+                                  const std::string & filename,
+                                  NoteManager & manager)
+  {
+    NoteData * note_data = new NoteData(url_from_path(filename));
+    note_data->title() = title;
+    sharp::DateTime date(sharp::DateTime::now());
+    note_data->create_date() = date;
+    note_data->set_change_date(date);
+      
+    return Note::Ptr(new Note(note_data, filename, manager));
+  }
+
   
 } // namespace gnote
 // Sat Apr 14 10:42:16 PDT 2012

@@ -270,8 +270,6 @@ QString KNotesApp::newNote( const QString &name, const QString &text )
 {
   KCal::Journal *journal = new KCal::Journal();
 
-  //gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note (journal->uid().toStdString());
-  //Note::Ptr new_gnote = m_gnmanager->create_new_note(journal->uid().toStdString());
 
   qDebug() << __PRETTY_FUNCTION__ << "crashing";
   // KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
@@ -576,18 +574,17 @@ void KNotesApp::createNote( )
 {
   qDebug() << __PRETTY_FUNCTION__;
 
-  //m_noteUidModify = journal->uid();
+  KCal::Journal *journal = new KCal::Journal();
 
-  // FIXME: This is the one!!
-  //Note::Ptr NoteManager::create_new_note(const std::string & title, const std::string & xml_content, 
+  gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(journal->uid().toStdString());
+  m_manager->addNewNote( journal );
 
-  //Note::Ptr new_gnote = m_gnmanager->create_new_note(journal->uid().toStdString());
-  // gnote::Note::Ptr note = m_gnmanager->create_new_note (journal->uid() );
-  // KNote *newNote = new KNote( m_gnmanager, m_noteGUI, journal, 0 );
-  // FIXME: we must do this if we create a note which is actually new
-  // gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note (journal->uid() );
-  // m_notes.insert( newNote->noteId(), newNote );
+  KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
 
+  m_notes.insert( journal->uid(), newNote );
+
+  showNote( journal->uid() );
+  return; 
 }
 
 void KNotesApp::killNote( KCal::Journal *journal )
@@ -721,15 +718,12 @@ void KNotesApp::updateStyle()
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   if (item->get_note()->is_open()) {
-	// qDebug() << __PRETTY_FUNCTION__<< "note is open" << QString::fromStdString ( item->get_note()->uid() );
-
   	showNote(QString::fromStdString ( item->get_note()->uid() ));
 	return;
   }
 
   const std::string abs_path = item->get_note()->file_path();
 
-  // qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(abs_path);
   KCal::Journal *journal = new KCal::Journal();
 
   KNote *newNote = new KNote( item->get_note(), m_noteGUI, journal, 0);
@@ -742,10 +736,6 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   showNote(journal->uid() );
 
-  // FIXME: Finish this
-
-//home/follinge/projects/KTomGirl/src/knotesapp.cpp:740:62: error: no matching function for call to 'knotes::KNotesApp::connect(knotes::KNote*&, const char [32], ktomgirl::KTGItem*&, const char [25], Qt::ConnectionType)'
-//usr/include/qt4/QtCore/qobject.h:198:17: note: candidates are: static bool QObject::connect(const QObject*, const char*, const QObject*, const char*, Qt::ConnectionType)
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
 
   return;

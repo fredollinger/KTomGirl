@@ -136,12 +136,14 @@ void NoteManager::_common_init(const std::string & directory, const std::string 
 // note if it exists.  If the "New Note Template" body is found
 // the text will not automatically be highlighted.
 // Note::Ptr NoteManager::create_new_note (std::string title, const std::string & guid)
-Note::Ptr NoteManager::create_new_note (const std::string &qs)
+Note::Ptr NoteManager::create_new_note (const std::string &uid)
 {
-	qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub";
-	Note::Ptr new_note; // FIXME: remove this stub
+	//Note::Ptr new_note; // FIXME: remove this stub
+	std::string filename = m_notes_dir +"/" + uid + ".note";
+	std::string title = "New Note";
+    	//Note::Ptr new_note; // remove stub 
+    	Note::Ptr new_note = Note::create_new_note (title, filename, *this);
     	add_note(new_note);
-	// FIXME: convert qs to guid
    	return new_note; 
 }
 // END NoteManager::create_new_note()
@@ -190,7 +192,7 @@ void NoteManager::load_notes()
         //ERR_OUT("Error parsing note XML, skipping \"%s\": %s",
                 //file_path.c_str(), e.what());
       }
-      std::cout << "adding note: " << file_path;
+      //std::cout << "adding note: " << file_path;
     }
     // post_load();
     // Make sure that a Start Note Uri is set in the preferences, and
