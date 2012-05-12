@@ -27,7 +27,7 @@
 // END gnote INCLUDES
 
 // BEGIN KTOMGIRL INCLUDES
-#include "ktgconfig.h"
+//#include "ktgconfig.h"
 #include "ktgitem.h"
 #include "searchwindow.h"
 // END   KTOMGIRL INCLUDES
@@ -117,10 +117,9 @@ KNotesApp::KNotesApp()
 {
   // qDebug() << __PRETTY_FUNCTION__;
   m_gnmanager = new gnote::NoteManager();
-  // new KNotesAdaptor( this );
-  //QDBusConnection::sessionBus().registerObject( "/KNotes" , this );
   kapp->setQuitOnLastWindowClosed( false );
 
+  //m_config = new ktomgirl::KTGConfig();
 
   // create the dock widget...
   m_tray = new KStatusNotifierItem(0);
@@ -130,10 +129,6 @@ KNotesApp::KNotesApp()
   m_tray->setStatus( KStatusNotifierItem::Active );
   m_tray->setCategory( KStatusNotifierItem::ApplicationStatus );
   m_tray->setStandardActionsEnabled(false);
-  #if 0
-  connect( m_tray, SIGNAL( activateRequested(bool, const QPoint &) ), this, SLOT( slotActivateRequested( bool, const QPoint& ) ) );
-  connect( m_tray, SIGNAL( secondaryActivateRequested( const QPoint & ) ), this, SLOT( slotSecondaryActivateRequested( const QPoint& ) ) );
-  #endif 
   m_tray->activate();
 
   // set the initial style

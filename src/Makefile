@@ -1,9 +1,9 @@
 UIC=uic-qt4
 UI_HEADERS= ui_searchwindow.h
 
-# .PHONY: ktgconfig.h
+# .PHONY: ktgconfigskel.h
 
-all: ui_searchwindow.h ktgconfig.h
+all: ui_searchwindow.h ktgconfigskel.h
 	mkdir -p build
 	cd build && make 2>err
 setup:
@@ -13,7 +13,7 @@ err:
 	vim build/err
 clean:
 	rm -f ui_searchwindow.h && cd build && make clean
-	mv ktgconfig.cpp ktgconfig.h /tmp
+	mv ktgconfigskel.cpp ktgconfigskel.h /tmp
 dist-clean:
 	rm $(UI_HEADERS)
 
@@ -34,9 +34,9 @@ newprojectlayout4.h:
 	uic-qt4 ui/newprojectlayout4.ui > newprojectlayout4.h 
 
 
-ktgconfig.h:
-	rm -f ktgconfig.h
-	kconfig_compiler ktgconfig.kcfg ktgconfig.kcfgc
+ktgconfigskel.h:
+	rm -f ktgconfigskel.h
+	kconfig_compiler ktgconfigskel.kcfg ktgconfigskel.kcfgc
 deps:
 	sudo apt-get install kdelibs5-dev g++ cmake
 # Sat Mar 17 17:29:13 PDT 2012

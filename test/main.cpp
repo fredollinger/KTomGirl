@@ -22,6 +22,7 @@
 #include "../src/notedata.hpp"
 #include "../src/notebuffer.hpp"
 #include "../src/version.h"
+#include "../src/ktgconfig.h"
 
 
 #include <QApplication>
@@ -35,8 +36,12 @@ int main( int argc, char *argv[] )
 
 	std::string uid = "bob";
 
-	gnote::Note::Ptr note = nm->create_new_note (uid);
-	qDebug() << QString::fromStdString(note->uid());
+	ktomgirl::KTGConfig *config = new ktomgirl::KTGConfig();
+	
+	config->noteNumber() = 0;
+
+	//gnote::Note::Ptr note = nm->create_new_note (uid);
+	//qDebug() << QString::fromStdString(note->uid());
 	
 
 	/*

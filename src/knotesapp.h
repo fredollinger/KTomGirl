@@ -32,7 +32,6 @@
 #include <kxmlguiclient.h>
 
 #include "searchwindow.h"
-// #include "ktgitem.h"
 
 #include "notemanager.hpp"
 
@@ -49,6 +48,7 @@ class KXMLGUIFactory;
 class KStatusNotifierItem;
 
 namespace ktomgirl{
+	class KTGConfig;
 	class KTGItem;
 }
 
@@ -84,6 +84,8 @@ class KNotesApp
     QVariantMap notes() const;
 
     bool commitData( QSessionManager & );
+
+    ktomgirl::KTGConfig *m_config;
 
   public slots:
     QString newNote( const QString &name = QString(),

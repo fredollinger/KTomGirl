@@ -14,13 +14,13 @@ include_directories("/usr/include/libxml2")
 kde4_add_ui_files(ktomgirl_SRCS 
 )
 
-kde4_add_kcfg_files(ktomgirl_SRCS ktgconfig.kcfgc)
-install(FILES ktgconfig.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+kde4_add_kcfg_files(ktomgirl_SRCS ktgconfigskel.kcfgc)
+install(FILES ktgconfigskel.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
 set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
 
 set(ktomgirl_SRCS
-ktgconfig.cpp
+ktgconfigskel.cpp
 notebuffer.cpp
 actionmanager.cpp
 ktgitem.cpp
