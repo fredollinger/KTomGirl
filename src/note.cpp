@@ -847,6 +847,9 @@ void Note::set_text(const std::string & t)
   {
     NoteData * note_data = new NoteData(url_from_path(filename));
     note_data->title() = title;
+    // We set text content, initially to be the same as the title so it shows
+    // up.
+    note_data->text() = title;
     sharp::DateTime date(sharp::DateTime::now());
     note_data->create_date() = date;
     note_data->set_change_date(date);

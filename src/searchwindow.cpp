@@ -90,4 +90,9 @@ SearchWindow::setItemName(const QString &neu, const QString &old){
 	static_cast<ktomgirl::KTGItem*>(ql[0])->get_note()->set_title(neu.toStdString());
 }
 
+void
+SearchWindow::newItem(const QString &name, const gnote::Note::Ptr & note){
+	return;
+}
+
 // Wed May  9 19:59:40 PDT 2012

@@ -29,6 +29,8 @@ public:
 	/* iterate through note list and load up the titles into the qtablewidget */
 	void loadNotes(const gnote::Note::List&);
 
+	void newItem(const QString&, const gnote::Note::Ptr&);
+
 private:
 	QStringList m_list;
 	QStringListModel *m_model;

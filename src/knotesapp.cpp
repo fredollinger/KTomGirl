@@ -582,10 +582,12 @@ void KNotesApp::createNote( )
   m_manager->addNewNote( journal );
 
   KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
+  newNote->load_gnote();
   newNote->setText(QString::fromStdString(title));
   newNote->setObjectName( journal->uid() );
 
   m_notes.insert( journal->uid(), newNote );
+
 
   showNote( journal->uid() );
   return; 
