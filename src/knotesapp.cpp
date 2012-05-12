@@ -27,6 +27,7 @@
 // END gnote INCLUDES
 
 // BEGIN KTOMGIRL INCLUDES
+#include "ktgconfig.h"
 #include "ktgitem.h"
 #include "searchwindow.h"
 // END   KTOMGIRL INCLUDES
