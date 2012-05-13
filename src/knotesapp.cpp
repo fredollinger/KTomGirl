@@ -546,10 +546,11 @@ void KNotesApp::showNote( KNote *note ) const
 }
 
 void KNotesApp::createNote( KCal::Journal *journal ){
-  qDebug() << __PRETTY_FUNCTION__;
+  int n = m_config->noteNumber();
+  qDebug() << __PRETTY_FUNCTION__ << n;
 
   // FIXME: Need to be flexible about this:
-  QString title = "New Note";
+  QString title = tr("New Note ") + QString::number(n, 10); 
 
   gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(title.toStdString(), journal->uid().toStdString());
   m_manager->addNewNote( journal );

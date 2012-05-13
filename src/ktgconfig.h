@@ -10,13 +10,12 @@
 #include "ktgconfigskel.h"
 
 namespace ktomgirl {
-class KTGConfig: public KTGConfigSkel
-{
+class KTGConfig: public KTGConfigSkel {
 public:
-	KTGConfig();
-	~KTGConfig();
+	KTGConfig(void);
+	~KTGConfig(void);
+	int noteNumber(void);
 	void setNoteNumber(int n){ mNoteNumber = n; }
-
 }; // class KTGConfig
 }  // namespace ktomgirl
 #endif // __KTOMGIRL_KTGCONFIG__
