@@ -23,13 +23,11 @@
 #include "knotesapp.h"
 #include <kcmdlineargs.h>
 #include <kuniqueapplication.h> 
-//#include <kontactinterface/pimuniqueapplication.h>
 
 namespace knotes{
 Application::Application() :
     mMainWindow( 0 )
 {
-  qDebug() << __PRETTY_FUNCTION__;
   mCmdLineArguments = KCmdLineArgs::parsedArgs();
 }
 
@@ -45,18 +43,14 @@ KCmdLineArgs *Application::args() const
 
 int Application::newInstance()
 {
-  qDebug() << __PRETTY_FUNCTION__;
   if ( !mMainWindow ) {
     mMainWindow = new KNotesApp();
-    qDebug() << __PRETTY_FUNCTION__ << "new mainwindow";
   } else {
     if ( !args()->isSet( "skip-note" ) ) {
       mMainWindow->newNote();
-    qDebug() << __PRETTY_FUNCTION__ << "new note";
     }
   }
 
-  // return KUniqueApplication::newInstance();
   return 0;
 }
 } // namespace knotes

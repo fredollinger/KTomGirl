@@ -105,6 +105,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	j->setUid(QString::fromStdString(gnoteptr->uid()));
 	init(buildDoc);
   	m_gnote->set_is_open(true);
+	connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
 }
 
 KNote::~KNote()
@@ -124,10 +125,8 @@ void KNote::load_gnote(){
 	setName(QString::fromStdString(m_gnote->get_title()));
 	QString content = QString::fromStdString(m_gnote->text_content());
 	setText(content);
-	formatTitle();
-	// qDebug() << __PRETTY_FUNCTION__ << " uid " << QString::fromStdString(m_gnote->uid());
-	connect( this, SIGNAL( sigDataChanged(const QString &) ),
-              this, SLOT( slotDataChanged(const QString &) ) );
+	//formatTitle();
+	connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
 }
 
 void KNote::slotDataChanged(const QString &qs){
@@ -270,6 +269,8 @@ void KNote::setName( const QString& name )
 void KNote::setText( const QString& text )
 {
   m_editor->setText( text );
+
+  formatTitle();
 
   saveData();
 }
@@ -1167,8 +1168,8 @@ void KNote::resizeEvent( QResizeEvent *qre )
 void KNote::closeEvent( QCloseEvent * event )
 {
   qDebug() << __PRETTY_FUNCTION__ << text();
-  // m_gnote->set_text_content(text().toStdString());
-  //m_gnote->save(text().toStdString());
+  //emit sigDataChanged(noteId());
+  //m_gnote->set_text_content(m_editor->toPlainText().toStdString());
   m_gnote->save();
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
   slotClose();

@@ -115,7 +115,6 @@ static bool qActionLessThan( const QAction *a1, const QAction *a2 )
 KNotesApp::KNotesApp()
   : QWidget(), m_alarm( 0 ), m_listener( 0 ), m_publisher( 0 ), m_find( 0 ), m_findPos( 0 )
 {
-  // qDebug() << __PRETTY_FUNCTION__;
   m_gnmanager = new gnote::NoteManager();
   kapp->setQuitOnLastWindowClosed( false );
 
@@ -543,7 +542,6 @@ void KNotesApp::slotQuit()
 
 void KNotesApp::showNote( KNote *note ) const
 {
-  qDebug() << __PRETTY_FUNCTION__;
   note->show();
 #ifdef Q_WS_X11
   KWindowSystem::setCurrentDesktop( KWindowSystem::windowInfo( note->winId(),
@@ -555,16 +553,13 @@ void KNotesApp::showNote( KNote *note ) const
 
 void KNotesApp::createNote( KCal::Journal *journal ){
   int n = m_config->noteNumber();
-  qDebug() << __PRETTY_FUNCTION__ << n;
 
-  // FIXME: Need to be flexible about this:
   QString title = tr("New Note ") + QString::number(n, 10); 
 
   gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(title.toStdString(), journal->uid().toStdString());
   m_manager->addNewNote( journal );
 
   KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
-  //newNote->load_gnote();
   newNote->setText(QString::fromStdString(title.toStdString()));
   newNote->setObjectName( journal->uid() );
 
@@ -577,8 +572,6 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 
 void KNotesApp::createNote()
 {
-  qDebug() << __PRETTY_FUNCTION__;
-
   KCal::Journal *journal = new KCal::Journal();
   createNote(journal);
 
@@ -668,19 +661,14 @@ void KNotesApp::updateStyle()
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   if (item->get_note()->is_open()) {
-  	qDebug() << __PRETTY_FUNCTION__ << "DANGEROUS get_note()->uid()";
-  	//showNote(QString::fromStdString ( item->get_note()->uid() ));
   	showNote(QString::fromStdString ( item->uid() ));
 	return;
   }
 
-  qDebug() << __PRETTY_FUNCTION__ << "DANGEROUS get_note()->uid()";
   const std::string abs_path = item->get_note()->file_path();
-  qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(abs_path);
 
   KCal::Journal *journal = new KCal::Journal();
 
-  qDebug() << __PRETTY_FUNCTION__ << "makeing new knote";
   KNote *newNote = new KNote( item->get_note(), m_noteGUI, journal, 0);
   newNote->load_gnote();
 
