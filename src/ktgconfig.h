@@ -16,6 +16,8 @@ public:
 	~KTGConfig(void);
 	int noteNumber(void);
 	void setNoteNumber(int n){ mNoteNumber = n; }
+	void store(void){ writeConfig(); }
+	
 }; // class KTGConfig
 }  // namespace ktomgirl
 #endif // __KTOMGIRL_KTGCONFIG__

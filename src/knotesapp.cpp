@@ -223,6 +223,7 @@ KNotesApp::KNotesApp()
 KNotesApp::~KNotesApp()
 {
   saveNotes();
+  m_config->store();
 
   blockSignals( true );
   qDeleteAll( m_notes );
