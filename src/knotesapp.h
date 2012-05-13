@@ -114,11 +114,14 @@ class KNotesApp
 
     void slotQuit();
 
+// BEGIN KNotesApp private:
   private:
     void showNote( KNote *note ) const;
     void saveConfigs();
     gnote::NoteManager *m_gnmanager;
+    int m_noteNumber;
     SearchWindow *m_searchWindow;
+// END KNotesApp private:
 
   private slots:
     void acceptConnection();

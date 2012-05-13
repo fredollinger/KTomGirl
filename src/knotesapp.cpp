@@ -131,12 +131,6 @@ KNotesApp::KNotesApp()
   m_tray->setStandardActionsEnabled(false);
   m_tray->activate();
 
-  // set the initial style
-#ifdef __GNUC__
-#warning FIXME
-#endif
-  //    KNote::setStyle( KNotesGlobalConfig::style() );
-
   // create the GUI...
   KAction *action  = new KAction( KIcon( "document-new" ),
                                   i18n( "New Note" ), this );
@@ -180,7 +174,6 @@ KNotesApp::KNotesApp()
   KStandardAction::quit( this, SLOT( slotQuit() ),
                          actionCollection() )->setShortcut( 0 );
 
-  qDebug() << "setXMLFile";
   setXMLFile("knotesappui.rc");
 
   m_guiBuilder = new KXMLGUIBuilder( this );
@@ -264,19 +257,10 @@ bool KNotesApp::commitData( QSessionManager & )
 
 QString KNotesApp::newNote( const QString &name, const QString &text )
 {
+  qDebug() << __PRETTY_FUNCTION__ << "FIXME: STUB";
   KCal::Journal *journal = new KCal::Journal();
-
-
-  qDebug() << __PRETTY_FUNCTION__ << "crashing";
-  // KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
-
-//home/follinge/projects/KTomGirl/src/knote.h:68:5: note: candidates are: knotes::KNote::KNote(gnote::Note::Ptr, const QDomDocument&, KCal::Journal*, QWidget*)
-
   m_manager->addNewNote( journal );
-  //QMap<QString, KNote *> m_notes;
-  //m_notes.insert( journal->uid(), newNote );
   showNote( journal->uid() );
-  //showNote(journal);
   return journal->uid();
 }
 
@@ -563,13 +547,6 @@ void KNotesApp::showNote( KNote *note ) const
 
 void KNotesApp::createNote( KCal::Journal *journal ){
   qDebug() << __PRETTY_FUNCTION__;
-}
-
-void KNotesApp::createNote( )
-{
-  qDebug() << __PRETTY_FUNCTION__;
-
-  KCal::Journal *journal = new KCal::Journal();
 
   // FIXME: Need to be flexible about this:
   QString title = "New Note";
@@ -586,39 +563,27 @@ void KNotesApp::createNote( )
   m_searchWindow->newItem(new_gnote);
 
   showNote( journal->uid() );
+}
+
+void KNotesApp::createNote()
+{
+  qDebug() << __PRETTY_FUNCTION__;
+
+  KCal::Journal *journal = new KCal::Journal();
+  createNote(journal);
+
   return; 
 }
 
 void KNotesApp::killNote( KCal::Journal *journal )
 {
-  #if 0
-  if(m_noteUidModify == journal->uid())
-  {
-	  return;
-  }
-  // this kills the KNote object
-  KNote *note = m_notes.take( journal->uid() );
-  if ( note )
-  {
-    delete note;
-    updateNoteActions();
-  }
-  #endif
+  qDebug() << __PRETTY_FUNCTION__ << "FIXME: STUB";
 }
 
 void KNotesApp::acceptConnection()
 {
   // Accept the connection and make KNotesNetworkReceiver do the job
   QTcpSocket *s = m_listener->nextPendingConnection();
-
-  #if 0
-  if ( s ) {
-    KNotesNetworkReceiver *recv = new KNotesNetworkReceiver( s );
-    connect( recv,
-             SIGNAL( sigNoteReceived( const QString &, const QString & ) ),
-             SLOT( newNote( const QString &, const QString & ) ) );
-  }
-  #endif
 }
 
 void KNotesApp::saveNotes( const QString & uid )
@@ -629,19 +594,10 @@ void KNotesApp::saveNotes( const QString & uid )
 
 void KNotesApp::saveNotes()
 {
-  // m_manager->save();
-  /*
-  KNotesGlobalConfig::self()->writeConfig();
-  */
 }
 
 void KNotesApp::saveConfigs()
 {
-  /*
-  foreach ( KNote *note, m_notes ) {
-    note->saveConfig();
-  }
-  */
 }
 
 void KNotesApp::updateNoteActions()
@@ -650,10 +606,7 @@ void KNotesApp::updateNoteActions()
   m_noteActions.clear();
 
   foreach ( KNote *note, m_notes ) {
-    // what does this actually mean? ~gamaral
-#ifdef __GNUC__
-#warning utf8: use QString
-#endif
+
     KAction *action = new KAction( note->name().replace( "&", "&&" ), this );
 		action->setObjectName( note->noteId() );
     connect( action, SIGNAL( triggered( bool ) ), SLOT( slotShowNote() ) );
@@ -693,25 +646,10 @@ void KNotesApp::updateNetworkListener()
     m_listener=0;
     delete m_publisher;
     m_publisher=0;
-
-    #if 0
-    if ( KNotesGlobalConfig::receiveNotes() ) {
-        // create the socket and start listening for connections
-        m_listener=KSocketFactory::listen( "knotes" , QHostAddress::Any,
-                                           KNotesGlobalConfig::port() );
-        connect( m_listener, SIGNAL( newConnection() ),
-                 SLOT( acceptConnection() ) );
-        m_publisher=new DNSSD::PublicService(KNotesGlobalConfig::senderID(), "_knotes._tcp", KNotesGlobalConfig::port());
-        m_publisher->publishAsync();
-    }
-    #endif
 }
 
 void KNotesApp::updateStyle()
 {
-#ifdef __GNUC__
-#warning FIXME!
-#endif
   foreach ( KNote *note, m_notes ) {
     QApplication::postEvent( note, new QEvent( QEvent::LayoutRequest ) );
   }
@@ -744,4 +682,4 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 }
 
 } // namespace knotes
-// Sat Apr 14 11:24:31 PDT 2012
+// Sun May 13 10:24:13 PDT 2012
