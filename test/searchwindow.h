@@ -5,7 +5,9 @@
 #include <QStringList>
 #include <QStringListModel>
 #include <QTableWidget>
-#include <QDockWidget>
+//#include <QDockWidget>
+#include <KParts/MainWindow>
+#include "notesdialog.h"
 
 //#include "ui_searchwindow.h"
 
@@ -17,7 +19,8 @@ namespace ktomgirl{
 	class KTGItem;
 }
 
-class SearchWindow : public QDockWidget
+class SearchWindow : public QMainWindow
+//class SearchWindow : public KParts::KMainWindow
 //class SearchWindow : public QMainWindow, public Ui::SearchWindow
 {
 	Q_OBJECT
@@ -37,6 +40,7 @@ private:
 	QStringList m_list;
 	QStringListModel *m_model;
 	int m_row; // current row
+	NotesDialog *m_notesDialog;
 signals:
 	void signalNoteSelected(ktomgirl::KTGItem*);
 
