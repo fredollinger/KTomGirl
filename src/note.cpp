@@ -264,8 +264,6 @@ Note::Note(NoteData * _data, const std::string & filepath, NoteManager & _manage
     , m_manager(_manager)
     , m_is_open(false)
 {
-	qDebug() << __PRETTY_FUNCTION__<< QString::fromStdString(m_filepath);
-	qDebug() << __PRETTY_FUNCTION__<< "uid:" << QString::fromStdString(uid());
 }
 
 Note::~Note()
@@ -276,23 +274,6 @@ Note::~Note()
 void Note::changed(){
     m_save_needed = true;
 }
-
-#if 0
-// BEGIN NOTE::SAVE()
-void Note::save(std::string text)
-{
-	// Prevent any other condition forcing a save on the note
-	// if Delete has been called.
-	if (m_is_deleting)
-		return;
-
-	qDebug() << __PRETTY_FUNCTION__ << "SAVING" << QString::fromStdString(text);
-
-//    NoteArchiver::write(m_filepath, text);
-
-}
-// END NOTE::SAVE()
-#endif
 
   const std::string & Note::uri() const
   {
@@ -311,10 +292,7 @@ void Note::save(std::string text)
  *  If this changes then obviously we break this... 
  */
 std::string Note::uid() const {
-	qDebug() << __PRETTY_FUNCTION__;
-	qDebug() << __PRETTY_FUNCTION__<< "text:" << QString::fromStdString(get_title());
 	size_t len = m_filepath.length();
-	qDebug() << __PRETTY_FUNCTION__ << len << QString::fromStdString(m_filepath);
 	size_t begin = m_filepath.find_last_of("/");
 	return m_filepath.substr(begin+1, len - 6 - begin);
 }
@@ -392,7 +370,6 @@ void Note::parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags)
 // so we can have things like lists and bolded text and so on
 // this is down the road. When we get there, get rid of this...
 std::string Note::text_content_plain(){
-    	qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(m_text_content);
 	return m_text_content;
 }
 
@@ -413,36 +390,14 @@ std::string Note::text_content()
   {
     m_data.data().text() = text;
     m_text_content = text;
-    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(m_text_content);
-    //m_buffer->set_text(text);
     return;
   }
 
 
-/*
-void Note::slotNoteChanged(const QString &qs){
-	qDebug() << __PRETTY_FUNCTION__ << "FIXME: STUB";
-}
-*/
-
 // BEGIN Note:set_title()
 void Note::set_title(const std::string & new_title)
 {
-    //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(new_title);
     m_data.data().title() = new_title;
-
-    qDebug() << __PRETTY_FUNCTION__ << "title: "<< QString::fromStdString(m_data.data().title());
-    //m_title = new_title;
-    /*
-    if (m_data.data().title() != new_title) {
-
-      std::string old_title = m_data.data().title();
-      m_data.data().title() = new_title;
-
-      // FIXME: Mark note as needing to save
-      //queue_save (CONTENT_CHANGED); // TODO: Right place for this?
-    }
-    */
 }
 // END Note:set_title()
 
@@ -463,48 +418,11 @@ std::string NoteArchiver::write_string(const NoteData & note)
 }
 
 
-// BEGIN Note::write_file()
 void Note::write(const std::string & _write_file, const NoteData & note)
 {
-    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(_write_file);
+    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(_write_file) << "FIXME: STUB";
     return;
-    #if 0
-    std::string tmp_file = _write_file + ".tmp";
-    // TODO Xml doc settings
-    sharp::XmlWriter xml(tmp_file); //, XmlEncoder::DocumentSettings);
-    write(xml, note);
-    xml.close ();
-
-    try {
-      if (boost::filesystem::exists(_write_file)) {
-        std::string backup_path = _write_file + "~";
-        if (boost::filesystem::exists(backup_path)) {
-          boost::filesystem::remove(backup_path);
-        }
-      
-        // Backup the to a ~ file, just in case
-        boost::filesystem::rename(_write_file, backup_path);
-      
-        // Move the temp file to write_file
-        boost::filesystem::rename(tmp_file, _write_file);
-
-        // Delete the ~ file
-        boost::filesystem::remove(backup_path);
-      } 
-      else {
-        // Move the temp file to write_file
-	qDebug() << "moving temp file to write file";
-        boost::filesystem::rename(tmp_file, _write_file);
-      }
-    }
-    catch(const std::exception & e)
-    {
-      ERR_OUT("filesystem error: '%s'", e.what());
-	qDebug() << "save fail";
-    }
-#endif
 }
-// END Note::write_file()
 
   void NoteArchiver::write(const std::string & write_file, const NoteData & data)
   {
@@ -540,13 +458,11 @@ void NoteArchiver::write_file(const std::string & _write_file, const NoteData & 
       } 
       else {
         // Move the temp file to write_file
-	qDebug() << "moving temp file to write file";
         boost::filesystem::rename(tmp_file, _write_file);
       }
     }
     catch(const std::exception & e)
     {
-      //ERR_OUT("filesystem error: '%s'", e.what());
 	qDebug() << "save fail";
     }
   }
@@ -658,7 +574,6 @@ void NoteArchiver::write(sharp::XmlWriter & xml, const NoteData & note)
 // BEGIN NoteArchiver::_read()
 NoteData *NoteArchiver::_read(const std::string & read_file, const std::string & uri)
 {
-    //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(read_file);
     NoteData *note = new NoteData(uri);
     std::string version;
 
