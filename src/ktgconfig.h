@@ -12,9 +12,11 @@
 namespace ktomgirl {
 class KTGConfig: public KTGConfigSkel
 {
-  public:
-    KTGConfig();
-    ~KTGConfig();
+public:
+	KTGConfig();
+	~KTGConfig();
+	void setNoteNumber(int n){ mNoteNumber = n; }
+
 }; // class KTGConfig
 }  // namespace ktomgirl
 #endif // __KTOMGIRL_KTGCONFIG__
