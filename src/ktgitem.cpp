@@ -31,7 +31,9 @@
 namespace ktomgirl{
 KTGItem::KTGItem(QString &qs, const gnote::Note::Ptr &note) : QTableWidgetItem(qs)
 , m_note(note)
+, m_uid(note->uid())
 {
+	qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(note->uid());
 }
 
 KTGItem::~KTGItem()
@@ -39,6 +41,7 @@ KTGItem::~KTGItem()
 }
 
 gnote::Note::Ptr KTGItem::get_note(){
+	qDebug() << __PRETTY_FUNCTION__;
 	return m_note;
 }
 
@@ -46,6 +49,7 @@ void KTGItem::setName(const QString &qs){
 	qDebug() << __PRETTY_FUNCTION__;
 	setText(qs);
 }
+
 
 } // namespace ktomgirl
 // Sat Apr  7 19:39:40 PDT 2012

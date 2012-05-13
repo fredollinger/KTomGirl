@@ -15,7 +15,8 @@ set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
 
 set(ktomgirl_SRCS
 main.cpp
-../src/ktgconfig.cpp
+searchwindow.cpp
+../src/ktgitem.cpp
 ../src/xmlconvert.cpp
 ../src/xml.cpp
 ../src/files.cpp

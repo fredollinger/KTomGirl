@@ -94,9 +94,10 @@ static const QString endTitle = "</u></font><br>";
 static const QString startNormal = "<font color=\"Black\" size=\"12\">";
 static const QString endNormal = "</font><br>";
 
+
+//SearchWindow::newItem(gnote::Note::Ptr & note){
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
-//  : QFrame( parent, Qt::FramelessWindowHint ), m_label( 0 ), m_grip( 0 ),
     m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnote(gnoteptr)
@@ -383,6 +384,9 @@ void KNote::commitData()
 
 void KNote::slotClose()
 {
+  qDebug() << __PRETTY_FUNCTION__;
+  hide();
+#if 0
 #ifdef Q_WS_X11
   NETWinInfo wm_client( QX11Info::display(), winId(),
                         QX11Info::appRootWindow(), NET::WMDesktop );
@@ -400,7 +404,7 @@ void KNote::slotClose()
     // m_config->writeConfig();
   }
   // just hide the note so it's still available from the dock window
-  hide();
+#endif
 }
 
 void KNote::slotInsDate()

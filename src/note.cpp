@@ -264,10 +264,13 @@ Note::Note(NoteData * _data, const std::string & filepath, NoteManager & _manage
     , m_manager(_manager)
     , m_is_open(false)
 {
+	qDebug() << __PRETTY_FUNCTION__<< QString::fromStdString(m_filepath);
+	qDebug() << __PRETTY_FUNCTION__<< "uid:" << QString::fromStdString(uid());
 }
 
 Note::~Note()
 {
+	qDebug() << __PRETTY_FUNCTION__<< QString::fromStdString(m_filepath);
 }
 
 void Note::changed(){
@@ -308,7 +311,10 @@ void Note::save(std::string text)
  *  If this changes then obviously we break this... 
  */
 std::string Note::uid() const {
+	qDebug() << __PRETTY_FUNCTION__;
+	qDebug() << __PRETTY_FUNCTION__<< "text:" << QString::fromStdString(get_title());
 	size_t len = m_filepath.length();
+	qDebug() << __PRETTY_FUNCTION__ << len << QString::fromStdString(m_filepath);
 	size_t begin = m_filepath.find_last_of("/");
 	return m_filepath.substr(begin+1, len - 6 - begin);
 }

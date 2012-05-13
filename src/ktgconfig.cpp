@@ -4,6 +4,7 @@ namespace ktomgirl{
 
 KTGConfig::KTGConfig() : KTGConfigSkel()
 {
+	readConfig();
 }
 
 KTGConfig::~KTGConfig()

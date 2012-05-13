@@ -172,11 +172,11 @@ Note::Ptr NoteManager::create_new_note (const std::string &title, const std::str
 // BEGIN LOAD_NOTES
 void NoteManager::load_notes()
 {
-    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(m_notes_dir);
+    //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(m_notes_dir);
     std::list<std::string> files;
     sharp::directory_get_files_with_ext(m_notes_dir, ".note", files);
 
-    qDebug() << "note list len: " <<  files.size();
+    //qDebug() << "note list len: " <<  files.size();
 
     for(std::list<std::string>::const_iterator iter = files.begin();
         iter != files.end(); ++iter) {

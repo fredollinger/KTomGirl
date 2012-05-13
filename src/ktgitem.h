@@ -33,8 +33,10 @@ public:
   KTGItem(QString&, const gnote::Note::Ptr&);
   ~KTGItem(void); 
   gnote::Note::Ptr get_note(void);
+  std::string uid(void){ return m_uid; }
 private:
   const gnote::Note::Ptr &m_note;
+  std::string m_uid;
 public slots:
 	void setName(const QString&);
 };

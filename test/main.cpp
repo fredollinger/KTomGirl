@@ -22,7 +22,7 @@
 #include "../src/notedata.hpp"
 #include "../src/notebuffer.hpp"
 #include "../src/version.h"
-#include "../src/ktgconfig.h"
+#include "searchwindow.h"
 
 
 #include <QApplication>
@@ -35,10 +35,12 @@ int main( int argc, char *argv[] )
 	gnote::Note::List notes = nm->get_notes();
 
 	std::string uid = "bob";
-
-	ktomgirl::KTGConfig *config = new ktomgirl::KTGConfig();
 	
-	config->noteNumber() = 0;
+	SearchWindow *sw = new SearchWindow();
+
+	//ktomgirl::KTGConfig *config = new ktomgirl::KTGConfig();
+	
+	//config->noteNumber() = 0;
 
 	//gnote::Note::Ptr note = nm->create_new_note (uid);
 	//qDebug() << QString::fromStdString(note->uid());
@@ -55,6 +57,7 @@ int main( int argc, char *argv[] )
 
 	//qDebug() << QString::fromStdString(gnote::NoteBufferArchiver::serialize(qs.toStdString()));	
 	//qDebug() << QString::fromStdString(notes[0]->get_text());
+	sw->show();
 
 	return app.exec();
 }

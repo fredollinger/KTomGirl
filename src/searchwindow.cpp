@@ -87,7 +87,8 @@ SearchWindow::setItemName(const QString &neu, const QString &old){
 		return;
 	}
 	ql[0]->setText(neu);
-	static_cast<ktomgirl::KTGItem*>(ql[0])->get_note()->set_title(neu.toStdString());
+	qDebug() << __PRETTY_FUNCTION__<<"DANGEROUS: get_note";
+	//static_cast<ktomgirl::KTGItem*>(ql[0])->get_note()->set_title(neu.toStdString());
 }
 
 void

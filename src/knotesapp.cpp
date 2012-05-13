@@ -131,6 +131,7 @@ KNotesApp::KNotesApp()
   m_tray->setStandardActionsEnabled(false);
   m_tray->activate();
 
+  // BEGIN ACTIONS
   // create the GUI...
   KAction *action  = new KAction( KIcon( "document-new" ),
                                   i18n( "New Note" ), this );
@@ -174,6 +175,8 @@ KNotesApp::KNotesApp()
   KStandardAction::quit( this, SLOT( slotQuit() ),
                          actionCollection() )->setShortcut( 0 );
 
+  // END ACTIONS
+
   setXMLFile("knotesappui.rc");
 
   m_guiBuilder = new KXMLGUIBuilder( this );
@@ -204,15 +207,18 @@ KNotesApp::KNotesApp()
 
   m_manager = new KNotesResourceManager();
 
+/*
   if ( m_notes.size() == 0 && !kapp->isSessionRestored() ) {
       newNote();
   }
+*/
 
   m_searchWindow = new SearchWindow( this );
   m_searchWindow->loadNotes(m_gnmanager->get_notes());
   m_searchWindow->show();
 
   connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
+  connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
 
   // qRegisterMetaType<ktomgirl::KTGItem>( "ktomgirl::KTGItem" );
 
@@ -537,6 +543,7 @@ void KNotesApp::slotQuit()
 
 void KNotesApp::showNote( KNote *note ) const
 {
+  qDebug() << __PRETTY_FUNCTION__;
   note->show();
 #ifdef Q_WS_X11
   KWindowSystem::setCurrentDesktop( KWindowSystem::windowInfo( note->winId(),
@@ -557,12 +564,13 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   m_manager->addNewNote( journal );
 
   KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
-  newNote->load_gnote();
+  //newNote->load_gnote();
   newNote->setText(QString::fromStdString(title.toStdString()));
   newNote->setObjectName( journal->uid() );
 
   m_notes.insert( journal->uid(), newNote );
   m_searchWindow->newItem(new_gnote);
+  //connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
 
   showNote( journal->uid() );
 }
@@ -660,14 +668,19 @@ void KNotesApp::updateStyle()
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   if (item->get_note()->is_open()) {
-  	showNote(QString::fromStdString ( item->get_note()->uid() ));
+  	qDebug() << __PRETTY_FUNCTION__ << "DANGEROUS get_note()->uid()";
+  	//showNote(QString::fromStdString ( item->get_note()->uid() ));
+  	showNote(QString::fromStdString ( item->uid() ));
 	return;
   }
 
+  qDebug() << __PRETTY_FUNCTION__ << "DANGEROUS get_note()->uid()";
   const std::string abs_path = item->get_note()->file_path();
+  qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(abs_path);
 
   KCal::Journal *journal = new KCal::Journal();
 
+  qDebug() << __PRETTY_FUNCTION__ << "makeing new knote";
   KNote *newNote = new KNote( item->get_note(), m_noteGUI, journal, 0);
   newNote->load_gnote();
 
