@@ -27,7 +27,7 @@
 // END gnote INCLUDES
 
 // BEGIN KTOMGIRL INCLUDES
-//#include "ktgconfig.h"
+#include "ktgconfig.h"
 #include "ktgitem.h"
 #include "searchwindow.h"
 // END   KTOMGIRL INCLUDES
@@ -119,7 +119,7 @@ KNotesApp::KNotesApp()
   m_gnmanager = new gnote::NoteManager();
   kapp->setQuitOnLastWindowClosed( false );
 
-  //m_config = new ktomgirl::KTGConfig();
+  m_config = new ktomgirl::KTGConfig();
 
   // create the dock widget...
   m_tray = new KStatusNotifierItem(0);
