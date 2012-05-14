@@ -10,7 +10,8 @@
 // KTOMGIRL INCLUDES
 #include "searchwindow.h"
 #include "notesdialog.h"
-//#include "ktgitem.h"
+#include "notebooksdialog.h"
+#include "../src/ktgitem.h"
 
 // GNOTE INCLUDES
 //#include "gnote.hpp"
@@ -22,7 +23,12 @@ m_row(0)
 	m_notesDialog = new NotesDialog();
 	m_notesDialog->show();
         m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-        addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
+        addDockWidget(Qt::RightDockWidgetArea, m_notesDialog);
+
+	m_notebooksDialog = new NotebooksDialog();
+	m_notebooksDialog->show();
+        m_notebooksDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+        addDockWidget(Qt::LeftDockWidgetArea, m_notebooksDialog);
 }
 
 SearchWindow::~SearchWindow()

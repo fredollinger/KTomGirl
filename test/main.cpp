@@ -18,7 +18,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *******************************************************************/
 
-#include "../src/notemanager.hpp"
+//#include "../src/notemanager.hpp"
 #include "../src/notedata.hpp"
 #include "../src/notebuffer.hpp"
 #include "../src/version.h"
@@ -31,33 +31,10 @@
 int main( int argc, char *argv[] )
 {
 	QApplication app(argc, argv);
-	gnote::NoteManager *nm = new gnote::NoteManager();
-	gnote::Note::List notes = nm->get_notes();
 
-	std::string uid = "bob";
-	
 	SearchWindow *sw = new SearchWindow();
-
-	//ktomgirl::KTGConfig *config = new ktomgirl::KTGConfig();
-	
-	//config->noteNumber() = 0;
-
-	//gnote::Note::Ptr note = nm->create_new_note (uid);
-	//qDebug() << QString::fromStdString(note->uid());
-	
-
-	/*
-	notes[0]->set_title("new_title");
-	notes[0]->set_text_content(qs.toStdString() );
-
-	qDebug() << QString::fromStdString(notes[0]->get_title());
-	qDebug() << QString::fromStdString(notes[0]->text_content_plain());
-	*/
-	//qDebug() << nm->first_run();
-
-	//qDebug() << QString::fromStdString(gnote::NoteBufferArchiver::serialize(qs.toStdString()));	
-	//qDebug() << QString::fromStdString(notes[0]->get_text());
 	sw->show();
+
 
 	return app.exec();
 }

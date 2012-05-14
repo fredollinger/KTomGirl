@@ -16,6 +16,7 @@ set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
 set(ktomgirl_SRCS
 main.cpp
 notesdialog.cpp
+notebooksdialog.cpp
 searchwindow.cpp
 ../src/ktgitem.cpp
 ../src/xmlconvert.cpp
@@ -30,7 +31,6 @@ searchwindow.cpp
 ../src/note.cpp
 ../src/gnote.cpp
 ../src/preferences.cpp
-../src/notemanager.cpp
 )
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS})
