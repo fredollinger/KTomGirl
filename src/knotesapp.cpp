@@ -568,6 +568,8 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 
   newNote->init_note();
 
+  connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
+
   showNote( journal->uid() );
 }
 
@@ -690,6 +692,7 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   showNote(journal->uid() );
 
+  qDebug() << __PRETTY_FUNCTION__ << "connecting name changed from knote to seach window";
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
 
   return;

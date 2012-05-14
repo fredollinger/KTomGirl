@@ -147,9 +147,10 @@ void KNote::slotDataChanged(const QString &qs){
   /* Make sure the title is blue, big, and underlined
    * and ensure that other things are not... */
 
-  qDebug() << __PRETTY_FUNCTION__ << "new text:" << m_editor->toPlainText();
   m_gnote->set_text_content(m_editor->toPlainText().toStdString());
   m_gnote->set_title(newTitle.toStdString());
+
+  qDebug() << __PRETTY_FUNCTION__ << "emitting name changed:" << "to: "<< newTitle << "from: " << QString::fromStdString(oldTitle);
   emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
 
   // This cues the note up for a save next time it is requested
