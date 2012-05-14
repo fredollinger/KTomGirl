@@ -68,8 +68,8 @@ class KNote
     KNote( gnote::Note::Ptr, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
     ~KNote();
     void init( const QDomDocument& );
-    void load_gnote();
-    // void load_gnote(const std::string&);
+    void load_gnote(void);
+    void init_note(void);
 
     QString getTitle(void);
 

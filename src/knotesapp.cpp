@@ -565,7 +565,8 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 
   m_notes.insert( journal->uid(), newNote );
   m_searchWindow->newItem(new_gnote);
-  //connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
+
+  newNote->init_note();
 
   showNote( journal->uid() );
 }

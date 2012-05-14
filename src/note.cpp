@@ -388,6 +388,7 @@ std::string Note::text_content()
 
   void Note::set_text_content(const std::string & text)
   {
+   qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(text);
     m_data.data().text() = text;
     m_text_content = text;
     return;

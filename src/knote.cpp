@@ -105,7 +105,6 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	j->setUid(QString::fromStdString(gnoteptr->uid()));
 	init(buildDoc);
   	m_gnote->set_is_open(true);
-	connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
 }
 
 KNote::~KNote()
@@ -114,19 +113,22 @@ KNote::~KNote()
   m_gnote->set_is_open(false);
 
   // FIXME: save before delete
-  //void set_text_content(const std::string & text);
-  // m_gnote->set_text_content(text().toStdString());
   m_gnote->set_text_content(m_editor->toPlainText().toStdString());
   m_gnote->save();
   delete m_config;
+}
+
+/* This is to be done last */
+void KNote::init_note(){
+	formatTitle();
+	connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
 }
 
 void KNote::load_gnote(){
 	setName(QString::fromStdString(m_gnote->get_title()));
 	QString content = QString::fromStdString(m_gnote->text_content());
 	setText(content);
-	//formatTitle();
-	connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
+	init_note();
 }
 
 void KNote::slotDataChanged(const QString &qs){
@@ -145,7 +147,7 @@ void KNote::slotDataChanged(const QString &qs){
   /* Make sure the title is blue, big, and underlined
    * and ensure that other things are not... */
 
-  //qDebug() << __PRETTY_FUNCTION__ << "emitting name changed" << qs;
+  qDebug() << __PRETTY_FUNCTION__ << "new text:" << m_editor->toPlainText();
   m_gnote->set_text_content(m_editor->toPlainText().toStdString());
   m_gnote->set_title(newTitle.toStdString());
   emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
@@ -272,10 +274,8 @@ void KNote::setName( const QString& name )
 void KNote::setText( const QString& text )
 {
   m_editor->setText( text );
-
   formatTitle();
-
-  saveData();
+  //saveData();
 }
 
 void KNote::find( KFind* kfind )
@@ -1172,7 +1172,7 @@ void KNote::closeEvent( QCloseEvent * event )
 {
   qDebug() << __PRETTY_FUNCTION__ << text();
   //emit sigDataChanged(noteId());
-  //m_gnote->set_text_content(m_editor->toPlainText().toStdString());
+  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
   m_gnote->save();
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
   slotClose();
