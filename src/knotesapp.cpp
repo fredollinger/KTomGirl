@@ -671,6 +671,12 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   qDebug() << __PRETTY_FUNCTION__ << "note not found";
 
   gnote::Note::Ptr gnote = m_gnmanager->find(item->text().toStdString());
+
+  if (! gnote){
+  	qDebug() << __PRETTY_FUNCTION__ << "ERR: Can't find (and can't open)" << item->text();
+	return;
+  }
+
   KCal::Journal *journal = new KCal::Journal();
 
   KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
