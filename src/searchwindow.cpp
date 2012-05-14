@@ -2,6 +2,7 @@
 #include <qdebug.h>
 #include <QMainWindow>
 #include <QTableWidget>
+#include <QDateTime>
 // END QT INCLUDES
 
 #include <iostream>
@@ -81,19 +82,22 @@ SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 void
 SearchWindow::setItemName(const QString &neu, const QString &old){
 	
+	qDebug() << __PRETTY_FUNCTION__<< "Changing" <<  old << "to: " << neu;
 	QList<QTableWidgetItem*> ql = tableNotes->findItems ( old, Qt::MatchExactly);
 	if (ql.count() < 1){
 		qDebug() << __PRETTY_FUNCTION__<< "ERR: no note named" <<  neu << ql.count();
 		return;
 	}
 	ql[0]->setText(neu);
-	qDebug() << __PRETTY_FUNCTION__<<"DANGEROUS: get_note";
-	static_cast<ktomgirl::KTGItem*>(ql[0])->get_note()->set_title(neu.toStdString());
 }
 
 void
 SearchWindow::newItem(gnote::Note::Ptr & note){
 	QString name = QString::fromStdString(note->get_title());
+
+	qDebug() << __PRETTY_FUNCTION__<< "creating: " << name;
+
+	QDateTime qdt = QDateTime::currentDateTime();
 
 	// BEGIN FIRST ITEM
 	ktomgirl::KTGItem *item = new ktomgirl::KTGItem(name, note);
@@ -103,7 +107,7 @@ SearchWindow::newItem(gnote::Note::Ptr & note){
 	// END FIRST ITEM
 
 	// BEGIN SECOND ITEM
-	name = "";
+	name = qdt.toString();
 	item = new ktomgirl::KTGItem(name, note);
 	item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 	tableNotes->setItem ( 0 , 1, item );

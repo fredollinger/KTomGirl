@@ -660,16 +660,16 @@ void KNotesApp::updateStyle()
 
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
+  qDebug() << __PRETTY_FUNCTION__ << "opening: "<< item->text();
   if (item->get_note()->is_open()) {
   	showNote(QString::fromStdString ( item->uid() ));
 	return;
   }
 
-  const std::string abs_path = item->get_note()->file_path();
-
+  gnote::Note::Ptr gnote = m_gnmanager->find(item->text().toStdString());
   KCal::Journal *journal = new KCal::Journal();
 
-  KNote *newNote = new KNote( item->get_note(), m_noteGUI, journal, 0);
+  KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
   newNote->load_gnote();
 
   m_notes.insert( newNote->noteId(), newNote );

@@ -34,6 +34,7 @@ KTGItem::KTGItem(QString &qs, const gnote::Note::Ptr &note) : QTableWidgetItem(q
 , m_uid(note->uid())
 {
 	qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(note->uid());
+	qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(note->get_title());
 }
 
 KTGItem::~KTGItem()

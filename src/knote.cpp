@@ -131,28 +131,31 @@ void KNote::load_gnote(){
 
 void KNote::slotDataChanged(const QString &qs){
 
-   qDebug() << __PRETTY_FUNCTION__ << qs;
+  qDebug() << __PRETTY_FUNCTION__ << qs;
   if (m_blockEmitDataChanged) return;
 
   m_blockEmitDataChanged = true;
 
-  const QString t = getTitle();
+  const QString newTitle = getTitle();
+  std::string oldTitle = m_gnote->get_title();
 
   // Sync title bar with title
-  setWindowTitle(t);
+  setWindowTitle(newTitle);
   //m_label->setText(t);
   /* Make sure the title is blue, big, and underlined
    * and ensure that other things are not... */
-  formatTitle();
 
-  // m_gnote->set_title(t.toStdString());
+  //qDebug() << __PRETTY_FUNCTION__ << "emitting name changed" << qs;
+  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
+  m_gnote->set_title(newTitle.toStdString());
+  emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
+
   // This cues the note up for a save next time it is requested
   // we do this to save resources so we don't save every single note
   // that is closed only those who have changed.
   m_gnote->changed();
-  //qDebug() << __PRETTY_FUNCTION__ << "emitting name changed" << qs;
-  emit sigNameChanged(t, QString::fromStdString(m_gnote->get_title()) );
-  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
+
+  formatTitle();
 
   m_blockEmitDataChanged = false;
 }
@@ -1284,7 +1287,7 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
 QString KNote::getTitle(){
 	QString t = m_editor->toPlainText();
 	QString str = t.section('\n', 0, 1);
-	qDebug() << __PRETTY_FUNCTION__ << str;
+	qDebug() << __PRETTY_FUNCTION__ << str.trimmed();
 	return str.trimmed();
 }
 
