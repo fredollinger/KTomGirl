@@ -661,10 +661,14 @@ void KNotesApp::updateStyle()
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   qDebug() << __PRETTY_FUNCTION__ << "opening: "<< item->text();
-  if (item->get_note()->is_open()) {
+
+  QMap<QString, KNote*>::const_iterator i = m_notes.find(QString::fromStdString(item->uid()));
+  if (i != m_notes.end()) {
+  	qDebug() << __PRETTY_FUNCTION__ << "note is open: "<< item->text();
   	showNote(QString::fromStdString ( item->uid() ));
 	return;
   }
+  qDebug() << __PRETTY_FUNCTION__ << "note not found";
 
   gnote::Note::Ptr gnote = m_gnmanager->find(item->text().toStdString());
   KCal::Journal *journal = new KCal::Journal();
