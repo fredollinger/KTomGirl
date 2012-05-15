@@ -217,7 +217,7 @@ KNotesApp::KNotesApp()
   m_searchWindow->show();
 
   connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
-  connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
+  // connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
 
   // qRegisterMetaType<ktomgirl::KTGItem>( "ktomgirl::KTGItem" );
 
