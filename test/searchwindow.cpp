@@ -32,11 +32,11 @@ m_row(0)
         addDockWidget(Qt::RightDockWidgetArea, m_notesDialog);
 
 	qsl << "Note" << "Last Changed";
+	m_notesDialog->tableNotes->setColumnCount(2);
 	m_notesDialog->tableNotes->setHorizontalHeaderLabels(qsl);
 	m_notesDialog->tableNotes->horizontalHeader()->setVisible(true);
 	m_notesDialog->tableNotes->verticalHeader()->setVisible(false);
 	//m_notesDialog->tableNotes->setRowCount(m_list.count()+1);
-	m_notesDialog->tableNotes->setColumnCount(2);
 	// END NOTES DIALOG
 
 	// BEGIN NOTEBOOKS DIALOG
@@ -47,9 +47,9 @@ m_row(0)
 
 	qsl.clear();
 	qsl << "Notebooks";
+	m_notebooksDialog->tableNotebooks->setColumnCount(1);
 	m_notebooksDialog->tableNotebooks->setHorizontalHeaderLabels(qsl);
 	m_notebooksDialog->tableNotebooks->horizontalHeader()->setVisible(true);
-	m_notebooksDialog->tableNotebooks->setColumnCount(1);
 	// END NOTEBOOKS DIALOG
 
 
