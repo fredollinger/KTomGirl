@@ -10,27 +10,26 @@
     <height>394</height>
    </rect>
   </property>
+  <property name="features">
+   <set>QDockWidget::NoDockWidgetFeatures</set>
+  </property>
+  <property name="allowedAreas">
+   <set>Qt::LeftDockWidgetArea</set>
+  </property>
   <property name="windowTitle">
-   <string>DockWidget</string>
+   <string>Notebooks</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>90</y>
-      <width>291</width>
-      <height>281</height>
+      <x>0</x>
+      <y>-10</y>
+      <width>581</width>
+      <height>381</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
      <item>
       <widget class="QTableWidget" name="tableNotebooks"/>
      </item>

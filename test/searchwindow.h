@@ -21,10 +21,7 @@ namespace ktomgirl{
 	class KTGItem;
 }
 
-//class SearchWindow : public QMainWindow
 class SearchWindow : public QMainWindow, public Ui::SearchWindow
-//class SearchWindow : public KParts::KMainWindow
-//class SearchWindow : public QMainWindow, public Ui::SearchWindow
 {
 	Q_OBJECT
 public:

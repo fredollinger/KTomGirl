@@ -23,8 +23,10 @@ m_row(0)
 	m_list << gnote::Gnote::get_note_list();
 
 	setupUi(this);
+
 	tableNotes->setRowCount(m_list.count()+1);
 	tableNotes->setColumnCount(2);
+
 	QStringList qsl; 
 	qsl << "Note" << "Last Changed";
 	tableNotes->setHorizontalHeaderLabels(qsl);
