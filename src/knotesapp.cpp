@@ -120,6 +120,7 @@ KNotesApp::KNotesApp()
 
   m_config = new ktomgirl::KTGConfig();
 
+  // BEGIN DOCK WIDGET
   // create the dock widget...
   m_tray = new KStatusNotifierItem(0);
 
@@ -129,6 +130,12 @@ KNotesApp::KNotesApp()
   m_tray->setCategory( KStatusNotifierItem::ApplicationStatus );
   m_tray->setStandardActionsEnabled(false);
   m_tray->activate();
+
+  m_sys_menu = m_tray->contextMenu();
+  QAction *l_quit = new QAction(tr("Quit"), this);
+  m_sys_menu->addAction(l_quit);
+  // END DOCK WIDGET
+  
 
   // BEGIN ACTIONS
   // create the GUI...

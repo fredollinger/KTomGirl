@@ -114,15 +114,6 @@ class KNotesApp
 
     void slotQuit();
 
-// BEGIN KNotesApp private:
-  private:
-    void showNote( KNote *note ) const;
-    void saveConfigs();
-    gnote::NoteManager *m_gnmanager;
-    int m_noteNumber;
-    SearchWindow *m_searchWindow;
-// END KNotesApp private:
-
   private slots:
     void acceptConnection();
     void saveNotes();
@@ -135,8 +126,16 @@ class KNotesApp
     void createNote( KCal::Journal *journal );
     void killNote( KCal::Journal *journal );
 
+// BEGIN KNotesApp private:
   private:
+    void showNote( KNote *note ) const;
+    void saveConfigs();
+    gnote::NoteManager *m_gnmanager;
+    int m_noteNumber;
+    SearchWindow *m_searchWindow;
+    KMenu *m_sys_menu; // system tray menu
     QMap<QString, KNote *> m_notes;
+
     QList<QAction *>       m_noteActions;
 
     KNotesResourceManager  *m_manager;
@@ -157,6 +156,7 @@ class KNotesApp
 
     QDomDocument    m_noteGUI;
     QString m_noteUidModify;
+    // END KNotesApp private:
 }; // END class KNotesApp
 }  //namespace knotes
 #endif

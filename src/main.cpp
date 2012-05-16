@@ -42,13 +42,13 @@ int main( int argc, char *argv[] )
 {
   QString version = QString::number( KNOTES_VERSION );
 
-  KAboutData aboutData( "knotes",
+  KAboutData aboutData( "KTomGirl",
                          0,
-                         ki18n( "KNotes" ),
+                         ki18n( "KTomGirl" ),
                          version.toLatin1(),
-                         ki18n( "KDE Notes" ),
+                         ki18n( "KDE Tomboy Note Taking Clone" ),
                          KAboutData::License_GPL,
-                         ki18n( "(c) 1997-2009, The KNotes Developers" ) );
+                         ki18n( "(c) 1997-2009, The KTomGirl Developers" ) );
 
   knotesAuthors( aboutData );
 
@@ -114,11 +114,31 @@ KCmdLineOptions knotesOptions()
 
 void knotesAuthors(  KAboutData &aboutData )
 {
+
+  aboutData.addAuthor( ki18n( "Fred Ollinger" ),
+                       ki18n( "KTomGirl Maintainer" ),
+                       "follinge@gmail.com" );
+
+  aboutData.addAuthor( ki18n( "Debarshi Ray" ),
+                       ki18n( "GNotes Developer" ),
+                       "debarshir@src.gnome.org" );
+
+  aboutData.addAuthor( ki18n( "Tomboy original authors" ),
+                       ki18n( "GNotes Developer" ),
+                       "" );
+
+  aboutData.addAuthor( ki18n( "Hubert Figuiere " ),
+                       ki18n( "GNotes Developer" ),
+                       "hub@figuiere.net" );
+
+  aboutData.addAuthor( ki18n( "Fred Ollinger" ),
+                       ki18n( "KTomGirl Maintainer" ),
+                       "follinge@gmail.com" );
   aboutData.addAuthor( ki18n( "Guillermo Antonio Amaral Bastidas" ),
-                       ki18n( "Maintainer" ),
+                       ki18n( "KNotes Maintainer" ),
                        "me@guillermoamaral.com" );
   aboutData.addAuthor( ki18n( "Michael Brade" ),
-                       ki18n( "Previous Maintainer" ),
+                       ki18n( "Previous KNotes Maintainer" ),
                        "brade@kde.org" );
   aboutData.addAuthor( ki18n( "Bernd Johannes Wuebben" ),
                        ki18n( "Original KNotes Author" ),
