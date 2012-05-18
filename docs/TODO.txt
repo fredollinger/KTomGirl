@@ -1,7 +1,5 @@
 KTomGirl Todo list:
 
-1. mkdir for files so we use non-tomboy dir
-
 2. test to open a file and to see if we save the same on
 
 3. make new note
@@ -11,3 +9,5 @@ a. new note icon
 b. file menu works
 c. get rid of ugly side bar in note list
 d. change 1 to note in tree view
+
+5. search window from note.

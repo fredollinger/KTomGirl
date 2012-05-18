@@ -165,7 +165,7 @@ void knotesAuthors(  KAboutData &aboutData )
   aboutData.addCredit( ki18n( "Matthias Kiefer" ),
                        KLocalizedString(),
                        "kiefer@kde.org" );
-  aboutData.addCredit( ki18n( "Luboš Luňák" ),
+  aboutData.addCredit( ki18n( "Lubo? Lu?�k" ),
                        KLocalizedString(),
                        "l.lunak@kde.org" );
   aboutData.addCredit( ki18n( "Laurent Montel" ),

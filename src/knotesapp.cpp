@@ -1,4 +1,4 @@
-/*******************************************************************
+/*
  KNotes -- Notes for the KDE project
 
  Copyright (c) 1997-2009, The KNotes Developers
@@ -203,7 +203,7 @@ KNotesApp::KNotesApp()
       componentData().dirs()->findAllResources( "data", xmlFileName );
 
   QString doc;
-  KXMLGUIClient::findMostRecentXMLFile( fileList, doc );
+  // KXMLGUIClient::findMostRecentXMLFile( fileList, doc );
   m_noteGUI.setContent( doc );
 
   KConfigGroup config( KGlobal::config(), "Global Keybindings" );
