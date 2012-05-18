@@ -11,3 +11,5 @@ c. get rid of ugly side bar in note list
 d. change 1 to note in tree view
 
 5. search window from note.
+
+6. Give credit to Adrian Dumitrupop for the trash icon.
