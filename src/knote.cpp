@@ -692,6 +692,8 @@ void KNote::buildGui()
   m_menu = dynamic_cast<KMenu*>( factory.container( "note_context", this ) );
   m_tool = dynamic_cast<KToolBar*>( factory.container( "note_tool", this ) );
 
+  m_toobar = KToolBar("notebar", this, false);
+
   createNoteFooter();
 }
 

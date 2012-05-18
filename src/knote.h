@@ -174,7 +174,8 @@ class KNote
     QLabel        *m_label;
     QSizeGrip     *m_grip;
     KNoteButton   *m_button;
-    KToolBar      *m_tool;
+    KToolBar      *m_tool; // this is the old one, it is deprecated
+    KToolBar      *m_toolbar; // new tool bar
     KNoteEdit     *m_editor;
 
     KNoteConfig   *m_config;
