@@ -29,7 +29,7 @@ test:
 	#/usr/local/bin/ktomgirl ktomgirl.cpp
 
 ui_searchwindow.h:
-	$(UIC) searchwindow.ui > ui_searchwindow.h
+	$(UIC) ui/searchwindow.ui > ui_searchwindow.h
 
 newprojectlayout4.h:
 	uic-qt4 ui/newprojectlayout4.ui > newprojectlayout4.h 
