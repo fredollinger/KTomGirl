@@ -1218,7 +1218,8 @@ void KNote::formatTitle(){
   QString s=cursor.selectedText();
   QString newtitle = startTitle+s+endTitle.trimmed();
 
-  qDebug() << __PRETTY_FUNCTION__ << "***" << newtitle << "!!!";
+
+  //qDebug() << __PRETTY_FUNCTION__ << "***" << newtitle << "!!!";
 
 /* 
   if (m_htmlTitle == newtitle) {
@@ -1229,6 +1230,10 @@ void KNote::formatTitle(){
 */
 
   cursor.removeSelectedText();	
+
+  cursor.setPosition(1, QTextCursor::KeepAnchor);  
+  cursor.deleteChar();
+
   cursor.insertHtml(newtitle);  
   m_htmlTitle = newtitle;
   //END BLUE
