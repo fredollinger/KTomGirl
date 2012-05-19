@@ -75,6 +75,7 @@
 #include <QPixmap>
 #include <QSize>
 #include <QSizeGrip>
+#include <QTimer>
 #include <QTextStream>
 #include <QVBoxLayout>
 // END QT INCLUDES
@@ -105,6 +106,14 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	j->setUid(QString::fromStdString(gnoteptr->uid()));
 	init(buildDoc);
   	m_gnote->set_is_open(true);
+
+	QTimer *saveTimer = new QTimer(this);
+	QTimer *formatTimer = new QTimer(this);
+	connect(saveTimer, SIGNAL(timeout()), this, SLOT(slotSave()));
+	connect(formatTimer, SIGNAL(timeout()), this, SLOT(slotFormat()));
+	saveTimer->start(4000);
+	formatTimer->start(1000);
+
 }
 
 KNote::~KNote()
@@ -131,38 +140,6 @@ void KNote::load_gnote(){
 	init_note();
 }
 
-void KNote::slotDataChanged(const QString &qs){
-
-  qDebug() << __PRETTY_FUNCTION__ << qs;
-  if (m_blockEmitDataChanged) return;
-
-  m_blockEmitDataChanged = true;
-
-  const QString newTitle = getTitle();
-  std::string oldTitle = m_gnote->get_title();
-
-  // Sync title bar with title
-  setWindowTitle(newTitle);
-  //m_label->setText(t);
-  /* Make sure the title is blue, big, and underlined
-   * and ensure that other things are not... */
-
-  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
-  m_gnote->set_title(newTitle.toStdString());
-
-  qDebug() << __PRETTY_FUNCTION__ << "emitting name changed:" << "to: "<< newTitle << "from: " << QString::fromStdString(oldTitle);
-  emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
-
-  // This cues the note up for a save next time it is requested
-  // we do this to save resources so we don't save every single note
-  // that is closed only those who have changed.
-  m_gnote->changed();
-
-  formatTitle();
-
-  m_blockEmitDataChanged = false;
-}
-
 void KNote::init( const QDomDocument& buildDoc ){
   qDebug() << __PRETTY_FUNCTION__;
   setAcceptDrops( true );
@@ -181,35 +158,6 @@ void KNote::init( const QDomDocument& buildDoc ){
 
   prepare();
 }
-
-// -------------------- public slots -------------------- //
-
-void KNote::slotKill( bool force )
-{
-  m_blockEmitDataChanged = true;
-  if ( !force &&
-       ( KMessageBox::warningContinueCancel( this,
-         i18n( "<qt>Do you really want to delete note <b>%1</b>?</qt>",
-               m_label->text() ),
-         i18n( "Confirm Delete" ),
-         KGuiItem( i18n( "&Delete" ), "edit-delete" ),
-         KStandardGuiItem::cancel(),
-         "ConfirmDeleteNote" ) != KMessageBox::Continue ) ) {
-     m_blockEmitDataChanged = false;
-     return;
-  }
-  // delete the configuration first, then the corresponding file
-  delete m_config;
-  m_config = 0;
-  QString configFile = KGlobal::dirs()->saveLocation( "appdata", "notes/" );
-  // configFile += m_journal->uid();
-  if ( !KIO::NetAccess::del( KUrl( configFile ), this ) ) {
-    kError( 5500 ) <<"Can't remove the note config:" << configFile;
-  }
-
-  emit sigKillNote( m_journal );
-}
-
 
 // -------------------- public member functions -------------------- //
 
@@ -289,40 +237,6 @@ void KNote::find( KFind* kfind )
 
   // m_find->setData( m_editor->toPlainText() );
   slotFindNext();
-}
-
-void KNote::slotFindNext()
-{
-  // TODO: honor FindBackwards
-
-  // Let KFind inspect the text fragment, and display a dialog if a match is
-  // found
-  KFind::Result res = m_find->find();
-
-  if ( res == KFind::NoMatch ) { // i.e. at end-pos
-
-    QTextCursor c = m_editor->textCursor(); //doesn't return by reference, so we use setTextCursor
-    c.clearSelection();
-    // m_editor->setTextCursor( c );
-
-    disconnect( m_find, 0, this, 0 );
-    emit sigFindFinished();
-  } else {
-
-    show();
-#ifdef Q_WS_X11
-    KWindowSystem::setCurrentDesktop( KWindowSystem::windowInfo( winId(),
-                                      NET::WMDesktop ).desktop() );
-#endif
-  }
-}
-
-void KNote::slotHighlight( const QString& /*str*/, int idx, int len )
-{
-  // m_editor->textCursor().clearSelection();
-  // m_editor->highlightWord( len, idx );
-
-  // TODO: modify the selection color, use a different QTextCursor?
 }
 
 bool KNote::isModified() const
@@ -1302,18 +1216,129 @@ void KNote::formatTitle(){
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
-  cursor.insertHtml(startTitle+s+endTitle);  
+  QString newtitle = startTitle+s+endTitle.trimmed();
+
+  qDebug() << __PRETTY_FUNCTION__ << "***" << newtitle << "!!!";
+
+/* 
+  if (m_htmlTitle == newtitle) {
+
+	qDebug() << "old and new titles change, not changing";
+	return;
+  }
+*/
+
+  cursor.removeSelectedText();	
+  cursor.insertHtml(newtitle);  
+  m_htmlTitle = newtitle;
   //END BLUE
 
-  // BEGIN SECOND LINE
-  /* Make second line normal: sometimes we get spillover from first line 
-  cursor.setPosition(1, QTextCursor::MoveAnchor);  
-  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
-  s=cursor.selectedText();
-  cursor.insertHtml(startNormal+s+endNormal);  
-*/
   // END SECOND LINE
 }
+
+// BEGIN KNOTE SLOTS
+void KNote::slotDataChanged(const QString &qs){
+
+  qDebug() << __PRETTY_FUNCTION__ << qs;
+  if (m_blockEmitDataChanged) return;
+
+  m_blockEmitDataChanged = true;
+
+  const QString newTitle = getTitle();
+  std::string oldTitle = m_gnote->get_title();
+
+  // Sync title bar with title
+  setWindowTitle(newTitle);
+  //m_label->setText(t);
+  /* Make sure the title is blue, big, and underlined
+   * and ensure that other things are not... */
+
+  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
+  m_gnote->set_title(newTitle.toStdString());
+
+  qDebug() << __PRETTY_FUNCTION__ << "emitting name changed:" << "to: "<< newTitle << "from: " << QString::fromStdString(oldTitle);
+  emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
+
+  // This cues the note up for a save next time it is requested
+  // we do this to save resources so we don't save every single note
+  // that is closed only those who have changed.
+  m_gnote->changed();
+
+  formatTitle();
+
+  m_blockEmitDataChanged = false;
+}
+
+void KNote::slotKill( bool force )
+{
+  m_blockEmitDataChanged = true;
+  if ( !force &&
+       ( KMessageBox::warningContinueCancel( this,
+         i18n( "<qt>Do you really want to delete note <b>%1</b>?</qt>",
+               m_label->text() ),
+         i18n( "Confirm Delete" ),
+         KGuiItem( i18n( "&Delete" ), "edit-delete" ),
+         KStandardGuiItem::cancel(),
+         "ConfirmDeleteNote" ) != KMessageBox::Continue ) ) {
+     m_blockEmitDataChanged = false;
+     return;
+  }
+  // delete the configuration first, then the corresponding file
+  delete m_config;
+  m_config = 0;
+  QString configFile = KGlobal::dirs()->saveLocation( "appdata", "notes/" );
+  // configFile += m_journal->uid();
+  if ( !KIO::NetAccess::del( KUrl( configFile ), this ) ) {
+    kError( 5500 ) <<"Can't remove the note config:" << configFile;
+  }
+
+  emit sigKillNote( m_journal );
+}
+
+void KNote::slotFindNext()
+{
+  // TODO: honor FindBackwards
+
+  // Let KFind inspect the text fragment, and display a dialog if a match is
+  // found
+  KFind::Result res = m_find->find();
+
+  if ( res == KFind::NoMatch ) { // i.e. at end-pos
+
+    QTextCursor c = m_editor->textCursor(); //doesn't return by reference, so we use setTextCursor
+    c.clearSelection();
+    // m_editor->setTextCursor( c );
+
+    disconnect( m_find, 0, this, 0 );
+    emit sigFindFinished();
+  } else {
+
+    show();
+#ifdef Q_WS_X11
+    KWindowSystem::setCurrentDesktop( KWindowSystem::windowInfo( winId(),
+                                      NET::WMDesktop ).desktop() );
+#endif
+  }
+}
+
+void KNote::slotHighlight( const QString& /*str*/, int idx, int len )
+{
+  // m_editor->textCursor().clearSelection();
+  // m_editor->highlightWord( len, idx );
+
+  // TODO: modify the selection color, use a different QTextCursor?
+}
+
+
+void KNote::slotSave(){
+	qDebug() << __PRETTY_FUNCTION__;
+}
+
+void KNote::slotFormat(){
+
+	formatTitle();
+}
+// END KNOTE SLOTS
 
 }// namespace knotes
 // Sun Apr 29 15:05:32 PDT 2012

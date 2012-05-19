@@ -3,6 +3,8 @@
 
  Copyright (c) 1997-2006, The KNotes Developers
 
+ 2012 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
@@ -124,10 +126,12 @@ class KNote
     void slotDataChanged(const QString&);
     void slotUpdateReadOnly();
 
-    void slotSend();
-    void slotMail();
+    void slotFormat(void);
     void slotPrint();
+    void slotMail();
+    void slotSend();
     void slotSaveAs();
+    void slotSave(void);
 
     void slotInsDate();
     void slotSetAlarm();
@@ -167,19 +171,14 @@ class KNote
     void toDesktop( int desktop );
 
     gnote::Note::Ptr m_gnote;
-    // BEGIN DEPRECATED
-    // To make the title blue
-    //QTextBlock       *m_titleBlock;
-    //QTextCursor      *m_textCursor;
-    //QTextBlockFormat *m_titleFormat;
-    // END DEPRECATED
 
     QLayout       *m_noteLayout;
     QLabel        *m_label;
     QSizeGrip     *m_grip;
+    QString 	  m_htmlTitle;
+
     KNoteButton   *m_button;
-    KToolBar      *m_tool; // this is the old one, it is deprecated
-    //KToolBar      m_toolbar; // new tool bar
+    KToolBar      *m_tool; 
     KNoteEdit     *m_editor;
 
     KNoteConfig   *m_config;

@@ -58,6 +58,8 @@ m_row(0)
 	m_notebooksDialog->tableNotebooks->horizontalHeader()->setVisible(true);
 	// END NOTEBOOKS DIALOG
 
+ 	connect (m_notesDialog->tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
+
 
 } // END SEARCH WINDOW
 
