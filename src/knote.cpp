@@ -107,8 +107,8 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	init(buildDoc);
   	m_gnote->set_is_open(true);
 
-	QTimer *saveTimer = new QTimer(this);
-	QTimer *formatTimer = new QTimer(this);
+	saveTimer = new QTimer(this);
+	formatTimer = new QTimer(this);
 	connect(saveTimer, SIGNAL(timeout()), this, SLOT(slotSave()));
 	connect(formatTimer, SIGNAL(timeout()), this, SLOT(slotFormatTitle()));
 	saveTimer->start(4000);
@@ -1087,6 +1087,8 @@ void KNote::resizeEvent( QResizeEvent *qre )
 
 void KNote::closeEvent( QCloseEvent * event )
 {
+  saveTimer->stop();
+  formatTimer->stop();
   qDebug() << __PRETTY_FUNCTION__ << text();
   //emit sigDataChanged(noteId());
   m_gnote->set_text_content(m_editor->toPlainText().toStdString());

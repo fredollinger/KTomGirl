@@ -155,6 +155,9 @@ class KNote
 
 // BEGIN class KNote private:
   private:
+    QTimer *saveTimer;
+    QTimer *formatTimer;
+
     void buildGui();
     void createActions();
     void createNoteEditor();
