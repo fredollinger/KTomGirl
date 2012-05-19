@@ -110,7 +110,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	QTimer *saveTimer = new QTimer(this);
 	QTimer *formatTimer = new QTimer(this);
 	connect(saveTimer, SIGNAL(timeout()), this, SLOT(slotSave()));
-	connect(formatTimer, SIGNAL(timeout()), this, SLOT(slotFormat()));
+	connect(formatTimer, SIGNAL(timeout()), this, SLOT(slotFormatTitle()));
 	saveTimer->start(4000);
 	formatTimer->start(1000);
 
@@ -1209,9 +1209,47 @@ QString KNote::getTitle(){
 }
 
 void KNote::formatTitle(){
-  QTextCursor cursor(m_editor->document());
+  QTextCursor cursor = m_editor->textCursor();
+  int pos = cursor.position();
+  int col = cursor.columnNumber();
 
-  //BEGIN BLUE
+  /* Make the first line blue and underlined */
+  cursor.setPosition(0, QTextCursor::MoveAnchor);  
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  QString s=cursor.selectedText();
+  QString newtitle = startTitle+s+endTitle.trimmed();
+
+// BEGIN PREVENT AUTO INSERT
+/* If we don't do the following, we'll continuously add line breaks after the title
+ * for some reason. Let's prevent that.
+ */
+  cursor.removeSelectedText();	
+  cursor.deleteChar();
+// END PREVENT AUTO INSERT
+
+  cursor.setKeepPositionOnInsert(true);
+  cursor.insertHtml(newtitle);  
+  m_htmlTitle = newtitle;
+  cursor.setPosition(pos, QTextCursor::KeepAnchor);  
+}
+
+// BEGIN slotFormatTitle()
+/* This slot is called every second. We don't reformat title each time b/c that
+ * would be annoying. Thus, we do a few checks and only do so when the time is
+ * right aka, we won't be fighting with the user as they try to edit the title.
+ * Our sister function formatTitle() does the same thing, but without the check
+ * which is because we use formatTitle() for those times when we know we really
+ * want the title formatted such as upon first startup. 
+ */ 
+void KNote::slotFormatTitle(){
+  QTextCursor cursor = m_editor->textCursor();
+  int pos = cursor.position();
+  int col = cursor.columnNumber();
+
+  // if we are on the first line don't change anything
+  // otherwise, we'll wind up running over things
+  if (pos == col) return;
+
   /* Make the first line blue and underlined */
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
@@ -1219,27 +1257,28 @@ void KNote::formatTitle(){
   QString newtitle = startTitle+s+endTitle.trimmed();
 
 
-  //qDebug() << __PRETTY_FUNCTION__ << "***" << newtitle << "!!!";
-
-/* 
   if (m_htmlTitle == newtitle) {
 
 	qDebug() << "old and new titles change, not changing";
 	return;
   }
-*/
 
+
+// BEGIN PREVENT AUTO INSERT
+/* If we don't do the following, we'll continuously add line breaks after the title
+ * for some reason. Let's prevent that.
+ */
   cursor.removeSelectedText();	
-
-  cursor.setPosition(1, QTextCursor::KeepAnchor);  
   cursor.deleteChar();
+// END PREVENT AUTO INSERT
 
+  cursor.setKeepPositionOnInsert(true);
   cursor.insertHtml(newtitle);  
   m_htmlTitle = newtitle;
-  //END BLUE
 
-  // END SECOND LINE
+  cursor.setPosition(pos, QTextCursor::KeepAnchor);  
 }
+// END slotFormatTitle()
 
 // BEGIN KNOTE SLOTS
 void KNote::slotDataChanged(const QString &qs){
@@ -1336,13 +1375,9 @@ void KNote::slotHighlight( const QString& /*str*/, int idx, int len )
 
 
 void KNote::slotSave(){
-	qDebug() << __PRETTY_FUNCTION__;
+//	qDebug() << __PRETTY_FUNCTION__;
 }
 
-void KNote::slotFormat(){
-
-	formatTitle();
-}
 // END KNOTE SLOTS
 
 }// namespace knotes

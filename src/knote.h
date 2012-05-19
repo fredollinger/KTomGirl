@@ -96,9 +96,10 @@ class KNote
 // END class KNote public:
 
   public slots:
-    void slotRename();
+    void slotRename(void);
     void slotKill( bool force = false );
-    void slotClose();
+    void slotClose(void);
+    void formatTitle(void);
   signals:
     void sigRequestNewNote();
     void sigShowNextNote();
@@ -126,7 +127,7 @@ class KNote
     void slotDataChanged(const QString&);
     void slotUpdateReadOnly();
 
-    void slotFormat(void);
+    void slotFormatTitle(void);
     void slotPrint();
     void slotMail();
     void slotSend();
@@ -154,7 +155,6 @@ class KNote
 
 // BEGIN class KNote private:
   private:
-    void formatTitle();
     void buildGui();
     void createActions();
     void createNoteEditor();
