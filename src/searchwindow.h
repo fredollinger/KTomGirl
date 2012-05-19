@@ -5,8 +5,11 @@
 #include <QStringList>
 #include <QStringListModel>
 #include <QTableWidget>
+#include <KParts/MainWindow>
 
 #include "ui_searchwindow.h"
+#include "notesdialog.h"
+#include "notebooksdialog.h"
 
 // GNOTE INCLUDES
 #include "note.hpp"
@@ -33,8 +36,10 @@ public:
 
 private:
 	QStringList m_list;
-	QStringListModel *m_model;
+	// QStringListModel *m_model;
 	int m_row; // current row
+	NotesDialog *m_notesDialog;
+	NotebooksDialog *m_notebooksDialog;
 signals:
 	void signalNoteSelected(ktomgirl::KTGItem*);
 

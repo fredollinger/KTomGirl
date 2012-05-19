@@ -20,6 +20,8 @@ install(FILES ktgconfigskel.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
 
 set(ktomgirl_SRCS
+notesdialog.cpp
+notebooksdialog.cpp
 ktgconfig.cpp
 ktgconfigskel.cpp
 notebuffer.cpp

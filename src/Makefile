@@ -3,7 +3,7 @@ UI_HEADERS= ui_searchwindow.h
 
 # .PHONY: ktgconfigskel.h
 
-all: ui_searchwindow.h ktgconfigskel.h
+all: ui_searchwindow.h ui_notesdialog.h ui_notebooksdialog.h ktgconfigskel.h
 	mkdir -p build
 	cd build && make 2>err
 setup:
@@ -40,4 +40,11 @@ ktgconfigskel.h:
 	kconfig_compiler ktgconfigskel.kcfg ktgconfigskel.kcfgc
 deps:
 	sudo apt-get install kdelibs5-dev g++ cmake
-# Sat Mar 17 17:29:13 PDT 2012
+
+ui_notesdialog.h:
+	$(UIC) ui/notesdialog.ui > ui_notesdialog.h
+
+ui_notebooksdialog.h:
+	$(UIC) ui/notebooksdialog.ui > ui_notebooksdialog.h
+
+# Sat May 19 09:33:42 PDT 2012

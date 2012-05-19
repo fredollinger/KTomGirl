@@ -25,75 +25,28 @@
   <property name="windowTitle">
    <string>KTomGirl</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="widget">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="minimumSize">
     <size>
-     <width>200</width>
-     <height>200</height>
+     <width>0</width>
+     <height>0</height>
     </size>
    </property>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>651</width>
-      <height>361</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetMaximumSize</enum>
-     </property>
-     <item>
-      <widget class="QLabel" name="labelMainTitleBar">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>16</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>All Notes</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="layout2">
-       <property name="sizeConstraint">
-        <enum>QLayout::SetMaximumSize</enum>
-       </property>
-       <item>
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTableWidget" name="tableNotebooks"/>
-       </item>
-       <item>
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTableWidget" name="tableNotes"/>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
+   <property name="maximumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -101,7 +54,7 @@
      <x>0</x>
      <y>0</y>
      <width>649</width>
-     <height>25</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSearch">
@@ -109,7 +62,6 @@
      <string>File</string>
     </property>
     <addaction name="actionNew_Note"/>
-    <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuSearch"/>
   </widget>
@@ -119,14 +71,7 @@
     <string>New Note</string>
    </property>
   </action>
-  <action name="actionQuit">
-   <property name="text">
-    <string>Quit</string>
-   </property>
-  </action>
  </widget>
- <resources>
-  <include location="ktomgirl.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

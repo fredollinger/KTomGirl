@@ -58,10 +58,12 @@ class Journal;
 }
 
 namespace knotes{
+// BEGIN class KNote
 class KNote
   : public QFrame, virtual public KXMLGUIClient
 {
   Q_OBJECT
+// BEGIN class KNote public:
   public:
     // CONSTRUCTOR
     // KNote( gnote::NoteManager *gnmanager, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
@@ -89,6 +91,7 @@ class KNote
     bool isModified() const;
     void blockEmitDataChanged( bool _b ) { m_blockEmitDataChanged = _b;}
     void commitData();
+// END class KNote public:
 
   public slots:
     void slotRename();
@@ -144,6 +147,8 @@ class KNote
     void slotKeepBelow();
 
     void slotRequestNewNote();
+
+// BEGIN class KNote private:
   private:
     void formatTitle();
     void buildGui();
@@ -161,7 +166,6 @@ class KNote
 
     void toDesktop( int desktop );
 
-  private:
     gnote::Note::Ptr m_gnote;
     // BEGIN DEPRECATED
     // To make the title blue
@@ -175,7 +179,7 @@ class KNote
     QSizeGrip     *m_grip;
     KNoteButton   *m_button;
     KToolBar      *m_tool; // this is the old one, it is deprecated
-    KToolBar      *m_toolbar; // new tool bar
+    //KToolBar      m_toolbar; // new tool bar
     KNoteEdit     *m_editor;
 
     KNoteConfig   *m_config;
@@ -195,6 +199,8 @@ class KNote
     KSharedConfig::Ptr m_kwinConf;
     bool m_blockEmitDataChanged;
     bool mBlockWriteConfigDuringCommitData;
-};
+// END class KNote private:
+}; // class KNote
 } // namespace knotes
 #endif
+// Sat May 19 08:55:09 PDT 2012

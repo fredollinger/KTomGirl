@@ -1,9 +1,5 @@
 KTomGirl Todo list:
 
-2. test to open a file and to see if we save the same on
-
-3. make new note
-
 4. ui improvements - look more like tomboy
 a. new note icon
 b. file menu works
@@ -13,3 +9,11 @@ d. change 1 to note in tree view
 5. search window from note.
 
 6. Give credit to Adrian Dumitrupop for the trash icon.
+
+7. add toolbar rc file noteui.rc
+
+8. change app name (and kde data path) to ktomgirl
+
+9. get a icon of delete note into the tool bar
+
+10. implement delete note as a test
