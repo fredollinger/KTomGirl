@@ -1067,6 +1067,8 @@ void KNote::contextMenuEvent( QContextMenuEvent *e )
 
 void KNote::showEvent( QShowEvent * )
 {
+  saveTimer->start();
+  formatTimer->start();
   #if 0
   if ( m_config->hideNote() ) {
     // KWin does not preserve these properties for hidden windows
@@ -1133,8 +1135,31 @@ bool KNote::event( QEvent *ev )
   }
 }
 
+ void KNote::keyPressEvent(QKeyEvent *event)
+{
+	qDebug() << __PRETTY_FUNCTION__; 
+        if (event->key() == Qt::Key_Return) {
+		qDebug() << "Return";
+		formatTitle();
+            	QWidget::keyPressEvent(event);
+        } else {
+            QWidget::keyPressEvent(event);
+        }
+    }
+
 bool KNote::eventFilter( QObject *o, QEvent *ev )
 {
+  if ( ev->type() == QEvent::FocusOut ){
+	qDebug() << "Focus out!";
+	formatTimer->stop();
+	saveTimer->stop();
+  }
+  if ( ev->type() == QEvent::FocusOut ){
+	qDebug() << "Focus in!";
+	formatTimer->start();
+	saveTimer->start();
+  }
+
   if ( ev->type() == QEvent::DragEnter &&
     static_cast<QDragEnterEvent*>( ev )->mimeData()->hasColor() ) {
     dragEnterEvent( static_cast<QDragEnterEvent *>( ev ) );
@@ -1213,12 +1238,14 @@ QString KNote::getTitle(){
 void KNote::formatTitle(){
   QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
+  int pos2; // start of second line 
   int col = cursor.columnNumber();
 
   /* Make the first line blue and underlined */
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
+  pos2 = s.count() + 1;
   QString newtitle = startTitle+s+endTitle.trimmed();
 
 // BEGIN PREVENT AUTO INSERT
@@ -1229,9 +1256,18 @@ void KNote::formatTitle(){
   cursor.deleteChar();
 // END PREVENT AUTO INSERT
 
-  cursor.setKeepPositionOnInsert(true);
   cursor.insertHtml(newtitle);  
-  m_htmlTitle = newtitle;
+
+  // BEGIN FIX SECOND LINE
+  // Makes second line look black again and not underlined
+  cursor.setPosition(pos2, QTextCursor::MoveAnchor);  
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  s=cursor.selectedText();
+  QString newtext = startNormal+s+endNormal.trimmed();
+  cursor.insertHtml(newtext);  
+  // END FIX SECOND LINE
+
+
   cursor.setPosition(pos, QTextCursor::KeepAnchor);  
 }
 

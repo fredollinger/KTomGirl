@@ -113,6 +113,7 @@ class KNote
     void sigFindFinished();
 
   protected:
+    void keyPressEvent(QKeyEvent *event);
     virtual void contextMenuEvent( QContextMenuEvent * );
     virtual void showEvent( QShowEvent * );
     virtual void resizeEvent( QResizeEvent * );
