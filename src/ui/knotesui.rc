@@ -23,28 +23,7 @@
 </Menu>
 
 <ToolBar name="note_tool">
-    <Action name="format_bold"/>
-    <Action name="format_italic"/>
-    <Action name="format_underline"/>
-    <Action name="format_strikeout"/>
-    <Separator/>
-    <Action name="format_alignleft"/>
-    <Action name="format_aligncenter"/>
-    <Action name="format_alignright"/>
-    <Action name="format_alignblock"/>
-    <Separator/>
-    <Action name="format_increaseindent"/>
-    <Action name="format_decreaseindent"/>
-    <Separator/>
-    <Action name="format_list"/>
-    <Action name="format_super"/>
-    <Action name="format_sub"/>
-    <Separator/>
-    <Action name="format_color"/>
-    <Action name="text_background_color"/>
-    <Separator/>
-    <Action name="format_font"/>
-    <Action name="format_size"/>
+    <Action name="delete_note"/>
 </ToolBar>
 
 </kpartgui>

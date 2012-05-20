@@ -273,7 +273,8 @@ void KNote::slotUpdateReadOnly()
   // enable/disable actions accordingly
   actionCollection()->action( "configure_note" )->setEnabled( !readOnly );
   actionCollection()->action( "insert_date" )->setEnabled( !readOnly );
-  actionCollection()->action( "delete_note" )->setEnabled( !readOnly );
+  //actionCollection()->action( "delete_note" )->setEnabled( !readOnly );
+  actionCollection()->action( "delete_note" )->setEnabled( true );
   actionCollection()->action( "format_bold" )->setEnabled( !readOnly );
   actionCollection()->action( "format_italic" )->setEnabled( !readOnly );
   actionCollection()->action( "format_underline" )->setEnabled( !readOnly );
@@ -1282,6 +1283,7 @@ void KNote::formatTitle(){
 void KNote::slotFormatTitle(){
   QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
+  int pos2; // start of second line 
   int col = cursor.columnNumber();
 
   // if we are on the first line don't change anything
@@ -1292,6 +1294,7 @@ void KNote::slotFormatTitle(){
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
+  pos2 = s.count() + 1;
   QString newtitle = startTitle+s+endTitle.trimmed();
 
 
@@ -1313,6 +1316,15 @@ void KNote::slotFormatTitle(){
   cursor.setKeepPositionOnInsert(true);
   cursor.insertHtml(newtitle);  
   m_htmlTitle = newtitle;
+
+  // BEGIN FIX SECOND LINE
+  // Makes second line look black again and not underlined
+  cursor.setPosition(pos2, QTextCursor::MoveAnchor);  
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  s=cursor.selectedText();
+  QString newtext = startNormal+s+endNormal.trimmed();
+  cursor.insertHtml(newtext);  
+  // END FIX SECOND LINE
 
   cursor.setPosition(pos, QTextCursor::KeepAnchor);  
 }
