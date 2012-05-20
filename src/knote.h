@@ -156,6 +156,7 @@ class KNote
 
 // BEGIN class KNote private:
   private:
+    QString m_title;
     QTimer *saveTimer;
     QTimer *formatTimer;
 

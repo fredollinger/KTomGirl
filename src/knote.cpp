@@ -95,13 +95,12 @@ static const QString endTitle = "</u></font><br>";
 static const QString startNormal = "<font color=\"Black\" size=\"12\">";
 static const QString endNormal = "</font><br>";
 
-
-//SearchWindow::newItem(gnote::Note::Ptr & note){
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
     m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnote(gnoteptr)
+    , m_title("")
 { 
 	j->setUid(QString::fromStdString(gnoteptr->uid()));
 	init(buildDoc);
@@ -134,7 +133,8 @@ void KNote::init_note(){
 }
 
 void KNote::load_gnote(){
-	setName(QString::fromStdString(m_gnote->get_title()));
+	m_title = QString::fromStdString(m_gnote->get_title());
+	setName(m_title);
 	QString content = QString::fromStdString(m_gnote->text_content());
 	setText(content);
 	init_note();
@@ -146,6 +146,7 @@ void KNote::init( const QDomDocument& buildDoc ){
   setAttribute( Qt::WA_DeleteOnClose );
   setDOMDocument( buildDoc );
   setObjectName( m_journal->uid() );
+  qDebug() << "setting: " << componentData().componentName() + "ui.rc";
   setXMLFile( componentData().componentName() + "ui.rc", false, false );
 
   // create the main layout
@@ -1102,28 +1103,10 @@ void KNote::closeEvent( QCloseEvent * event )
 
 void KNote::dragEnterEvent( QDragEnterEvent *e )
 {
-  /*
-  if ( !m_config->readOnly() ) {
-    e->setAccepted( e->mimeData()->hasColor() );
-  }
-  */
 }
 
 void KNote::dropEvent( QDropEvent *e )
 {
-  /*
-  if ( m_config->readOnly() ) {
-    return;
-  }
-
-  const QMimeData *md = e->mimeData();
-  if ( md->hasColor() ) {
-       QColor bg =  qvariant_cast<QColor>( md->colorData() );
-       setColor( palette().color( foregroundRole() ), bg );
-       m_journal->setCustomProperty( "KNotes", "BgColor", bg.name() );
-       m_config->setBgColor( bg );
-  }
-  */
 }
 
 bool KNote::event( QEvent *ev )
@@ -1232,8 +1215,8 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
 QString KNote::getTitle(){
 	QString t = m_editor->toPlainText();
 	QString str = t.section('\n', 0, 1);
-	qDebug() << __PRETTY_FUNCTION__ << str.trimmed();
 	return str.trimmed();
+	// return m_title;
 }
 
 void KNote::formatTitle(){
@@ -1246,6 +1229,7 @@ void KNote::formatTitle(){
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
+  m_title = s;
   pos2 = s.count() + 1;
   QString newtitle = startTitle+s+endTitle.trimmed();
 
@@ -1261,11 +1245,18 @@ void KNote::formatTitle(){
 
   // BEGIN FIX SECOND LINE
   // Makes second line look black again and not underlined
+  #if 0
   cursor.setPosition(pos2, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   s=cursor.selectedText();
   QString newtext = startNormal+s+endNormal.trimmed();
+
+  cursor.removeSelectedText();	
+  cursor.deleteChar();
+
+  qDebug() << "second line: "<< newtext;
   cursor.insertHtml(newtext);  
+  #endif
   // END FIX SECOND LINE
 
 
@@ -1294,16 +1285,13 @@ void KNote::slotFormatTitle(){
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
+  m_title = s;
   pos2 = s.count() + 1;
   QString newtitle = startTitle+s+endTitle.trimmed();
 
-
   if (m_htmlTitle == newtitle) {
-
-	qDebug() << "old and new titles change, not changing";
 	return;
   }
-
 
 // BEGIN PREVENT AUTO INSERT
 /* If we don't do the following, we'll continuously add line breaks after the title
@@ -1317,13 +1305,17 @@ void KNote::slotFormatTitle(){
   cursor.insertHtml(newtitle);  
   m_htmlTitle = newtitle;
 
+#if 0
   // BEGIN FIX SECOND LINE
   // Makes second line look black again and not underlined
   cursor.setPosition(pos2, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   s=cursor.selectedText();
   QString newtext = startNormal+s+endNormal.trimmed();
+  cursor.removeSelectedText();	
+  cursor.deleteChar();
   cursor.insertHtml(newtext);  
+#endif
   // END FIX SECOND LINE
 
   cursor.setPosition(pos, QTextCursor::KeepAnchor);  
@@ -1338,6 +1330,7 @@ void KNote::slotDataChanged(const QString &qs){
 
   m_blockEmitDataChanged = true;
 
+  formatTitle();
   const QString newTitle = getTitle();
   std::string oldTitle = m_gnote->get_title();
 

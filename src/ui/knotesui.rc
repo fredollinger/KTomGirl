@@ -3,6 +3,7 @@
 <kpartgui name="KNotes" version="393">
 
 <Menu name="note_context" noMerge="1">
+    <Action name="fred"/>
     <Action name="insert_date"/>
     <Action name="set_alarm"/>
     <Action name="send_note"/>

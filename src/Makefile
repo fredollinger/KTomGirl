@@ -21,7 +21,7 @@ build/ktomgirl:
 	make all
 install: build/ktomgirl
 	cd build && su -c "make install"
-	mkdir /usr/share/kde4/apps/ktomgirl
+	#mkdir /usr/share/kde4/apps/ktomgirl
 	cp ui/*.rc /usr/share/kde4/apps/ktomgirl
 test:
 	build/ktomgirl
