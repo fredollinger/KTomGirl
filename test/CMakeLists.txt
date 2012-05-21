@@ -14,6 +14,7 @@ include_directories("/usr/include/libxml2")
 set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
 
 set(ktomgirl_SRCS
+knote.cpp
 main.cpp
 notesdialog.cpp
 notebooksdialog.cpp

@@ -19,22 +19,32 @@
 *******************************************************************/
 
 //#include "../src/notemanager.hpp"
-#include "../src/notedata.hpp"
-#include "../src/notebuffer.hpp"
+//#include "../src/notedata.hpp"
+//#include "../src/notebuffer.hpp"
 #include "../src/version.h"
-#include "searchwindow.h"
-
+//#include "searchwindow.h"
+#include "knote.h"
 
 #include <QApplication>
 #include <QDebug>
+
+void showXmlWindow(){
+	KNote *sw = new KNote();
+	sw->show();
+}
+
+void showSearchWindow(){
+	/*
+	SearchWindow *sw = new SearchWindow();
+	sw->show();
+	*/
+}
 
 int main( int argc, char *argv[] )
 {
 	QApplication app(argc, argv);
 
-	SearchWindow *sw = new SearchWindow();
-	sw->show();
-
+	showXmlWindow();
 
 	return app.exec();
 }

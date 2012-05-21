@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+
+<kpartgui name="KNotes" version="393">
+
+<ToolBar name="note_tool">
+    <Action name="delete_note"/>
+</ToolBar>
+
+</kpartgui>
