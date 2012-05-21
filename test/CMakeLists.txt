@@ -19,6 +19,7 @@ main.cpp
 notesdialog.cpp
 notebooksdialog.cpp
 searchwindow.cpp
+../src/string.cpp
 ../src/ktgitem.cpp
 ../src/xmlconvert.cpp
 ../src/xml.cpp
@@ -29,6 +30,7 @@ searchwindow.cpp
 ../src/xmlreader.cpp
 ../src/sharp.cpp
 ../src/notebuffer.cpp
+../src/notemanager.cpp
 ../src/note.cpp
 ../src/gnote.cpp
 ../src/preferences.cpp

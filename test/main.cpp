@@ -28,6 +28,8 @@
 #include <QApplication>
 #include <QDebug>
 
+#include "../src/notemanager.hpp"
+
 void showXmlWindow(){
 	KNote *sw = new KNote();
 	sw->show();
@@ -38,6 +40,10 @@ void showSearchWindow(){
 	SearchWindow *sw = new SearchWindow();
 	sw->show();
 	*/
+}
+
+void testDate(){
+	gnote::NoteManager *nm = new gnote::NoteManager();
 }
 
 int main( int argc, char *argv[] )

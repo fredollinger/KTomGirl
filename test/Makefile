@@ -30,7 +30,7 @@ install: build/ktomgirl
 	cd build && su -c "make install"
 	#cd build && sudo make install
 test:
-	cp ktomgirlui.rc ~/.kde/share/apps/ktomgirl/
+	sudo cp ktomgirlui.rc ~/.kde/share/apps/ktomgirl/
 	build/ktomgirl
 	#su -c "make install"
 	#/usr/local/bin/ktomgirl ktomgirl.cpp
