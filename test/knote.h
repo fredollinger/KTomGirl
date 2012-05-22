@@ -14,6 +14,9 @@ class KNote : public KXmlGuiWindow
 
   private:
     void setupActions();
+ 
+public slots:
+  void slotDeleteNote(void);
 
 };// class KNote
 #endif // KNOTE_H
