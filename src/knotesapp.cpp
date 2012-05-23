@@ -577,6 +577,7 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
 
+
   showNote( journal->uid() );
 }
 

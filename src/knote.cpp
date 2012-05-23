@@ -1418,7 +1418,9 @@ void KNote::slotHighlight( const QString& /*str*/, int idx, int len )
 
 
 void KNote::slotSave(){
-//	qDebug() << __PRETTY_FUNCTION__;
+  qDebug() << __PRETTY_FUNCTION__;
+  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
+  m_gnote->save();
 }
 
 // END KNOTE SLOTS
