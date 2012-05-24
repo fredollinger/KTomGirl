@@ -6,4 +6,14 @@
     <Action name="delete_note"/>
 </ToolBar>
 
+<Menu name="knotes_context" noMerge="1"><text>KNotes</text>
+    <title icon="knotes">KNotes</title>
+    <Action name="delete_note"/>
+</Menu>
+
+<Menu name="notes_menu" noMerge="1"><text>Notes</text>
+    <title>Notes</title>
+    <ActionList name="delete_note"/>
+</Menu>
+
 </kpartgui>
