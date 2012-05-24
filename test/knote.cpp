@@ -31,13 +31,13 @@ KNote::KNote(QWidget *parent)
   //QToolBar *toolbar = addToolBar("main toolbar");
   KToolBar *toolbar =  new KToolBar(this, true, false);
   addToolBar(toolbar);
-  icon.addFile("/home/follinge/projects/KTomGirl/test/trashcan_empty.xpm", QSize(64, 64), QIcon::Normal, QIcon::On);
+  icon.addFile(":/ktg/trashcan_empty.xpm", QSize(64, 64), QIcon::Normal, QIcon::On);
   //search.addFile("trashcan_empty.xpm", QSize(64, 64), QIcon::Normal, QIcon::On);
-  search.addPixmap(QPixmap("/home/follinge/projects/KTomGirl/test/trashcan_empty.xpm"));
+  search.addPixmap(QPixmap(":/ktg/trashcan_empty.xpm"));
   KAction *action  = new KAction( icon, i18n( "Trash" ),  this );
   KAction *search_action  = new KAction( search, i18n( "Search" ),  this );
-//  toolbar->addAction(icon, "Trash");
- // toolbar->addAction(search, "Search");
+  toolbar->addAction(icon, "Trash");
+  toolbar->addAction(search, "Search");
   //action->setText(i18n("Trash"));
   //actionCollection()->addAction( "delete_note", action );
 	  QAction *trash = toolbar->addAction(icon, QString("Quit Application"));
@@ -49,7 +49,7 @@ KNote::KNote(QWidget *parent)
      //                                  actionCollection());
 
   //toolbar->addAction(newAct, "Search");
- // connect( search_action, SIGNAL( triggered( bool ) ), SLOT( slotDeleteNote() ) );
+  connect( search_action, SIGNAL( triggered( bool ) ), SLOT( slotDeleteNote() ) );
 }
 
 void
