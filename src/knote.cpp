@@ -606,9 +606,17 @@ void KNote::buildGui()
   factory.addClient( this );
 
   m_menu = dynamic_cast<KMenu*>( factory.container( "note_context", this ) );
-  m_tool = dynamic_cast<KToolBar*>( factory.container( "note_tool", this ) );
+  // m_tool = dynamic_cast<KToolBar*>( factory.container( "note_tool", this ) );
 
-  //KToolBar m_toolbar = KToolBar("notebar", this, false);
+  // BEGIN MAKE TOOLBAR
+  m_tool =  new KToolBar(this, true, false);
+
+  KIcon trash = KIcon("edit-delete");
+  m_tool->addAction(trash, i18n("Trash"));
+
+  KIcon search = KIcon("system-search");
+  m_tool->addAction(search, i18n("Search"));
+  // END MAKE TOOLBAR
 
   createNoteFooter();
 }
