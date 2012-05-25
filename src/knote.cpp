@@ -605,6 +605,8 @@ void KNote::buildGui()
   KXMLGUIFactory factory( &builder, this );
   factory.addClient( this );
 
+  QHBoxLayout *toolLayout = new QHBoxLayout;
+
   m_menu = dynamic_cast<KMenu*>( factory.container( "note_context", this ) );
   // m_tool = dynamic_cast<KToolBar*>( factory.container( "note_tool", this ) );
 
@@ -617,6 +619,9 @@ void KNote::buildGui()
   KIcon search = KIcon("system-search");
   m_tool->addAction(search, i18n("Search"));
   // END MAKE TOOLBAR
+
+  toolLayout->addWidget( m_tool );
+  m_noteLayout->addItem( toolLayout );
 
   createNoteFooter();
 }
@@ -804,12 +809,14 @@ void KNote::createNoteFooter()
   m_grip = new QSizeGrip( this );
   m_grip->setFixedSize( m_grip->sizeHint() );
 
+	#if 0
   if ( m_tool ) {
-    gripLayout->addWidget( m_tool );
+   // gripLayout->addWidget( m_tool );
     // gripLayout->setAlignment( m_tool, Qt::AlignBottom | Qt::AlignLeft );
-    gripLayout->setAlignment( m_tool, Qt::AlignTop | Qt::AlignLeft );
+    // gripLayout->setAlignment( m_tool, Qt::AlignTop | Qt::AlignLeft );
     m_tool->hide();
   }
+	#endif
 
   gripLayout->addWidget( m_grip );
   gripLayout->setAlignment( m_grip, Qt::AlignBottom | Qt::AlignRight );
