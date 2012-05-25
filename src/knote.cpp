@@ -191,10 +191,13 @@ QString KNote::noteId() const
   return m_journal->uid();
 }
 
-QString KNote::name() const
+/*
+const QString KNote::name() const
 {
-  return m_label->text();
+  return getTitle();
+  // return m_label->text();
 }
+*/
 
 QString KNote::text() const
 {
@@ -205,7 +208,7 @@ QString KNote::text() const
 
 void KNote::setName( const QString& name )
 {
-  m_label->setText( name );
+  // m_label->setText( name );
   updateLabelAlignment();
 
   if ( m_editor ) {    // not called from CTOR?
@@ -250,18 +253,20 @@ bool KNote::isModified() const
 
 void KNote::slotRename()
 {
+  #if 0
     m_blockEmitDataChanged = true;
   // pop up dialog to get the new name
   bool ok;
-  const QString oldName = m_label->text();
+  // const QString oldName = m_label->text();
   const QString newName = KInputDialog::getText( QString::null, //krazy:exclude=nullstrassign for old broken gcc
-    i18n( "Please enter the new name:" ), m_label->text(), &ok, this );
-  m_blockEmitDataChanged = false;
+    // i18n( "Please enter the new name:" ), m_label->text(), &ok, this );
+  // m_blockEmitDataChanged = false;
   if ( !ok || (oldName == newName) ) { // handle cancel
     return;
   }
 
   setName( newName );
+  #endif
 }
 
 void KNote::slotUpdateReadOnly()
@@ -370,7 +375,7 @@ void KNote::slotSend()
 {
   #if 0
   // pop up dialog to get the IP
-  KNoteHostDlg hostDlg( i18n( "Send \"%1\"", name() ), this );
+  // KNoteHostDlg hostDlg( i18n( "Send \"%1\"", name() ), this );
   // const bool ok = ( hostDlg.exec() == QDialog::Accepted );
 
   if ( !ok ) { // handle cancel
@@ -1248,11 +1253,16 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
   return false;
 }
 
+QString KNote::name() const{
+	QString t = m_editor->toPlainText();
+	QString str = t.section('\n', 0, 1);
+	return str.trimmed();
+}
+
 QString KNote::getTitle(){
 	QString t = m_editor->toPlainText();
 	QString str = t.section('\n', 0, 1);
 	return str.trimmed();
-	// return m_title;
 }
 
 void KNote::formatTitle(){
@@ -1398,7 +1408,8 @@ void KNote::slotKill( bool force )
   if ( !force &&
        ( KMessageBox::warningContinueCancel( this,
          i18n( "<qt>Do you really want to delete note <b>%1</b>?</qt>",
-               m_label->text() ),
+               getTitle() ),
+//               m_label->text() ),
          i18n( "Confirm Delete" ),
          KGuiItem( i18n( "&Delete" ), "edit-delete" ),
          KStandardGuiItem::cancel(),

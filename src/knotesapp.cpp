@@ -342,7 +342,7 @@ QVariantMap KNotesApp::notes() const
   QVariantMap notes;
 
   foreach ( KNote *note, m_notes ) {
-    notes.insert( note->noteId(), note->name() );
+    notes.insert( note->noteId(), note->getTitle() );
   }
 
   return notes;
@@ -352,7 +352,7 @@ QString KNotesApp::name( const QString &id ) const
 {
   KNote *note = m_notes.value( id );
   if ( note ) {
-    return note->name();
+    return note->getTitle();
   } else {
     return QString();
   }

@@ -82,6 +82,7 @@ class KNote
     void saveConfig() const;
 
     QString noteId() const;
+
     QString name() const;
     QString text() const;
 
