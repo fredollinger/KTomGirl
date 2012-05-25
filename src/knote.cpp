@@ -806,7 +806,8 @@ void KNote::createNoteFooter()
 
   if ( m_tool ) {
     gripLayout->addWidget( m_tool );
-    gripLayout->setAlignment( m_tool, Qt::AlignBottom | Qt::AlignLeft );
+    // gripLayout->setAlignment( m_tool, Qt::AlignBottom | Qt::AlignLeft );
+    gripLayout->setAlignment( m_tool, Qt::AlignTop | Qt::AlignLeft );
     m_tool->hide();
   }
 
@@ -815,6 +816,7 @@ void KNote::createNoteFooter()
   m_noteLayout->addItem( gripLayout );
 
   // if there was just a way of making KComboBox adhere the toolbar height...
+  #if 0
   if ( m_tool ) {
     foreach ( KComboBox *combo, m_tool->findChildren<KComboBox *>() ) {
       QFont font = combo->font();
@@ -823,6 +825,7 @@ void KNote::createNoteFooter()
       combo->setFixedHeight( 14 );
     }
   }
+  #endif
 }
 
 void KNote::prepare()
