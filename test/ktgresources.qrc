@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="images">
+    <file>trashcan_empty.png</file>
+  </qresource>
+  <qresource prefix="xml">
+    <file>ktomgirlui.rc</file>
+  </qresource>
+</RCC>
