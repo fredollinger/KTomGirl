@@ -605,12 +605,12 @@ void KNote::buildGui()
   KXMLGUIFactory factory( &builder, this );
   factory.addClient( this );
 
-  QHBoxLayout *toolLayout = new QHBoxLayout;
+  // QHBoxLayout *toolLayout = new QHBoxLayout;
 
   m_menu = dynamic_cast<KMenu*>( factory.container( "note_context", this ) );
-  // m_tool = dynamic_cast<KToolBar*>( factory.container( "note_tool", this ) );
 
   // BEGIN MAKE TOOLBAR
+  #if 0
   m_tool =  new KToolBar(this, true, false);
 
   KIcon trash = KIcon("edit-delete");
@@ -618,10 +618,11 @@ void KNote::buildGui()
 
   KIcon search = KIcon("system-search");
   m_tool->addAction(search, i18n("Search"));
-  // END MAKE TOOLBAR
 
-  toolLayout->addWidget( m_tool );
-  m_noteLayout->addItem( toolLayout );
+  m_noteLayout->addWidget( m_tool );
+  m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
+  #endif
+  // END MAKE TOOLBAR
 
   createNoteFooter();
 }
@@ -735,12 +736,27 @@ void KNote::createNoteHeader()
 
   // create header label
   m_label = new QLabel( this );
+  #if 0
   headerLayout->addWidget( m_label );
   m_label->setFrameStyle( NoFrame );
   m_label->setBackgroundRole( QPalette::Base );
   m_label->setLineWidth( 0 );
   m_label->setAutoFillBackground( true );
   m_label->installEventFilter( this );  // receive events ( for dragging &
+  #endif
+
+  // BEGIN MAKE TOOLBAR
+  m_tool =  new KToolBar(this, true, false);
+
+  KIcon trash = KIcon("edit-delete");
+  m_tool->addAction(trash, i18n("Trash"));
+
+  KIcon search = KIcon("system-search");
+  m_tool->addAction(search, i18n("Search"));
+
+  m_noteLayout->addWidget( m_tool );
+  m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
+  // END MAKE TOOLBAR
                                         // action menu )
   // setName( m_journal->summary() );      // don't worry, no signals are
                                         // connected at this stage yet
@@ -998,7 +1014,7 @@ void KNote::setColor( const QColor &fg, const QColor &bg )
   // darker values for the active label
   p.setColor( QPalette::Active, QPalette::Base, bg.dark( 116 ) );
 
-  m_label->setPalette( p );
+  // m_label->setPalette( p );
 
   // set the text color
   m_editor->setTextColor( fg );
@@ -1023,6 +1039,7 @@ void KNote::setColor( const QColor &fg, const QColor &bg )
 
 void KNote::updateLabelAlignment()
 {
+  #if 0
   // if the name is too long to fit, left-align it, otherwise center it (#59028)
   const QString labelText = m_label->text();
   if ( m_label->fontMetrics().boundingRect( labelText ).width() >
@@ -1031,6 +1048,7 @@ void KNote::updateLabelAlignment()
   } else {
     m_label->setAlignment( Qt::AlignHCenter );
   }
+  #endif
 }
 
 void KNote::updateFocus()
