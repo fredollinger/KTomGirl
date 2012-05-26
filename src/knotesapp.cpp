@@ -303,7 +303,6 @@ void KNotesApp::showAllNotes() const
 
 void KNotesApp::showNote( const QString &id ) const
 {
-  qDebug() << __PRETTY_FUNCTION__ << id;
   KNote *note = m_notes.value( id );
   if ( note ) {
     showNote( note );
@@ -560,7 +559,6 @@ void KNotesApp::showNote( KNote *note ) const
 }
 
 void KNotesApp::slotShowSearchWindow(){
-	qDebug() << __PRETTY_FUNCTION__;
 	m_searchWindow->show();
 	m_searchWindow->raise();
 	m_searchWindow->activateWindow();
@@ -584,17 +582,14 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   newNote->init_note();
 
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
-  connect( newNote, SIGNAL( sigDelete(QString&) ), this, SLOT( slotDeleteNote(QString&)), Qt::QueuedConnection  );
-
-  qDebug() << "connecting search window slotshowsearchwindow to knote signal sigshowsearchwindow";
+  connect( newNote, SIGNAL( sigKillNote(const QString&) ), this, SLOT( slotDeleteNote(const QString&)), Qt::QueuedConnection  );
 
   connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
-  // connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
 
   showNote( journal->uid() );
 }
 
-void KNotesApp::slotDeleteNote(QString &note){
+void KNotesApp::slotDeleteNote(const QString &note){
 	qDebug() << "Deleting note: "<< note;
 }
 
@@ -717,8 +712,9 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   showNote(journal->uid() );
 
-  qDebug() << __PRETTY_FUNCTION__ << "connecting name changed from knote to seach window";
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
+
+  connect( newNote, SIGNAL( sigKillNote(const QString&) ), this, SLOT( slotDeleteNote(const QString&)), Qt::QueuedConnection  );
 
   connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
 
