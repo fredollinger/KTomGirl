@@ -100,6 +100,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
     m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnote(gnoteptr)
+    , m_content("")
     , m_title("")
 { 
 	j->setUid(QString::fromStdString(gnoteptr->uid()));
@@ -110,6 +111,8 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	formatTimer = new QTimer(this);
 	connect(saveTimer, SIGNAL(timeout()), this, SLOT(slotSave()));
 	connect(formatTimer, SIGNAL(timeout()), this, SLOT(slotFormatTitle()));
+
+	qDebug() << __PRETTY_FUNCTION__ << "start save timer";
 	saveTimer->start(4000);
 	formatTimer->start(1000);
 
@@ -135,8 +138,8 @@ void KNote::init_note(){
 void KNote::load_gnote(){
 	m_title = QString::fromStdString(m_gnote->get_title());
 	setName(m_title);
-	QString content = QString::fromStdString(m_gnote->text_content());
-	setText(content);
+	m_content = QString::fromStdString(m_gnote->text_content());
+	setText(m_content);
 	init_note();
 }
 
@@ -243,10 +246,21 @@ void KNote::find( KFind* kfind )
   slotFindNext();
 }
 
+// FIXME: implement. Tells if the note changed and is not yet saved.
+// if TRUE, then we are NOT saved.
 bool KNote::isModified() const
 {
+  QString newContent = m_editor->toPlainText();
+
+
+  if (newContent == m_content){
+  	qDebug() << __PRETTY_FUNCTION__ << "FALSE" << newContent << " : " << m_content;
+	return false;
+  }
+
+  qDebug() << __PRETTY_FUNCTION__ << "TRUE" << newContent << " : " << m_content;
+
   return true;
-  // return m_editor->document()->isModified();
 }
 
 // ------------------ private slots (menu actions) ------------------ //
@@ -310,7 +324,9 @@ void KNote::commitData()
 
 void KNote::slotClose()
 {
-  qDebug() << __PRETTY_FUNCTION__;
+  qDebug() << __PRETTY_FUNCTION__ << "stopping save timer";
+  saveTimer->stop();
+  formatTimer->stop();
   hide();
 #if 0
 #ifdef Q_WS_X11
@@ -1050,6 +1066,7 @@ void KNote::contextMenuEvent( QContextMenuEvent *e )
 
 void KNote::showEvent( QShowEvent * )
 {
+  qDebug() << __PRETTY_FUNCTION__ << "starting save timer";
   saveTimer->start();
   formatTimer->start();
   #if 0
@@ -1072,6 +1089,8 @@ void KNote::resizeEvent( QResizeEvent *qre )
 
 void KNote::closeEvent( QCloseEvent * event )
 {
+  qDebug() << __PRETTY_FUNCTION__;
+  qDebug() << __PRETTY_FUNCTION__ << "stop save timer";
   saveTimer->stop();
   formatTimer->stop();
   qDebug() << __PRETTY_FUNCTION__ << text();
@@ -1117,10 +1136,11 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
   if ( ev->type() == QEvent::FocusOut ){
 	qDebug() << "Focus out!";
 	formatTimer->stop();
+  	qDebug() << __PRETTY_FUNCTION__ << "stop save timer";
 	saveTimer->stop();
   }
-  if ( ev->type() == QEvent::FocusOut ){
-	qDebug() << "Focus in!";
+  if ( ev->type() == QEvent::FocusIn ){
+  	qDebug() << __PRETTY_FUNCTION__ << "start save timer";
 	formatTimer->start();
 	saveTimer->start();
   }
@@ -1199,11 +1219,15 @@ QString KNote::name() const{
 	return str.trimmed();
 }
 
+// BEGIN DEPRECATED
+#if 0
 QString KNote::getTitle(){
 	QString t = m_editor->toPlainText();
 	QString str = t.section('\n', 0, 1);
 	return str.trimmed();
 }
+#endif
+// END DEPRECATED
 
 void KNote::formatTitle(){
   QTextCursor cursor = m_editor->textCursor();
@@ -1311,14 +1335,21 @@ void KNote::slotFormatTitle(){
 // BEGIN KNOTE SLOTS
 void KNote::slotDataChanged(const QString &qs){
 
-  qDebug() << __PRETTY_FUNCTION__ << qs;
   if (m_blockEmitDataChanged) return;
+
+  // If we aren't changed, we got here by accident.
+  // This shouldn't happen, but we really should protect against it.
+  if (! isModified() ) return;
 
   m_blockEmitDataChanged = true;
 
-  formatTitle();
-  const QString newTitle = getTitle();
+
+  // OK, we actually changed. Handle that:
+  const QString newTitle = name();
   std::string oldTitle = m_gnote->get_title();
+
+
+  formatTitle();
 
   // Sync title bar with title
   setWindowTitle(newTitle);
@@ -1350,7 +1381,7 @@ void KNote::slotKill()
   //if ( !force &&
   if (  KMessageBox::warningContinueCancel( this,
          i18n( "<qt>Do you really want to delete note <b>%1</b>?</qt>",
-               getTitle() ),
+               name() ),
 //               m_label->text() ),
          i18n( "Confirm Delete" ),
          KGuiItem( i18n( "&Delete" ), "edit-delete" ),
@@ -1371,7 +1402,7 @@ void KNote::slotKill()
   }
 */
 
-  emit sigKillNote( m_journal );
+  emit sigKillNote(name());
 }
 
 void KNote::slotFindNext()
@@ -1408,10 +1439,15 @@ void KNote::slotHighlight( const QString& /*str*/, int idx, int len )
   // TODO: modify the selection color, use a different QTextCursor?
 }
 
-
 void KNote::slotSave(){
   qDebug() << __PRETTY_FUNCTION__;
-  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
+
+  // only save if we changed
+  if (! isModified() ) return;
+
+  // cache content so we know if we are modified/saved in the future
+  m_content = m_editor->toPlainText();
+  m_gnote->set_text_content(m_content.toStdString());
   m_gnote->save();
 }
 

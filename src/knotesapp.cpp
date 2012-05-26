@@ -343,7 +343,7 @@ QVariantMap KNotesApp::notes() const
   QVariantMap notes;
 
   foreach ( KNote *note, m_notes ) {
-    notes.insert( note->noteId(), note->getTitle() );
+    notes.insert( note->noteId(), note->name() );
   }
 
   return notes;
@@ -353,7 +353,7 @@ QString KNotesApp::name( const QString &id ) const
 {
   KNote *note = m_notes.value( id );
   if ( note ) {
-    return note->getTitle();
+    return note->name();
   } else {
     return QString();
   }
@@ -589,6 +589,7 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   qDebug() << "connecting search window slotshowsearchwindow to knote signal sigshowsearchwindow";
 
   connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
+  // connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
 
   showNote( journal->uid() );
 }

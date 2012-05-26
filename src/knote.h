@@ -75,7 +75,7 @@ class KNote
     void load_gnote(void);
     void init_note(void);
 
-    QString getTitle(void);
+    // QString getTitle(void);
 
     void changeJournal(KCal::Journal *);
     void saveData( bool update = true);
@@ -109,7 +109,8 @@ class KNote
     void sigNameChanged(const QString &, const QString &);
     void sigDataChanged(const QString &);
     void sigColorChanged();
-    void sigKillNote( KCal::Journal * );
+    //void sigKillNote( KCal::Journal * );
+    void sigKillNote(const QString &);
     void sigShowNextNote();
     void sigFindFinished();
     void sigShowSearchWindow(void);
@@ -158,6 +159,7 @@ class KNote
 
 // BEGIN class KNote private:
   private:
+    QString m_content;
     QString m_title;
     QTimer *saveTimer;
     QTimer *formatTimer;
