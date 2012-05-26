@@ -112,7 +112,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	connect(saveTimer, SIGNAL(timeout()), this, SLOT(slotSave()));
 	connect(formatTimer, SIGNAL(timeout()), this, SLOT(slotFormatTitle()));
 
-	qDebug() << __PRETTY_FUNCTION__ << "start save timer";
+	// qDebug() << __PRETTY_FUNCTION__ << "start save timer";
 	saveTimer->start(4000);
 	formatTimer->start(1000);
 
@@ -120,7 +120,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 
 KNote::~KNote()
 {
-  qDebug() << __PRETTY_FUNCTION__ << text();
+  //qDebug() << __PRETTY_FUNCTION__ << text();
   m_gnote->set_is_open(false);
 
   // FIXME: save before delete
@@ -144,12 +144,12 @@ void KNote::load_gnote(){
 }
 
 void KNote::init( const QDomDocument& buildDoc ){
-  qDebug() << __PRETTY_FUNCTION__;
+  //qDebug() << __PRETTY_FUNCTION__;
   setAcceptDrops( true );
   setAttribute( Qt::WA_DeleteOnClose );
   setDOMDocument( buildDoc );
   setObjectName( m_journal->uid() );
-  qDebug() << "setting: " << componentData().componentName() + "ui.rc";
+  //qDebug() << "setting: " << componentData().componentName() + "ui.rc";
   setXMLFile( componentData().componentName() + "ui.rc", false, false );
 
   // create the main layout
@@ -254,11 +254,11 @@ bool KNote::isModified() const
 
 
   if (newContent == m_content){
-  	qDebug() << __PRETTY_FUNCTION__ << "FALSE" << newContent << " : " << m_content;
+  	//qDebug() << __PRETTY_FUNCTION__ << "FALSE" << newContent << " : " << m_content;
 	return false;
   }
 
-  qDebug() << __PRETTY_FUNCTION__ << "TRUE" << newContent << " : " << m_content;
+  //qDebug() << __PRETTY_FUNCTION__ << "TRUE" << newContent << " : " << m_content;
 
   return true;
 }
@@ -324,7 +324,7 @@ void KNote::commitData()
 
 void KNote::slotClose()
 {
-  qDebug() << __PRETTY_FUNCTION__ << "stopping save timer";
+  // qDebug() << __PRETTY_FUNCTION__ << "stopping save timer";
   saveTimer->stop();
   formatTimer->stop();
   hide();
@@ -618,7 +618,7 @@ void KNote::slotUpdateDesktopActions()
 
 void KNote::buildGui()
 {
-  qDebug() << __PRETTY_FUNCTION__;
+  // qDebug() << __PRETTY_FUNCTION__;
   createNoteHeader();
   createNoteEditor();
 
@@ -725,7 +725,7 @@ void KNote::createActions()
 }
 
 void KNote::slotShowSearchWindow(){
-	qDebug() << __PRETTY_FUNCTION__;
+	// qDebug() << __PRETTY_FUNCTION__;
 	emit sigShowSearchWindow();
 	
 }
@@ -777,7 +777,7 @@ void KNote::createNoteHeader()
 
 void KNote::createNoteEditor()
 {
-  qDebug() << __PRETTY_FUNCTION__;
+  // qDebug() << __PRETTY_FUNCTION__;
   m_editor = new KNoteEdit( actionCollection(), this );
   m_noteLayout->addWidget( m_editor );
   m_editor->setNote( this );
@@ -1066,7 +1066,7 @@ void KNote::contextMenuEvent( QContextMenuEvent *e )
 
 void KNote::showEvent( QShowEvent * )
 {
-  qDebug() << __PRETTY_FUNCTION__ << "starting save timer";
+  //qDebug() << __PRETTY_FUNCTION__ << "starting save timer";
   saveTimer->start();
   formatTimer->start();
   #if 0
@@ -1089,11 +1089,10 @@ void KNote::resizeEvent( QResizeEvent *qre )
 
 void KNote::closeEvent( QCloseEvent * event )
 {
-  qDebug() << __PRETTY_FUNCTION__;
-  qDebug() << __PRETTY_FUNCTION__ << "stop save timer";
+  // qDebug() << __PRETTY_FUNCTION__ << "stop save timer";
   saveTimer->stop();
   formatTimer->stop();
-  qDebug() << __PRETTY_FUNCTION__ << text();
+  // qDebug() << __PRETTY_FUNCTION__ << text();
   //emit sigDataChanged(noteId());
   m_gnote->set_text_content(m_editor->toPlainText().toStdString());
   m_gnote->save();
@@ -1121,9 +1120,9 @@ bool KNote::event( QEvent *ev )
 
  void KNote::keyPressEvent(QKeyEvent *event)
 {
-	qDebug() << __PRETTY_FUNCTION__; 
+	// qDebug() << __PRETTY_FUNCTION__; 
         if (event->key() == Qt::Key_Return) {
-		qDebug() << "Return";
+		//qDebug() << "Return";
 		formatTitle();
             	QWidget::keyPressEvent(event);
         } else {
@@ -1134,7 +1133,7 @@ bool KNote::event( QEvent *ev )
 bool KNote::eventFilter( QObject *o, QEvent *ev )
 {
   if ( ev->type() == QEvent::FocusOut ){
-	qDebug() << "Focus out!";
+	// qDebug() << "Focus out!";
 	formatTimer->stop();
   	qDebug() << __PRETTY_FUNCTION__ << "stop save timer";
 	saveTimer->stop();
