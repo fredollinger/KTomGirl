@@ -98,7 +98,7 @@ class KNote
 
   public slots:
     void slotRename(void);
-    void slotKill( bool force = false );
+    void slotKill(void);
     void slotClose(void);
     void formatTitle(void);
     void slotShowSearchWindow(void);
@@ -208,5 +208,5 @@ class KNote
 // END class KNote private:
 }; // class KNote
 } // namespace knotes
-#endif
-// Sat May 19 08:55:09 PDT 2012
+#endif // KNOTE_H
+// Sat May 26 08:05:12 PDT 2012

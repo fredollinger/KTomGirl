@@ -326,7 +326,7 @@ void KNotesApp::killNote( const QString &id, bool force )
 {
   KNote *note = m_notes.value( id );
   if ( note ) {
-    note->slotKill( force );
+    note->slotKill();
   } else {
     kWarning( 5500 ) << "killNote: no note with id:" << id;
   }

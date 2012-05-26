@@ -643,9 +643,9 @@ void KNote::createActions()
   connect( action, SIGNAL( triggered( bool ) ), SLOT( slotClose() ) );
   action->setShortcut( QKeySequence( Qt::Key_Escape ) );
 
-  action  = new KAction( KIcon( "edit-delete" ), i18n( "Delete" ), this );
-  actionCollection()->addAction( "delete_note", action );
-  connect( action, SIGNAL( triggered( bool ) ), SLOT( slotKill() ),Qt::QueuedConnection );
+  //action  = new KAction( KIcon( "edit-delete" ), i18n( "Delete" ), this );
+  //actionCollection()->addAction( "delete_note", action );
+  //connect( action, SIGNAL( triggered( bool ) ), SLOT( slotKill() ),Qt::QueuedConnection );
 
   action  = new KAction( KIcon( "knotes_date" ), i18n( "Insert Date" ), this );
   actionCollection()->addAction( "insert_date", action );
@@ -741,6 +741,7 @@ void KNote::createNoteHeader()
 
   KIcon trash = KIcon("edit-delete");
   QAction *trash_action = m_tool->addAction(trash, i18n("Trash"));
+  connect(trash_action, SIGNAL(triggered()), this, SLOT(slotKill()));
 
   m_noteLayout->addWidget( m_tool );
   m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
@@ -1341,29 +1342,34 @@ void KNote::slotDataChanged(const QString &qs){
   m_blockEmitDataChanged = false;
 }
 
-void KNote::slotKill( bool force )
+void KNote::slotKill()
 {
+  qDebug() << __PRETTY_FUNCTION__;
   m_blockEmitDataChanged = true;
-  if ( !force &&
-       ( KMessageBox::warningContinueCancel( this,
+
+  //if ( !force &&
+  if (  KMessageBox::warningContinueCancel( this,
          i18n( "<qt>Do you really want to delete note <b>%1</b>?</qt>",
                getTitle() ),
 //               m_label->text() ),
          i18n( "Confirm Delete" ),
          KGuiItem( i18n( "&Delete" ), "edit-delete" ),
          KStandardGuiItem::cancel(),
-         "ConfirmDeleteNote" ) != KMessageBox::Continue ) ) {
+         "ConfirmDeleteNote" ) != KMessageBox::Continue )  {
      m_blockEmitDataChanged = false;
      return;
   }
+
   // delete the configuration first, then the corresponding file
   delete m_config;
   m_config = 0;
   QString configFile = KGlobal::dirs()->saveLocation( "appdata", "notes/" );
   // configFile += m_journal->uid();
+/*
   if ( !KIO::NetAccess::del( KUrl( configFile ), this ) ) {
     kError( 5500 ) <<"Can't remove the note config:" << configFile;
   }
+*/
 
   emit sigKillNote( m_journal );
 }
@@ -1412,5 +1418,4 @@ void KNote::slotSave(){
 // END KNOTE SLOTS
 
 }// namespace knotes
-// Sun Apr 29 15:05:32 PDT 2012
-
+//Sat May 26 08:05:03 PDT 2012
