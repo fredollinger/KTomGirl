@@ -709,6 +709,7 @@ void KNote::createActions()
 }
 
 void KNote::slotShowSearchWindow(){
+	qDebug() << __PRETTY_FUNCTION__;
 	emit sigShowSearchWindow();
 	
 }
@@ -739,7 +740,7 @@ void KNote::createNoteHeader()
   connect(search_action, SIGNAL(triggered()), this, SLOT(slotShowSearchWindow()));
 
   KIcon trash = KIcon("edit-delete");
-  m_tool->addAction(trash, i18n("Trash"));
+  QAction *trash_action = m_tool->addAction(trash, i18n("Trash"));
 
   m_noteLayout->addWidget( m_tool );
   m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
