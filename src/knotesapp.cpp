@@ -558,6 +558,12 @@ void KNotesApp::showNote( KNote *note ) const
   note->setFocus();
 }
 
+void KNotesApp::slotShowSearchWindow(){
+	qDebug() << __PRETTY_FUNCTION__;
+	show();
+	raise();
+}
+
 void KNotesApp::createNote( KCal::Journal *journal ){
   int n = m_config->noteNumber();
 
@@ -576,9 +582,15 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   newNote->init_note();
 
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
+  connect( newNote, SIGNAL( sigDelete(QString&) ), this, SLOT( slotDeleteNote(QString&)), Qt::QueuedConnection  );
+  connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
 
 
   showNote( journal->uid() );
+}
+
+void KNotesApp::slotDeleteNote(QString &note){
+	qDebug() << "Deleting note: "<< note;
 }
 
 void KNotesApp::createNote()

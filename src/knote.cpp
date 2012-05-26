@@ -614,21 +614,6 @@ void KNote::buildGui()
 
   m_menu = dynamic_cast<KMenu*>( factory.container( "note_context", this ) );
 
-  // BEGIN MAKE TOOLBAR
-  #if 0
-  m_tool =  new KToolBar(this, true, false);
-
-  KIcon trash = KIcon("edit-delete");
-  m_tool->addAction(trash, i18n("Trash"));
-
-  KIcon search = KIcon("system-search");
-  m_tool->addAction(search, i18n("Search"));
-
-  m_noteLayout->addWidget( m_tool );
-  m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
-  #endif
-  // END MAKE TOOLBAR
-
   createNoteFooter();
 }
 
@@ -723,6 +708,10 @@ void KNote::createActions()
     action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 }
 
+void KNote::slotShowSearchWindow(){
+	emit sigShowSearchWindow();
+	
+}
 void KNote::createNoteHeader()
 {
   // load style configuration
@@ -741,23 +730,16 @@ void KNote::createNoteHeader()
 
   // create header label
   m_label = new QLabel( this );
-  #if 0
-  headerLayout->addWidget( m_label );
-  m_label->setFrameStyle( NoFrame );
-  m_label->setBackgroundRole( QPalette::Base );
-  m_label->setLineWidth( 0 );
-  m_label->setAutoFillBackground( true );
-  m_label->installEventFilter( this );  // receive events ( for dragging &
-  #endif
 
   // BEGIN MAKE TOOLBAR
   m_tool =  new KToolBar(this, true, false);
 
+  KIcon search = KIcon("system-search");
+  QAction *search_action = m_tool->addAction(search, i18n("Search"));
+  connect(search_action, SIGNAL(triggered()), this, SLOT(slotShowSearchWindow()));
+
   KIcon trash = KIcon("edit-delete");
   m_tool->addAction(trash, i18n("Trash"));
-
-  KIcon search = KIcon("system-search");
-  m_tool->addAction(search, i18n("Search"));
 
   m_noteLayout->addWidget( m_tool );
   m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
@@ -783,30 +765,6 @@ void KNote::createNoteEditor()
   m_editor->setNote( this );
   m_editor->installEventFilter( this ); // receive focus events for modified
   setFocusProxy( m_editor );
-
-  #if 0
-  // BEGIN SET TITLE BLUE
-  m_textCursor = new QTextCursor( m_editor->document() );
-  QTextBlockFormat format = m_textCursor->blockFormat();
-
-  // format.setTextColor(QColor(Qt:blue));
-  format.setNonBreakableLines(true);
-  m_textCursor->setBlockFormat(format);
-  m_textCursor->movePosition(QTextCursor::Start); 
-
-  QString line = titleHtml + "Title" + endHtml;
-
-  m_textCursor->insertHtml(line);
-  m_textCursor->insertBlock();
-
-  format.setNonBreakableLines(false);
-  format.setBackground(QColor("lightyellow"));
-  m_textCursor->setBlockFormat(format);
-  //m_textCursor->insertText(tr("The background color of a text block can be "
-                         //"changed to highlight text."));
-  m_textCursor->insertBlock();
-  // END SET TITLE BLUE
-  #endif
 }
 
 void KNote::slotRequestNewNote()
@@ -830,30 +788,10 @@ void KNote::createNoteFooter()
   m_grip = new QSizeGrip( this );
   m_grip->setFixedSize( m_grip->sizeHint() );
 
-	#if 0
-  if ( m_tool ) {
-   // gripLayout->addWidget( m_tool );
-    // gripLayout->setAlignment( m_tool, Qt::AlignBottom | Qt::AlignLeft );
-    // gripLayout->setAlignment( m_tool, Qt::AlignTop | Qt::AlignLeft );
-    m_tool->hide();
-  }
-	#endif
-
   gripLayout->addWidget( m_grip );
   gripLayout->setAlignment( m_grip, Qt::AlignBottom | Qt::AlignRight );
   m_noteLayout->addItem( gripLayout );
 
-  // if there was just a way of making KComboBox adhere the toolbar height...
-  #if 0
-  if ( m_tool ) {
-    foreach ( KComboBox *combo, m_tool->findChildren<KComboBox *>() ) {
-      QFont font = combo->font();
-      font.setPointSize( 7 );
-      combo->setFont( font );
-      combo->setFixedHeight( 14 );
-    }
-  }
-  #endif
 }
 
 void KNote::prepare()

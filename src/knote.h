@@ -101,17 +101,18 @@ class KNote
     void slotKill( bool force = false );
     void slotClose(void);
     void formatTitle(void);
+    void slotShowSearchWindow(void);
   signals:
     void sigRequestNewNote();
-    void sigShowNextNote();
     void sigNameChanged(const QString &);
     void sigNameChanged(const QString &, ktomgirl::KTGItem&);
     void sigNameChanged(const QString &, const QString &);
     void sigDataChanged(const QString &);
     void sigColorChanged();
     void sigKillNote( KCal::Journal * );
-
+    void sigShowNextNote();
     void sigFindFinished();
+    void sigShowSearchWindow(void);
 
   protected:
     void keyPressEvent(QKeyEvent *event);

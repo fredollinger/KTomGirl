@@ -92,10 +92,11 @@ class KNotesApp
                      const QString &text = QString() );
     QString newNoteFromClipboard( const QString &name = QString() );
 
-
     void hideAllNotes() const;
     void openNote(ktomgirl::KTGItem*);
     void showAllNotes() const;
+    void slotDeleteNote(QString&);
+    void slotShowSearchWindow();
 
 
   protected slots:
