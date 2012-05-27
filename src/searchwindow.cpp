@@ -91,6 +91,8 @@ m_row(0)
 
  	connect (m_notesDialog->tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
 
+	// connect( actionQuit, SIGNAL( triggered() ), qApp, SLOT( quit() ) );
+
 
 } // END SEARCH WINDOW
 

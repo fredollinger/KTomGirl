@@ -148,7 +148,6 @@ KNotesApp::KNotesApp()
 
   connect( action, SIGNAL( triggered() ), SLOT( createNote() ) );
 
-
   action  = new KAction( KIcon( "edit-paste" ),
                          i18n( "New Note From Clipboard" ), this );
   actionCollection()->addAction( "new_note_clipboard", action );
@@ -181,6 +180,7 @@ KNotesApp::KNotesApp()
   //FIXME: no shortcut removing!?
   KStandardAction::quit( this, SLOT( slotQuit() ),
                          actionCollection() )->setShortcut( 0 );
+
 
   // END ACTIONS
 
@@ -225,7 +225,7 @@ KNotesApp::KNotesApp()
   m_searchWindow->show();
 
   connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
-  // connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
+  connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
 
   // qRegisterMetaType<ktomgirl::KTGItem>( "ktomgirl::KTGItem" );
 
@@ -271,7 +271,6 @@ bool KNotesApp::commitData( QSessionManager & )
 
 QString KNotesApp::newNote( const QString &name, const QString &text )
 {
-  qDebug() << __PRETTY_FUNCTION__ << "FIXME: STUB";
   KCal::Journal *journal = new KCal::Journal();
   m_manager->addNewNote( journal );
   showNote( journal->uid() );
@@ -536,6 +535,7 @@ void KNotesApp::slotNoteKilled( KCal::Journal *journal )
 
 void KNotesApp::slotQuit()
 {
+  qDebug() << __PRETTY_FUNCTION__;
   foreach ( KNote *note, m_notes ) {
     if ( note->isModified() ) {
       note->saveData(false);
@@ -590,8 +590,6 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 }
 
 void KNotesApp::slotDeleteNote(const QString &qsTitle){
-	qDebug() << "Deleting note: "<< qsTitle;
-
 	m_searchWindow->deleteItem(qsTitle);	
 
 	// BEGIN FIND THE GNOTE
@@ -600,22 +598,16 @@ void KNotesApp::slotDeleteNote(const QString &qsTitle){
         gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
         QString m_content = QString::fromStdString(gnote->text_content());
         QString uid = QString::fromStdString(gnote->uid());
-        qDebug() << QString::fromStdString(title) << m_content << uid;
 	// END FIND THE GNOTE
 
 	// delete knote from list
 	KNote *knote = m_notes.value(uid);
-	//qDebug() << "Removing: " << m_notes->remove(uid) << " notes.";
-	qDebug() << "Removing: ";
-	qDebug() << "Knote number: " << knote->noteId();
 
 	// delete actual knote
 	delete knote;
 
 	// delete gnote from list
     	m_gnmanager->delete_note(gnote);
-
-	// FIXME: delete actual file though note manager probably
 }
 
 
@@ -629,7 +621,6 @@ void KNotesApp::createNote()
 
 void KNotesApp::killNote( KCal::Journal *journal )
 {
-  qDebug() << __PRETTY_FUNCTION__ << "FIXME: STUB";
 }
 
 void KNotesApp::acceptConnection()
@@ -717,7 +708,6 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   gnote::Note::Ptr gnote = m_gnmanager->find(item->text().toStdString());
 
   if (! gnote){
-  	qDebug() << __PRETTY_FUNCTION__ << "ERR: Can't find (and can't open)" << item->text();
 	return;
   }
 

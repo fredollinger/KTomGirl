@@ -82,13 +82,11 @@ int Gnote::main(int argc, char **argv)
 #endif
 
     if(m_is_panel_applet) {
-      qDebug () << "starting applet";
       s_tray_icon_showing = true;
       return 0;
 
     }
     else {
-      qDebug() << "starting tray icon";
       //register session manager restart
       start_tray_icon();
     }
@@ -133,7 +131,6 @@ QString Gnote::tomboy_data_dir(){
 QStringList Gnote::get_note_list(){
 	QDir qdTomboy (tomboy_data_dir() );
 	QStringList qsl(qdTomboy.entryList());
-	qDebug() << qsl;
 	return qsl;
 }
 

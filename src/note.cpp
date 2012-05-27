@@ -388,7 +388,6 @@ std::string Note::text_content()
 
   void Note::set_text_content(const std::string & text)
   {
-   // qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(text);
     m_data.data().text() = text;
     m_text_content = text;
     return;
@@ -409,7 +408,6 @@ void Note::set_title(const std::string & new_title)
 // BEGIN NOTE ARCHIVER
 std::string NoteArchiver::write_string(const NoteData & note)
 {
-    // qDebug() << __PRETTY_FUNCTION__;
     std::string str;
     sharp::XmlWriter xml;
     obj().write(xml, note);
@@ -421,7 +419,6 @@ std::string NoteArchiver::write_string(const NoteData & note)
 
 void Note::write(const std::string & _write_file, const NoteData & note)
 {
-    // qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(_write_file) << "FIXME: STUB";
     return;
 }
 
@@ -434,7 +431,6 @@ void Note::write(const std::string & _write_file, const NoteData & note)
 // BEGIN NoteArchiver::write_file()
 void NoteArchiver::write_file(const std::string & _write_file, const NoteData & note)
 {
-    // qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(_write_file);
     std::string tmp_file = _write_file + ".tmp";
     // TODO Xml doc settings
     sharp::XmlWriter xml(tmp_file); //, XmlEncoder::DocumentSettings);
@@ -472,7 +468,6 @@ void NoteArchiver::write_file(const std::string & _write_file, const NoteData & 
 void NoteArchiver::write(sharp::XmlWriter & xml, const NoteData & note)
 {
 
-    // qDebug() << __PRETTY_FUNCTION__ << "title: "<< QString::fromStdString(note.title());
     xml.write_start_document();
     xml.write_start_element("", "note", "http://beatniksoftware.com/tomboy");
     xml.write_attribute_string("",
@@ -722,7 +717,6 @@ const NoteData & synchronized_data() const
   
 void Note::save()
 {
-      // qDebug() << __PRETTY_FUNCTION__ << "SAVING";
       NoteArchiver::write(m_filepath, m_data.synchronized_data());
 }
 
