@@ -34,6 +34,9 @@ public:
 
 	void newItem(gnote::Note::Ptr&);
 
+	// Given an item title, remove that item
+	void deleteItem(const QString&);
+
 private:
 	QStringList m_list;
 	// QStringListModel *m_model;

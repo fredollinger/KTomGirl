@@ -591,6 +591,10 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 
 void KNotesApp::slotDeleteNote(const QString &note){
 	qDebug() << "Deleting note: "<< note;
+	m_searchWindow->deleteItem(note);	
+	// delete knote from list
+	// delete gnote from list
+	// delete actual file though note manager probably
 }
 
 void KNotesApp::createNote()
@@ -682,16 +686,11 @@ void KNotesApp::updateStyle()
 }
 
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
-
-  qDebug() << __PRETTY_FUNCTION__ << "opening: "<< item->text();
-
   QMap<QString, KNote*>::const_iterator i = m_notes.find(QString::fromStdString(item->uid()));
   if (i != m_notes.end()) {
-  	qDebug() << __PRETTY_FUNCTION__ << "note is open: "<< item->text();
   	showNote(QString::fromStdString ( item->uid() ));
 	return;
   }
-  qDebug() << __PRETTY_FUNCTION__ << "note not found";
 
   gnote::Note::Ptr gnote = m_gnmanager->find(item->text().toStdString());
 
