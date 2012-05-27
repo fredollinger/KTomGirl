@@ -141,6 +141,7 @@ SearchWindow::setItemName(const QString &neu, const QString &old){
 		qDebug() << __PRETTY_FUNCTION__<< "ERR: no note named" <<  neu << ql.count();
 		return;
 	}
+
 	ql[0]->setText(neu);
 }
 
@@ -172,7 +173,20 @@ SearchWindow::newItem(gnote::Note::Ptr & note){
 
 void
 SearchWindow::deleteItem(const QString &qs){
-	qDebug() << __PRETTY_FUNCTION__;	
+
+	QList<QTableWidgetItem*> ql = 
+ 	m_notesDialog->tableNotes->findItems ( qs, Qt::MatchExactly);
+	if (ql.count() < 1){
+		qDebug() << __PRETTY_FUNCTION__<< "ERR: no note named" <<  qs << ql.count();
+		return;
+	}
+	
+	int row = m_notesDialog->tableNotes->row(ql[0]);
+	qDebug() << __PRETTY_FUNCTION__ << ql[0]->text() << row;
+	m_notesDialog->tableNotes->removeRow (row); 
+	// void QTableWidget::removeRow ( int row ) [slot]
+
+	return;
 }
 
 //QList<QTableWidgetItem *> QTableWidget::findItems ( const QString & text, Qt::MatchFlags flags ) const
