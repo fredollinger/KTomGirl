@@ -30,10 +30,7 @@ install: build/ktomgirl
 	cd build && su -c "make install"
 	#cd build && sudo make install
 test:
-	sudo cp ktomgirlui.rc *.xpm ~/.kde/share/apps/ktomgirl/
 	build/ktomgirl
-	#su -c "make install"
-	#/usr/local/bin/ktomgirl ktomgirl.cpp
 
 newprojectlayout4.h:
 	uic-qt4 ui/newprojectlayout4.ui > newprojectlayout4.h 

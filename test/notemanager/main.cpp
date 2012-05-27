@@ -31,7 +31,8 @@ void deleteNote(){
 	gnote::NoteManager *nm = new gnote::NoteManager();
 	gnote::Note::Ptr note = nm->find(title);
         QString m_content = QString::fromStdString(note->text_content());
-	qDebug() << QString::fromStdString(title) << m_content;
+        QString uid = QString::fromStdString(note->uid());
+	qDebug() << QString::fromStdString(title) << m_content << uid;
 }
 
 int main( int argc, char *argv[] )
