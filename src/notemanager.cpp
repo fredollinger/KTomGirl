@@ -47,7 +47,7 @@ NoteManager::NoteManager(const std::string & directory, const std::string & back
 
 NoteManager::NoteManager() : QWidget()
 {
-	qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub" << QString::fromStdString(Gnote::data_dir());
+	// qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub" << QString::fromStdString(Gnote::data_dir());
 	std::string directory = Gnote::data_dir();
 	std::string backup = "";
 	_common_init(directory, backup);
@@ -148,7 +148,7 @@ Note::Ptr NoteManager::create_new_note (const std::string &title, const std::str
 // BEGIN LOAD_NOTE
   Note::Ptr NoteManager::load_note(const std::string & file_path)
   {
-    qDebug() << __PRETTY_FUNCTION__;
+    // qDebug() << __PRETTY_FUNCTION__;
     std::string dest_file = file_path;
 
     Note::Ptr note;
@@ -252,7 +252,7 @@ void NoteManager::create_notes_dir() const
 // For overriding in test methods.
 bool NoteManager::create_directory(const std::string & path) const
 {
-    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(path);
+    // qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(path);
     QDir dir;
     return dir.mkdir(QString::fromStdString(path));
 }

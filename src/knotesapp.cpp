@@ -589,12 +589,22 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   showNote( journal->uid() );
 }
 
-void KNotesApp::slotDeleteNote(const QString &note){
-	qDebug() << "Deleting note: "<< note;
-	// make sure we save first!!
-	m_searchWindow->deleteItem(note);	
-	// delete knote from list
+void KNotesApp::slotDeleteNote(const QString &qsTitle){
+	qDebug() << "Deleting note: "<< qsTitle;
+
+	m_searchWindow->deleteItem(qsTitle);	
+
+	// BEGIN FIND THE GNOTE
+        std::string title = qsTitle.fromStdString();
+        //gnote::NoteManager *nm = new gnote::NoteManager();
+        gnote::Note::Ptr note = nm->find(qsTitle.fromStdString());
+        QString m_content = QString::fromStdString(note->text_content());
+        qDebug() << QString::fromStdString(title) << m_content;
+	// END FIND THE GNOTE
+
 	// delete gnote from list
+	// delete knote from list
+
 	// delete actual file though note manager probably
 }
 

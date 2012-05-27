@@ -18,39 +18,27 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *******************************************************************/
 
-//#include "../src/notemanager.hpp"
-//#include "../src/notedata.hpp"
-//#include "../src/notebuffer.hpp"
-#include "../src/version.h"
-//#include "searchwindow.h"
-#include "knote.h"
+#include "../../src/version.h"
 
 #include <QApplication>
 #include <QDebug>
 
-#include "../src/notemanager.hpp"
+#include "../../src/notemanager.hpp"
+#include "../../src/note.hpp"
 
-void showXmlWindow(){
-	KNote *sw = new KNote();
-	sw->show();
-}
-
-void showSearchWindow(){
-	/*
-	SearchWindow *sw = new SearchWindow();
-	sw->show();
-	*/
-}
-
-void testDate(){
+void deleteNote(){
+	std::string title = "New Note 1";
 	gnote::NoteManager *nm = new gnote::NoteManager();
+	gnote::Note::Ptr note = nm->find(title);
+        QString m_content = QString::fromStdString(note->text_content());
+	qDebug() << QString::fromStdString(title) << m_content;
 }
 
 int main( int argc, char *argv[] )
 {
 	QApplication app(argc, argv);
 
-	showXmlWindow();
+	deleteNote();
 
 	return app.exec();
 }
