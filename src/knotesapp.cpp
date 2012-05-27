@@ -591,6 +591,7 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 
 void KNotesApp::slotDeleteNote(const QString &note){
 	qDebug() << "Deleting note: "<< note;
+	// make sure we save first!!
 	m_searchWindow->deleteItem(note);	
 	// delete knote from list
 	// delete gnote from list
