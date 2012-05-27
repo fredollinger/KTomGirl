@@ -1401,7 +1401,14 @@ void KNote::slotKill()
   }
 */
 
-  emit sigKillNote(name());
+  /* We do this mess to get the note title b/c it's more likely to
+   * be a match for some reason. Originally, we used name() but that
+   * failed. Obviously, there are other problems, but we'll work that 
+   * out when we get to it.
+   * Ultimately, we should either use name, or better yet switch to 
+   * always constant (per note) and reliable uids. 
+   */
+  emit sigKillNote( QString::fromStdString(m_gnote->get_title()));
 }
 
 void KNote::slotFindNext()
