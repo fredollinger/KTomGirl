@@ -32,6 +32,7 @@
 
 #include "datetime.hpp"
 #include "debug.hpp"
+#include "files.hpp"
 #include "gnote.hpp"
 #include "note.hpp"
 #include "notemanager.hpp"
@@ -268,5 +269,31 @@ bool NoteManager::create_directory(const std::string & path) const
     return Note::Ptr();
   }
 
+// BEGIN NoteManager::delete_note()
+void NoteManager::delete_note(const Note::Ptr & note)
+{
+    if (boost::filesystem::exists(note->file_path())) {
+      if (!m_backup_dir.empty()) {
+        if (!boost::filesystem::exists(m_backup_dir)) {
+          boost::filesystem::create_directory(m_backup_dir);
+        }
+        std::string backup_path 
+          = KTGlib::build_filename(m_backup_dir, sharp::file_filename(note->file_path()));
+          
+        if (boost::filesystem::exists(backup_path))
+          boost::filesystem::remove(backup_path);
+
+        boost::filesystem::rename(note->file_path(), backup_path);
+      } 
+      else {
+        boost::filesystem::remove(note->file_path());
+      }
+    }
+
+    m_notes.removeAll(note);
+    note->delete_note();
+}
+// END NoteManager::delete_note()
+
 } // namespace gnote
-// Sat May  5 21:39:13 PDT 2012
+// Sun May 27 14:07:53 PDT 2012

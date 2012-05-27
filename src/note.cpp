@@ -779,6 +779,12 @@ void Note::set_text(const std::string & t)
     return Note::Ptr(new Note(note_data, filename, manager));
   }
 
+// BEGIN Note::delete_note()
+void Note::delete_note()
+{
+    m_is_deleting = true;
+}
+// END Note::delete_note()
   
 } // namespace gnote
 // Sat Apr 14 10:42:16 PDT 2012

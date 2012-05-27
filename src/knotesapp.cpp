@@ -597,9 +597,9 @@ void KNotesApp::slotDeleteNote(const QString &qsTitle){
 	// BEGIN FIND THE GNOTE
         std::string title = qsTitle.toStdString();
         //gnote::NoteManager *nm = new gnote::NoteManager();
-        gnote::Note::Ptr note = m_gnmanager->find(qsTitle.toStdString());
-        QString m_content = QString::fromStdString(note->text_content());
-        QString uid = QString::fromStdString(note->uid());
+        gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
+        QString m_content = QString::fromStdString(gnote->text_content());
+        QString uid = QString::fromStdString(gnote->uid());
         qDebug() << QString::fromStdString(title) << m_content << uid;
 	// END FIND THE GNOTE
 
@@ -609,11 +609,13 @@ void KNotesApp::slotDeleteNote(const QString &qsTitle){
 	qDebug() << "Removing: ";
 	qDebug() << "Knote number: " << knote->noteId();
 
-	// delete gnote from list
-
-	// delete actual file though note manager probably
-
 	// delete actual knote
+	delete knote;
+
+	// delete gnote from list
+    	m_gnmanager->delete_note(gnote);
+
+	// FIXME: delete actual file though note manager probably
 }
 
 

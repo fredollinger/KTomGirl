@@ -1,5 +1,9 @@
 /*
- * ktomgirl
+ * KTomGirl
+ *
+ * KTGlib:
+ * 
+ * A wrapper for Glib, providing the equivalents without glib for KTomGirl Project.
  *
  * Copyright (C) 2012 Fred Ollinger
  *
@@ -43,6 +47,11 @@ bool str_has_prefix(std::string st, const char *ch){
 
 QString get_user_data_dir(){ 
 	return QDir::homePath() + "/.local/share";
+}
+
+std::string build_filename(const std::string & p, const std::string & fn)
+{
+	return p + "/" + fn;
 }
 
 } // namespace KTGlib

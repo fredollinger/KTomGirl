@@ -1,5 +1,9 @@
 /*
- * ktomgirl
+ * KTomGirl
+ *
+ * KTGlib:
+ * 
+ * A wrapper for Glib, providing the equivalents without glib for KTomGirl Project.
  *
  * Copyright (C) 2012 Fred Ollinger
  *
@@ -29,6 +33,8 @@ namespace KTGlib {
 typedef QChar gunichar; 
 bool str_has_prefix(std::string, const char *);
 
+std::string build_filename(const std::string & p, const std::string & fn);
+
 QString get_user_data_dir();
 
 class ustring 
@@ -41,7 +47,6 @@ public:
   //inline ustring_Iterator<T>::ustring_Iterator();
   typedef QString::const_iterator const_interator;
   const char* c_str();
-
 
 private:
   QString m_qs;

@@ -31,7 +31,6 @@
 
 namespace sharp {
 
-
   bool file_exists(const std::string & file)
   {
     boost::filesystem::path p(file);
@@ -75,5 +74,6 @@ namespace sharp {
   {
     boost::filesystem::rename(from, to);
   }
+
 }
 
