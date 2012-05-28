@@ -30,15 +30,15 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
 
-#include "datetime.hpp"
-#include "debug.hpp"
-#include "files.hpp"
+#include "../libtomgirl/datetime.hpp"
+#include "../libtomgirl/debug.hpp"
+#include "../libtomgirl/files.hpp"
 #include "gnote.hpp"
 #include "note.hpp"
 #include "notemanager.hpp"
 #include "preferences.hpp"
-#include "sharp.hpp"
-#include "string.hpp"
+#include "../libtomgirl/sharp.hpp"
+#include "../libtomgirl/string.hpp"
 
 namespace gnote {
 NoteManager::NoteManager(const std::string & directory, const std::string & backup) : QWidget()

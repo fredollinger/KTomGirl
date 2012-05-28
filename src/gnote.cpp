@@ -29,7 +29,7 @@
 #include <boost/format.hpp>
 
 #include "actionmanager.hpp"
-#include "ktglib.hpp"
+#include "../libtomgirl/ktglib.hpp"
 #include "note.hpp"
 #include "gnote.hpp"
 

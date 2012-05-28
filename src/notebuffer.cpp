@@ -21,13 +21,13 @@
 #include <tr1/array>
 
 
-#include "debug.hpp"
+#include "../libtomgirl/debug.hpp"
 #include "notebuffer.hpp"
 #include "note.hpp"
 #include "preferences.hpp"
 
-#include "xmlreader.hpp"
-#include "xmlwriter.hpp"
+#include "../libtomgirl/xmlreader.hpp"
+#include "../libtomgirl/xmlwriter.hpp"
 
 namespace gnote {
 

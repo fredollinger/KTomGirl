@@ -1,19 +1,65 @@
-KTomGirl Todo list:
+KTomGirl Todo list: 
 
 4. ui improvements - look more like tomboy
 a. new note icon
 b. file menu works
 c. get rid of ugly side bar in note list
 d. change 1 to note in tree view
+e. search bar
+f. expand date and name bars to end of note somehow
+g. get "All Notes" in notebook list
 
 5. search window from note.
-
-6. Give credit to Adrian Dumitrupop for the trash icon.
-
-7. add toolbar rc file noteui.rc
 
 8. change app name (and kde data path) to ktomgirl
 
 9. get a icon of delete note into the tool bar
 
 10. implement delete note as a test
+
+11. get the proper number of notes to be saved, we always revert back to "note 1" for some reason.
+
+12. save and load dates
+
+13. slot delete note
+	a. hook up signal
+	b. delete file
+	c. remove from search list
+	d. remove from knotes list
+	e. remove from notemanager list
+
+14. Better support for name changed which updates the search window faster when the title changes
+
+15. Deal with line breaks in the title better especially when starting a new note. Perhaps we should ban, somehow, linebreaks in the title
+
+16. When the title changes, check to see if we have a note that has that title and disallow notes with the same name
+
+17. context window in the search window
+
+18. non-blinking curor
+
+19. link support 
+a. when we type in the name of a note 
+b. when we click on "make link" button
+c. when we save note as metadata
+d. when we load note as metadata
+e. when we 
+
+20. respect other metadata in the note such as cursor position and window size and if a note was open when we last quit
+
+21. systray support 
+
+22. test quit support better--make sure we save in each case  
+
+23. ruby dev tools (starboard tools):
+	a. check for dead functions which are never called
+	b. mkstubsfromfile.rb which turns a normal file into stubs for faster porting by removing method bodies
+	e. libstarboard which does things like find all the functions in a .cpp file for use in other programs
+
+24. libtomgirl
+	a. move all files to libtomgirl dir and link from there
+	b. remove qt code from libtomgirl files
+	c. compile standalone libtomgirl lib and link later to tomgirl
+	d. release libtomgirl as separate project
+	e. dbus bindings
+	f. libtomgirl server which is headless and works on dbus only

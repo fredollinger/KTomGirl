@@ -38,7 +38,7 @@
 
 #include "base/singleton.hpp"
 
-#include "xml.hpp"
+#include "../libtomgirl/xml.hpp"
 
 class Tag;
 
