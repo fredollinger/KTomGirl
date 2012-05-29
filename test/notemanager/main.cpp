@@ -26,7 +26,13 @@
 #include "../../src/notemanager.hpp"
 #include "../../src/note.hpp"
 
-void deleteNote(){
+using namespace gnote;
+
+namespace gnote{
+	class NoteData;
+}
+
+void deleteNoteTest(){
 	std::string title = "New Note 1";
 	gnote::NoteManager *nm = new gnote::NoteManager();
 	gnote::Note::Ptr note = nm->find(title);
@@ -35,11 +41,20 @@ void deleteNote(){
 	qDebug() << QString::fromStdString(title) << m_content << uid;
 }
 
+void dateTest(){
+	std::string title = "New Note 1";
+	gnote::NoteManager *nm = new gnote::NoteManager();
+	gnote::Note::Ptr note = nm->find(title);
+  	//QDateTime qdt = note->data().change_date();
+  	note->data().change_date();
+	//qDebug() << qdt.toString();
+}
+
 int main( int argc, char *argv[] )
 {
 	QApplication app(argc, argv);
 
-	deleteNote();
+	dateTest();
 
 	return app.exec();
 }

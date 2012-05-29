@@ -19,16 +19,15 @@ set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
 
 set(ktomgirl_SRCS
 main.cpp
-../../src/string.cpp
-../../src/ktgitem.cpp
-../../src/xmlconvert.cpp
-../../src/xml.cpp
-../../src/files.cpp
-../../src/datetime.cpp
-../../src/ktglib.cpp
-../../src/xmlwriter.cpp
-../../src/xmlreader.cpp
-../../src/sharp.cpp
+../../libtomgirl/string.cpp
+../../libtomgirl/xmlconvert.cpp
+../../libtomgirl/xml.cpp
+../../libtomgirl/files.cpp
+../../libtomgirl/datetime.cpp
+../../libtomgirl/ktglib.cpp
+../../libtomgirl/xmlwriter.cpp
+../../libtomgirl/xmlreader.cpp
+../../libtomgirl/sharp.cpp
 ../../src/notebuffer.cpp
 ../../src/notemanager.cpp
 ../../src/note.cpp

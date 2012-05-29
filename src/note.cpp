@@ -707,13 +707,11 @@ void NoteDataBufferSynchronizer::synchronize_buffer()
 // END NoteDataBufferSynchronizer
 
 /*
-const NoteData & synchronized_data() const
+const NoteData & NoteData::synchronized_data() const
 {
-      synchronize_text();
       return *m_data;
 }
 */
-
   
 void Note::save()
 {
@@ -779,6 +777,16 @@ void Note::delete_note()
     m_is_deleting = true;
 }
 // END Note::delete_note()
+
+  const NoteData & Note::data() const
+  {
+    return m_data.synchronized_data();
+  }
+
+  NoteData & Note::data()
+  {
+    return m_data.synchronized_data();
+  }
   
 } // namespace gnote
 // Sat Apr 14 10:42:16 PDT 2012
