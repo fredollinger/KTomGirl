@@ -238,16 +238,6 @@ void NoteManager::create_notes_dir() const
 {
 
  	create_directory(m_notes_dir);
-    //if (QDir(QString::fromStdString(m_notes_dir)).exists()){
-//    if (!directory_exists(m_notes_dir)) 
-      // First run. Create storage directory.
- 	create_directory(m_notes_dir);
-//	QDir::mkdir(QString::fromStdString(m_notes_dir));
-    //}
-    //if (!directory_exists(m_backup_dir)) {
-//    if (QDir(QString::fromStdString(m_backup_dir)).exists()){
- //     create_directory(m_backup_dir);
-  //  }
 }
 
 // For overriding in test methods.
@@ -294,6 +284,5 @@ void NoteManager::delete_note(const Note::Ptr & note)
     note->delete_note();
 }
 // END NoteManager::delete_note()
-
 } // namespace gnote
 // Sun May 27 14:07:53 PDT 2012

@@ -35,12 +35,13 @@ namespace gnote{
 }
 
 void deleteNoteTest(){
-	std::string title = "New Note 1";
+	std::string title = "bob";
 	gnote::NoteManager *nm = new gnote::NoteManager();
 	gnote::Note::Ptr note = nm->find(title);
         QString m_content = QString::fromStdString(note->text_content());
-        QString uid = QString::fromStdString(note->uid());
-	qDebug() << QString::fromStdString(title) << m_content << uid;
+	qDebug() << m_content;
+        //QString uid = QString::fromStdString(note->uid());
+	//qDebug() << QString::fromStdString(title) << m_content << uid;
 }
 
 void dateTest(){
@@ -48,7 +49,7 @@ void dateTest(){
 	std::string title = "New Note 1";
 	gnote::NoteManager *nm = new gnote::NoteManager();
 	gnote::Note::Ptr note = nm->find(title);
-	//NoteData * note_data = note->data();
+	NoteData note_data = note->data();
   	sharp::DateTime qdt = note->data().change_date();
 //  	note->change_date();
 	qDebug() << qdt.toString();
