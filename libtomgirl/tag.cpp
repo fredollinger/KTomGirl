@@ -29,7 +29,7 @@
 #include <glibmm.h>
 */
 
-#include "../src/note.hpp"
+#include "note.hpp"
 #include "tag.hpp"
 
 namespace gnote {

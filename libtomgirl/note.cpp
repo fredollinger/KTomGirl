@@ -585,10 +585,10 @@ void Note::set_text(const std::string & t)
   /// A <see cref="Note"/>
   /// </returns>
 
-  Note::Ptr Note::create_new_note(const std::string & title,
+Note::Ptr Note::create_new_note(const std::string & title,
                                   const std::string & filename,
                                   NoteManager & manager)
-  {
+{
     NoteData * note_data = new NoteData(url_from_path(filename));
     note_data->title() = title;
     // We set text content, initially to be the same as the title so it shows
@@ -599,7 +599,7 @@ void Note::set_text(const std::string & t)
     note_data->set_change_date(date);
       
     return Note::Ptr(new Note(note_data, filename, manager));
-  }
+}
 
 // BEGIN Note::delete_note()
 void Note::delete_note()
