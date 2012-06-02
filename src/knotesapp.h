@@ -33,7 +33,7 @@
 
 #include "searchwindow.h"
 
-#include "notemanager.hpp"
+#include "../libtomgirl/notemanager.hpp"
 
 class QTcpServer;
 

@@ -21,9 +21,9 @@
 *******************************************************************/
 
 // BEGIN gnote INCLUDES
-#include "gnote.hpp"
-#include "note.hpp"
-#include "notemanager.hpp"
+#include "../libtomgirl/gnote.hpp"
+#include "../libtomgirl/note.hpp"
+#include "../libtomgirl/notemanager.hpp"
 // END gnote INCLUDES
 
 // BEGIN KTOMGIRL INCLUDES

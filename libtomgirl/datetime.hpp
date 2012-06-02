@@ -38,6 +38,7 @@ typedef long glong;
 
 class DateTime
 {
+// BEGIN DateTime public:
 public:
   DateTime();
   explicit DateTime(time_t t, glong _usec = 0);
@@ -79,6 +80,9 @@ public:
     {
       m_date.tv_usec = _usec;
     }
+  QString toString() const;
+// END DateTime public:
+
 private:
 struct GTimeVal {
   glong tv_sec;

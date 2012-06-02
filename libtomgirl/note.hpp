@@ -38,7 +38,9 @@
 
 #include "base/singleton.hpp"
 
-#include "../libtomgirl/xml.hpp"
+#include "xml.hpp"
+#include "datetime.hpp"
+#include "notedata.hpp"
 
 class Tag;
 
@@ -128,6 +130,10 @@ public:
   typedef std::tr1::weak_ptr<Note> WeakPtr;
   typedef QList<Ptr> List;
 
+  // This is for testing...
+  const QDateTime & create_date() const; 
+  const QDateTime & change_date() const;
+
   static void parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags);
 
   typedef enum {
@@ -177,9 +183,8 @@ public:
   const NoteData & data() const;
   NoteData & data();
 
-  const QDateTime & create_date() const;
-  const QDateTime & change_date() const;
   const QDateTime & metadata_change_date() const;
+
   NoteManager & manager()
     {
       return m_manager;

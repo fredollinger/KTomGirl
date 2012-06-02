@@ -23,8 +23,10 @@
 #include <QApplication>
 #include <QDebug>
 
-#include "../../src/notemanager.hpp"
-#include "../../src/note.hpp"
+#include "../../libtomgirl/notemanager.hpp"
+#include "../../libtomgirl/note.hpp"
+#include "../../libtomgirl/notedata.hpp"
+#include "../../libtomgirl/datetime.hpp"
 
 using namespace gnote;
 
@@ -42,19 +44,21 @@ void deleteNoteTest(){
 }
 
 void dateTest(){
+	// NoteData * note_data = new NoteData(url_from_path(filename));
 	std::string title = "New Note 1";
 	gnote::NoteManager *nm = new gnote::NoteManager();
 	gnote::Note::Ptr note = nm->find(title);
-  	//QDateTime qdt = note->data().change_date();
-  	note->data().change_date();
-	//qDebug() << qdt.toString();
+	//NoteData * note_data = note->data();
+  	sharp::DateTime qdt = note->data().change_date();
+//  	note->change_date();
+	qDebug() << qdt.toString();
 }
 
 int main( int argc, char *argv[] )
 {
 	QApplication app(argc, argv);
 
-	dateTest();
+dateTest();
 
 	return app.exec();
 }

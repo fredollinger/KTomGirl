@@ -24,14 +24,21 @@ notesdialog.cpp
 notebooksdialog.cpp
 ktgconfig.cpp
 ktgconfigskel.cpp
-notebuffer.cpp
-actionmanager.cpp
 ktgitem.cpp
-note.cpp
 knote.cpp
 searchwindow.cpp
-preferences.cpp
-notemanager.cpp
+resourcemanager.cpp
+knotesapp.cpp
+knoteedit.cpp
+main.cpp
+application.cpp
+../libtomgirl/note.cpp
+../libtomgirl/gnote.cpp
+../libtomgirl/notebuffer.cpp
+../libtomgirl/actionmanager.cpp
+../libtomgirl/preferences.cpp
+../libtomgirl/notemanager.cpp
+../libtomgirl/debug.cpp
 ../libtomgirl/debug.cpp
 ../libtomgirl/files.cpp
 ../libtomgirl/datetime.cpp
@@ -43,12 +50,6 @@ notemanager.cpp
 ../libtomgirl/tag.cpp
 ../libtomgirl/sharp.cpp
 ../libtomgirl/xmlwriter.cpp
-resourcemanager.cpp
-knotesapp.cpp
-knoteedit.cpp
-main.cpp
-application.cpp
-gnote.cpp
 )
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS})

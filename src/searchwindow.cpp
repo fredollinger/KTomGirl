@@ -40,8 +40,8 @@
 #include "../src/ktgitem.h"
 
 // GNOTE INCLUDES
-#include "gnote.hpp"
-#include "note.hpp"
+#include "../libtomgirl/gnote.hpp"
+#include "../libtomgirl/note.hpp"
 
 // BEGIN SEARCH WINDOW
 SearchWindow::SearchWindow(QWidget* pParent, const char* szName) :

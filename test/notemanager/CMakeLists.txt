@@ -19,6 +19,7 @@ set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
 
 set(ktomgirl_SRCS
 main.cpp
+../../libtomgirl/note.cpp
 ../../libtomgirl/string.cpp
 ../../libtomgirl/xmlconvert.cpp
 ../../libtomgirl/xml.cpp
@@ -28,11 +29,11 @@ main.cpp
 ../../libtomgirl/xmlwriter.cpp
 ../../libtomgirl/xmlreader.cpp
 ../../libtomgirl/sharp.cpp
-../../src/notebuffer.cpp
-../../src/notemanager.cpp
-../../src/note.cpp
-../../src/gnote.cpp
-../../src/preferences.cpp
+../../libtomgirl/notebuffer.cpp
+../../libtomgirl/notedata.cpp
+../../libtomgirl/notemanager.cpp
+../../libtomgirl/gnote.cpp
+../../libtomgirl/preferences.cpp
 )
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS} ${QtApp_RCC_SRCS})

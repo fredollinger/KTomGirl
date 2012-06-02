@@ -111,6 +111,14 @@ namespace sharp {
     //return QString::toS(output);
   }
 
+  QString DateTime::toString() const
+  {
+    char output[256];
+    struct tm result; 
+    strftime(output, sizeof(output), "%R", localtime_r(&m_date.tv_sec, &result));
+    return QString(output);
+  }
+
   std::string DateTime::to_string(const char * format) const
   {
     struct tm result; 
