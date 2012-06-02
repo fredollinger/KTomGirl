@@ -17,7 +17,7 @@ kde4_add_ui_files(ktomgirl_SRCS
 kde4_add_kcfg_files(ktomgirl_SRCS ktgconfigskel.kcfgc)
 install(FILES ktgconfigskel.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
-set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
+set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lboost_date_time-mt -lpcrecpp")
 
 set(ktomgirl_SRCS
 notesdialog.cpp

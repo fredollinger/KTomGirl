@@ -24,15 +24,19 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
+#include "boost/date_time/gregorian/gregorian_types.hpp"
+#include "boost/date_time/posix_time/posix_time.hpp" //include all types plus i/o
+// #include "boost/date_time/posix_time/posix_time_types.hpp" //no i/o just types
 
 #include <time.h>
 #include <sys/time.h>
 
 #include <QDateTime>
+#include <QDebug>
 
 #include "datetime.hpp"
 
+using namespace boost::posix_time;
 
 namespace sharp {
 
@@ -42,8 +46,8 @@ namespace sharp {
 
   DateTime::DateTime()
   {
-    m_date.tv_sec = -1;
-    m_date.tv_usec = -1;
+    m_date.tv_sec = time(NULL);
+    m_date.tv_usec = 0;
   }
 
   DateTime::DateTime(time_t t, glong _usec)
@@ -55,6 +59,7 @@ namespace sharp {
   DateTime::DateTime(const GTimeVal & v)
     : m_date(v)
   {
+	qDebug() << __PRETTY_FUNCTION__ << m_date.tv_sec;
   }
 
   DateTime & DateTime::add_days(int days)
@@ -129,14 +134,13 @@ namespace sharp {
 
   std::string DateTime::to_iso8601() const
   {
-    std::string retval;
-    if(!is_valid()) {
-      return retval;
-    }
-    QTime t(0, m_date.tv_sec, m_date.tv_usec);
-    retval = t.toString().toStdString();
+ptime pt(not_a_date_time);
+std::time_t t;
+t = 1118158776;
+pt = from_time_t(m_date.tv_sec);
+return to_simple_string(pt);
 
-    return retval;
+    // return std::string(buf);
   }
 
 DateTime DateTime::now()
@@ -147,6 +151,10 @@ DateTime DateTime::now()
 	//gettimeofday(&t, NULL);
 	n.tv_sec = time(NULL);
 	n.tv_usec = 0;
+
+    	QTime t(0, n.tv_sec, n.tv_usec);
+	//qDebug() << n.tv_sec;
+    	qDebug() << __PRETTY_FUNCTION__ << t.toString() << n.tv_sec;
 
 	return DateTime(n);
 }

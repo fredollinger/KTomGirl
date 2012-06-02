@@ -597,6 +597,7 @@ Note::Ptr Note::create_new_note(const std::string & title,
     sharp::DateTime date(sharp::DateTime::now());
     note_data->create_date() = date;
     qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(date.to_iso8601());
+    //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(date.to_short_time_string());
     note_data->set_change_date(date);
       
     return Note::Ptr(new Note(note_data, filename, manager));
