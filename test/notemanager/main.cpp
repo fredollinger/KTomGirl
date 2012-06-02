@@ -52,7 +52,7 @@ void dateTest(){
 	NoteData note_data = note->data();
   	sharp::DateTime qdt = note->data().change_date();
 //  	note->change_date();
-	qDebug() << qdt.toString();
+	qDebug() << QString::fromStdString(qdt.to_iso8601());
 }
 
 int main( int argc, char *argv[] )

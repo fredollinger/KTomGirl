@@ -106,9 +106,7 @@ namespace sharp {
   {
     char output[256];
     strftime(output, sizeof(output), format, t);
-    return QString(output).toStdString();
-    // return Glib::locale_to_utf8(output);
-    //return QString::toS(output);
+    return std::string(output);
   }
 
   QString DateTime::toString() const
@@ -145,10 +143,10 @@ DateTime DateTime::now()
   {
 	GTimeVal n;
 	//g_get_current_time(&n); 
-	struct timeval t;
-	gettimeofday(&t, NULL);
-	n.tv_sec = t.tv_sec;
-	n.tv_usec = t.tv_usec;
+	//struct timeval t;
+	//gettimeofday(&t, NULL);
+	n.tv_sec = time(NULL);
+	n.tv_usec = 0;
 
 	return DateTime(n);
 }
