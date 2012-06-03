@@ -46,7 +46,7 @@ void deleteNoteTest(){
 
 void dateTest(){
 	// NoteData * note_data = new NoteData(url_from_path(filename));
-	std::string title = "New Note 1";
+	std::string title = "New Note 3";
 	gnote::NoteManager *nm = new gnote::NoteManager();
 	gnote::Note::Ptr note = nm->find(title);
 	NoteData note_data = note->data();
