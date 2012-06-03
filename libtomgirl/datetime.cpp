@@ -31,8 +31,8 @@
 #include <time.h>
 #include <sys/time.h>
 
-#include <QDateTime>
-#include <QDebug>
+//#include <QDateTime>
+//#include <QDebug>
 
 #include "datetime.hpp"
 
@@ -59,7 +59,7 @@ namespace sharp {
   DateTime::DateTime(const GTimeVal & v)
     : m_date(v)
   {
-	qDebug() << __PRETTY_FUNCTION__ << m_date.tv_sec;
+	//std::cout << m_date.tv_sec;
   }
 
   DateTime & DateTime::add_days(int days)
@@ -114,10 +114,12 @@ namespace sharp {
     return std::string(output);
   }
 
+#if 0
   QString DateTime::toString() const
   {
     return QString::fromStdString(to_short_time_string());
   }
+#endif
 
   std::string DateTime::to_string(const char * format) const
   {
@@ -132,16 +134,14 @@ namespace sharp {
     return _to_string("%R", localtime_r(&m_date.tv_sec, &result));
   }
 
-  std::string DateTime::to_iso8601() const
-  {
-ptime pt(not_a_date_time);
-std::time_t t;
-t = 1118158776;
-pt = from_time_t(m_date.tv_sec);
-return to_simple_string(pt);
-
-    // return std::string(buf);
-  }
+std::string DateTime::to_iso8601() const
+{
+	ptime pt(not_a_date_time);
+	std::time_t t;
+	t = 1118158776;
+	pt = from_time_t(m_date.tv_sec);
+	return to_iso_extended_string(pt);
+}
 
 DateTime DateTime::now()
   {
@@ -152,18 +152,18 @@ DateTime DateTime::now()
 	n.tv_sec = time(NULL);
 	n.tv_usec = 0;
 
-    	QTime t(0, n.tv_sec, n.tv_usec);
-	//qDebug() << n.tv_sec;
-    	qDebug() << __PRETTY_FUNCTION__ << t.toString() << n.tv_sec;
+    	//QTime t(0, n.tv_sec, n.tv_usec);
+    	//std::cout <<  t << n.tv_sec;
 
 	return DateTime(n);
 }
 
+// FIXME: Busted need to implement this protocol
 DateTime DateTime::from_iso8601(const std::string &iso8601)
 {
 	GTimeVal retval;
-	QDateTime qdt = QDateTime::fromString(QString::fromStdString(iso8601), Qt::ISODate);
-	retval.tv_sec = qdt.toTime_t();
+	//retval.tv_sec = qdt.toTime_t();
+	retval.tv_sec = 0;
 	retval.tv_usec = 0;
 	return DateTime(retval);
 }

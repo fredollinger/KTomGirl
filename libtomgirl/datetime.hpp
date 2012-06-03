@@ -30,7 +30,7 @@
 
 #include <string>
 
-#include <QDateTime>
+//#include <QDateTime>
 
 namespace sharp {
 
@@ -80,7 +80,7 @@ public:
     {
       m_date.tv_usec = _usec;
     }
-  QString toString() const;
+  //QString toString() const;
 // END DateTime public:
 
 private:

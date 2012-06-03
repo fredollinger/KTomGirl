@@ -154,6 +154,14 @@ SearchWindow::newItem(gnote::Note::Ptr & note){
 	qDebug() << __PRETTY_FUNCTION__<< "creating: " << name;
 
 	QDateTime qdt = QDateTime::currentDateTime();
+	//QDateTime qdt = QString::fromStdString(note->date()->create_date());
+
+	// BEGIN DEBUG
+  	sharp::DateTime dt = note->data().change_date();
+	qDebug() << QString::fromStdString(dt.to_iso8601());
+	// END DEBUG
+
+	// FIXME: Need to get the date time in here...
 
 	// BEGIN FIRST ITEM
 	ktomgirl::KTGItem *item = new ktomgirl::KTGItem(name, note);
