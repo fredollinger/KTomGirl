@@ -35,7 +35,7 @@ namespace gnote{
 }
 
 void deleteNoteTest(){
-	std::string title = "bob";
+	std::string title = "New Note 4";
 	gnote::NoteManager *nm = new gnote::NoteManager();
 	gnote::Note::Ptr note = nm->find(title);
         QString m_content = QString::fromStdString(note->text_content());

@@ -70,6 +70,7 @@ m_row(0)
 	m_notesDialog->tableNotes->verticalHeader()->setVisible(false);
 	m_notesDialog->tableNotes->setRowCount(m_list.count()+1);
 	m_notesDialog->tableNotes->setShowGrid(false);
+	m_notesDialog->tableNotes->horizontalHeader()->setStretchLastSection(true);
 	// END NOTES DIALOG
 
 	// BEGIN NOTEBOOKS DIALOG

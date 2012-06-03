@@ -171,8 +171,10 @@ KNotesApp::KNotesApp()
   new KHelpMenu( this, KGlobal::mainComponent().aboutData(), false,
                  actionCollection() );
 
-  m_findAction = KStandardAction::find( this, SLOT( slotOpenFindDialog() ),
+  m_findAction = KStandardAction::find( this, SLOT( slotShowSearchWindow() ),
                          actionCollection() );
+
+
   KStandardAction::preferences( this, SLOT( slotPreferences() ),
                          actionCollection() );
   KStandardAction::keyBindings( this, SLOT( slotConfigureAccels() ),
