@@ -121,7 +121,9 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		// END ITEM ONE
 
 		// BEGIN ITEM TWO
-		qs = "";
+  		sharp::DateTime qdt = note->data().change_date();
+		qs = QString::fromStdString(qdt.to_iso8601());
+		//qs = "";
 		item = new ktomgirl::KTGItem(qs, note);
 		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
