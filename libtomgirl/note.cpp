@@ -594,11 +594,14 @@ Note::Ptr Note::create_new_note(const std::string & title,
     // We set text content, initially to be the same as the title so it shows
     // up.
     note_data->text() = title;
+
+    // BEGIN SET DATE
     sharp::DateTime date(sharp::DateTime::now());
     note_data->create_date() = date;
     qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(date.to_iso8601());
     //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(date.to_short_time_string());
     note_data->set_change_date(date);
+    // END SET DATE
       
     return Note::Ptr(new Note(note_data, filename, manager));
 }
