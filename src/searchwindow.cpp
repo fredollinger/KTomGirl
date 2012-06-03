@@ -63,12 +63,14 @@ m_row(0)
         m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
         addDockWidget(Qt::RightDockWidgetArea, m_notesDialog);
 
+	/*
 	qsl << "Note" << "Last Changed";
 	m_notesDialog->tableNotes->setColumnCount(2);
 	m_notesDialog->tableNotes->setHorizontalHeaderLabels(qsl);
 	m_notesDialog->tableNotes->horizontalHeader()->setVisible(true);
 	m_notesDialog->tableNotes->verticalHeader()->setVisible(false);
 	m_notesDialog->tableNotes->setRowCount(m_list.count()+1);
+	*/
 	m_notesDialog->tableNotes->setShowGrid(false);
 	m_notesDialog->tableNotes->horizontalHeader()->setStretchLastSection(true);
 	// END NOTES DIALOG
