@@ -82,6 +82,7 @@ m_row(0)
         m_notebooksDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
         addDockWidget(Qt::LeftDockWidgetArea, m_notebooksDialog);
 
+	/*
 	qsl.clear();
 	qsl << "Notebooks";
 	m_notebooksDialog->tableNotebooks->setColumnCount(1);
@@ -92,6 +93,7 @@ m_row(0)
 	qs="All Notes";
 	QTableWidgetItem *item = new QTableWidgetItem(qs);
 	m_notebooksDialog->tableNotebooks->setItem ( 0 , 0, item );
+	*/
 	// END NOTEBOOKS DIALOG
 
  	connect (m_notesDialog->tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
