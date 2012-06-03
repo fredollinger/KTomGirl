@@ -84,6 +84,7 @@ m_row(0)
 	m_notebooksDialog->tableNotebooks->setColumnCount(1);
 	m_notebooksDialog->tableNotebooks->setHorizontalHeaderLabels(qsl);
 	m_notebooksDialog->tableNotebooks->horizontalHeader()->setVisible(true);
+	m_notebooksDialog->tableNotebooks->horizontalHeader()->setStretchLastSection(true);
 
 	qs="All Notes";
 	QTableWidgetItem *item = new QTableWidgetItem(qs);
