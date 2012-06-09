@@ -23,9 +23,8 @@
 
 #include <queue>
 
-#include <QString>
-#include <QSharedPointer>
-#include <QWidget>
+#include "string.hpp"
+#include <boost/shared_ptr.hpp>
 
 namespace sharp {
   class XmlReader;
@@ -37,11 +36,11 @@ namespace gnote {
   class Note;
 
 class NoteBuffer 
-  : public QWidget
+  //: public QWidget
 {
-	Q_OBJECT;
+	//Q_OBJECT;
 public:
-  typedef QSharedPointer<NoteBuffer> Ptr;
+  typedef boost::shared_ptr<NoteBuffer> Ptr;
 
   bool get_enable_auto_bulleted_lists() const;
 
@@ -78,14 +77,14 @@ protected:
 private:
   void change_cursor_depth(bool increase);
 
-  static const QChar s_indent_bullets[];
+  static const char s_indent_bullets[];
 
   struct WidgetInsertData
   {
     bool adding;
-    QSharedPointer<QString> buffer;
-    QSharedPointer<QWidget>   position;
-    QWidget                  *widget;
+    boost::shared_ptr<std::string> m_buffer;
+    //boost::shared_ptr<QWidget>   m_position;
+    //QWidget                  *widget;
   };
   std::queue<WidgetInsertData> m_widget_queue;
 

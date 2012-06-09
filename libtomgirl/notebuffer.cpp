@@ -26,8 +26,8 @@
 #include "note.hpp"
 #include "preferences.hpp"
 
-#include "../libtomgirl/xmlreader.hpp"
-#include "../libtomgirl/xmlwriter.hpp"
+#include "xmlreader.hpp"
+#include "xmlwriter.hpp"
 
 namespace gnote {
 

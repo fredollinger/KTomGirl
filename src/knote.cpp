@@ -1076,6 +1076,7 @@ void KNote::resizeEvent( QResizeEvent *qre )
 
 void KNote::closeEvent( QCloseEvent * event )
 {
+  qDebug() << __PRETTY_FUNCTION__;
   saveTimer->stop();
   formatTimer->stop();
   //emit sigDataChanged(noteId());
