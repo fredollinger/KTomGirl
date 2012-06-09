@@ -19,9 +19,6 @@
 
 #include <iostream>
 
-//#include <QString>
-#include <QDebug>
-
 #include <string.h>
 #include <exception>
 
@@ -48,7 +45,6 @@ NoteManager::NoteManager(const std::string & directory, const std::string & back
 
 NoteManager::NoteManager() : QWidget()
 {
-	// qDebug() << __PRETTY_FUNCTION__<< "FIXME: stub" << QString::fromStdString(Gnote::data_dir());
 	std::string directory = Gnote::data_dir();
 	std::string backup = "";
 	_common_init(directory, backup);
@@ -59,14 +55,7 @@ void NoteManager::_common_init(const std::string & directory, const std::string 
     m_addin_mgr = NULL;
 
     Preferences & prefs(Preferences::obj());
-    // Watch the START_NOTE_URI setting and update it so that the
-    // StartNoteUri property doesn't generate a call to
-    // Preferences.Get () each time it's accessed.
-    /*
-    m_start_note_uri = prefs.get<std::string>(Preferences::START_NOTE_URI);
-    prefs.signal_setting_changed().connect(
-      sigc::mem_fun(*this, &NoteManager::on_setting_changed));
-    */
+
     // m_note_template_title = tr("New Note Template");
 
     DBG_OUT("NoteManager created with note path \"%s\".", directory.c_str());
@@ -122,8 +111,6 @@ void NoteManager::_common_init(const std::string & directory, const std::string 
       load_notes ();
     }
 #endif
-
-    // Gtk::Main::signal_quit().connect(sigc::mem_fun(*this, &NoteManager::on_exiting_event), 1);
   }
 
   NoteManager::~NoteManager()
@@ -149,7 +136,6 @@ Note::Ptr NoteManager::create_new_note (const std::string &title, const std::str
 // BEGIN LOAD_NOTE
   Note::Ptr NoteManager::load_note(const std::string & file_path)
   {
-    // qDebug() << __PRETTY_FUNCTION__;
     std::string dest_file = file_path;
 
     Note::Ptr note;
@@ -164,8 +150,6 @@ Note::Ptr NoteManager::create_new_note (const std::string &title, const std::str
   void NoteManager::add_note(const Note::Ptr & note)
   {
     if (note) {
-      // note->signal_renamed().connect(sigc::mem_fun(*this, &NoteManager::on_note_rename));
-      // note->signal_saved().connect(sigc::mem_fun(*this, &NoteManager::on_note_save));
       m_notes.push_back(note);
     }
   }
@@ -173,11 +157,9 @@ Note::Ptr NoteManager::create_new_note (const std::string &title, const std::str
 // BEGIN LOAD_NOTES
 void NoteManager::load_notes()
 {
-    //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(m_notes_dir);
     std::list<std::string> files;
     sharp::directory_get_files_with_ext(m_notes_dir, ".note", files);
 
-    //qDebug() << "note list len: " <<  files.size();
 
     for(std::list<std::string>::const_iterator iter = files.begin();
         iter != files.end(); ++iter) {
@@ -230,7 +212,9 @@ std::string NoteManager::make_new_file_name(const std::string & guid) const
 
 bool NoteManager::first_run() const
 {
-    return QDir(QString::fromStdString(m_notes_dir)).exists();
+
+    return boost::filesystem::exists(m_notes_dir);
+    //return QDir(QString::fromStdString(m_notes_dir)).exists();
 }
 
 // Create the notes directory if it doesn't exist yet.
@@ -243,9 +227,9 @@ void NoteManager::create_notes_dir() const
 // For overriding in test methods.
 bool NoteManager::create_directory(const std::string & path) const
 {
-    // qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(path);
-    QDir dir;
-    return dir.mkdir(QString::fromStdString(path));
+    return boost::filesystem::create_directory(path);
+    //QDir dir;
+    //return dir.mkdir(QString::fromStdString(path));
 }
 
   Note::Ptr NoteManager::find(const std::string & linked_title) const

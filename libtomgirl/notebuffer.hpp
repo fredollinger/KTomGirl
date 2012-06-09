@@ -36,9 +36,7 @@ namespace gnote {
   class Note;
 
 class NoteBuffer 
-  //: public QWidget
 {
-	//Q_OBJECT;
 public:
   typedef boost::shared_ptr<NoteBuffer> Ptr;
 
@@ -83,8 +81,6 @@ private:
   {
     bool adding;
     boost::shared_ptr<std::string> m_buffer;
-    //boost::shared_ptr<QWidget>   m_position;
-    //QWidget                  *widget;
   };
   std::queue<WidgetInsertData> m_widget_queue;
 
