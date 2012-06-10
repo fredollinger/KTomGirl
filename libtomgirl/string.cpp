@@ -26,7 +26,6 @@
 #include <QString>
 
 #include "string.hpp"
-#include "ktglib.hpp"
 
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/classification.hpp>
@@ -76,12 +75,14 @@ namespace sharp {
     boost::split(split, source, boost::is_any_of(delimiters));
   }
 
+  #if 0
   void ustring_split(std::vector<KTGlib::ustring> & split, const KTGlib::ustring & source,
                     const char * delimiters)
   {
     qDebug() << __PRETTY_FUNCTION__<< "STUB";
     // boost::split(split, source, boost::is_any_of(delimiters));
   }
+#endif
 
   std::string string_substring(const std::string & source, int start)
   {

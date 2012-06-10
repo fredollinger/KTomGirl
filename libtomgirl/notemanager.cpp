@@ -30,6 +30,7 @@
 #include "../libtomgirl/datetime.hpp"
 #include "../libtomgirl/debug.hpp"
 #include "../libtomgirl/files.hpp"
+#include "ktglib.hpp"
 #include "gnote.hpp"
 #include "note.hpp"
 #include "notemanager.hpp"

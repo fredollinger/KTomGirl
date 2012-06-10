@@ -22,12 +22,9 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
-// #include <glibmm/ustring.h>
-
 #include "debug.hpp"
 #include "xmlwriter.hpp"
-#include "ktglib.hpp"
+//#include "ktglib.hpp"
 
 namespace sharp {
 
@@ -59,6 +56,7 @@ namespace sharp {
   }
 
 
+/*
   int XmlWriter::write_char_entity(KTGlib::gunichar ch)
   {
     //KTGlib::ustring unistring(1, (gunichar)ch);
@@ -66,6 +64,7 @@ namespace sharp {
     // DBG_OUT("write entity %s", unistring.c_str());
     return xmlTextWriterWriteString(m_writer, (const xmlChar*)unistring.c_str());
   }
+*/
 
   int XmlWriter::write_string(const std::string & s)
   {

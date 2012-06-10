@@ -28,29 +28,37 @@
 
 #include <QString>
 #include <QWidget>
+#include <boost/cstdint.hpp>
 
 namespace KTGlib {
 typedef QChar gunichar; 
+// typedef boost::uint64_t gunichar; 
+//typedef boost::uint64_t gunichar; 
 bool str_has_prefix(std::string, const char *);
 
 std::string build_filename(const std::string & p, const std::string & fn);
 
 QString get_user_data_dir();
 
-class ustring 
-{
+/* We need to figure out how to get rid of QChar by reimplementing
+ * a subset of gunichar and QChar api to shut up compiler */
+/*
+class gunichar : public QChar{
+};
+*/
 
+// BEGIN class ustring 
+class ustring{
 public:
   ustring();
   ustring(QString);
   ~ustring();
-  //inline ustring_Iterator<T>::ustring_Iterator();
   typedef QString::const_iterator const_interator;
   const char* c_str();
 
 private:
   QString m_qs;
-}; // class ustring
+}; // END class ustring
 }  // namespace KTGlib
 #endif
 // Tue Mar 27 20:32:49 PDT 2012
