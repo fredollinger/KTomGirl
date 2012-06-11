@@ -82,6 +82,11 @@ m_row(0)
         m_notebooksDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
         addDockWidget(Qt::LeftDockWidgetArea, m_notebooksDialog);
 
+	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
+	
+
+	
+
 	/*
 	qsl.clear();
 	qsl << "Notebooks";
