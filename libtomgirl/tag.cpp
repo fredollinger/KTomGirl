@@ -25,10 +25,6 @@
 #include "map.hpp"
 #include "string.hpp"
 
-/*
-#include <glibmm.h>
-*/
-
 #include "note.hpp"
 #include "tag.hpp"
 
