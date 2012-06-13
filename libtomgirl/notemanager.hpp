@@ -19,18 +19,12 @@
 #ifndef _NOTEMANAGER_HPP__
 #define _NOTEMANAGER_HPP__
 
-#include <QSharedPointer>
-#include <QWidget>
-
 #include <string>
 #include <list>
 #include <memory>
 
-// #include <gconf/gconf.h>
+#include <boost/shared_ptr.hpp>
 
-// #include <sigc++/signal.h>
-
-// #include "preferences.hpp"
 #include "note.hpp"
 
 namespace gnote {
@@ -38,12 +32,12 @@ namespace gnote {
   class AddinManager;
   class TrieController;
 
-class NoteManager // : public QWidget
+class NoteManager 
 {
-// Q_OBJECT
 // BEGIN PUBLIC
 public:
-    typedef QSharedPointer<NoteManager> Ptr;
+   // typedef QSharedPointer<NoteManager> Ptr;
+    typedef boost::shared_ptr<NoteManager> Ptr;
     
     bool first_run() const;
     NoteManager(const std::string & directory, const std::string & backup);
