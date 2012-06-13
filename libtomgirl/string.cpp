@@ -23,7 +23,7 @@
  */
 
 #include <QDebug>
-#include <QString>
+// #include <QString>
 
 #include "string.hpp"
 

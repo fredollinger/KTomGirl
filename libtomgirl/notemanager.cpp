@@ -39,12 +39,12 @@
 #include "../libtomgirl/string.hpp"
 
 namespace gnote {
-NoteManager::NoteManager(const std::string & directory, const std::string & backup) // : QWidget()
+NoteManager::NoteManager(const std::string & directory, const std::string & backup) 
 {
     _common_init(directory, backup);
 }
 
-NoteManager::NoteManager() // : QWidget()
+NoteManager::NoteManager() 
 {
 	std::string directory = Gnote::data_dir();
 	std::string backup = "";
@@ -228,8 +228,6 @@ void NoteManager::create_notes_dir() const
 bool NoteManager::create_directory(const std::string & path) const
 {
     return boost::filesystem::create_directory(path);
-    //QDir dir;
-    //return dir.mkdir(QString::fromStdString(path));
 }
 
   Note::Ptr NoteManager::find(const std::string & linked_title) const
