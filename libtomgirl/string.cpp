@@ -22,9 +22,6 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include <QDebug>
-// #include <QString>
-
 #include "string.hpp"
 
 #include <boost/algorithm/string/case_conv.hpp>
