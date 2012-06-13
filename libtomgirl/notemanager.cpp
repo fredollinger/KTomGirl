@@ -39,12 +39,12 @@
 #include "../libtomgirl/string.hpp"
 
 namespace gnote {
-NoteManager::NoteManager(const std::string & directory, const std::string & backup) : QWidget()
+NoteManager::NoteManager(const std::string & directory, const std::string & backup) // : QWidget()
 {
     _common_init(directory, backup);
 }
 
-NoteManager::NoteManager() : QWidget()
+NoteManager::NoteManager() // : QWidget()
 {
 	std::string directory = Gnote::data_dir();
 	std::string backup = "";
@@ -215,7 +215,6 @@ bool NoteManager::first_run() const
 {
 
     return boost::filesystem::exists(m_notes_dir);
-    //return QDir(QString::fromStdString(m_notes_dir)).exists();
 }
 
 // Create the notes directory if it doesn't exist yet.

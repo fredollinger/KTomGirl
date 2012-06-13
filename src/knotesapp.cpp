@@ -537,9 +537,12 @@ void KNotesApp::slotNoteKilled( KCal::Journal *journal )
 
 void KNotesApp::slotQuit()
 {
-  qDebug() << __PRETTY_FUNCTION__;
+  qDebug() << __PRETTY_FUNCTION__ << "FIXME: need to sync and store notes";
   foreach ( KNote *note, m_notes ) {
+  	qDebug() << __PRETTY_FUNCTION__;
     if ( note->isModified() ) {
+	  // We should probably be saving the m_notes (gnote) not knote, or perhaps
+	  // we can sync them...
       note->saveData(false);
     }
   }

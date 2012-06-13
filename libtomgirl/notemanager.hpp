@@ -38,9 +38,9 @@ namespace gnote {
   class AddinManager;
   class TrieController;
 
-class NoteManager : public QWidget
+class NoteManager // : public QWidget
 {
-Q_OBJECT
+// Q_OBJECT
 // BEGIN PUBLIC
 public:
     typedef QSharedPointer<NoteManager> Ptr;

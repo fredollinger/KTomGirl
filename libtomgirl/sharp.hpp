@@ -5,8 +5,9 @@
  * drop-in replacement for all things sharp
  */
 
-#include <QDir>
-#include <QDateTime>
+//#include <QDir>
+//#include <QDateTime>
+#include <list>
 #include <string>
 
 namespace sharp{

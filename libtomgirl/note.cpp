@@ -24,16 +24,21 @@
 
 #include <tr1/functional>
 
+// BEGIN BOOST INCLUDES
 #include <boost/format.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/algorithm/string/find.hpp>
+// END BOOST INCLUDES
 
 #include <libxml/parser.h>
 
+// BEGIN STD INCLUDES
 #include <map>
+#include <iostream>
+// BEGIN STD INCLUDES
 
 #include "note.hpp"
 #include "notedata.hpp"
@@ -624,4 +629,4 @@ void Note::delete_note()
   }
   
 } // namespace gnote
-// Sat Apr 14 10:42:16 PDT 2012
+// Wed Jun 13 10:03:47 PDT 2012

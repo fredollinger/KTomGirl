@@ -58,9 +58,6 @@ class NoteTagTable;
 
 class NoteDataBufferSynchronizer  // : public QWidget
 {
-
-//Q_OBJECT
-
 public:
 // takes ownership
 NoteDataBufferSynchronizer(NoteData * _data)
@@ -121,7 +118,6 @@ private:
 // BEGIN CLASS NOTE
 class Note //: public QWidget
 {
-//Q_OBJECT
 // BEGIN NOTE public:
 public:
   void set_text_content(const std::string & text);
