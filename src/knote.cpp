@@ -316,28 +316,15 @@ void KNote::commitData()
 
 void KNote::slotClose()
 {
+
+  saveTimer->stop();
+  formatTimer->stop();
+  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
+  m_gnote->save();
+  emit sigDataChanged(noteId());
   saveTimer->stop();
   formatTimer->stop();
   hide();
-#if 0
-#ifdef Q_WS_X11
-  NETWinInfo wm_client( QX11Info::display(), winId(),
-                        QX11Info::appRootWindow(), NET::WMDesktop );
-  if ( ( wm_client.desktop() == NETWinInfo::OnAllDesktops ) ||
-       ( wm_client.desktop() > 0 ) ) {
-    // m_config->setDesktop( wm_client.desktop() );
-  }
-#endif
-
-  // m_editor->clearFocus();
-  if( !mBlockWriteConfigDuringCommitData )
-  {
-    // m_config->setHideNote( true );
-    // m_config->setPosition( pos() );
-    // m_config->writeConfig();
-  }
-  // just hide the note so it's still available from the dock window
-#endif
 }
 
 void KNote::slotInsDate()
@@ -1077,12 +1064,9 @@ void KNote::resizeEvent( QResizeEvent *qre )
 void KNote::closeEvent( QCloseEvent * event )
 {
   qDebug() << __PRETTY_FUNCTION__;
-  saveTimer->stop();
-  formatTimer->stop();
-  //emit sigDataChanged(noteId());
-  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
-  m_gnote->save();
+
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
+
   slotClose();
 }
 
