@@ -17,9 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QSharedPointer>
-#include <QDebug>
-
 #include "config.h"
 
 #include <tr1/functional>
@@ -104,7 +101,7 @@ Note::Note(NoteData * _data, const std::string & filepath, NoteManager & _manage
 
 Note::~Note()
 {
-	qDebug() << __PRETTY_FUNCTION__<< QString::fromStdString(m_filepath);
+	std::cout << "~Note()" <<  m_filepath;
 }
 
 void Note::changed(){
@@ -296,7 +293,7 @@ void NoteArchiver::write_file(const std::string & _write_file, const NoteData & 
     }
     catch(const std::exception & e)
     {
-	qDebug() << "save fail";
+		std::cout << "save fail";
     }
   }
 
@@ -603,8 +600,7 @@ Note::Ptr Note::create_new_note(const std::string & title,
     // BEGIN SET DATE
     sharp::DateTime date(sharp::DateTime::now());
     note_data->create_date() = date;
-    qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(date.to_iso8601());
-    //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(date.to_short_time_string());
+    std::cout << date.to_iso8601();
     note_data->set_change_date(date);
     // END SET DATE
       
