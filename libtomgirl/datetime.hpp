@@ -54,6 +54,7 @@ public:
   bool is_valid() const;
   bool operator>(const DateTime & dt) const;
 
+  static std::string strip_delimiters_from_iso8601(const std::string&);
   std::string to_string(const char * format) const;
   std::string to_string(const std::string & format) const
     {

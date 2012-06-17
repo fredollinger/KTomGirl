@@ -158,13 +158,34 @@ DateTime DateTime::now()
 	return DateTime(n);
 }
 
+std::string DateTime::strip_delimiters_from_iso8601(const std::string &iso8601){
+	std::cout << "FIXME STUB: DateTime::strip_delimiters_from_iso8601: " << iso8601 << "\n";
+	return iso8601;
+}
+
 // FIXME: Busted need to implement this protocol
-DateTime DateTime::from_iso8601(const std::string &iso8601)
+DateTime DateTime::from_iso8601(const std::string &raw_str)
 {
 	GTimeVal retval;
-	//retval.tv_sec = qdt.toTime_t();
+	//std::cout << "BEGIN DateTime::from_iso8601: " << iso8601 << "\n";
+	ptime pt;
+	std::string iso8601 = strip_delimiters_from_iso8601(raw_str);
+
 	retval.tv_sec = 0;
 	retval.tv_usec = 0;
+
+	try
+	{
+        	ptime pt = from_iso_string(iso8601);
+  	}
+  	catch (int e)
+  	{
+    		std::cout << "An exception occurred. Exception Nr. " << e << std::endl;
+  	}
+
+	//std::cout << "FIXME: Pronto: DateTime::from_iso8601(): " << pt.to_simple_string
+	//retval.tv_sec = qdt.toTime_t();
+	std::cout << "END: DateTime::from_iso8601: " << iso8601 << "\n";
 	return DateTime(retval);
 }
 
