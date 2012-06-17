@@ -23,10 +23,7 @@
 #define __NOTE_HPP_
 
 // BEGIN QT INCLUDES
-#include <QDateTime>
 #include <QList>
-#include <QSharedPointer>
-#include <QWidget>
 // END QT INCLUDES
 
 #include <list>

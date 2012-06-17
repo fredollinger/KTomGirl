@@ -28,6 +28,7 @@
 #include <qdebug.h>
 #include <QMainWindow>
 #include <QTableWidget>
+#include <QDateTime>
 // END QT INCLUDES
 
 #include <KParts/MainWindow>

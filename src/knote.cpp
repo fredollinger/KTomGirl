@@ -316,7 +316,7 @@ void KNote::commitData()
 
 void KNote::slotClose()
 {
-
+  qDebug() << __PRETTY_FUNCTION__;
   saveTimer->stop();
   formatTimer->stop();
   m_gnote->set_text_content(m_editor->toPlainText().toStdString());
