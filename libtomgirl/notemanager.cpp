@@ -262,7 +262,9 @@ void NoteManager::delete_note(const Note::Ptr & note)
       }
     }
 
-    m_notes.removeAll(note);
+    // This is b/c of a change from QList to std::list
+    //m_notes.removeAll(note);
+    m_notes.clear();
     note->delete_note();
 }
 // END NoteManager::delete_note()

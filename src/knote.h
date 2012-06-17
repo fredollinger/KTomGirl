@@ -45,7 +45,7 @@ class QSizeGrip;
 class KFind;
 class KMenu;
 class KNoteButton;
-class KNoteConfig;
+//class KNoteConfig;
 class KNoteEdit;
 class KSelectAction;
 class KToggleAction;
@@ -190,7 +190,7 @@ class KNote
     KToolBar      *m_tool; 
     KNoteEdit     *m_editor;
 
-    KNoteConfig   *m_config;
+    // KNoteConfig   *m_config;
     KCal::Journal *m_journal;
 
     KFind         *m_find;

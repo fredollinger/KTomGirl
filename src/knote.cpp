@@ -96,7 +96,7 @@ static const QString endNormal = "</font><br>";
 
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
-    m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_config( 0 ), m_journal( j ),
+    m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_journal( j ),
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnote(gnoteptr)
     , m_content("")
@@ -123,7 +123,7 @@ KNote::~KNote()
   // FIXME: save before delete
   m_gnote->set_text_content(m_editor->toPlainText().toStdString());
   m_gnote->save();
-  delete m_config;
+  // delete m_config;
 }
 
 /* This is to be done last */
@@ -1353,8 +1353,8 @@ void KNote::slotKill()
   }
 
   // delete the configuration first, then the corresponding file
-  delete m_config;
-  m_config = 0;
+  // delete m_config;
+  // m_config = 0;
   QString configFile = KGlobal::dirs()->saveLocation( "appdata", "notes/" );
   // configFile += m_journal->uid();
 /*
@@ -1409,7 +1409,12 @@ void KNote::slotHighlight( const QString& /*str*/, int idx, int len )
 
 void KNote::slotSave(){
   // only save if we changed
-  if (! isModified() ) return;
+  if (! isModified() ){
+  	qDebug() << __PRETTY_FUNCTION__ << " not modified. Not saving.";
+	return;
+  }
+
+  qDebug() << __PRETTY_FUNCTION__ << " Saving...";
 
   // cache content so we know if we are modified/saved in the future
   m_content = m_editor->toPlainText();

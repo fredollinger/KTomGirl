@@ -135,9 +135,12 @@ std::string Note::uid() const {
                                  NoteManager & manager)
   {
     if (!data->change_date().is_valid()) {
+      std::cout << "Note::Ptr Note::create_existing_note() change_date valid";
       sharp::DateTime d(boost::filesystem::last_write_time(filepath));
       data->set_change_date(d);
     }
+    else
+      std::cout << "Note::Ptr Note::create_existing_note() change_date NOT valid";
     if (!data->create_date().is_valid()) {
       if(data->change_date().is_valid()) {
         data->create_date() = data->change_date();

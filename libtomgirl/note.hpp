@@ -121,7 +121,7 @@ public:
   std::string m_text_content;
   typedef std::tr1::shared_ptr<Note> Ptr;
   typedef std::tr1::weak_ptr<Note> WeakPtr;
-  typedef QList<Ptr> List;
+  typedef std::list<Ptr> List;
 
   // This is for testing...
   //const QDateTime & create_date() const; 
