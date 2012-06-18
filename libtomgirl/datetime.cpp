@@ -159,34 +159,63 @@ DateTime DateTime::now()
 }
 
 std::string DateTime::strip_delimiters_from_iso8601(const std::string &iso8601){
-	std::cout << "FIXME STUB: DateTime::strip_delimiters_from_iso8601: " << iso8601 << "\n";
-	return iso8601;
+	std::string fixed;
+	std::string ret = iso8601;
+
+	std::cout << "should be a T: " << iso8601.at(8) << std::endl;
+
+	if (15 != iso8601.length()){
+		std::cout << "DateTime::strip_delimiters_from_iso8601 string busted, erturning a proper (but wrong) string... " << iso8601.length() << "\n";
+		goto bail;
+	}
+	
+	// We reach here if all goes well
+	return ret;
+	
+	// by default, we return a valid string...
+	bail:
+		ret = "20120131T235959";
+		return ret;
 }
 
 // FIXME: Busted need to implement this protocol
 DateTime DateTime::from_iso8601(const std::string &raw_str)
 {
 	GTimeVal retval;
-	//std::cout << "BEGIN DateTime::from_iso8601: " << iso8601 << "\n";
-	ptime pt;
+	std::cout << "BEGIN DateTime::from_iso8601: \n";
+	ptime pt = second_clock::local_time();
 	std::string iso8601 = strip_delimiters_from_iso8601(raw_str);
 
 	retval.tv_sec = 0;
 	retval.tv_usec = 0;
 
-	try
-	{
-        	ptime pt = from_iso_string(iso8601);
+	try {
+        	pt = from_iso_string(iso8601);
   	}
   	catch (int e)
   	{
     		std::cout << "An exception occurred. Exception Nr. " << e << std::endl;
+		goto bail;
   	}
+	std::cout << "DateTime::from_iso8601: ptime success \n";
 
 	//std::cout << "FIXME: Pronto: DateTime::from_iso8601(): " << pt.to_simple_string
 	//retval.tv_sec = qdt.toTime_t();
+	tm td_tm;
+	try {
+		td_tm = to_tm(pt);
+		retval.tv_sec = mktime(&td_tm);
+  	}
+  	catch (int e)
+  	{
+    		std::cout << "An exception occurred. Exception Nr. " << e << std::endl;
+		goto bail;
+  	}
+
 	std::cout << "END: DateTime::from_iso8601: " << iso8601 << "\n";
-	return DateTime(retval);
+
+	bail:
+		return DateTime(retval);
 }
 
 
@@ -213,5 +242,5 @@ DateTime DateTime::from_iso8601(const std::string &raw_str)
     return (m_date.tv_sec > dt.m_date.tv_sec);
   }
 
-
-}
+} // namespace sharp
+// Sun Jun 17 16:55:15 PDT 2012

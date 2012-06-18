@@ -30,19 +30,50 @@
 
 using namespace sharp;
 
-void dateTest(){
-	//qDebug() << QString::fromStdString(qdt.to_iso8601());
-	std::string st = "2012-06-12T10:24:00";
+void dateTest(std::string &st, std::string success){
+	qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(st);
+	// test the strip delim separately
 	std::string res = DateTime::strip_delimiters_from_iso8601(st);
-	std::cout << res;
-	
+	qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(res);
+
+	// now test the converter
+	DateTime dt = DateTime::from_iso8601(st);
+	res = dt.to_iso8601();
+	qDebug() << QString::fromStdString(res);
+
+	if (success.compare(st)) 
+		qDebug() << "success";
+	else{
+	  qDebug() << "date test failed: " <<  QString::fromStdString(res) << " != " << QString::fromStdString(success);
+	  exit(0); 
+	}
 }
 
 int main( int argc, char *argv[] )
 {
 	QApplication app(argc, argv);
 
-	dateTest();
+	std::string st;
+	std::string success;
+
+	success = "2002-02-01T07:59:59";
+
+	#if 0
+	// Test a valid string
+	st = "20020131T235959";
+	dateTest(st, success);
+
+	st = "2002-0131T235959";
+	dateTest(st, success);
+
+	st = "this is really fucked up and should not pass";
+	dateTest(st, success);
+	#endif
+
+	// Test a valid string
+	success = "2012-02-01T07:59:59";
+	st = "20120131T235959";
+	dateTest(st, success);
 
 	return app.exec();
 }
