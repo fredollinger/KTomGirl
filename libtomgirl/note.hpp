@@ -22,10 +22,6 @@
 #ifndef __NOTE_HPP_
 #define __NOTE_HPP_
 
-// BEGIN QT INCLUDES
-#include <QList>
-// END QT INCLUDES
-
 #include <list>
 #include <string>
 #include <queue>
@@ -53,7 +49,7 @@ class NoteData;
 class NoteWindow;
 class NoteTagTable;
 
-class NoteDataBufferSynchronizer  // : public QWidget
+class NoteDataBufferSynchronizer  
 {
 public:
 // takes ownership
@@ -113,7 +109,7 @@ private:
 
 
 // BEGIN CLASS NOTE
-class Note //: public QWidget
+class Note 
 {
 // BEGIN NOTE public:
 public:
@@ -122,10 +118,6 @@ public:
   typedef std::tr1::shared_ptr<Note> Ptr;
   typedef std::tr1::weak_ptr<Note> WeakPtr;
   typedef std::list<Ptr> List;
-
-  // This is for testing...
-  //const QDateTime & create_date() const; 
-  //const QDateTime & change_date() const;
 
   static void parse_tags(const xmlNodePtr tagnodes, std::list<std::string> & tags);
 
@@ -176,8 +168,6 @@ public:
   const NoteData & data() const;
   NoteData & data();
 
-  //const QDateTime & metadata_change_date() const;
-
   NoteManager & manager()
     {
       return m_manager;
@@ -196,11 +186,6 @@ public:
   void set_is_open_on_startup(bool);
   bool m_is_open;
 // END NOTE public:
-
-// BEGIN NOTE public slots:
-// public slots:
-//   void slotNoteChanged(const QString&);
-// END NOTE public slots:
 
 // BEGIN NOTE private:
 private:

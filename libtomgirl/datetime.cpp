@@ -161,21 +161,29 @@ DateTime DateTime::now()
 std::string DateTime::strip_delimiters_from_iso8601(const std::string &iso8601){
 	std::string fixed;
 	std::string ret = iso8601;
-
-	std::cout << "should be a T: " << iso8601.at(8) << std::endl;
+	
+	const char *T = "T";
 
 	if (15 != iso8601.length()){
 		std::cout << "DateTime::strip_delimiters_from_iso8601 string busted, erturning a proper (but wrong) string... " << iso8601.length() << "\n";
-		goto bail;
+		ret = "20120131T235959";
+		goto end;
 	}
 	
-	// We reach here if all goes well
-	return ret;
-	
-	// by default, we return a valid string...
-	bail:
+	end:
+
+	// One last sanity test...
+	/*
+	if  ( strcmp(T, (const char*) iso8601.at(8)) ){
+		std::cout << "we are a T\n";
+	}
+	else{
+		std::cout << "no T, going to default";
 		ret = "20120131T235959";
-		return ret;
+	}
+	*/
+	
+	return ret;
 }
 
 // FIXME: Busted need to implement this protocol
