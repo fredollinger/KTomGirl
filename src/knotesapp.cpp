@@ -155,11 +155,13 @@ KNotesApp::KNotesApp()
                              KAction::DefaultShortcut );
   connect( action, SIGNAL( triggered() ), SLOT( newNoteFromClipboard() ) );
 
+  /*
   action  = new KAction( KIcon( "knotes" ), i18n( "Show All Notes" ), this );
   actionCollection()->addAction( "show_all_notes", action );
   action->setGlobalShortcut( KShortcut( Qt::ALT + Qt::SHIFT + Qt::Key_S ),
                              KAction::DefaultShortcut );
   connect( action, SIGNAL( triggered() ), SLOT( showAllNotes() ) );
+  */
 
   action  = new KAction( KIcon( "window-close" ),
                          i18n( "Hide All Notes" ), this );
@@ -237,8 +239,9 @@ KNotesApp::KNotesApp()
 
 KNotesApp::~KNotesApp()
 {
+  saveConfigs();
   saveNotes();
-  m_config->store();
+ // m_config->store();
 
   blockSignals( true );
   qDeleteAll( m_notes );
@@ -287,9 +290,12 @@ QString KNotesApp::newNoteFromClipboard( const QString &name )
 
 void KNotesApp::hideAllNotes() const
 {
+  qDebug() << __PRETTY_FUNCTION__ << "FIXME: STUB";
+/*
   foreach ( KNote *note, m_notes ) {
     note->slotClose();
   }
+*/
 }
 
 void KNotesApp::showAllNotes() const
@@ -538,6 +544,7 @@ void KNotesApp::slotNoteKilled( KCal::Journal *journal )
 void KNotesApp::slotQuit()
 {
   qDebug() << __PRETTY_FUNCTION__ << "FIXME: need to sync and store notes";
+/*
   foreach ( KNote *note, m_notes ) {
   	qDebug() << __PRETTY_FUNCTION__;
     if ( note->isModified() ) {
@@ -546,6 +553,7 @@ void KNotesApp::slotQuit()
       note->saveData(false);
     }
   }
+*/
   saveConfigs();
   kapp->quit();
 }
@@ -592,6 +600,9 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
 
   showNote( journal->uid() );
+
+  saveConfigs();
+  //m_config->store();
 }
 
 void KNotesApp::slotDeleteNote(const QString &qsTitle){
@@ -646,6 +657,7 @@ void KNotesApp::saveNotes()
 
 void KNotesApp::saveConfigs()
 {
+  m_config->store();
 }
 
 void KNotesApp::updateNoteActions()
