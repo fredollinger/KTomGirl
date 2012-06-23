@@ -22,17 +22,16 @@
  */
 
 #include "ktglib.hpp"
-#include <QDir>
-#include <QString>
+//#include <QDir>
+//#include <QString>
 
 namespace KTGlib {
 ustring::ustring() : m_qs() {}
 ustring::~ustring() {}
-ustring::ustring(QString qs) : m_qs(qs) {}
+ustring::ustring(std::string st) : m_qs(st) {}
 
 const char* ustring::c_str(){
-  QByteArray ba = m_qs.toLocal8Bit();
-  return ba.data();
+  return m_qs.c_str();
 }
 
 bool str_has_prefix(std::string st, const char *ch){

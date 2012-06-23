@@ -51,13 +51,13 @@ class gunichar : public QChar{
 class ustring{
 public:
   ustring();
-  ustring(QString);
+  ustring(std::string);
   ~ustring();
   typedef QString::const_iterator const_interator;
   const char* c_str();
 
 private:
-  QString m_qs;
+  std::string m_qs;
 }; // END class ustring
 }  // namespace KTGlib
 #endif
