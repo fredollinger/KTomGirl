@@ -38,7 +38,7 @@ bool str_has_prefix(std::string, const char *);
 
 std::string build_filename(const std::string & p, const std::string & fn);
 
-QString get_user_data_dir();
+std::string get_user_data_dir();
 
 /* We need to figure out how to get rid of QChar by reimplementing
  * a subset of gunichar and QChar api to shut up compiler */

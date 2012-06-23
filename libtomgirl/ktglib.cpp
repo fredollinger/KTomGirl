@@ -45,8 +45,8 @@ bool str_has_prefix(std::string st, const char *ch){
 	return false;
 }
 
-QString get_user_data_dir(){ 
-	return QDir::homePath() + "/.local/share";
+std::string get_user_data_dir(){ 
+	return getenv("HOME") + std::string("/.local/share");
 }
 
 std::string build_filename(const std::string & p, const std::string & fn)
