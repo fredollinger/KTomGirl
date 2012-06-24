@@ -131,6 +131,7 @@ std::string Gnote::tomboy_data_dir(){
 	return KTGlib::get_user_data_dir() + "/tomboy";
 }
 
+#if 0
 // FIXME: Need to get rid of qt only
 QStringList Gnote::get_note_list(){
 //KTGlib::StringList Gnote::get_note_list(){
@@ -149,11 +150,12 @@ QStringList Gnote::get_note_list(){
 	QStringList qsl(qdTomboy.entryList());
 	return qsl;
 }
+#endif
 
 // FIXME: Need to get rid of qt only
 //KTGlib::StringList Gnote::get_note_list2(){
 //void Gnote::get_note_list2(){
-KTGlib::StringList Gnote::get_note_list2(){
+KTGlib::StringList Gnote::get_note_list(){
 	//QDir qdTomboy (QString::fromStdString(tomboy_data_dir()) );
 	std::string p = tomboy_data_dir();
 	std::string fn;

@@ -56,7 +56,7 @@ m_row(0)
  	// m_model = new QStringListModel();
 	m_list << gnote::Gnote::get_note_list();
  	// m_model = new QStringListModel();
-	m_list << gnote::Gnote::get_note_list();
+	//m_list << gnote::Gnote::get_note_list();
 
 	// BEGIN NOTES DIALOG
 	m_notesDialog = new NotesDialog();
