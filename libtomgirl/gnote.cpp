@@ -156,21 +156,22 @@ QStringList Gnote::get_note_list(){
 KTGlib::StringList Gnote::get_note_list2(){
 	//QDir qdTomboy (QString::fromStdString(tomboy_data_dir()) );
 	std::string p = tomboy_data_dir();
-
-	boost::filesystem::directory_iterator itr(p);
-
-	FIXME: FINSIH
-
-	#if 0
-	for (boost::filesystem::iterator itr(p); itr!=directory_iterator(); ++itr)
-	{
-		std::cout << itr->path().filename() << ' '; // display filename only
-
-		if (is_regular_file(itr->status())) cout << " [" << file_size(itr->path()) << ']';
-	}
-	#endif
-	
+	std::string fn;
 	KTGlib::StringList qsl;
+
+	// boost::filesystem::directory_iterator itr(p);
+
+	for (boost::filesystem::directory_iterator itr(p); itr!=boost::filesystem::directory_iterator(); ++itr)
+	{
+		fn = itr->path().filename();
+//		std::cout << fn << ' '; // display filename only
+
+		if (is_regular_file(itr->status())){
+//			std::cout << " [" << file_size(itr->path()) << ']';
+			qsl.push_back(fn);
+		}
+	}
+	
 	//QStringList qsl(qdTomboy.entryList());
 	return qsl;
 }

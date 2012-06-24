@@ -33,6 +33,10 @@
 #include "../../libtomgirl/datetime.hpp"
 #include "../../libtomgirl/ktglib.hpp"
 
+#include <list>
+#include <iostream>
+#include <string>
+
 using namespace gnote;
 
 namespace gnote{
@@ -44,23 +48,19 @@ void notesListTest(){
 //	qDebug() << "Note List: " << qsl;
 	KTGlib::StringList qsl = Gnote::get_note_list2();
 
-	//QStringList Gnote::get_note_list(){
-	#if 0
-	std::string title = "New Note 4";
-	gnote::NoteManager *nm = new gnote::NoteManager();
-	gnote::Note::Ptr note = nm->find(title);
-        QString m_content = QString::fromStdString(note->text_content());
-	qDebug() << m_content;
-        //QString uid = QString::fromStdString(note->uid());
-	//qDebug() << QString::fromStdString(title) << m_content << uid;
-	#endif
+	std::cout << "test";
+
+	for (std::list<std::string>::const_iterator itr = qsl.begin(); itr != qsl.end(); ++itr){
+		std::cout << *itr << "\n";
+	}
+
 }
 
 int main( int argc, char *argv[] ) {
-	QApplication app(argc, argv);
-
 	notesListTest();
+//	QApplication app(argc, argv);
 
-	return app.exec();
+//	return app.exec();
+	return 0;
 }
 // Sat May  5 10:26:49 PDT 2012
