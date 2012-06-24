@@ -24,16 +24,14 @@
 #ifndef _KTG_STRING_HPP_
 #define _KTG_STRING_HPP_
 
+#include <list>
 #include <string>
 
-#include <QString>
-#include <QWidget>
 #include <boost/cstdint.hpp>
 
 namespace KTGlib {
-typedef QChar gunichar; 
-// typedef boost::uint64_t gunichar; 
-//typedef boost::uint64_t gunichar; 
+typedef std::list<std::string> StringList;
+typedef boost::uint64_t gunichar; 
 bool str_has_prefix(std::string, const char *);
 
 std::string build_filename(const std::string & p, const std::string & fn);
@@ -53,7 +51,7 @@ public:
   ustring();
   ustring(std::string);
   ~ustring();
-  typedef QString::const_iterator const_interator;
+  //typedef QString::const_iterator const_interator;
   const char* c_str();
 
 private:

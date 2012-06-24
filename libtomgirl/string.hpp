@@ -27,6 +27,7 @@
 #ifndef __SHARP_STRING_HPP_
 #define __SHARP_STRING_HPP_
 
+#include <list>
 #include <string>
 #include <vector>
 #include "ktglib.hpp"

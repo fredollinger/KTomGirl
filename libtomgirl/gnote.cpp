@@ -27,16 +27,18 @@
 #include <iostream>
 
 #include <boost/format.hpp>
+#include <boost/filesystem.hpp>
 
 #include "actionmanager.hpp"
-#include "../libtomgirl/ktglib.hpp"
+#include "ktglib.hpp"
 #include "note.hpp"
 #include "gnote.hpp"
 
-#include <QDebug>
+//#include <QDebug>
 #include <QDir>
-#include <QSettings>
+//#include <QSettings>
 #include <QString>
+#include <QStringList>
 
 
 namespace gnote {
@@ -48,7 +50,8 @@ namespace gnote {
     , m_is_panel_applet(false)
     , m_prefsdlg(NULL)
   {
-	settings = new QSettings("ktomgirl", QSettings::NativeFormat);
+	// FIXME: Need to implement settings
+	// settings = new KTGSettings("ktomgirl", QSettings::NativeFormat);
   }
 
   Gnote::~Gnote()
@@ -128,9 +131,47 @@ std::string Gnote::tomboy_data_dir(){
 	return KTGlib::get_user_data_dir() + "/tomboy";
 }
 
+// FIXME: Need to get rid of qt only
 QStringList Gnote::get_note_list(){
+//KTGlib::StringList Gnote::get_note_list(){
 	QDir qdTomboy (QString::fromStdString(tomboy_data_dir()) );
+
+	#if 0
+	for (directory_iterator itr(p); itr!=directory_iterator(); ++itr)
+	{
+		cout << itr->path().filename() << ' '; // display filename only
+
+		if (is_regular_file(itr->status())) cout << " [" << file_size(itr->path()) << ']';
+	}
+	#endif
+	
+	//KTGlib::StringList qsl(qdTomboy.entryList());
 	QStringList qsl(qdTomboy.entryList());
+	return qsl;
+}
+
+// FIXME: Need to get rid of qt only
+//KTGlib::StringList Gnote::get_note_list2(){
+//void Gnote::get_note_list2(){
+KTGlib::StringList Gnote::get_note_list2(){
+	//QDir qdTomboy (QString::fromStdString(tomboy_data_dir()) );
+	std::string p = tomboy_data_dir();
+
+	boost::filesystem::directory_iterator itr(p);
+
+	FIXME: FINSIH
+
+	#if 0
+	for (boost::filesystem::iterator itr(p); itr!=directory_iterator(); ++itr)
+	{
+		std::cout << itr->path().filename() << ' '; // display filename only
+
+		if (is_regular_file(itr->status())) cout << " [" << file_size(itr->path()) << ']';
+	}
+	#endif
+	
+	KTGlib::StringList qsl;
+	//QStringList qsl(qdTomboy.entryList());
 	return qsl;
 }
 

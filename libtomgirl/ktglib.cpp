@@ -22,8 +22,6 @@
  */
 
 #include "ktglib.hpp"
-//#include <QDir>
-//#include <QString>
 
 namespace KTGlib {
 ustring::ustring() : m_qs() {}

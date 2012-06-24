@@ -84,14 +84,24 @@ public:
     Note::Ptr get_or_create_template_note();
     static std::string get_note_template_content(const std::string & title);
     static std::string split_title_from_content (std::string title, std::string & body);
+
+    void signal_note_deleted(void);
+    void signal_note_added(void);
+    void signal_note_renamed(void);
+    void signal_note_saved(void);
+    void m_signal_start_note_created(void);
 // END PUBLIC
 
+/*
 signals:
+
 	void signal_note_deleted(void);
 	void signal_note_added(void);
 	void signal_note_renamed(void);
 	void signal_note_saved(void);
     	void m_signal_start_note_created(void);
+
+*/
 
 
 private:
