@@ -13,6 +13,7 @@
 
 // GNOTE INCLUDES
 #include "../libtomgirl/note.hpp"
+#include "../libtomgirl/gnote.hpp"
 
 namespace ktomgirl{
 	class KTGItem;
@@ -37,7 +38,7 @@ public:
 	void deleteItem(const QString&);
 
 private:
-	QStringList m_list;
+	KTGlib::StringList m_list;
 	// QStringListModel *m_model;
 	int m_row; // current row
 	NotesDialog *m_notesDialog;
