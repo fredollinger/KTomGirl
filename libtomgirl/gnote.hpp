@@ -26,7 +26,7 @@
 
 #include "ktglib.hpp"
 
-#include "QSettings"
+// #include "QSettings"
 
 namespace gnote {
 class PreferencesDialog;
@@ -84,7 +84,7 @@ private:
 
   PreferencesDialog *m_prefsdlg;
 
-  QSettings *settings;
+  // QSettings *settings;
 };
 
 class GnoteCommandLine

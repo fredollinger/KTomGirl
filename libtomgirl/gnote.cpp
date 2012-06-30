@@ -34,13 +34,6 @@
 #include "note.hpp"
 #include "gnote.hpp"
 
-//#include <QDebug>
-#include <QDir>
-//#include <QSettings>
-#include <QString>
-#include <QStringList>
-
-
 namespace gnote {
 
   bool Gnote::s_tray_icon_showing = false;
