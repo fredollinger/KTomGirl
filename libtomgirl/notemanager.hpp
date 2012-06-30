@@ -36,7 +36,6 @@ class NoteManager
 {
 // BEGIN PUBLIC
 public:
-   // typedef QSharedPointer<NoteManager> Ptr;
     typedef boost::shared_ptr<NoteManager> Ptr;
     
     bool first_run() const;
@@ -46,7 +45,6 @@ public:
 
     void create_notes_dir(void) const;
 
-    //Note::Ptr create_new_note (const QString&);
     Note::Ptr create_new_note (const std::string &, const std::string &);
     Note::Ptr load_note(const std::string & file_path);
 

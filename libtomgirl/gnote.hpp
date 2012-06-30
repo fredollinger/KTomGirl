@@ -26,7 +26,6 @@
 
 #include "ktglib.hpp"
 
-// #include "QSettings"
 
 namespace gnote {
 class PreferencesDialog;
@@ -66,7 +65,6 @@ public:
   static std::string gnote_data_dir();
   static std::string tomboy_data_dir();
   static std::string old_note_dir();
-  //static QStringList get_note_list();
   static KTGlib::StringList get_note_list();
 // END STATIC PUBLIC GNOTE FUNCTIONS
 
@@ -84,7 +82,6 @@ private:
 
   PreferencesDialog *m_prefsdlg;
 
-  // QSettings *settings;
 };
 
 class GnoteCommandLine

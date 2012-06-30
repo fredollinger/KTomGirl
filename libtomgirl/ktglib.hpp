@@ -38,20 +38,12 @@ std::string build_filename(const std::string & p, const std::string & fn);
 
 std::string get_user_data_dir();
 
-/* We need to figure out how to get rid of QChar by reimplementing
- * a subset of gunichar and QChar api to shut up compiler */
-/*
-class gunichar : public QChar{
-};
-*/
-
 // BEGIN class ustring 
 class ustring{
 public:
   ustring();
   ustring(std::string);
   ~ustring();
-  //typedef QString::const_iterator const_interator;
   const char* c_str();
 
 private:

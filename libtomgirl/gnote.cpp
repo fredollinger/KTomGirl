@@ -44,7 +44,7 @@ namespace gnote {
     , m_prefsdlg(NULL)
   {
 	// FIXME: Need to implement settings
-	// settings = new KTGSettings("ktomgirl", QSettings::NativeFormat);
+	// settings = new KTGSettings("ktomgirl", KTGSettings::NativeFormat);
   }
 
   Gnote::~Gnote()
@@ -126,9 +126,7 @@ std::string Gnote::tomboy_data_dir(){
 
 #if 0
 // FIXME: Need to get rid of qt only
-QStringList Gnote::get_note_list(){
 //KTGlib::StringList Gnote::get_note_list(){
-	QDir qdTomboy (QString::fromStdString(tomboy_data_dir()) );
 
 	#if 0
 	for (directory_iterator itr(p); itr!=directory_iterator(); ++itr)
@@ -140,7 +138,6 @@ QStringList Gnote::get_note_list(){
 	#endif
 	
 	//KTGlib::StringList qsl(qdTomboy.entryList());
-	QStringList qsl(qdTomboy.entryList());
 	return qsl;
 }
 #endif
@@ -149,7 +146,6 @@ QStringList Gnote::get_note_list(){
 //KTGlib::StringList Gnote::get_note_list2(){
 //void Gnote::get_note_list2(){
 KTGlib::StringList Gnote::get_note_list(){
-	//QDir qdTomboy (QString::fromStdString(tomboy_data_dir()) );
 	std::string p = tomboy_data_dir();
 	std::string fn;
 	KTGlib::StringList qsl;
@@ -167,7 +163,6 @@ KTGlib::StringList Gnote::get_note_list(){
 		}
 	}
 	
-	//QStringList qsl(qdTomboy.entryList());
 	return qsl;
 }
 

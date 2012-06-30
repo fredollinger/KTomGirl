@@ -31,9 +31,6 @@
 #include <time.h>
 #include <sys/time.h>
 
-//#include <QDateTime>
-//#include <QDebug>
-
 #include "datetime.hpp"
 
 using namespace boost::posix_time;
@@ -114,13 +111,6 @@ namespace sharp {
     return std::string(output);
   }
 
-#if 0
-  QString DateTime::toString() const
-  {
-    return QString::fromStdString(to_short_time_string());
-  }
-#endif
-
   std::string DateTime::to_string(const char * format) const
   {
     struct tm result; 
@@ -152,7 +142,6 @@ DateTime DateTime::now()
 	n.tv_sec = time(NULL);
 	n.tv_usec = 0;
 
-    	//QTime t(0, n.tv_sec, n.tv_usec);
     	//std::cout <<  t << n.tv_sec;
 
 	return DateTime(n);

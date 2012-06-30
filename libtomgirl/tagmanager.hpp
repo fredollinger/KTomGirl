@@ -26,9 +26,9 @@
 
 #include <sigc++/signal.h>
 
-#include <glibmm/thread.h>
-#include <gtkmm/liststore.h>
-#include <gtkmm/treemodelsort.h>
+// #include <glibmm/thread.h>
+//#include <gtkmm/liststore.h>
+//#include <gtkmm/treemodelsort.h>
 
 #include "base/singleton.hpp"
 #include "tag.hpp"

@@ -60,9 +60,6 @@ NoteDataBufferSynchronizer(NoteData * _data)
 
 ~NoteDataBufferSynchronizer();
 
-/* Warning! Since we are using a QWidget, data is all ready defined!
- * thus, we need to use getData where gnote says data().
- */
 const NoteData & getData() const
 {
       return *m_data;

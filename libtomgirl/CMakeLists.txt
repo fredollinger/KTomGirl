@@ -26,7 +26,6 @@ preferences.cpp
 sharp.cpp
 string.cpp
 tag.cpp
-tagmanager.cpp
 xml.cpp
 xmlconvert.cpp
 xmlreader.cpp
