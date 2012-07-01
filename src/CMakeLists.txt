@@ -32,24 +32,6 @@ knotesapp.cpp
 knoteedit.cpp
 main.cpp
 application.cpp
-../libtomgirl/actionmanager.cpp
-../libtomgirl/datetime.cpp
-../libtomgirl/debug.cpp
-../libtomgirl/gnote.cpp
-../libtomgirl/files.cpp
-../libtomgirl/ktglib.cpp
-../libtomgirl/note.cpp
-../libtomgirl/notedata.cpp
-../libtomgirl/notebuffer.cpp
-../libtomgirl/notemanager.cpp
-../libtomgirl/preferences.cpp
-../libtomgirl/sharp.cpp
-../libtomgirl/string.cpp
-../libtomgirl/tag.cpp
-../libtomgirl/xml.cpp
-../libtomgirl/xmlconvert.cpp
-../libtomgirl/xmlreader.cpp
-../libtomgirl/xmlwriter.cpp
 )
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS})

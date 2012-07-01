@@ -36,7 +36,7 @@
 #include "knoteedit.h"
 #include "ktgitem.h"
 
-#include "../libtomgirl/note.hpp"
+#include <libktomgirl/note.hpp>
 
 class QLabel;
 class QLayout;

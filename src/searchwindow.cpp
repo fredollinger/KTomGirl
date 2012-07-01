@@ -35,14 +35,14 @@
 //#include <iostream>
 
 // KTOMGIRL INCLUDES
+#include "ktgitem.h"
 #include "searchwindow.h"
 #include "notesdialog.h"
 #include "notebooksdialog.h"
-#include "../src/ktgitem.h"
 
 // GNOTE INCLUDES
-#include "../libtomgirl/gnote.hpp"
-#include "../libtomgirl/note.hpp"
+#include <libktomgirl/gnote.hpp>
+#include <libktomgirl/note.hpp>
 
 // BEGIN SEARCH WINDOW
 SearchWindow::SearchWindow(QWidget* pParent, const char* szName) :

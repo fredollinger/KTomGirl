@@ -28,7 +28,7 @@
 #include "version.h"
 
 // gnote includes
-#include "../libtomgirl/note.hpp"
+#include <libktomgirl/note.hpp>
 
 // BEGIN KDE INCLUDES
 #include <kaction.h>

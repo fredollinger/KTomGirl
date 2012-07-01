@@ -25,7 +25,7 @@
 
 #include <QTableWidget>
 #include <QObject>
-#include "../libtomgirl/note.hpp"
+#include <libktomgirl/note.hpp>
 
 namespace ktomgirl {
 class KTGItem : public QTableWidgetItem {

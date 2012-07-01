@@ -12,8 +12,8 @@
 #include "notebooksdialog.h"
 
 // GNOTE INCLUDES
-#include "../libtomgirl/note.hpp"
-#include "../libtomgirl/gnote.hpp"
+#include <libktomgirl/note.hpp>
+#include <libktomgirl/gnote.hpp>
 
 namespace ktomgirl{
 	class KTGItem;

@@ -26,7 +26,7 @@
 #include <QTableWidget>
 #include "ktgitem.h"
 
-#include "../libtomgirl/note.hpp"
+#include <libktomgirl/note.hpp>
 
 namespace ktomgirl{
 KTGItem::KTGItem(QString &qs, const gnote::Note::Ptr &note) : QTableWidgetItem(qs)
