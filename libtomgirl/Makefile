@@ -18,4 +18,5 @@ install: build/$(TARGET).so
 	ldconfig
 
 deps:
-	sudo apt-get install g++ cmake
+	sudo apt-get install g++ cmake make git libxml2-dev pkg-config libsigc++-2.0-dev libboost-date-time1.42-dev libpcre++-dev libboost-filesystem1.42-dev
+

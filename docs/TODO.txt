@@ -1,3 +1,24 @@
+libktomgirl Todo list:
+
+1. debian package
+
+2. systray
+a. rip out old stuff (does not work) and change to QSystray
+b. icon 
+
+3. save title when there's a change of title each second
+
+4. comments: make sure the headers give attribution to original authors
+
+5. email freshmeat and gnote team
+
+6. clean up code
+
+7. libktomgirl stuff
+	a. dbus bindings
+	b. libtomgirl server which is headless and works on dbus only
+
+
 KTomGirl Todo list: 
 
 4. ui improvements - look more like tomboy
@@ -56,10 +77,4 @@ e. when we
 	b. mkstubsfromfile.rb which turns a normal file into stubs for faster porting by removing method bodies
 	e. libstarboard which does things like find all the functions in a .cpp file for use in other programs
 
-24. libtomgirl
-	a. move all files to libtomgirl dir and link from there
-	b. remove qt code from libtomgirl files
-	c. compile standalone libtomgirl lib and link later to tomgirl
-	d. release libtomgirl as separate project
-	e. dbus bindings
-	f. libtomgirl server which is headless and works on dbus only
+25. singleton - make only 1 instance run
