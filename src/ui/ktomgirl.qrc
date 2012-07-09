@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>notebook.png</file>
+    <file>search.png</file>
+    <file>trash.png</file>
+  </qresource>
+</RCC>
