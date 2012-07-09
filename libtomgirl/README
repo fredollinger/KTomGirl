@@ -1,8 +1,0 @@
-This will eventually be a separate project so we can give this 
-away as a complete solution for all tomboy suppport.
-
-This can be used to build tomboy like (note taking) capabilities into another
-app as it will fully support the tomboy file format xml file as well as
-normal operations such as making a new note, deleting a note, searching,
-and much, much more.
-
