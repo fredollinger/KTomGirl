@@ -84,6 +84,8 @@ SearchWindow::~SearchWindow()
 
 void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 	QString qs;
+
+  	KIcon searchIcon = KIcon(":/icons/search.png");
         
 	for(gnote::Note::List::const_iterator iter = notesCopy.begin();
 		iter != notesCopy.end(); ++iter) {
@@ -103,6 +105,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		//qs = "";
 		item = new ktomgirl::KTGItem(qs, note);
 		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
+		item->setIcon(searchIcon);
 		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
 		// END ITEM TWO
 
@@ -119,7 +122,6 @@ SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 
 void
 SearchWindow::setItemName(const QString &neu, const QString &old){
-	
 	qDebug() << __PRETTY_FUNCTION__<< "Changing" <<  old << "to: " << neu;
 	QList<QTableWidgetItem*> ql = 
  	m_notesDialog->tableNotes->findItems ( old, Qt::MatchExactly);
@@ -127,7 +129,7 @@ SearchWindow::setItemName(const QString &neu, const QString &old){
 		qDebug() << __PRETTY_FUNCTION__<< "ERR: no note named" <<  neu << ql.count();
 		return;
 	}
-
+	qDebug() << __PRETTY_FUNCTION__<< "Changing: " << ql[0]->text();
 	ql[0]->setText(neu);
 }
 

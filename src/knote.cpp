@@ -727,11 +727,13 @@ void KNote::createNoteHeader()
   // BEGIN MAKE TOOLBAR
   m_tool =  new KToolBar(this, true, false);
 
-  KIcon search = KIcon("system-search");
+  KIcon search = KIcon(":/icons/search.png");
+ // KIcon search = KIcon("system-search");
   QAction *search_action = m_tool->addAction(search, i18n("Search"));
   connect(search_action, SIGNAL(triggered()), this, SLOT(slotShowSearchWindow()));
 
-  KIcon trash = KIcon("edit-delete");
+  KIcon trash = KIcon(":/icons/trash.png");
+  //KIcon trash = KIcon("edit-delete");
   QAction *trash_action = m_tool->addAction(trash, i18n("Trash"));
   connect(trash_action, SIGNAL(triggered()), this, SLOT(slotKill()));
 
@@ -1297,8 +1299,11 @@ void KNote::slotFormatTitle(){
 
 // BEGIN KNOTE SLOTS
 void KNote::slotDataChanged(const QString &qs){
+  qDebug() << __PRETTY_FUNCTION__;
 
   if (m_blockEmitDataChanged) return;
+
+  qDebug() << __PRETTY_FUNCTION__ << "We really did change";
 
   // If we aren't changed, we got here by accident.
   // This shouldn't happen, but we really should protect against it.

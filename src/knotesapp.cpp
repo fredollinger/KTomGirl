@@ -125,9 +125,6 @@ KNotesApp::KNotesApp()
   m_tray = new KStatusNotifierItem(0);
 
   m_tray->setToolTipTitle( i18n( "KTomGirl: Sticky Notes Clone of TomBoy for KDE" ) );
-  //m_tray->setIconByName( "gnote" );
-  //m_tray->setIconByName( "gnote" );
-  //QIcon *l_icon = new QIcon(":/icons/notebook.png");
   m_tray->setIconByPixmap(QIcon(":/icons/notebook.png"));
 
   m_tray->setStatus( KStatusNotifierItem::Active );
