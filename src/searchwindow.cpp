@@ -85,7 +85,7 @@ SearchWindow::~SearchWindow()
 void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 	QString qs;
 
-  	KIcon searchIcon = KIcon(":/icons/search.png");
+  	KIcon notebookIcon = KIcon(":/icons/notebook.png");
         
 	for(gnote::Note::List::const_iterator iter = notesCopy.begin();
 		iter != notesCopy.end(); ++iter) {
@@ -96,6 +96,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		// BEGIN ITEM ONE
 		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
 		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
+		item->setIcon(notebookIcon);
 		m_notesDialog->tableNotes->setItem ( m_row, 0, item );
 		// END ITEM ONE
 
@@ -105,7 +106,6 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		//qs = "";
 		item = new ktomgirl::KTGItem(qs, note);
 		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
-		item->setIcon(searchIcon);
 		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
 		// END ITEM TWO
 
