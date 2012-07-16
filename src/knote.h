@@ -134,8 +134,8 @@ class KNote
     void slotFormatTitle(void);
     void slotPrint();
     void slotMail();
+    void slotNameChanged(void);
     void slotSend();
-    void slotSaveAs();
     void slotSave(void);
 
     void slotInsDate();

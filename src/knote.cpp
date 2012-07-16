@@ -121,8 +121,10 @@ KNote::~KNote()
   m_gnote->set_is_open(false);
 
   // FIXME: save before delete
-  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
-  m_gnote->save();
+  //m_gnote->set_text_content(m_editor->toPlainText().toStdString());
+  //m_gnote->save();
+
+  slotSave();
   // delete m_config;
 }
 
@@ -206,7 +208,6 @@ QString KNote::text() const
 
 void KNote::setName( const QString& name )
 {
-  // m_label->setText( name );
   updateLabelAlignment();
 
   if ( m_editor ) {    // not called from CTOR?
@@ -219,6 +220,7 @@ void KNote::setName( const QString& name )
   note_win.setName( name.toUtf8() );
 #endif
 
+  m_gnote->set_title(name.toStdString());
   emit sigNameChanged(name);
 }
 
@@ -226,7 +228,6 @@ void KNote::setText( const QString& text )
 {
   m_editor->setText( text );
   formatTitle();
-  //saveData();
 }
 
 void KNote::find( KFind* kfind )
@@ -247,11 +248,15 @@ bool KNote::isModified() const
 {
   QString newContent = m_editor->toPlainText();
 
+  qDebug() << __PRETTY_FUNCTION__ << "new: " << newContent << "old: " << m_content;
 
+// FIXME: return false when this is fixed
   if (newContent == m_content){
 	return false;
+  	qDebug() << __PRETTY_FUNCTION__ << "Don't appear to be modified";
   }
 
+  qDebug() << __PRETTY_FUNCTION__ << "Modified";
   return true;
 }
 
@@ -435,51 +440,6 @@ void KNote::slotPrint()
   */
 }
 
-void KNote::slotSaveAs()
-{
-  // TODO: where to put pdf file support? In the printer??!??!
-  m_blockEmitDataChanged = true;
-  QCheckBox *convert = 0;
-
-  if ( m_editor->acceptRichText() ) {
-    convert = new QCheckBox( 0 );
-    convert->setText( i18n( "Save note as plain text" ) );
-  }
-  m_blockEmitDataChanged = true;
-  KUrl url;
-  KFileDialog dlg( url, QString(), this, convert );
-  dlg.setOperationMode( KFileDialog::Saving );
-  dlg.setCaption( i18n( "Save As" ) );
-  dlg.exec();
-
-  QString fileName = dlg.selectedFile();
-  if ( fileName.isEmpty() ) {
-    m_blockEmitDataChanged = false;
-    return;
-  }
-
-  QFile file( fileName );
-
-  if ( file.exists() &&
-       KMessageBox::warningContinueCancel( this,
-          i18n( "<qt>A file named <b>%1</b> already exists.<br />"
-                "Are you sure you want to overwrite it?</qt>",
-                QFileInfo( file ).fileName() ) ) != KMessageBox::Continue ) {
-    m_blockEmitDataChanged = false;
-    return;
-  }
-
-  if ( file.open( QIODevice::WriteOnly ) ) {
-    QTextStream stream( &file );
-    if ( convert && !convert->isChecked() ) {
-      // stream << m_editor->toHtml();
-    } else {
-      // stream << m_editor->toPlainText();
-    }
-  }
-  m_blockEmitDataChanged = false;
-}
-
 void KNote::slotPopupActionToDesktop( int id )
 {
   toDesktop( id - 1 ); // compensate for the menu separator, -1 == all desktops
@@ -640,6 +600,7 @@ void KNote::createActions()
   //actionCollection()->addAction( "delete_note", action );
   //connect( action, SIGNAL( triggered( bool ) ), SLOT( slotKill() ),Qt::QueuedConnection );
 
+#if 0
   action  = new KAction( KIcon( "knotes_date" ), i18n( "Insert Date" ), this );
   actionCollection()->addAction( "insert_date", action );
   connect( action, SIGNAL( triggered( bool ) ), SLOT( slotInsDate() ) );
@@ -657,16 +618,18 @@ void KNote::createActions()
   actionCollection()->addAction( "mail_note", action );
   connect( action, SIGNAL( triggered( bool ) ), SLOT( slotMail() ) );
 
-  action  = new KAction( KIcon( "document-save-as" ), i18n( "Save As..." ),
-                                this );
-  actionCollection()->addAction( "save_note", action );
-  connect( action, SIGNAL( triggered( bool ) ), SLOT( slotSaveAs() ) );
-  actionCollection()->addAction( KStandardAction::Print,  "print_note", this,
-                                 SLOT( slotPrint() ) );
+  //action  = new KAction( KIcon( "document-save-as" ), i18n( "Save As..." ),
+                                //this );
+  //actionCollection()->addAction( "save_note", action );
+  //connect( action, SIGNAL( triggered( bool ) ), SLOT( slotSaveAs() ) );
+  //actionCollection()->addAction( KStandardAction::Print,  "print_note", this,
+                                 //SLOT( slotPrint() ) );
+#endif
 
   action  = new KAction( KIcon( "configure" ), i18n( "Preferences..." ), this );
   actionCollection()->addAction( "configure_note", action );
   connect( action, SIGNAL( triggered( bool ) ), SLOT( slotPreferences() ) );
+
 
 
   m_keepAbove  = new KToggleAction( KIcon( "go-up" ),
@@ -1303,7 +1266,6 @@ void KNote::slotDataChanged(const QString &qs){
 
   if (m_blockEmitDataChanged) return;
 
-  qDebug() << __PRETTY_FUNCTION__ << "We really did change";
 
   // If we aren't changed, we got here by accident.
   // This shouldn't happen, but we really should protect against it.
@@ -1311,11 +1273,11 @@ void KNote::slotDataChanged(const QString &qs){
 
   m_blockEmitDataChanged = true;
 
-
   // OK, we actually changed. Handle that:
   const QString newTitle = name();
-  std::string oldTitle = m_gnote->get_title();
+  qDebug() << __PRETTY_FUNCTION__ << "We really did change. New title: " << newTitle;
 
+  std::string oldTitle = m_gnote->get_title();
 
   formatTitle();
 
@@ -1325,17 +1287,7 @@ void KNote::slotDataChanged(const QString &qs){
   /* Make sure the title is blue, big, and underlined
    * and ensure that other things are not... */
 
-  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
-  m_gnote->set_title(newTitle.toStdString());
-
-  emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
-
-  // This cues the note up for a save next time it is requested
-  // we do this to save resources so we don't save every single note
-  // that is closed only those who have changed.
-  m_gnote->changed();
-
-  formatTitle();
+  slotSave();
 
   m_blockEmitDataChanged = false;
 }
@@ -1412,19 +1364,34 @@ void KNote::slotHighlight( const QString& /*str*/, int idx, int len )
   // TODO: modify the selection color, use a different QTextCursor?
 }
 
+void KNote::slotNameChanged(){
+  std::string oldTitle = m_gnote->get_title();
+  const QString newTitle = name();
+  emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
+}
+
 void KNote::slotSave(){
   // only save if we changed
   if (! isModified() ){
   	qDebug() << __PRETTY_FUNCTION__ << " not modified. Not saving.";
 	return;
   }
+  // Update the title everywhere
+  slotNameChanged();
 
   qDebug() << __PRETTY_FUNCTION__ << " Saving...";
 
   // cache content so we know if we are modified/saved in the future
   m_content = m_editor->toPlainText();
+
   m_gnote->set_text_content(m_content.toStdString());
+  m_gnote->set_title(name().toStdString());
   m_gnote->save();
+
+  // This cues the note up for a save next time it is requested
+  // we do this to save resources so we don't save every single note
+  // that is closed only those who have changed.
+  m_gnote->changed();
 }
 
 // END KNOTE SLOTS
