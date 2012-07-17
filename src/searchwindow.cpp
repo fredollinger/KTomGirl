@@ -75,6 +75,7 @@ m_row(0)
 	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
 	
  	connect (m_notesDialog->tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
+	// END NOTEBOOKS DIALOG
 
 } // END SEARCH WINDOW
 
@@ -103,7 +104,6 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		// BEGIN ITEM TWO
   		sharp::DateTime qdt = note->data().change_date();
 		qs = QString::fromStdString(qdt.to_iso8601());
-		//qs = "";
 		item = new ktomgirl::KTGItem(qs, note);
 		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
@@ -137,6 +137,8 @@ void
 SearchWindow::newItem(gnote::Note::Ptr & note){
 	QString name = QString::fromStdString(note->get_title());
 
+  	KIcon notebookIcon = KIcon(":/icons/notebook.png");
+
 	qDebug() << __PRETTY_FUNCTION__<< "creating: " << name;
 
 	QDateTime qdt = QDateTime::currentDateTime();
@@ -154,6 +156,7 @@ SearchWindow::newItem(gnote::Note::Ptr & note){
 	item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 	m_notesDialog->tableNotes->insertRow ( 0 );
 	m_notesDialog->tableNotes->setItem ( 0 , 0, item );
+	item->setIcon(notebookIcon);
 	// END FIRST ITEM
 
 	// BEGIN SECOND ITEM

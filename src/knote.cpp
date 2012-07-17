@@ -119,13 +119,8 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 KNote::~KNote()
 {
   m_gnote->set_is_open(false);
-
-  // FIXME: save before delete
-  //m_gnote->set_text_content(m_editor->toPlainText().toStdString());
-  //m_gnote->save();
-
   slotSave();
-  // delete m_config;
+  return;
 }
 
 /* This is to be done last */
