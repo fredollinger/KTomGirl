@@ -57,6 +57,16 @@ void dateTest(){
 }
 
 void findTest(){
+	qDebug() << __PRETTY_FUNCTION__;
+	std::string title = "New Note Bob";
+	gnote::NoteManager *nm = new gnote::NoteManager();
+	gnote::Note::Ptr note = nm->find(title);
+	qDebug() << __PRETTY_FUNCTION__ << "getting note data";
+	NoteData note_data = note->data();
+	qDebug() << __PRETTY_FUNCTION__ << "getting title";
+	std::string st = note_data.title();
+	qDebug() << __PRETTY_FUNCTION__ << "getting print string";
+	qDebug() << QString::fromStdString(st);
 	return;
 }
 
