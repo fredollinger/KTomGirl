@@ -15,11 +15,11 @@ include_directories("/usr/include/libxml2")
 # generate rules for building source files from the resources
 #QT4_ADD_RESOURCES(QtApp_RCC_SRCS ${QtApp_RCCS})
 
-set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
+#set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lpcrecpp")
+set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lboost_date_time-mt -lpcrecpp -lktomgirl")
 
 set(ktomgirl_SRCS
 main.cpp
-../../libtomgirl/datetime.cpp
 )
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS} ${QtApp_RCC_SRCS})
