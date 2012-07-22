@@ -5,16 +5,18 @@
 #include <iostream>
 
 #include <libktomgirl/datetime.hpp>
+#include <libktomgirl/ktglib.hpp>
 #include "../../src/version.h"
 
 using namespace sharp;
 
 void dateTest(std::string &st, std::string success){
-	qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(st);
+	qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(success);
 	// test the strip delim separately
-	std::string res = DateTime::strip_delimiters_from_iso8601(st);
-	qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(res);
+	std::string res = DateTime::strip_delimiters_from_iso8601(success);
+	qDebug() << __PRETTY_FUNCTION__ << "strip delim test: "<< QString::fromStdString(res);
 
+	#if 0
 	// now test the converter
 	DateTime dt = DateTime::from_iso8601(st);
 	res = dt.to_iso8601();
@@ -26,6 +28,7 @@ void dateTest(std::string &st, std::string success){
 	  qDebug() << "date test failed: " <<  QString::fromStdString(res) << " != " << QString::fromStdString(success);
 	  exit(0); 
 	}
+	#endif
 }
 
 int main( int argc, char *argv[] )
@@ -51,8 +54,17 @@ int main( int argc, char *argv[] )
 
 	// Test a valid string
 	success = "2012-02-01T07:59:59";
-	st = "20120131T235959";
-	dateTest(st, success);
+	std::string s_char = "-";
+	std::string str = KTGlib::erase(success, s_char);
+	qDebug() << "stripped string: " << QString::fromStdString(str);
+	s_char = ":";
+	str = KTGlib::erase(str, s_char);
+//	std::string str = erase(success, "-");
+	qDebug() << "stripped string: " << QString::fromStdString(str);
+	qDebug() << "orig string: " << QString::fromStdString(success);
+//	st = "20120131T235959";
+//	st = "20120131T235959";
+//	dateTest(st, success);
 
 	return app.exec();
 }
