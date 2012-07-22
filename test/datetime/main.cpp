@@ -38,11 +38,11 @@ int main( int argc, char *argv[] )
 	std::string st;
 	std::string success;
 
-	success = "2002-02-01T07:59:59";
+	st = "2002-02-01T07:59:59";
 
+	success = "20020131T235959";
 	#if 0
 	// Test a valid string
-	st = "20020131T235959";
 	dateTest(st, success);
 
 	st = "2002-0131T235959";
@@ -53,18 +53,17 @@ int main( int argc, char *argv[] )
 	#endif
 
 	// Test a valid string
-	success = "2012-02-01T07:59:59";
+	#if 0
 	std::string s_char = "-";
 	std::string str = KTGlib::erase(success, s_char);
 	qDebug() << "stripped string: " << QString::fromStdString(str);
 	s_char = ":";
 	str = KTGlib::erase(str, s_char);
-//	std::string str = erase(success, "-");
 	qDebug() << "stripped string: " << QString::fromStdString(str);
 	qDebug() << "orig string: " << QString::fromStdString(success);
-//	st = "20120131T235959";
-//	st = "20120131T235959";
-//	dateTest(st, success);
+	#endif
+
+	dateTest(success, st);
 
 	return app.exec();
 }
