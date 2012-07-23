@@ -41,27 +41,6 @@ int main( int argc, char *argv[] )
 	st = "2002-02-01T07:59:59";
 
 	success = "20020131T235959";
-	#if 0
-	// Test a valid string
-	dateTest(st, success);
-
-	st = "2002-0131T235959";
-	dateTest(st, success);
-
-	st = "this is really fucked up and should not pass";
-	dateTest(st, success);
-	#endif
-
-	// Test a valid string
-	#if 0
-	std::string s_char = "-";
-	std::string str = KTGlib::erase(success, s_char);
-	qDebug() << "stripped string: " << QString::fromStdString(str);
-	s_char = ":";
-	str = KTGlib::erase(str, s_char);
-	qDebug() << "stripped string: " << QString::fromStdString(str);
-	qDebug() << "orig string: " << QString::fromStdString(success);
-	#endif
 
 	dateTest(success, st);
 
