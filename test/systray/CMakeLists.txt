@@ -20,6 +20,7 @@ set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lboost_date_time-mt -l
 
 set(ktomgirl_SRCS
 main.cpp
+ktgsystray.cpp
 )
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS} ${QtApp_RCC_SRCS})
