@@ -20,16 +20,23 @@ int main( int argc, char *argv[] )
 	// BEGIN KStatusNotifierItem
   	ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
 
+  	ktomgirl::Stub *m_stub = new ktomgirl::Stub();
+
 	// BEGIN KMenu
-	QAction *quitAct = new QAction("&Quit", m_tray);
 	KMenu *m_menu = new KMenu("KTomGirl");
 	m_menu->addAction(quitAct);
-
-	QObject::connect(quitAct, SIGNAL(triggered()), m_tray, SLOT(slotQuit()));
-
-	m_tray->setContextMenu(m_menu);
 	// END KMenu
 
+	QAction *searchAct = new QAction("&Search all notes", m_tray);
+	QObject::connect(searchAct, SIGNAL(triggered()), m_stub, SLOT(slotSearch()));
+
+	QAction *createAct = new QAction("&Create new note", m_tray);
+	QObject::connect(createAct, SIGNAL(triggered()), m_stub, SLOT(slotCreateNewNote()));
+
+	QAction *quitAct = new QAction("&Quit", m_tray);
+	QObject::connect(quitAct, SIGNAL(triggered()), m_stub, SLOT(slotQuit()));
+
+	m_tray->setContextMenu(m_menu);
   	m_tray->activate();
 	// END KStatusNotifierItem
 
