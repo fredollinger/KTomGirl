@@ -5,12 +5,17 @@
 #include <QWidget>
 
 namespace ktomgirl{
-class Stub : QWidget
+class Stub : public QWidget
 {
 	Q_OBJECT
 public:
 	Stub(QWidget* pParent = NULL, const char* szName = NULL);
 	~Stub();
+
+public slots:
+	void slotCreateNewNote();
+	void slotSearch();
+	void slotQuit();
 
 }; // class Stub
 } // namespace ktomgirl

@@ -9,8 +9,9 @@ Stub::Stub(QWidget* pParent, const char* szName)
 {
 }
 
-Stub::~Stub()
-{
-}
+Stub::~Stub() {}
 
+void Stub::slotCreateNewNote() {}
+void Stub::slotSearch() {}
+void Stub::slotQuit() {}
 } // namespace ktomgirl

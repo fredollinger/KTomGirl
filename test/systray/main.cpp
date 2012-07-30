@@ -24,17 +24,19 @@ int main( int argc, char *argv[] )
 
 	// BEGIN KMenu
 	KMenu *m_menu = new KMenu("KTomGirl");
-	m_menu->addAction(quitAct);
 	// END KMenu
 
+	QAction *quitAct = new QAction("&Quit", m_tray);
+	m_menu->addAction(quitAct);
+	QObject::connect(quitAct, SIGNAL(triggered()), m_stub, SLOT(slotQuit()));
+
 	QAction *searchAct = new QAction("&Search all notes", m_tray);
+	m_menu->addAction(searchAct);
 	QObject::connect(searchAct, SIGNAL(triggered()), m_stub, SLOT(slotSearch()));
 
 	QAction *createAct = new QAction("&Create new note", m_tray);
+	m_menu->addAction(createAct);
 	QObject::connect(createAct, SIGNAL(triggered()), m_stub, SLOT(slotCreateNewNote()));
-
-	QAction *quitAct = new QAction("&Quit", m_tray);
-	QObject::connect(quitAct, SIGNAL(triggered()), m_stub, SLOT(slotQuit()));
 
 	m_tray->setContextMenu(m_menu);
   	m_tray->activate();
