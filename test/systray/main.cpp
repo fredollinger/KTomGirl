@@ -11,6 +11,7 @@
 #include <KStatusNotifierItem>
 
 #include "ktgsystray.h"
+#include "stub.h"
 
 int main( int argc, char *argv[] )
 {
@@ -18,6 +19,16 @@ int main( int argc, char *argv[] )
 
 	// BEGIN KStatusNotifierItem
   	ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
+
+	// BEGIN KMenu
+	QAction *quitAct = new QAction("&Quit", m_tray);
+	KMenu *m_menu = new KMenu("KTomGirl");
+	m_menu->addAction(quitAct);
+
+	QObject::connect(quitAct, SIGNAL(triggered()), m_tray, SLOT(slotQuit()));
+
+	m_tray->setContextMenu(m_menu);
+	// END KMenu
 
   	m_tray->activate();
 	// END KStatusNotifierItem

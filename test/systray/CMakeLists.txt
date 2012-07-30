@@ -18,6 +18,7 @@ include_directories("/usr/include/libxml2")
 set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lboost_date_time-mt -lpcrecpp -lktomgirl")
 
 set(ktomgirl_SRCS
+stub.cpp
 main.cpp
 ktgsystray.cpp
 )
