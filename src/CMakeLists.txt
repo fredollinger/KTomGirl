@@ -24,6 +24,7 @@ install(FILES ktgconfigskel.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lboost_date_time-mt -lpcrecpp -lktomgirl")
 
 set(ktomgirl_SRCS
+ktgsystray.cpp
 notesdialog.cpp
 notebooksdialog.cpp
 ktgconfig.cpp

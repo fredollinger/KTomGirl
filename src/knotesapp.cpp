@@ -29,6 +29,7 @@
 // BEGIN KTOMGIRL INCLUDES
 #include "ktgconfig.h"
 #include "ktgitem.h"
+#include "ktgsystray.h"
 #include "searchwindow.h"
 // END   KTOMGIRL INCLUDES
 
@@ -122,6 +123,41 @@ KNotesApp::KNotesApp()
 
   // BEGIN DOCK WIDGET
   // create the dock widget...
+
+  // BEGIN SEARCH WINDOW
+  m_searchWindow = new SearchWindow( this );
+  m_searchWindow->loadNotes(m_gnmanager->get_notes());
+  m_searchWindow->show();
+  // END SEARCH WINDOW
+
+  connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
+  connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
+
+  // qRegisterMetaType<ktomgirl::KTGItem>( "ktomgirl::KTGItem" );
+
+
+	// BEGIN KStatusNotifierItem
+  	ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
+
+	KMenu *m_menu = new KMenu("KTomGirl");
+
+	QAction *quitAct = new QAction("&Quit", m_tray);
+	m_menu->addAction(quitAct);
+    connect( quitAct, SIGNAL( triggered() ), SLOT( slotQuit() ) );
+
+	QAction *searchAct = new QAction("&Search all notes", m_tray);
+	m_menu->addAction(searchAct);
+    connect( searchAct, SIGNAL( triggered() ), SLOT( slotShowSearchWindow() ) );
+
+	QAction *createAct = new QAction("&Create new note", m_tray);
+	m_menu->addAction(createAct);
+    connect( createAct, SIGNAL( triggered() ), SLOT( createNote() ) );
+
+	m_tray->setContextMenu(m_menu);
+  	m_tray->activate();
+	// END KStatusNotifierItem
+
+  #if 0
   m_tray = new KStatusNotifierItem(0);
 
   m_tray->setToolTipTitle( i18n( "KTomGirl: Sticky Notes Clone of TomBoy for KDE" ) );
@@ -135,11 +171,13 @@ KNotesApp::KNotesApp()
   m_sys_menu = m_tray->contextMenu();
   QAction *l_quit = new QAction(tr("Quit"), this);
   m_sys_menu->addAction(l_quit);
+  #endif
   // END DOCK WIDGET
   
 
   // BEGIN ACTIONS
   // create the GUI...
+  #if 0
   KAction *action  = new KAction( KIcon( "document-new" ),
                                   i18n( "New Note" ), this );
   actionCollection()->addAction( "new_note", action );
@@ -186,6 +224,7 @@ KNotesApp::KNotesApp()
                          actionCollection() )->setShortcut( 0 );
 
 
+  #endif
   // END ACTIONS
 
   setXMLFile("knotesappui.rc");
@@ -199,7 +238,7 @@ KNotesApp::KNotesApp()
                                         this ) );
   m_noteMenu = static_cast<KMenu *>( m_guiFactory->container(
                                       "notes_menu", this ) );
-  m_tray->setContextMenu( m_contextMenu );
+  //m_tray->setContextMenu( m_contextMenu );
   // get the most recent XML UI file
   QString xmlFileName = componentData().componentName() + "ui.rc";
   QString filter = componentData().componentName() + '/' + xmlFileName;
@@ -224,16 +263,6 @@ KNotesApp::KNotesApp()
   }
 */
 
-  m_searchWindow = new SearchWindow( this );
-  m_searchWindow->loadNotes(m_gnmanager->get_notes());
-  m_searchWindow->show();
-
-  connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
-  connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
-
-  // qRegisterMetaType<ktomgirl::KTGItem>( "ktomgirl::KTGItem" );
-
-  connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
 }
 // END KNotesApp::KNotesApp()
 
@@ -260,7 +289,7 @@ KNotesApp::~KNotesApp()
   delete m_manager;
   delete m_gnmanager;
   delete m_guiBuilder;
-  delete m_tray;
+  //delete m_tray;
 }
 
 bool KNotesApp::commitData( QSessionManager & )
