@@ -58,8 +58,8 @@ m_row(0)
 	// BEGIN NOTES DIALOG
 	m_notesDialog = new NotesDialog();
 	m_notesDialog->showMaximized();
-        m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-        addDockWidget(Qt::RightDockWidgetArea, m_notesDialog);
+    m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, m_notesDialog);
 
 	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
 	m_notesDialog->tableNotes->setShowGrid(false);
@@ -69,8 +69,8 @@ m_row(0)
 	// BEGIN NOTEBOOKS DIALOG
 	m_notebooksDialog = new NotebooksDialog();
 	m_notebooksDialog->showMaximized();
-        m_notebooksDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-        addDockWidget(Qt::LeftDockWidgetArea, m_notebooksDialog);
+    m_notebooksDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    addDockWidget(Qt::LeftDockWidgetArea, m_notebooksDialog);
 
 	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
 	

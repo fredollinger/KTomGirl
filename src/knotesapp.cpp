@@ -133,6 +133,8 @@ KNotesApp::KNotesApp()
   connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
   connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
 
+  connect( m_searchWindow->actionShow_Open_Notes, SIGNAL( triggered() ), SLOT( slotSpewOpenNotes() ) );
+
   // qRegisterMetaType<ktomgirl::KTGItem>( "ktomgirl::KTGItem" );
 
 
@@ -776,6 +778,13 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
 
   return;
+}
+
+/* This is here purely for debugging purposes. 
+   Here we spew the open note titles to console.
+ */
+void KNotesApp::slotSpewOpenNotes(){
+	qDebug() << __PRETTY_FUNCTION__;
 }
 
 } // namespace knotes

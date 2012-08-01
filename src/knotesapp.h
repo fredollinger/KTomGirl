@@ -98,8 +98,8 @@ class KNotesApp
     void openNote(ktomgirl::KTGItem*);
     void showAllNotes() const;
     void slotDeleteNote(const QString&);
-    void slotShowSearchWindow();
-
+    void slotShowSearchWindow(void);
+	void slotSpewOpenNotes(void);
 
   protected slots:
     void slotActivateRequested( bool, const QPoint& pos);
