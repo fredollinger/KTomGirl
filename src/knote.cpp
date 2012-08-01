@@ -114,6 +114,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	saveTimer->start(4000);
 	formatTimer->start(1000);
 
+	setWindowIcon(KIcon(":/icons/notebook.png"));
 }
 
 KNote::~KNote()
