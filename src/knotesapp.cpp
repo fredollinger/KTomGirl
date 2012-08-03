@@ -135,99 +135,26 @@ KNotesApp::KNotesApp()
 
   connect( m_searchWindow->actionShow_Open_Notes, SIGNAL( triggered() ), SLOT( slotSpewOpenNotes() ) );
 
-  // qRegisterMetaType<ktomgirl::KTGItem>( "ktomgirl::KTGItem" );
+  // BEGIN KStatusNotifierItem
+   ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
 
+  KMenu *m_menu = new KMenu("KTomGirl");
 
-	// BEGIN KStatusNotifierItem
-  	ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
+  QAction *quitAct = new QAction("&Quit", m_tray);
+  m_menu->addAction(quitAct);
+  connect( quitAct, SIGNAL( triggered() ), SLOT( slotQuit() ) );
 
-	KMenu *m_menu = new KMenu("KTomGirl");
+  QAction *searchAct = new QAction("&Search all notes", m_tray);
+  m_menu->addAction(searchAct);
+  connect( searchAct, SIGNAL( triggered() ), SLOT( slotShowSearchWindow() ) );
 
-	QAction *quitAct = new QAction("&Quit", m_tray);
-	m_menu->addAction(quitAct);
-    connect( quitAct, SIGNAL( triggered() ), SLOT( slotQuit() ) );
+  QAction *createAct = new QAction("&Create new note", m_tray);
+  m_menu->addAction(createAct);
+  connect( createAct, SIGNAL( triggered() ), SLOT( createNote() ) );
 
-	QAction *searchAct = new QAction("&Search all notes", m_tray);
-	m_menu->addAction(searchAct);
-    connect( searchAct, SIGNAL( triggered() ), SLOT( slotShowSearchWindow() ) );
-
-	QAction *createAct = new QAction("&Create new note", m_tray);
-	m_menu->addAction(createAct);
-    connect( createAct, SIGNAL( triggered() ), SLOT( createNote() ) );
-
-	m_tray->setContextMenu(m_menu);
-  	m_tray->activate();
-	// END KStatusNotifierItem
-
-  #if 0
-  m_tray = new KStatusNotifierItem(0);
-
-  m_tray->setToolTipTitle( i18n( "KTomGirl: Sticky Notes Clone of TomBoy for KDE" ) );
-  m_tray->setIconByPixmap(QIcon(":/icons/notebook.png"));
-
-  m_tray->setStatus( KStatusNotifierItem::Active );
-  m_tray->setCategory( KStatusNotifierItem::ApplicationStatus );
-  m_tray->setStandardActionsEnabled(false);
+  m_tray->setContextMenu(m_menu);
   m_tray->activate();
-
-  m_sys_menu = m_tray->contextMenu();
-  QAction *l_quit = new QAction(tr("Quit"), this);
-  m_sys_menu->addAction(l_quit);
-  #endif
-  // END DOCK WIDGET
-  
-
-  // BEGIN ACTIONS
-  // create the GUI...
-  #if 0
-  KAction *action  = new KAction( KIcon( "document-new" ),
-                                  i18n( "New Note" ), this );
-  actionCollection()->addAction( "new_note", action );
-  action->setGlobalShortcut( KShortcut( Qt::ALT + Qt::SHIFT + Qt::Key_N ),
-                             KAction::DefaultShortcut );
-
-  connect( action, SIGNAL( triggered() ), SLOT( createNote() ) );
-
-  action  = new KAction( KIcon( "edit-paste" ),
-                         i18n( "New Note From Clipboard" ), this );
-  actionCollection()->addAction( "new_note_clipboard", action );
-  action->setGlobalShortcut( KShortcut( Qt::ALT + Qt::SHIFT + Qt::Key_C ),
-                             KAction::DefaultShortcut );
-  connect( action, SIGNAL( triggered() ), SLOT( newNoteFromClipboard() ) );
-
-  /*
-  action  = new KAction( KIcon( "knotes" ), i18n( "Show All Notes" ), this );
-  actionCollection()->addAction( "show_all_notes", action );
-  action->setGlobalShortcut( KShortcut( Qt::ALT + Qt::SHIFT + Qt::Key_S ),
-                             KAction::DefaultShortcut );
-  connect( action, SIGNAL( triggered() ), SLOT( showAllNotes() ) );
-  */
-
-  action  = new KAction( KIcon( "window-close" ),
-                         i18n( "Hide All Notes" ), this );
-  actionCollection()->addAction( "hide_all_notes", action );
-  action->setGlobalShortcut( KShortcut( Qt::ALT + Qt::SHIFT + Qt::Key_H ),
-                             KAction::DefaultShortcut );
-  connect( action, SIGNAL( triggered() ), SLOT( hideAllNotes() ) );
-
-  new KHelpMenu( this, KGlobal::mainComponent().aboutData(), false,
-                 actionCollection() );
-
-  m_findAction = KStandardAction::find( this, SLOT( slotShowSearchWindow() ),
-                         actionCollection() );
-
-
-  KStandardAction::preferences( this, SLOT( slotPreferences() ),
-                         actionCollection() );
-  KStandardAction::keyBindings( this, SLOT( slotConfigureAccels() ),
-                         actionCollection() );
-  //FIXME: no shortcut removing!?
-  KStandardAction::quit( this, SLOT( slotQuit() ),
-                         actionCollection() )->setShortcut( 0 );
-
-
-  #endif
-  // END ACTIONS
+  // END KStatusNotifierItem
 
   setXMLFile("knotesappui.rc");
 
@@ -244,27 +171,17 @@ KNotesApp::KNotesApp()
   // get the most recent XML UI file
   QString xmlFileName = componentData().componentName() + "ui.rc";
   QString filter = componentData().componentName() + '/' + xmlFileName;
+
   const QStringList fileList =
       componentData().dirs()->findAllResources( "data", filter ) +
       componentData().dirs()->findAllResources( "data", xmlFileName );
 
   QString doc;
-  // KXMLGUIClient::findMostRecentXMLFile( fileList, doc );
   m_noteGUI.setContent( doc );
 
   KConfigGroup config( KGlobal::config(), "Global Keybindings" );
 
-  // clean up old config files
-  // KNotesLegacy::cleanUp();
-
   m_manager = new KNotesResourceManager();
-
-/*
-  if ( m_notes.size() == 0 && !kapp->isSessionRestored() ) {
-      newNote();
-  }
-*/
-
 }
 // END KNotesApp::KNotesApp()
 
@@ -291,7 +208,7 @@ KNotesApp::~KNotesApp()
   delete m_manager;
   delete m_gnmanager;
   delete m_guiBuilder;
-  //delete m_tray;
+  delete m_tray;
 }
 
 bool KNotesApp::commitData( QSessionManager & )
@@ -785,6 +702,9 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
  */
 void KNotesApp::slotSpewOpenNotes(){
 	qDebug() << __PRETTY_FUNCTION__;
+	foreach ( KNote *note, m_notes ) {
+    		// note->slotClose();
+  	}
 }
 
 } // namespace knotes
