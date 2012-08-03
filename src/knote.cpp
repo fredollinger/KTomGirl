@@ -1363,6 +1363,7 @@ void KNote::slotHighlight( const QString& /*str*/, int idx, int len )
 void KNote::slotNameChanged(){
   std::string oldTitle = m_gnote->get_title();
   const QString newTitle = name();
+  setWindowTitle(newTitle);
   emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
 }
 
