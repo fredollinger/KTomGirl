@@ -703,7 +703,7 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 void KNotesApp::slotSpewOpenNotes(){
 	qDebug() << __PRETTY_FUNCTION__;
 	foreach ( KNote *note, m_notes ) {
-    		// note->slotClose();
+    		qDebug() << note->name();
   	}
 }
 
