@@ -123,14 +123,14 @@ SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 
 void
 SearchWindow::setItemName(const QString &neu, const QString &old){
-	qDebug() << __PRETTY_FUNCTION__<< "Changing" <<  old << "to: " << neu;
+	// qDebug() << __PRETTY_FUNCTION__<< "Changing" <<  old << "to: " << neu;
 	QList<QTableWidgetItem*> ql = 
  	m_notesDialog->tableNotes->findItems ( old, Qt::MatchExactly);
 	if (ql.count() < 1){
 		qDebug() << __PRETTY_FUNCTION__<< "ERR: no note named" <<  neu << ql.count();
 		return;
 	}
-	qDebug() << __PRETTY_FUNCTION__<< "Changing: " << ql[0]->text();
+	// qDebug() << __PRETTY_FUNCTION__<< "Changing: " << ql[0]->text();
 	ql[0]->setText(neu);
 }
 
@@ -140,14 +140,14 @@ SearchWindow::newItem(gnote::Note::Ptr & note){
 
   	KIcon notebookIcon = KIcon(":/icons/notebook.png");
 
-	qDebug() << __PRETTY_FUNCTION__<< "creating: " << name;
+	// qDebug() << __PRETTY_FUNCTION__<< "creating: " << name;
 
 	QDateTime qdt = QDateTime::currentDateTime();
 	//QDateTime qdt = QString::fromStdString(note->date()->create_date());
 
 	// BEGIN DEBUG
   	sharp::DateTime dt = note->data().change_date();
-	qDebug() << QString::fromStdString(dt.to_iso8601());
+	// qDebug() << QString::fromStdString(dt.to_iso8601());
 	// END DEBUG
 
 	// FIXME: Need to get the date time in here...

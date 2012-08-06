@@ -276,6 +276,7 @@ void KNotesApp::hideNote( const QString &id ) const
   }
 }
 
+/*
 void KNotesApp::killNote( const QString &id, bool force )
 {
   KNote *note = m_notes.value( id );
@@ -285,11 +286,34 @@ void KNotesApp::killNote( const QString &id, bool force )
     kWarning( 5500 ) << "killNote: no note with id:" << id;
   }
 }
+*/
 
-// "bool force = false" doesn't work with dcop
-void KNotesApp::killNote( const QString &id )
+void KNotesApp::slotCloseNote( const QString &id )
 {
-  killNote( id, false );
+  qDebug() << __PRETTY_FUNCTION__ << "closing note: "<< id;
+
+  KNote *note = 0;
+  note = m_notes.take(id);
+
+  if ( 0 == note ){
+    qDebug() << "NULL note. Not closing!";
+    return;
+  }
+
+  note->hide();
+  //m_gnmanager->delete_note( note->m_gnote );
+  //delete note;
+
+  // QMap<QString, KNote *> m_notes;
+  //KNote *note = m_notes.value(id);
+  // Remove the note associated with the value
+
+  // note->hide();
+
+//usr/include/qt4/QtCore/qmap.h:688:24: note: candidate is: T QMap<Key, T>::take(const Key&) [with Key = QString, T = knotes::KNote*]
+  // delete note;
+  // slotSpewNotes();
+  // killNote( id, false );
 }
 
 QVariantMap KNotesApp::notes() const
@@ -537,15 +561,22 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   newNote->setText(QString::fromStdString(title.toStdString()));
   newNote->setObjectName( journal->uid() );
 
+  qDebug() <<  journal->uid();
+
   m_notes.insert( journal->uid(), newNote );
   m_searchWindow->newItem(new_gnote);
 
   newNote->init_note();
 
+  noteInit( newNote );
+
+/*
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
   connect( newNote, SIGNAL( sigKillNote(const QString&) ), this, SLOT( slotDeleteNote(const QString&)), Qt::QueuedConnection  );
+  connect( newNote, SIGNAL( sigCloseNote(const QString&) ), this, SLOT( slotCloseNote(const QString&)), Qt::QueuedConnection  );
 
   connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
+*/
 
   showNote( journal->uid() );
 
@@ -554,6 +585,7 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 }
 
 void KNotesApp::slotDeleteNote(const QString &qsTitle){
+	qDebug() << __PRETTY_FUNCTION__ << "note: " << qsTitle;
 	m_searchWindow->deleteItem(qsTitle);	
 
 	// BEGIN FIND THE GNOTE
@@ -663,17 +695,33 @@ void KNotesApp::updateStyle()
   }
 }
 
+/* Common code for createNote() and newNote() */
+void KNotesApp::noteInit( KNote *newNote){
+  connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
+
+  connect( newNote, SIGNAL( sigKillNote(const QString&) ), this, SLOT( slotDeleteNote(const QString&)), Qt::QueuedConnection  );
+
+  connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
+
+  connect( newNote, SIGNAL( sigCloseNote(const QString&) ), this, SLOT( slotCloseNote(const QString&)), Qt::QueuedConnection  );
+}
+
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
   QMap<QString, KNote*>::const_iterator i = m_notes.find(QString::fromStdString(item->uid()));
   if (i != m_notes.end()) {
+        qDebug() << __PRETTY_FUNCTION__<< "Showing note: " << QString::fromStdString ( item->uid() );
   	showNote(QString::fromStdString ( item->uid() ));
 	return;
   }
 
   gnote::Note::Ptr gnote = m_gnmanager->find(item->text().toStdString());
 
+  qDebug() << __PRETTY_FUNCTION__<< "opening note: " << item->text();
+
   if (! gnote){
+        qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
 	return;
+
   }
 
   KCal::Journal *journal = new KCal::Journal();
@@ -688,11 +736,7 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   showNote(journal->uid() );
 
-  connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
-
-  connect( newNote, SIGNAL( sigKillNote(const QString&) ), this, SLOT( slotDeleteNote(const QString&)), Qt::QueuedConnection  );
-
-  connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
+  noteInit( newNote );
 
   return;
 }
@@ -708,4 +752,4 @@ void KNotesApp::slotSpewOpenNotes(){
 }
 
 } // namespace knotes
-// Sun May 13 10:24:13 PDT 2012
+// Sat Aug  4 15:40:59 PDT 2012

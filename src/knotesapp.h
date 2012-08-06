@@ -74,8 +74,7 @@ class KNotesApp
     void showNote( const QString &id ) const;
     void hideNote( const QString &id ) const;
 
-    void killNote( const QString &id );
-    void killNote( const QString &id, bool force );
+    // void killNote( const QString &id, bool force );
 
     QString name( const QString &id ) const;
     QString text( const QString &id ) const;
@@ -90,6 +89,8 @@ class KNotesApp
     ktomgirl::KTGConfig *m_config;
 
   public slots:
+    void slotCloseNote(const QString&);
+    // void killNote( const QString &id );
     QString newNote( const QString &name = QString(),
                      const QString &text = QString() );
     QString newNoteFromClipboard( const QString &name = QString() );
@@ -131,6 +132,8 @@ class KNotesApp
 
 // BEGIN KNotesApp private:
   private:
+    /* noteInit():  Common code for createNote() and newNote() */
+    void noteInit( KNote*);
     void showNote( KNote *note ) const;
     void saveConfigs();
     gnote::NoteManager *m_gnmanager;
@@ -163,4 +166,4 @@ class KNotesApp
 }; // END class KNotesApp
 }  //namespace knotes
 #endif
-// Thu Mar 29 20:00:53 PDT 2012
+// Sat Aug  4 15:41:08 PDT 2012

@@ -119,8 +119,22 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 
 KNote::~KNote()
 {
+  qDebug() << __PRETTY_FUNCTION__ << name();
+
   m_gnote->set_is_open(false);
-  slotSave();
+
+  saveTimer->stop();
+  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
+  m_gnote->save();
+  emit sigDataChanged(noteId());
+
+  formatTimer->stop();
+
+  /* Stop saving after we focus out */
+  m_blockEmitDataChanged = false;
+
+  // delete m_gnote;
+
   return;
 }
 
@@ -133,7 +147,11 @@ void KNote::init_note(){
 void KNote::load_gnote(){
 	m_title = QString::fromStdString(m_gnote->get_title());
 	setName(m_title);
+
+  	qDebug() << __PRETTY_FUNCTION__<< "title***" << m_title << "!!!";
 	m_content = QString::fromStdString(m_gnote->text_content());
+
+  	qDebug() << __PRETTY_FUNCTION__<< "loading text***" << m_content << "!!!";
 	setText(m_content);
 	init_note();
 }
@@ -162,6 +180,7 @@ void KNote::saveData(bool update )
 {
   if(update)
   {
+     qDebug() << __PRETTY_FUNCTION__;
      emit sigDataChanged(noteId());
      // m_editor->document()->setModified( false );
   }
@@ -244,15 +263,20 @@ bool KNote::isModified() const
 {
   QString newContent = m_editor->toPlainText();
 
-  qDebug() << __PRETTY_FUNCTION__ << "new: " << newContent << "old: " << m_content;
+  // qDebug() << __PRETTY_FUNCTION__ << "new: " << newContent << "old: " << m_content;
+
+  if ("" == newContent){
+  	qDebug() << __PRETTY_FUNCTION__ << "Note is Empty, don't save";
+	return false;
+  }
 
 // FIXME: return false when this is fixed
   if (newContent == m_content){
 	return false;
-  	qDebug() << __PRETTY_FUNCTION__ << "Don't appear to be modified";
+  	// qDebug() << __PRETTY_FUNCTION__ << "Don't appear to be modified";
   }
 
-  qDebug() << __PRETTY_FUNCTION__ << "Modified";
+  // qDebug() << __PRETTY_FUNCTION__ << "Modified";
   return true;
 }
 
@@ -315,9 +339,13 @@ void KNote::commitData()
   mBlockWriteConfigDuringCommitData = true;
 }
 
+#if 0
+// BEGIN KNote::slotClose()
 void KNote::slotClose()
 {
-  qDebug() << __PRETTY_FUNCTION__;
+  //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(m_gnote->get_title());
+  qDebug() << __PRETTY_FUNCTION__ << name();
+ /*
   saveTimer->stop();
   formatTimer->stop();
   m_gnote->set_text_content(m_editor->toPlainText().toStdString());
@@ -325,8 +353,13 @@ void KNote::slotClose()
   emit sigDataChanged(noteId());
   saveTimer->stop();
   formatTimer->stop();
-  hide();
-}
+*/
+  // emit sigCloseNote( QString::fromStdString(m_gnote->get_title()));
+
+  emit sigCloseNote( name() );
+  // hide();
+} // END KNote::slotClose()
+#endif
 
 void KNote::slotInsDate()
 {
@@ -589,7 +622,7 @@ void KNote::createActions()
 
   action  = new KAction( KIcon( "window-close" ), i18n( "Hide" ), this );
   actionCollection()->addAction( "hide_note", action );
-  connect( action, SIGNAL( triggered( bool ) ), SLOT( slotClose() ) );
+  // connect( action, SIGNAL( triggered( bool ) ), SLOT( slotClose() ) );
   action->setShortcut( QKeySequence( Qt::Key_Escape ) );
 
   //action  = new KAction( KIcon( "edit-delete" ), i18n( "Delete" ), this );
@@ -1024,11 +1057,14 @@ void KNote::resizeEvent( QResizeEvent *qre )
 
 void KNote::closeEvent( QCloseEvent * event )
 {
-  qDebug() << __PRETTY_FUNCTION__;
 
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
 
-  slotClose();
+  qDebug() << __PRETTY_FUNCTION__ << " Emitting: sigCloseNote()" <<name();
+
+  emit sigCloseNote( QString::fromStdString(m_gnote->uid()) );
+
+  // slotClose();
 }
 
 void KNote::dragEnterEvent( QDragEnterEvent *e )
@@ -1258,10 +1294,16 @@ void KNote::slotFormatTitle(){
 
 // BEGIN KNOTE SLOTS
 void KNote::slotDataChanged(const QString &qs){
-  qDebug() << __PRETTY_FUNCTION__;
+  qDebug() << __PRETTY_FUNCTION__ << "***" << qs << "!!!";
+
+  const QString newTitle = name();
+
+  if ("" == newTitle){
+	qDebug() << "refusing to deal with blank note!!";
+	return;
+  }
 
   if (m_blockEmitDataChanged) return;
-
 
   // If we aren't changed, we got here by accident.
   // This shouldn't happen, but we really should protect against it.
@@ -1270,7 +1312,6 @@ void KNote::slotDataChanged(const QString &qs){
   m_blockEmitDataChanged = true;
 
   // OK, we actually changed. Handle that:
-  const QString newTitle = name();
   qDebug() << __PRETTY_FUNCTION__ << "We really did change. New title: " << newTitle;
 
   std::string oldTitle = m_gnote->get_title();
@@ -1323,7 +1364,6 @@ void KNote::slotKill()
    * Ultimately, we should either use name, or better yet switch to 
    * always constant (per note) and reliable uids. 
    */
-  emit sigKillNote( QString::fromStdString(m_gnote->get_title()));
 }
 
 void KNote::slotFindNext()

@@ -75,7 +75,7 @@ class KNote
     void load_gnote(void);
     void init_note(void);
 
-    // QString getTitle(void);
+    gnote::Note::Ptr m_gnote;
 
     void changeJournal(KCal::Journal *);
     void saveData( bool update = true);
@@ -99,7 +99,7 @@ class KNote
   public slots:
     void slotRename(void);
     void slotKill(void);
-    void slotClose(void);
+    // void slotClose(void);
     void formatTitle(void);
     void slotShowSearchWindow(void);
   signals:
@@ -109,7 +109,7 @@ class KNote
     void sigNameChanged(const QString &, const QString &);
     void sigDataChanged(const QString &);
     void sigColorChanged();
-    //void sigKillNote( KCal::Journal * );
+    void sigCloseNote(const QString &);
     void sigKillNote(const QString &);
     void sigShowNextNote();
     void sigFindFinished();
@@ -179,7 +179,6 @@ class KNote
 
     void toDesktop( int desktop );
 
-    gnote::Note::Ptr m_gnote;
 
     QLayout       *m_noteLayout;
     QLabel        *m_label;
