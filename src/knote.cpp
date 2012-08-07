@@ -145,11 +145,19 @@ void KNote::init_note(){
 }
 
 void KNote::load_gnote(){
+	// m_gnote->reload();
 	m_title = QString::fromStdString(m_gnote->get_title());
 	setName(m_title);
 
   	qDebug() << __PRETTY_FUNCTION__<< "title***" << m_title << "!!!";
-	m_content = QString::fromStdString(m_gnote->text_content());
+  	qDebug() << __PRETTY_FUNCTION__<< "path***" << QString::fromStdString(m_gnote->file_path()) << "!!!";
+	m_content = QString::fromStdString(m_gnote->text_content_plain());
+
+	/* Work around for stupid libktomgirl bug */
+ 	if ("" == m_content){
+  		qDebug() << __PRETTY_FUNCTION__<< "loading text busted***" << m_content << "!!!";
+		m_content = QString::fromStdString(m_gnote->text_content());
+	}
 
   	qDebug() << __PRETTY_FUNCTION__<< "loading text***" << m_content << "!!!";
 	setText(m_content);
