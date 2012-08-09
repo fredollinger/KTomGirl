@@ -135,6 +135,8 @@ KNotesApp::KNotesApp()
 
   connect( m_searchWindow->actionShow_Open_Notes, SIGNAL( triggered() ), SLOT( slotSpewOpenNotes() ) );
 
+  connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
+
   // BEGIN KStatusNotifierItem
    ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
 
