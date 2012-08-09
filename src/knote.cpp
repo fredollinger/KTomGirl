@@ -613,6 +613,7 @@ void KNote::createActions()
   // rename, mail, print, save as, insert date, alarm, close, delete, new note
   KAction *action;
 
+  #if 0
   action  = new KAction( KIcon( "document-new" ), i18n( "New" ),  this );
   actionCollection()->addAction( "new_note", action );
   connect( action, SIGNAL( triggered( bool ) ), SLOT( slotRequestNewNote() ) );
@@ -637,7 +638,6 @@ void KNote::createActions()
   //actionCollection()->addAction( "delete_note", action );
   //connect( action, SIGNAL( triggered( bool ) ), SLOT( slotKill() ),Qt::QueuedConnection );
 
-#if 0
   action  = new KAction( KIcon( "knotes_date" ), i18n( "Insert Date" ), this );
   actionCollection()->addAction( "insert_date", action );
   connect( action, SIGNAL( triggered( bool ) ), SLOT( slotInsDate() ) );
@@ -661,7 +661,6 @@ void KNote::createActions()
   //connect( action, SIGNAL( triggered( bool ) ), SLOT( slotSaveAs() ) );
   //actionCollection()->addAction( KStandardAction::Print,  "print_note", this,
                                  //SLOT( slotPrint() ) );
-#endif
 
   action  = new KAction( KIcon( "configure" ), i18n( "Preferences..." ), this );
   actionCollection()->addAction( "configure_note", action );
@@ -681,6 +680,8 @@ void KNote::createActions()
   connect( m_keepBelow, SIGNAL( triggered( bool ) ),
            SLOT( slotKeepBelow() ) );
 
+#endif
+
 #ifdef Q_WS_X11
   m_toDesktop  = new KSelectAction( i18n( "To Desktop" ), this );
   actionCollection()->addAction( "to_desktop", m_toDesktop );
@@ -691,6 +692,7 @@ void KNote::createActions()
 #endif
 
   // invisible action to walk through the notes to make this configurable
+#if 0
   action  = new KAction( i18n( "Walk Through Notes" ), this );
   actionCollection()->addAction( "walk_notes", action );
   connect( action, SIGNAL( triggered( bool ) ), SIGNAL( sigShowNextNote() ) );
@@ -699,6 +701,7 @@ void KNote::createActions()
   actionCollection()->addAssociatedWidget( this );
   foreach (QAction* action, actionCollection()->actions())
     action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+#endif
 }
 
 void KNote::slotShowSearchWindow(){
@@ -727,15 +730,17 @@ void KNote::createNoteHeader()
   // BEGIN MAKE TOOLBAR
   m_tool =  new KToolBar(this, true, false);
 
-  KIcon search = KIcon(":/icons/search.png");
- // KIcon search = KIcon("system-search");
-  QAction *search_action = m_tool->addAction(search, i18n("Search"));
+  KIcon iconSearch = KIcon(":/icons/search.png");
+  QAction *search_action = m_tool->addAction(iconSearch, i18n("Search"));
   connect(search_action, SIGNAL(triggered()), this, SLOT(slotShowSearchWindow()));
 
-  KIcon trash = KIcon(":/icons/trash.png");
-  //KIcon trash = KIcon("edit-delete");
-  QAction *trash_action = m_tool->addAction(trash, i18n("Trash"));
+  KIcon iconTrash = KIcon(":/icons/trash.png");
+  QAction *trash_action = m_tool->addAction(iconTrash, i18n("Trash"));
   connect(trash_action, SIGNAL(triggered()), this, SLOT(slotKill()));
+
+  //KIcon iconNewNote = KIcon(":/icons/notebook.png");
+  //QAction *new_action = m_tool->addAction(iconNewNote, i18n("Trash"));
+  //connect(new_action, SIGNAL(triggered()), this, SLOT(slotCreateNewNote()));
 
   m_noteLayout->addWidget( m_tool );
   m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
