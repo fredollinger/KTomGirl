@@ -1,7 +1,7 @@
 /*
  * The KTomGirl Project
  * 
- * SeachWindow
+ * SearchWindow
  * 
  * This is the window which shows a list of all the notes or the 
  * particular notes that match a search term.
@@ -59,8 +59,8 @@ m_row(0)
 	// BEGIN NOTES DIALOG
 	m_notesDialog = new NotesDialog();
 	m_notesDialog->showMaximized();
-    m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-    addDockWidget(Qt::RightDockWidgetArea, m_notesDialog);
+    	m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    	addDockWidget(Qt::RightDockWidgetArea, m_notesDialog);
 
 	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
 	m_notesDialog->tableNotes->setShowGrid(false);
@@ -70,8 +70,8 @@ m_row(0)
 	// BEGIN NOTEBOOKS DIALOG
 	m_notebooksDialog = new NotebooksDialog();
 	m_notebooksDialog->showMaximized();
-    m_notebooksDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-    addDockWidget(Qt::LeftDockWidgetArea, m_notebooksDialog);
+    	m_notebooksDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    	addDockWidget(Qt::LeftDockWidgetArea, m_notebooksDialog);
 
 	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
 	
@@ -80,9 +80,7 @@ m_row(0)
 
 } // END SEARCH WINDOW
 
-SearchWindow::~SearchWindow()
-{
-}
+SearchWindow::~SearchWindow(){}
 
 void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 	QString qs;
@@ -104,7 +102,8 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 
 		// BEGIN ITEM TWO
   		sharp::DateTime qdt = note->data().change_date();
-		qs = QString::fromStdString(qdt.to_iso8601());
+		//qs = QString::fromStdString(qdt.to_iso8601());
+		qs = QString::fromStdString(qdt.to_string());
 		item = new ktomgirl::KTGItem(qs, note);
 		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
