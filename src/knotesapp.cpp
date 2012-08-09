@@ -189,6 +189,7 @@ KNotesApp::KNotesApp()
 
 KNotesApp::~KNotesApp()
 {
+/*
   saveConfigs();
   saveNotes();
  // m_config->store();
@@ -211,6 +212,7 @@ KNotesApp::~KNotesApp()
   delete m_gnmanager;
   delete m_guiBuilder;
   delete m_tray;
+*/
 }
 
 bool KNotesApp::commitData( QSessionManager & )
@@ -528,7 +530,7 @@ void KNotesApp::slotQuit()
     }
   }
 */
-  saveConfigs();
+  // saveConfigs();
   kapp->quit();
 }
 
