@@ -1011,20 +1011,20 @@ void KNote::updateFocus()
     else
     {
         if ( m_tool && !m_tool->isHidden() ) {
-            m_tool->hide();
+            //m_tool->hide();
             setGeometry( x(), y(), width(), height() - m_tool->height() );
             updateLayout();     // to update the minimum height
         }
-        m_grip->hide();
+        //m_grip->hide();
     }
   }
   else
   {
-    m_grip->hide();
+    //m_grip->hide();
 
     if ( m_tool && !m_tool->isHidden() )
     {
-      m_tool->hide();
+      //m_tool->hide();
       setGeometry( x(), y(), width(), height() - m_tool->height() );
       updateLayout();     // to update the minimum height
     }
@@ -1377,6 +1377,7 @@ void KNote::slotKill()
    * Ultimately, we should either use name, or better yet switch to 
    * always constant (per note) and reliable uids. 
    */
+	emit sigKillNote(QString::fromStdString(m_gnote->get_title()));
 }
 
 void KNote::slotFindNext()

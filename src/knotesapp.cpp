@@ -208,11 +208,12 @@ KNotesApp::~KNotesApp()
   delete m_findPos;
   m_findPos = 0;
   //delete m_listener;
+*/
+
   delete m_manager;
   delete m_gnmanager;
   delete m_guiBuilder;
   delete m_tray;
-*/
 }
 
 bool KNotesApp::commitData( QSessionManager & )
@@ -593,11 +594,11 @@ void KNotesApp::slotDeleteNote(const QString &qsTitle){
 	m_searchWindow->deleteItem(qsTitle);	
 
 	// BEGIN FIND THE GNOTE
-        std::string title = qsTitle.toStdString();
-        //gnote::NoteManager *nm = new gnote::NoteManager();
-        gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
-        QString m_content = QString::fromStdString(gnote->text_content());
-        QString uid = QString::fromStdString(gnote->uid());
+    std::string title = qsTitle.toStdString();
+    //gnote::NoteManager *nm = new gnote::NoteManager();
+    gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
+    QString m_content = QString::fromStdString(gnote->text_content());
+    QString uid = QString::fromStdString(gnote->uid());
 	// END FIND THE GNOTE
 
 	// delete knote from list
@@ -607,7 +608,7 @@ void KNotesApp::slotDeleteNote(const QString &qsTitle){
 	delete knote;
 
 	// delete gnote from list
-    	m_gnmanager->delete_note(gnote);
+    m_gnmanager->delete_note(gnote);
 }
 
 
