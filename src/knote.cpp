@@ -996,6 +996,7 @@ void KNote::updateLabelAlignment()
 
 void KNote::updateFocus()
 {
+  #if 0
   if ( hasFocus() )
   {
 
@@ -1029,6 +1030,7 @@ void KNote::updateFocus()
       updateLayout();     // to update the minimum height
     }
   }
+#endif
 }
 
 void KNote::updateLayout()
@@ -1131,6 +1133,7 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
     return true;
   }
 
+ #if 0
   if ( o == m_label ) {
     QMouseEvent *e = ( QMouseEvent * )ev;
 
@@ -1141,7 +1144,7 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
 
     if ( ev->type() == QEvent::MouseButtonPress &&
         ( e->button() == Qt::LeftButton || e->button() == Qt::MidButton ) ) {
-#ifdef Q_WS_X11
+//#ifdef Q_WS_X11
       e->button() == Qt::LeftButton ? KWindowSystem::raiseWindow( winId() )
                                     : KWindowSystem::lowerWindow( winId() );
 
@@ -1149,21 +1152,19 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
       NETRootInfo wm_root( QX11Info::display(), NET::WMMoveResize );
       wm_root.moveResizeRequest( winId(), e->globalX(), e->globalY(),
                                  NET::Move );
-#endif
       return true;
     }
 
     if ( ev->type() == QEvent::MouseButtonRelease ) {
-#ifdef Q_WS_X11
         NETRootInfo wm_root( QX11Info::display(), NET::WMMoveResize );
         wm_root.moveResizeRequest( winId(), e->globalX(), e->globalY(),
                                    NET::MoveResizeCancel );
-#endif
         return false;
     }
 
     return false;
   }
+#endif
 
   if ( o == m_editor ) {
     if ( ev->type() == QEvent::FocusOut ) {
