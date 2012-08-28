@@ -59,21 +59,29 @@ m_row(0)
 	// BEGIN NOTES DIALOG
 	m_notesDialog = new NotesDialog();
 	m_notesDialog->showMaximized();
-    	m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-    	addDockWidget(Qt::RightDockWidgetArea, m_notesDialog);
+    m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+   	addDockWidget(Qt::RightDockWidgetArea, m_notesDialog);
 
 	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
 	m_notesDialog->tableNotes->setShowGrid(false);
 	m_notesDialog->tableNotes->horizontalHeader()->setStretchLastSection(true);
+
+    QTableWidgetItem *noteHeader = m_notesDialog->tableNotes->horizontalHeaderItem(0);
+	noteHeader->setTextAlignment(Qt::AlignLeft);
+
+    QTableWidgetItem *dateHeader = m_notesDialog->tableNotes->horizontalHeaderItem(1);
+	dateHeader->setTextAlignment(Qt::AlignLeft);
 	// END NOTES DIALOG
 
 	// BEGIN NOTEBOOKS DIALOG
 	m_notebooksDialog = new NotebooksDialog();
 	m_notebooksDialog->showMaximized();
-    	m_notebooksDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-    	addDockWidget(Qt::LeftDockWidgetArea, m_notebooksDialog);
+   	m_notebooksDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+   	addDockWidget(Qt::LeftDockWidgetArea, m_notebooksDialog);
 
 	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
+    QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
+	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
 	
  	connect (m_notesDialog->tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
 	// END NOTEBOOKS DIALOG
