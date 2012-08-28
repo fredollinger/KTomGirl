@@ -1,6 +1,5 @@
 desc "build it"
-task :default do
-	sh "cd src && make"
+task :default => :ui do
 end
 
 desc "show errors"
@@ -12,3 +11,10 @@ desc "test"
 task :test do
 	sh "cd src && make test"
 end
+
+desc "build it"
+task :ui do
+	sh "cd src && make"
+end
+
+

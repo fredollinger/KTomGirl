@@ -50,6 +50,7 @@ signals:
 public slots:
 	void emitNoteSelected(QTableWidgetItem*);
 	void setItemName(const QString&, const QString&);
+	void slotItemClicked(QTableWidgetItem*);
 
 
 }; // class SearchWindow

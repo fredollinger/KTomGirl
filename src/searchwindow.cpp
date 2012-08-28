@@ -84,6 +84,8 @@ m_row(0)
 	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
 	
  	connect (m_notesDialog->tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
+
+ 	connect (m_notesDialog->tableNotes, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(slotItemClicked(QTableWidgetItem*)));
 	// END NOTEBOOKS DIALOG
 
 } // END SEARCH WINDOW
@@ -123,8 +125,32 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 	return;
 }
 
-void
-SearchWindow::emitNoteSelected(QTableWidgetItem* item){
+/* Handle the case where the itme is clicked once.
+   We'd like to highlight the entire row aka both columns.
+   The one clicked is all ready highlighted to we just need to find the other one. 
+*/
+void SearchWindow::slotItemClicked(QTableWidgetItem* item){
+	QTableWidget *qtw = item->tableWidget();
+	qDebug() << __PRETTY_FUNCTION__ << " qtablewidget selected: " << qtw->objectName();
+	
+	/* Only operate on tables which we know how to work on. */
+	if (qtw->objectName() != "tableNotes") return;
+
+	int col=0;
+	int row=0;
+
+	// Select the opposite column of the one selected all ready
+	if (0 == item->column()) col = 1;
+
+	row = item->row();
+
+	QTableWidgetItem *qtwi = qtw->item(row, col);
+	qtwi->setSelected(true);
+	
+	return;
+}
+
+void SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 	emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
 }
 
