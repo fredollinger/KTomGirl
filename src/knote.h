@@ -127,9 +127,9 @@ class KNote
     virtual bool event( QEvent * );
     virtual bool eventFilter( QObject *, QEvent * );
 
+// BEGIN PRIVATE SLOTS
   private slots:
     void slotDataChanged(const QString&);
-    void slotUpdateReadOnly();
 
     void slotFormatTitle(void);
     void slotPrint();
@@ -156,6 +156,7 @@ class KNote
     void slotKeepBelow();
 
     void slotRequestNewNote();
+// END PRIVATE SLOTS
 
 // BEGIN class KNote private:
   private:

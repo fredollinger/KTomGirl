@@ -119,7 +119,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 
 KNote::~KNote()
 {
-  qDebug() << __PRETTY_FUNCTION__ << name();
+  qDebug() << __PRETTY_FUNCTION__ << ": " << name() << "\n";
 
   m_gnote->set_is_open(false);
 
@@ -308,6 +308,8 @@ void KNote::slotRename()
   #endif
 }
 
+// BEGIN void KNote::slotUpdateReadOnly()
+#if 0
 void KNote::slotUpdateReadOnly()
 {
   const bool readOnly = m_readOnly->isChecked();
@@ -318,7 +320,6 @@ void KNote::slotUpdateReadOnly()
   // enable/disable actions accordingly
   actionCollection()->action( "configure_note" )->setEnabled( !readOnly );
   actionCollection()->action( "insert_date" )->setEnabled( !readOnly );
-  //actionCollection()->action( "delete_note" )->setEnabled( !readOnly );
   actionCollection()->action( "delete_note" )->setEnabled( true );
   actionCollection()->action( "format_bold" )->setEnabled( !readOnly );
   actionCollection()->action( "format_italic" )->setEnabled( !readOnly );
@@ -339,7 +340,8 @@ void KNote::slotUpdateReadOnly()
   actionCollection()->action( "rename_note" )->setEnabled( !readOnly);
 
   updateFocus();
-}
+} // END void KNote::slotUpdateReadOnly()
+#endif
 
 
 void KNote::commitData()
@@ -626,7 +628,6 @@ void KNote::createActions()
                                    i18n( "Lock" ), this );
   actionCollection()->addAction( "lock_note", m_readOnly );
   connect( m_readOnly, SIGNAL( triggered( bool ) ),
-          SLOT( slotUpdateReadOnly() ) );
   m_readOnly->setCheckedState( KGuiItem( i18n( "Unlock" ), "object-unlocked" ) );
 
   action  = new KAction( KIcon( "window-close" ), i18n( "Hide" ), this );
@@ -873,7 +874,6 @@ void KNote::prepare()
   }
 
   m_readOnly->setChecked( m_config->readOnly() );
-  slotUpdateReadOnly();
 
   if ( m_config->keepAbove() ) {
     m_keepAbove->setChecked( true );
@@ -1445,8 +1445,6 @@ void KNote::slotSave(){
   // that is closed only those who have changed.
   m_gnote->changed();
 }
-
 // END KNOTE SLOTS
-
 }// namespace knotes
-//Sat May 26 08:05:03 PDT 2012
+// Mon Sep  3 14:23:36 PDT 2012

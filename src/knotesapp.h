@@ -90,7 +90,6 @@ class KNotesApp
 
   public slots:
     void slotCloseNote(const QString&);
-    // void killNote( const QString &id );
     QString newNote( const QString &name = QString(),
                      const QString &text = QString() );
     QString newNoteFromClipboard( const QString &name = QString() );
@@ -100,7 +99,7 @@ class KNotesApp
     void showAllNotes() const;
     void slotDeleteNote(const QString&);
     void slotShowSearchWindow(void);
-	void slotSpewOpenNotes(void);
+    void slotSpewOpenNotes(void);
 
   protected slots:
     void slotActivateRequested( bool, const QPoint& pos);
