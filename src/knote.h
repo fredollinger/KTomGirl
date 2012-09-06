@@ -97,13 +97,15 @@ class KNote
 // END class KNote public:
 
   public slots:
+	void emitNewNote();
     void slotRename(void);
     void slotKill(void);
     // void slotClose(void);
     void formatTitle(void);
     void slotShowSearchWindow(void);
   signals:
-    void sigRequestNewNote();
+	void sigNewNote(void);
+    void sigRequestNewNote(void);
     void sigNameChanged(const QString &);
     void sigNameChanged(const QString &, ktomgirl::KTGItem&);
     void sigNameChanged(const QString &, const QString &);

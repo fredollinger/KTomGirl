@@ -738,6 +738,12 @@ void KNote::createNoteHeader()
   QAction *trash_action = m_tool->addAction(iconTrash, i18n("Trash"));
   connect(trash_action, SIGNAL(triggered()), this, SLOT(slotKill()));
 
+	//setWindowIcon(KIcon(":/icons/notebook.png"));
+
+  KIcon iconNewNote = KIcon(":/icons/notebook.png");
+  QAction *new_note_action = m_tool->addAction(iconNewNote, i18n("New Note"));
+  connect(new_note_action, SIGNAL(triggered()), this, SLOT(emitNewNote()));
+
   //KIcon iconNewNote = KIcon(":/icons/notebook.png");
   //QAction *new_action = m_tool->addAction(iconNewNote, i18n("Trash"));
   //connect(new_action, SIGNAL(triggered()), this, SLOT(slotCreateNewNote()));
@@ -1289,19 +1295,6 @@ void KNote::slotFormatTitle(){
   cursor.insertHtml(newtitle);  
   m_htmlTitle = newtitle;
 
-#if 0
-  // BEGIN FIX SECOND LINE
-  // Makes second line look black again and not underlined
-  cursor.setPosition(pos2, QTextCursor::MoveAnchor);  
-  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
-  s=cursor.selectedText();
-  QString newtext = startNormal+s+endNormal.trimmed();
-  cursor.removeSelectedText();	
-  cursor.deleteChar();
-  cursor.insertHtml(newtext);  
-#endif
-  // END FIX SECOND LINE
-
   cursor.setPosition(pos, QTextCursor::KeepAnchor);  
 }
 // END slotFormatTitle()
@@ -1420,6 +1413,10 @@ void KNote::slotNameChanged(){
   const QString newTitle = name();
   setWindowTitle(newTitle);
   emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
+}
+
+void KNote::emitNewNote(){
+	emit sigNewNote();
 }
 
 void KNote::slotSave(){
