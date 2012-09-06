@@ -210,10 +210,13 @@ KNotesApp::~KNotesApp()
   //delete m_listener;
 */
 
+  // FIXME: Try to use smart deleting aka deleteLater() or the
+  // smart ptr equiv...
   delete m_manager;
   delete m_gnmanager;
   delete m_guiBuilder;
-  delete m_tray;
+  // delete m_tray;
+  m_tray->deleteLater();
 }
 
 bool KNotesApp::commitData( QSessionManager & )
