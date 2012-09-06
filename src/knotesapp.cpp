@@ -708,6 +708,8 @@ void KNotesApp::noteInit( KNote *newNote){
 
   connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
 
+  connect( newNote, SIGNAL( sigNewNote() ), this, SLOT( createNote()), Qt::QueuedConnection  );
+
   connect( newNote, SIGNAL( sigCloseNote(const QString&) ), this, SLOT( slotCloseNote(const QString&)), Qt::QueuedConnection  );
 }
 
