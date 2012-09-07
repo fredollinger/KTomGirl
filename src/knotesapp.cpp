@@ -578,14 +578,6 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 
   noteInit( newNote );
 
-/*
-  connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
-  connect( newNote, SIGNAL( sigKillNote(const QString&) ), this, SLOT( slotDeleteNote(const QString&)), Qt::QueuedConnection  );
-  connect( newNote, SIGNAL( sigCloseNote(const QString&) ), this, SLOT( slotCloseNote(const QString&)), Qt::QueuedConnection  );
-
-  connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
-*/
-
   showNote( journal->uid() );
 
   saveConfigs();
@@ -593,12 +585,11 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 }
 
 void KNotesApp::slotDeleteNote(const QString &qsTitle){
-	qDebug() << __PRETTY_FUNCTION__ << "note: " << qsTitle;
+	qDebug() << __PRETTY_FUNCTION__ << "note: " << qsTitle << "FIXME: NOT DONE";
 	m_searchWindow->deleteItem(qsTitle);	
 
 	// BEGIN FIND THE GNOTE
     std::string title = qsTitle.toStdString();
-    //gnote::NoteManager *nm = new gnote::NoteManager();
     gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
     QString m_content = QString::fromStdString(gnote->text_content());
     QString uid = QString::fromStdString(gnote->uid());
@@ -606,7 +597,6 @@ void KNotesApp::slotDeleteNote(const QString &qsTitle){
 
 	// delete knote from list
 	KNote *knote = m_notes.value(uid);
-
 	// delete actual knote
 	delete knote;
 

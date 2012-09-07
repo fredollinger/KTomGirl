@@ -1356,7 +1356,7 @@ void KNote::slotKill()
   // delete the configuration first, then the corresponding file
   // delete m_config;
   // m_config = 0;
-  QString configFile = KGlobal::dirs()->saveLocation( "appdata", "notes/" );
+  //QString configFile = KGlobal::dirs()->saveLocation( "appdata", "notes/" );
   // configFile += m_journal->uid();
 /*
   if ( !KIO::NetAccess::del( KUrl( configFile ), this ) ) {
