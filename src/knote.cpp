@@ -145,6 +145,14 @@ void KNote::init_note(){
 }
 
 void KNote::load_gnote(){
+	static bool l_loaded = false;
+
+	/* We are not handling notes being closed properly due to some over cleverness!! */
+	if (l_loaded){
+  		qDebug() << __PRETTY_FUNCTION__<< "BUG!! Note all ready loaded!!";
+		return;
+	}
+
 	// m_gnote->reload();
 	m_title = QString::fromStdString(m_gnote->get_title());
 	setName(m_title);

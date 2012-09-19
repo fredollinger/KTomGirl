@@ -301,10 +301,12 @@ void KNotesApp::slotCloseNote( const QString &id )
   qDebug() << __PRETTY_FUNCTION__ << "closing note: "<< id;
 
   KNote *note = 0;
-  note = m_notes.take(id);
+  // If we delete the note from the list, we are screwed
+  // note = m_notes.take(id);
+  note = m_notes[id];
 
   if ( 0 == note ){
-    qDebug() << "NULL note. Not closing!";
+  	qDebug() << __PRETTY_FUNCTION__ <<  "NULL note. Not closing!";
     return;
   }
 
@@ -707,16 +709,19 @@ void KNotesApp::noteInit( KNote *newNote){
 }
 
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
+  qDebug() << __PRETTY_FUNCTION__;
+
   QMap<QString, KNote*>::const_iterator i = m_notes.find(QString::fromStdString(item->uid()));
   if (i != m_notes.end()) {
-        qDebug() << __PRETTY_FUNCTION__<< "Showing note: " << QString::fromStdString ( item->uid() );
-  	showNote(QString::fromStdString ( item->uid() ));
+        qDebug() << __PRETTY_FUNCTION__<< "Note exists: Showing note: " << QString::fromStdString ( item->uid() );
+	  	showNote(QString::fromStdString ( item->uid() ));
 	return;
   }
 
+  qDebug() << __PRETTY_FUNCTION__<< "Note does not exist: Opening note: " << item->text();
+
   gnote::Note::Ptr gnote = m_gnmanager->find(item->text().toStdString());
 
-  qDebug() << __PRETTY_FUNCTION__<< "opening note: " << item->text();
 
   if (! gnote){
         qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
