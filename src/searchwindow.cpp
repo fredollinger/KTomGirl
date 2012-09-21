@@ -65,6 +65,7 @@ m_row(0)
 	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
 	m_notesDialog->tableNotes->setShowGrid(false);
 	m_notesDialog->tableNotes->horizontalHeader()->setStretchLastSection(true);
+	m_notesDialog->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     QTableWidgetItem *noteHeader = m_notesDialog->tableNotes->horizontalHeaderItem(0);
 	noteHeader->setTextAlignment(Qt::AlignLeft);
