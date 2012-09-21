@@ -37,6 +37,9 @@ public:
 	// Given an item title, remove that item
 	void deleteItem(const QString&);
 
+	// add the background gray and anything else to the notes...
+	void styleNotes(void);
+
 private:
 	KTGlib::StringList m_list;
 	// QStringListModel *m_model;

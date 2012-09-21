@@ -93,6 +93,17 @@ m_row(0)
 
 SearchWindow::~SearchWindow(){}
 
+void SearchWindow::styleNotes(){
+	// Loop through all notes and set the background colors...
+	int m_rows = m_notesDialog->tableNotes->rowCount();
+	qDebug() << __PRETTY_FUNCTION__ << "FIXME: NOT IMPLEMENTED" << m_rows;
+	for(int i=0;  i > m_rows; i++){
+		// FIXME: Actually move styling code here...
+		qDebug() << "styling: " << m_notesDialog->tableNotes->item(i, 1)->text(); 
+		// m_notesDialog->item()->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
+	}
+}
+
 void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 	QString qs;
 
@@ -123,6 +134,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		m_row++;
 	}
 	m_notesDialog->tableNotes->setRowCount(m_row);
+	styleNotes();
 	return;
 }
 
@@ -219,7 +231,7 @@ SearchWindow::deleteItem(const QString &qs){
 	qDebug() << __PRETTY_FUNCTION__ << ql[0]->text() << row;
 	m_notesDialog->tableNotes->removeRow (row); 
 	// void QTableWidget::removeRow ( int row ) [slot]
-
+	styleNotes();
 	return;
 }
 
