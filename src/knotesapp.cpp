@@ -575,6 +575,7 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 
   m_notes.insert( journal->uid(), newNote );
   m_searchWindow->newItem(new_gnote);
+  m_searchWindow->styleNotes();
 
   newNote->init_note();
 

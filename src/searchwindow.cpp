@@ -96,11 +96,15 @@ SearchWindow::~SearchWindow(){}
 void SearchWindow::styleNotes(){
 	// Loop through all notes and set the background colors...
 	int m_rows = m_notesDialog->tableNotes->rowCount();
-	qDebug() << __PRETTY_FUNCTION__ << "FIXME: NOT IMPLEMENTED" << m_rows;
-	for(int i=0;  i > m_rows; i++){
-		// FIXME: Actually move styling code here...
-		qDebug() << "styling: " << m_notesDialog->tableNotes->item(i, 1)->text(); 
-		// m_notesDialog->item()->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
+	for(int i=0;  i < m_rows; i++){
+		QTableWidgetItem *item = m_notesDialog->tableNotes->item(i, 0);
+		QTableWidgetItem *item2 = m_notesDialog->tableNotes->item(i, 1);
+		if (0 != item){
+			qDebug() << "Item exists!! "<< i;
+
+			item->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
+			item2->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
+		}
 	}
 }
 
@@ -117,7 +121,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 
 		// BEGIN ITEM ONE
 		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
-		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
+		//item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 		item->setIcon(notebookIcon);
 		m_notesDialog->tableNotes->setItem ( m_row, 0, item );
 		// END ITEM ONE
@@ -127,7 +131,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		//qs = QString::fromStdString(qdt.to_iso8601());
 		qs = QString::fromStdString(qdt.to_string());
 		item = new ktomgirl::KTGItem(qs, note);
-		item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
+		//item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
 		// END ITEM TWO
 
@@ -200,7 +204,7 @@ SearchWindow::newItem(gnote::Note::Ptr & note){
 
 	// BEGIN FIRST ITEM
 	ktomgirl::KTGItem *item = new ktomgirl::KTGItem(name, note);
-	item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
+//	item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 	m_notesDialog->tableNotes->insertRow ( 0 );
 	m_notesDialog->tableNotes->setItem ( 0 , 0, item );
 	item->setIcon(notebookIcon);
@@ -209,7 +213,7 @@ SearchWindow::newItem(gnote::Note::Ptr & note){
 	// BEGIN SECOND ITEM
 	name = qdt.toString();
 	item = new ktomgirl::KTGItem(name, note);
-	item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
+//	item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 	m_notesDialog->tableNotes->setItem ( 0 , 1, item );
 	// END SECOND ITEM
 
