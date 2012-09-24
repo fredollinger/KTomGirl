@@ -138,7 +138,8 @@ KNotesApp::KNotesApp()
   connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
 
   // BEGIN KStatusNotifierItem
-   ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
+  //ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
+  m_tray = new ktomgirl::KTGSystray();
 
   KMenu *m_menu = new KMenu("KTomGirl");
 
@@ -545,6 +546,13 @@ void KNotesApp::slotQuit()
 void KNotesApp::showNote( KNote *note ) const
 {
   note->show();
+  KMenu *m_menu = m_tray->contextMenu();
+  // FIXME: Need to get note's actual name...
+  QAction *act = new QAction("New Note", m_tray);
+  //m_menu->addAction(act);
+  // FIXME: Need to create a slot and pass the string along somehow...
+  //connect( act, SIGNAL( triggered() ), SLOT( slotOpenNote() ) );
+  
 #ifdef Q_WS_X11
   KWindowSystem::setCurrentDesktop( KWindowSystem::windowInfo( note->winId(),
                                     NET::WMDesktop ).desktop() );
