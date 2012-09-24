@@ -90,6 +90,7 @@ class KNotesApp
     ktomgirl::KTGConfig *m_config;
 
   public slots:
+	void slotOpenNote(QAction*);
     void slotCloseNote(const QString&);
     QString newNote( const QString &name = QString(),
                      const QString &text = QString() );
