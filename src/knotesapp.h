@@ -33,6 +33,7 @@
 #include <ksessionmanager.h>
 #include <kxmlguiclient.h>
 
+#include "ktgsystray.h"
 #include "searchwindow.h"
 
 #include <libktomgirl/notemanager.hpp>
@@ -89,6 +90,7 @@ class KNotesApp
     ktomgirl::KTGConfig *m_config;
 
   public slots:
+	void slotOpenNote(QAction*);
     void slotCloseNote(const QString&);
     QString newNote( const QString &name = QString(),
                      const QString &text = QString() );
@@ -156,7 +158,8 @@ class KNotesApp
 
     KXMLGUIFactory  *m_guiFactory;
     KXMLGUIBuilder  *m_guiBuilder;
-    KStatusNotifierItem *m_tray;
+   // KStatusNotifierItem *m_tray;
+    ktomgirl::KTGSystray *m_tray;
     KAction         *m_findAction;
 
     QDomDocument    m_noteGUI;

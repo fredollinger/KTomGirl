@@ -138,9 +138,12 @@ KNotesApp::KNotesApp()
   connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
 
   // BEGIN KStatusNotifierItem
-   ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
+  //ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
+  m_tray = new ktomgirl::KTGSystray();
 
   KMenu *m_menu = new KMenu("KTomGirl");
+
+  connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotOpenNote(QAction*) ) );
 
   QAction *quitAct = new QAction("&Quit", m_tray);
   m_menu->addAction(quitAct);
@@ -542,15 +545,36 @@ void KNotesApp::slotQuit()
 
 // -------------------- private methods -------------------- //
 
+void  KNotesApp::slotOpenNote(QAction *act){
+	// FIXME: Open note here...
+	QVariant qvar = act->data();
+	if ( 0 == qvar.toString().length() ){
+		qDebug() << __PRETTY_FUNCTION__ << qvar.toString() << "is empty";
+	}
+
+	qDebug() << __PRETTY_FUNCTION__ << qvar.toString() << "NOT is empty";
+	return;	
+}	
+
 void KNotesApp::showNote( KNote *note ) const
 {
   note->show();
+  KMenu *m_menu = m_tray->contextMenu();
+  // FIXME: Need to get note's actual name...
+  QAction *act = new QAction(note->name(), m_tray);
+  act->setData( QVariant( note->name() ));
+  m_menu->addAction(act);
+  // FIXME: Need to create a slot and pass the string along somehow...
+
+/*
 #ifdef Q_WS_X11
   KWindowSystem::setCurrentDesktop( KWindowSystem::windowInfo( note->winId(),
                                     NET::WMDesktop ).desktop() );
   KWindowSystem::forceActiveWindow( note->winId() );
 #endif
+*/
   note->setFocus();
+
 }
 
 void KNotesApp::slotShowSearchWindow(){
