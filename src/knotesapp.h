@@ -98,6 +98,7 @@ class KNotesApp
 
     void hideAllNotes() const;
     void openNote(ktomgirl::KTGItem*);
+    void openNote(QString&);
     void showAllNotes() const;
     void slotDeleteNote(const QString&);
     void slotShowSearchWindow(void);

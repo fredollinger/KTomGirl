@@ -548,11 +548,16 @@ void KNotesApp::slotQuit()
 void  KNotesApp::slotOpenNote(QAction *act){
 	// FIXME: Open note here...
 	QVariant qvar = act->data();
-	if ( 0 == qvar.toString().length() ){
+	QString qs = qvar.toString();
+	if ( 0 == qs.length() ){
 		qDebug() << __PRETTY_FUNCTION__ << qvar.toString() << "is empty";
+		return;
 	}
 
-	qDebug() << __PRETTY_FUNCTION__ << qvar.toString() << "NOT is empty";
+	qDebug() << __PRETTY_FUNCTION__ << qvar.toString() << "NOT empty";
+
+	openNote(qs);
+
 	return;	
 }	
 
@@ -733,6 +738,39 @@ void KNotesApp::noteInit( KNote *newNote){
   connect( newNote, SIGNAL( sigCloseNote(const QString&) ), this, SLOT( slotCloseNote(const QString&)), Qt::QueuedConnection  );
 }
 
+/* Perhaps we can combine this with the latter part of the
+ * other openNote(ktgitem*) ?
+ */
+void KNotesApp::openNote(QString &qs){
+  qDebug() << __PRETTY_FUNCTION__;
+
+  gnote::Note::Ptr gnote = m_gnmanager->find(qs.toStdString());
+
+
+  if (! gnote){
+        qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
+	return;
+
+  }
+
+  KCal::Journal *journal = new KCal::Journal();
+
+  KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
+  newNote->load_gnote();
+
+  m_notes.insert( newNote->noteId(), newNote );
+
+  m_noteUidModify = journal->uid();
+  newNote->setObjectName( journal->uid() );
+
+  showNote(journal->uid() );
+
+  noteInit( newNote );
+
+  return;
+}
+
+
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
   qDebug() << __PRETTY_FUNCTION__;
 
@@ -769,6 +807,7 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   noteInit( newNote );
 
   return;
+
 }
 
 /* This is here purely for debugging purposes. 
