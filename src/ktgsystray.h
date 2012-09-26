@@ -18,12 +18,16 @@ public:
 	KTGMenu *m_menu;
 	KTGMenu* noteMenu(void);
 	void quit(void);
+	void addNoteAction(QAction*, const QString&, const QString&);
 	void setNoteMenu(KTGMenu*);
 
 public slots:
 	void slotQuit(void);
 	// common code in all constructors
 	void init(void);
+
+private:
+	QStringList m_qslNotes;
 
 }; // class KTGSystray
 } // namespace ktomgirl

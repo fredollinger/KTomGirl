@@ -159,6 +159,8 @@ KNotesApp::KNotesApp()
   m_menu->addAction(createAct);
   connect( createAct, SIGNAL( triggered() ), SLOT( createNote() ) );
 
+  m_menu->addSeparator();
+
   m_tray->setContextMenu(m_menu);
   m_tray->activate();
   // END KStatusNotifierItem
@@ -548,41 +550,39 @@ void KNotesApp::slotQuit()
 // -------------------- private methods -------------------- //
 
 void  KNotesApp::slotOpenNote(QAction *act){
-	// FIXME: Open note here...
+	qDebug() << __PRETTY_FUNCTION__ << "Fixme not done!!";
+	/*
+	QString qsNote;
 	QVariant qvar = act->data();
-	QString qs = qvar.toString();
-	if ( 0 == qs.length() ){
-		qDebug() << __PRETTY_FUNCTION__ << qvar.toString() << "is empty";
-		return;
-	}
-
-	qDebug() << __PRETTY_FUNCTION__ << qvar.toString() << "NOT empty";
-
-	openNote(qs);
-
+	// Get the uid from the name of the title of the note and use this to show the note
+	//showNote(m_searchWindow->uidFromString(qvar.toString()));
+	qsNote = qvar.toString();
+	//showNote(qsNote);
+	KNote *note = m_notes.value( qsNote );
+  	if ( note ) {
+    	 showNote( qsNote );
+    }
+	openNote(qsNote);
+	*/
 	return;	
+	
 }	
 
 void KNotesApp::showNote( KNote *note ) const
 {
+	/*
   note->show();
   KTGMenu *m_menu = m_tray->contextMenu();
   //KMenu *m_menu = m_tray->noteMenu();
   // FIXME: Need to get note's actual name...
+>>>>>>> 3d94622be76d89e9fc448b1f48b8dadd9c5ba889
   QAction *act = new QAction(note->name(), m_tray);
-  act->setData( QVariant( note->name() ));
-  m_menu->addAction(act);
-  // FIXME: Need to create a slot and pass the string along somehow...
-
-/*
-#ifdef Q_WS_X11
-  KWindowSystem::setCurrentDesktop( KWindowSystem::windowInfo( note->winId(),
-                                    NET::WMDesktop ).desktop() );
-  KWindowSystem::forceActiveWindow( note->winId() );
-#endif
-*/
+  QString name = note->name();
+  qDebug() << "uid: " << m_searchWindow->uidFromString(name);
+  m_tray->addNoteAction(act, name, m_searchWindow->uidFromString(name));
+  note->show();
   note->setFocus();
-
+	*/
 }
 
 void KNotesApp::slotShowSearchWindow(){
