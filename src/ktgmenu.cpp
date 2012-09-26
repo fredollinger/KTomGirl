@@ -26,9 +26,9 @@
 #include "ktgmenu.h"
 
 namespace ktomgirl{
-KTGMenu::KTGMenu() : KMenu()
-{
-}
+KTGMenu::KTGMenu() : KMenu(){}
+
+KTGMenu::KTGMenu(const char *c) : KMenu(c){}
 
 KTGMenu::~KTGMenu()
 {

@@ -5,6 +5,7 @@
 
 #include <KMenu>
 #include <KStatusNotifierItem>
+#include "ktgmenu.h"
 
 namespace ktomgirl{
 class KTGSystray : public KStatusNotifierItem
@@ -12,12 +13,17 @@ class KTGSystray : public KStatusNotifierItem
 	Q_OBJECT
 public:
 	KTGSystray(QWidget* pParent = NULL, const char* szName = NULL);
+	KTGSystray(void);
 	~KTGSystray();
-	KMenu *m_menu;
+	KTGMenu *m_menu;
+	KTGMenu* noteMenu(void);
 	void quit(void);
+	void setNoteMenu(KTGMenu*);
 
 public slots:
 	void slotQuit(void);
+	// common code in all constructors
+	void init(void);
 
 }; // class KTGSystray
 } // namespace ktomgirl

@@ -22,12 +22,14 @@
 
 #include <QTableWidget>
 #include <QObject>
+#include <KMenu>
 #include <libktomgirl/note.hpp>
 
 namespace ktomgirl {
 class KTGMenu : public KMenu {
 public:
   KTGMenu(void);
+  KTGMenu(const char*);
   ~KTGMenu(void); 
 };
 } // namespace ktomgirl 

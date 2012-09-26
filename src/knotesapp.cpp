@@ -29,6 +29,7 @@
 // BEGIN KTOMGIRL INCLUDES
 #include "ktgconfig.h"
 #include "ktgitem.h"
+#include "ktgmenu.h"
 #include "ktgsystray.h"
 #include "searchwindow.h"
 // END   KTOMGIRL INCLUDES
@@ -139,9 +140,10 @@ KNotesApp::KNotesApp()
 
   // BEGIN KStatusNotifierItem
   //ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
-  m_tray = new ktomgirl::KTGSystray();
+  m_tray = new ktomgirl::KTGSystray(this, "ktomgirl");
 
   KMenu *m_menu = new KMenu("KTomGirl");
+  //KTGMenu *m_menu = m_tray->noteMenu();
 
   connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotOpenNote(QAction*) ) );
 
@@ -564,7 +566,8 @@ void  KNotesApp::slotOpenNote(QAction *act){
 void KNotesApp::showNote( KNote *note ) const
 {
   note->show();
-  KMenu *m_menu = m_tray->contextMenu();
+  KTGMenu *m_menu = m_tray->contextMenu();
+  //KMenu *m_menu = m_tray->noteMenu();
   // FIXME: Need to get note's actual name...
   QAction *act = new QAction(note->name(), m_tray);
   act->setData( QVariant( note->name() ));
