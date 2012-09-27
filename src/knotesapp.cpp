@@ -29,7 +29,6 @@
 // BEGIN KTOMGIRL INCLUDES
 #include "ktgconfig.h"
 #include "ktgitem.h"
-#include "ktgmenu.h"
 #include "ktgsystray.h"
 #include "searchwindow.h"
 // END   KTOMGIRL INCLUDES
@@ -139,13 +138,11 @@ KNotesApp::KNotesApp()
   connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
 
   // BEGIN KStatusNotifierItem
-  //ktomgirl::KTGSystray *m_tray = new ktomgirl::KTGSystray();
   m_tray = new ktomgirl::KTGSystray(this, "ktomgirl");
 
   KMenu *m_menu = new KMenu("KTomGirl");
-  //KTGMenu *m_menu = m_tray->noteMenu();
 
-  connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotOpenNote(QAction*) ) );
+  connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotShowNote(QAction*) ) );
 
   QAction *quitAct = new QAction("&Quit", m_tray);
   m_menu->addAction(quitAct);
@@ -159,7 +156,6 @@ KNotesApp::KNotesApp()
   m_menu->addAction(createAct);
   connect( createAct, SIGNAL( triggered() ), SLOT( createNote() ) );
 
-  m_menu->addSeparator();
 
   m_tray->setContextMenu(m_menu);
   m_tray->activate();
@@ -547,44 +543,6 @@ void KNotesApp::slotQuit()
   kapp->quit();
 }
 
-// -------------------- private methods -------------------- //
-
-void  KNotesApp::slotOpenNote(QAction *act){
-	qDebug() << __PRETTY_FUNCTION__ << "Fixme not done!!";
-	/*
-	QString qsNote;
-	QVariant qvar = act->data();
-	// Get the uid from the name of the title of the note and use this to show the note
-	//showNote(m_searchWindow->uidFromString(qvar.toString()));
-	qsNote = qvar.toString();
-	//showNote(qsNote);
-	KNote *note = m_notes.value( qsNote );
-  	if ( note ) {
-    	 showNote( qsNote );
-    }
-	openNote(qsNote);
-	*/
-	return;	
-	
-}	
-
-void KNotesApp::showNote( KNote *note ) const
-{
-	/*
-  note->show();
-  KTGMenu *m_menu = m_tray->contextMenu();
-  //KMenu *m_menu = m_tray->noteMenu();
-  // FIXME: Need to get note's actual name...
->>>>>>> 3d94622be76d89e9fc448b1f48b8dadd9c5ba889
-  QAction *act = new QAction(note->name(), m_tray);
-  QString name = note->name();
-  qDebug() << "uid: " << m_searchWindow->uidFromString(name);
-  m_tray->addNoteAction(act, name, m_searchWindow->uidFromString(name));
-  note->show();
-  note->setFocus();
-	*/
-}
-
 void KNotesApp::slotShowSearchWindow(){
 	m_searchWindow->show();
 	m_searchWindow->raise();
@@ -682,7 +640,7 @@ void KNotesApp::updateNoteActions()
 
     KAction *action = new KAction( note->name().replace( "&", "&&" ), this );
 		action->setObjectName( note->noteId() );
-    connect( action, SIGNAL( triggered( bool ) ), SLOT( slotShowNote() ) );
+    connect( action, SIGNAL( triggered( bool ) ), SLOT( slotOpenNote() ) );
     KIconEffect effect;
     QPixmap icon =
       effect.apply( qApp->windowIcon().pixmap( IconSize( KIconLoader::Small ),
@@ -822,6 +780,48 @@ void KNotesApp::slotSpewOpenNotes(){
     		qDebug() << note->name();
   	}
 }
+
+// BEGIN KNotesApp::showNote(KNote *)
+void KNotesApp::showNote( KNote *note ) const
+{
+  qDebug() << __PRETTY_FUNCTION__ << "uid: " << m_notes.key( note );
+  QString l_uid = m_notes.key( note );
+  KMenu *m_menu = m_tray->contextMenu();
+  QAction *act = new QAction(note->name(), m_tray);
+  connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotOpenNote(QAction*) ) );
+  m_tray->addNoteAction(act, l_uid);
+
+  note->show();
+#ifdef Q_WS_X11
+  KWindowSystem::setCurrentDesktop( KWindowSystem::windowInfo( note->winId(),
+                                    NET::WMDesktop ).desktop() );
+  KWindowSystem::forceActiveWindow( note->winId() );
+#endif
+  note->setFocus();
+}
+// END KNotesApp::showNote(KNote *)
+
+// BEGIN KNotesApp::slotOpenNote(QAction*)
+void  KNotesApp::slotOpenNote(QAction *act){
+	// FIXME: Open note here...
+	QVariant qvar = act->data();
+	QString l_uid = qvar.toString();
+	if ( 0 == l_uid.length() ){
+		return;
+	}
+
+	KNote *note = m_notes.value(l_uid);
+  	if ( note ) {
+		showNote(l_uid);
+		return;	
+  	}
+
+	qDebug() << __PRETTY_FUNCTION__ << "open note";
+	openNote(l_uid);
+	return;	
+}	
+
+// END KNotesApp::slotOpenNote(QAction*)
 
 } // namespace knotes
 // Sat Aug  4 15:40:59 PDT 2012
