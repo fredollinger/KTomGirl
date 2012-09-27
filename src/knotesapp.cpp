@@ -579,22 +579,27 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 
 void KNotesApp::slotDeleteNote(const QString &qsTitle){
 	qDebug() << __PRETTY_FUNCTION__ << "note: " << qsTitle << "FIXME: NOT DONE";
+
 	m_searchWindow->deleteItem(qsTitle);	
 
 	// BEGIN FIND THE GNOTE
-    std::string title = qsTitle.toStdString();
-    gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
-    QString m_content = QString::fromStdString(gnote->text_content());
-    QString uid = QString::fromStdString(gnote->uid());
+	std::string title = qsTitle.toStdString();
+	gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
+	QString m_content = QString::fromStdString(gnote->text_content());
+	QString uid = QString::fromStdString(gnote->uid());
 	// END FIND THE GNOTE
+	
+	// delete note from systray
+	m_tray->removeNoteAction(uid);
 
 	// delete knote from list
 	KNote *knote = m_notes.value(uid);
+
 	// delete actual knote
 	delete knote;
 
 	// delete gnote from list
-    m_gnmanager->delete_note(gnote);
+	m_gnmanager->delete_note(gnote);
 }
 
 
@@ -824,4 +829,4 @@ void  KNotesApp::slotOpenNote(QAction *act){
 // END KNotesApp::slotOpenNote(QAction*)
 
 } // namespace knotes
-// Sat Aug  4 15:40:59 PDT 2012
+// Thu Sep 27 12:54:48 PDT 2012

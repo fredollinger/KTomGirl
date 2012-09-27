@@ -77,6 +77,5 @@ void KTGSystray::removeNoteAction(const QString &qs){
 		}
   	}
 }
-
-
 } // namespace ktomgirl
+// Thu Sep 27 12:54:57 PDT 2012
