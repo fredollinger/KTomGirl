@@ -169,8 +169,7 @@ void SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 	emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
 }
 
-void
-SearchWindow::setItemName(const QString &neu, const QString &old){
+void SearchWindow::setItemName(const QString &neu, const QString &old){
 	QList<QTableWidgetItem*> ql = 
  	m_notesDialog->tableNotes->findItems ( old, Qt::MatchExactly);
 	if (ql.count() < 1){

@@ -17,11 +17,11 @@ public:
 	void quit(void);
 	void addNoteAction(QAction*, const QString&);
 	void removeNoteAction(const QString&);
+	void init(void);
 
 public slots:
 	void slotQuit(void);
-	// common code in all constructors
-	void init(void);
+	void setItemName(const QString&, const QString&);
 
 private:
 	QStringList m_qslNotes; // list of the notes uids

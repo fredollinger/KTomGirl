@@ -126,7 +126,7 @@ class KNotesApp
     void saveNotes( const QString & uid );
     void updateNoteActions();
     void updateNetworkListener();
-    void updateStyle();
+    // void updateStyle();
 
     void createNote();
     void createNote( KCal::Journal *journal );

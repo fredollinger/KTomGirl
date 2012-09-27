@@ -11,13 +11,11 @@ KTGSystray::KTGSystray(QWidget* pParent, const char* szName) : KStatusNotifierIt
 }
 
 void KTGSystray::init(){
-	// BEGIN KStatusNotifierItem
         setIconByPixmap(QIcon(":/icons/notebook.png"));
   	setStatus( KStatusNotifierItem::Active );
   	setCategory( KStatusNotifierItem::ApplicationStatus );
   	setStandardActionsEnabled(false);
   	setTitle(QString("KTomgirl"));
-	// END KStatusNotifierItem
 	return;
 } 
 
@@ -76,6 +74,15 @@ void KTGSystray::removeNoteAction(const QString &qs){
 			return;
 		}
   	}
+}
+
+void KTGSystray::setItemName(const QString &neu, const QString &old){
+	// Find the note that matches
+	foreach ( QAction *act, m_actions ) {
+		qDebug() << __PRETTY_FUNCTION__ << act->iconText();
+		if (act->iconText() == old)
+			act->setText(neu);
+	}
 }
 } // namespace ktomgirl
 // Thu Sep 27 12:54:57 PDT 2012

@@ -684,16 +684,20 @@ void KNotesApp::updateNetworkListener()
     m_publisher=0;
 }
 
+/*
 void KNotesApp::updateStyle()
 {
   foreach ( KNote *note, m_notes ) {
     QApplication::postEvent( note, new QEvent( QEvent::LayoutRequest ) );
   }
 }
+*/
 
 /* Common code for createNote() and newNote() */
 void KNotesApp::noteInit( KNote *newNote){
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
+
+  connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_tray, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
 
   connect( newNote, SIGNAL( sigKillNote(const QString&) ), this, SLOT( slotDeleteNote(const QString&)), Qt::QueuedConnection  );
 
@@ -825,7 +829,6 @@ void  KNotesApp::slotOpenNote(QAction *act){
 	openNote(l_uid);
 	return;	
 }	
-
 // END KNotesApp::slotOpenNote(QAction*)
 
 } // namespace knotes
