@@ -16,6 +16,7 @@ public:
 	~KTGSystray();
 	void quit(void);
 	void addNoteAction(QAction*, const QString&);
+	void removeNoteAction(const QString&);
 
 public slots:
 	void slotQuit(void);
@@ -23,7 +24,8 @@ public slots:
 	void init(void);
 
 private:
-	QStringList m_qslNotes;
+	QStringList m_qslNotes; // list of the notes uids
+    	QMap<QString, QAction*> m_actions; // uid, qaction for quick look up
 
 }; // class KTGSystray
 } // namespace ktomgirl
