@@ -9,7 +9,9 @@
 
 #include "ui_searchwindow.h"
 #include "notesdialog.h"
+#include "notesdialog.h"
 #include "notebooksdialog.h"
+#include "searchbar.h"
 
 // GNOTE INCLUDES
 #include <libktomgirl/note.hpp>
@@ -46,6 +48,8 @@ private:
 	int m_row; // current row
 	NotesDialog *m_notesDialog;
 	NotebooksDialog *m_notebooksDialog;
+	SearchBar *m_searchBar;
+
 signals:
 	void signalNoteSelected(ktomgirl::KTGItem*);
 
@@ -58,4 +62,4 @@ public slots:
 
 }; // class SearchWindow
 #endif // SEARCH_WINDOW_H
-// Wed Mar 28 14:36:01 PDT 2012
+// Fri Sep 28 13:00:43 PDT 2012

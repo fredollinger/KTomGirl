@@ -1,9 +1,9 @@
 UIC=uic-qt4
-UI_HEADERS= ui_searchwindow.h
+UI_HEADERS= ui_searchwindow.h ui_searchbar.h
 
 # .PHONY: ktgconfigskel.h
 
-all: ui_searchwindow.h ui_notesdialog.h ui_notebooksdialog.h ktgconfigskel.h
+all: ui_searchwindow.h ui_notesdialog.h ui_notebooksdialog.h ktgconfigskel.h ui_searchbar.h
 	mkdir -p build
 	cd build && make 2>err
 setup:
@@ -12,9 +12,11 @@ setup:
 err:
 	vim build/err
 clean:
-	rm -f ui_searchwindow.h && cd build && make clean
+	cd build && make clean
 	mv ktgconfigskel.cpp ktgconfigskel.h /tmp
+
 dist-clean:
+	make clean
 	rm $(UI_HEADERS)
 
 build/ktomgirl:
@@ -30,6 +32,9 @@ test:
 
 ui_searchwindow.h:
 	$(UIC) ui/searchwindow.ui > ui_searchwindow.h
+
+ui_searchbar.h:
+	$(UIC) ui/searchbar.ui > ui_searchbar.h
 
 newprojectlayout4.h:
 	uic-qt4 ui/newprojectlayout4.ui > newprojectlayout4.h 

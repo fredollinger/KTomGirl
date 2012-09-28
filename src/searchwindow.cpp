@@ -23,7 +23,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 // BEGIN QT INCLUDES
 #include <qdebug.h>
 #include <QMainWindow>
@@ -36,6 +35,7 @@
 
 // KTOMGIRL INCLUDES
 #include "ktgitem.h"
+#include "searchbar.h"
 #include "searchwindow.h"
 #include "notesdialog.h"
 #include "notebooksdialog.h"
@@ -59,8 +59,11 @@ m_row(0)
 	// BEGIN NOTES DIALOG
 	m_notesDialog = new NotesDialog();
 	m_notesDialog->showMaximized();
-    m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-   	addDockWidget(Qt::RightDockWidgetArea, m_notesDialog);
+
+        m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
+
+        m_notesDialog->setFeatures(QDockWidget::AllDockWidgetFeatures);
+   	addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
 
 	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
 	m_notesDialog->tableNotes->setShowGrid(false);
@@ -74,11 +77,20 @@ m_row(0)
 	dateHeader->setTextAlignment(Qt::AlignLeft);
 	// END NOTES DIALOG
 
+	// BEGIN SEARCH BAR
+	m_searchBar = new SearchBar();
+   	//m_searchBar->setAllowedAreas(Qt::TopDockWidgetArea);
+        m_searchBar->setFeatures(QDockWidget::AllDockWidgetFeatures);
+   	addDockWidget(Qt::TopDockWidgetArea, m_searchBar);
+	// END SEARCH BAR
+
 	// BEGIN NOTEBOOKS DIALOG
 	m_notebooksDialog = new NotebooksDialog();
 	m_notebooksDialog->showMaximized();
-   	m_notebooksDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-   	addDockWidget(Qt::LeftDockWidgetArea, m_notebooksDialog);
+
+        m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
+        m_notebooksDialog->setFeatures(QDockWidget::AllDockWidgetFeatures);
+   	addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
 
 	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
     QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
@@ -88,6 +100,7 @@ m_row(0)
 
  	connect (m_notesDialog->tableNotes, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(slotItemClicked(QTableWidgetItem*)));
 	// END NOTEBOOKS DIALOG
+
 
 } // END SEARCH WINDOW
 
