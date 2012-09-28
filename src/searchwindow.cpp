@@ -56,6 +56,28 @@ m_row(0)
 
 	m_list = gnote::Gnote::get_note_list();
 
+	// BEGIN SEARCH BAR
+	m_searchBar = new SearchBar();
+   	//m_searchBar->setAllowedAreas(Qt::TopDockWidgetArea);
+        m_searchBar->setFeatures(QDockWidget::AllDockWidgetFeatures);
+   	addDockWidget(Qt::TopDockWidgetArea, m_searchBar);
+	// END SEARCH BAR
+
+
+	// BEGIN NOTEBOOKS DIALOG
+	m_notebooksDialog = new NotebooksDialog();
+	m_notebooksDialog->showMaximized();
+
+        m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
+        m_notebooksDialog->setFeatures(QDockWidget::AllDockWidgetFeatures);
+   	addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
+
+	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
+    QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
+	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
+
+	// END NOTEBOOKS DIALOG
+
 	// BEGIN NOTES DIALOG
 	m_notesDialog = new NotesDialog();
 	m_notesDialog->showMaximized();
@@ -75,32 +97,11 @@ m_row(0)
 
     QTableWidgetItem *dateHeader = m_notesDialog->tableNotes->horizontalHeaderItem(1);
 	dateHeader->setTextAlignment(Qt::AlignLeft);
-	// END NOTES DIALOG
 
-	// BEGIN SEARCH BAR
-	m_searchBar = new SearchBar();
-   	//m_searchBar->setAllowedAreas(Qt::TopDockWidgetArea);
-        m_searchBar->setFeatures(QDockWidget::AllDockWidgetFeatures);
-   	addDockWidget(Qt::TopDockWidgetArea, m_searchBar);
-	// END SEARCH BAR
-
-	// BEGIN NOTEBOOKS DIALOG
-	m_notebooksDialog = new NotebooksDialog();
-	m_notebooksDialog->showMaximized();
-
-        m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
-        m_notebooksDialog->setFeatures(QDockWidget::AllDockWidgetFeatures);
-   	addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
-
-	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
-    QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
-	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
-	
  	connect (m_notesDialog->tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
 
  	connect (m_notesDialog->tableNotes, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(slotItemClicked(QTableWidgetItem*)));
-	// END NOTEBOOKS DIALOG
-
+	// END NOTES DIALOG
 
 } // END SEARCH WINDOW
 
