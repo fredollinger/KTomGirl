@@ -90,11 +90,13 @@ class KNotesApp
     ktomgirl::KTGConfig *m_config;
 
   public slots:
-	void slotOpenNote(QAction*);
+    void slotHandleSearch(QString);
+    void slotOpenNote(QAction*);
     void slotCloseNote(const QString&);
     QString newNote( const QString &name = QString(),
                      const QString &text = QString() );
     QString newNoteFromClipboard( const QString &name = QString() );
+
 
     void hideAllNotes() const;
     void openNote(ktomgirl::KTGItem*);
@@ -110,8 +112,8 @@ class KNotesApp
     void slotShowNote();
     void slotWalkThroughNotes();
 
-    void slotOpenFindDialog();
-    void slotFindNext();
+    //void slotOpenFindDialog();
+    //void slotFindNext();
 
     void slotPreferences();
     void slotConfigureAccels();

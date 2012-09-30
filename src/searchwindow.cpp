@@ -58,19 +58,22 @@ m_row(0)
 
 	// BEGIN SEARCH BAR
 	m_searchBar = new SearchBar();
-   	//m_searchBar->setAllowedAreas(Qt::TopDockWidgetArea);
-        m_searchBar->setFeatures(QDockWidget::AllDockWidgetFeatures);
+        m_searchBar->setFeatures(QDockWidget::NoDockWidgetFeatures);
    	addDockWidget(Qt::TopDockWidgetArea, m_searchBar);
+ 	connect (m_searchBar->lineEditSearch, SIGNAL(returnPressed()), this, SLOT(slotHandleSearch()));
+	//m_searchBar->resize(10, 50);
 	// END SEARCH BAR
 
 
 	// BEGIN NOTEBOOKS DIALOG
 	m_notebooksDialog = new NotebooksDialog();
-	m_notebooksDialog->showMaximized();
+	//m_notebooksDialog->showMaximized();
 
         m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
-        m_notebooksDialog->setFeatures(QDockWidget::AllDockWidgetFeatures);
+        m_notebooksDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
+
    	addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
+	//m_notebooksDialog->setMinimumSize();
 
 	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
     QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
@@ -84,7 +87,7 @@ m_row(0)
 
         m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
 
-        m_notesDialog->setFeatures(QDockWidget::AllDockWidgetFeatures);
+        m_notesDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
    	addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
 
 	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
@@ -133,17 +136,14 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 
 		// BEGIN ITEM ONE
 		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
-		//item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 		item->setIcon(notebookIcon);
 		m_notesDialog->tableNotes->setItem ( m_row, 0, item );
 		// END ITEM ONE
 
 		// BEGIN ITEM TWO
   		sharp::DateTime qdt = note->data().change_date();
-		//qs = QString::fromStdString(qdt.to_iso8601());
 		qs = QString::fromStdString(qdt.to_string());
 		item = new ktomgirl::KTGItem(qs, note);
-		//item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
 		// END ITEM TWO
 
@@ -193,25 +193,20 @@ void SearchWindow::setItemName(const QString &neu, const QString &old){
 	ql[0]->setText(neu);
 }
 
-void
-SearchWindow::newItem(gnote::Note::Ptr & note){
+void SearchWindow::newItem(gnote::Note::Ptr & note){
 	QString name = QString::fromStdString(note->get_title());
 
   	KIcon notebookIcon = KIcon(":/icons/notebook.png");
 
 
 	QDateTime qdt = QDateTime::currentDateTime();
-	//QDateTime qdt = QString::fromStdString(note->date()->create_date());
 
-	// BEGIN DEBUG
-  	sharp::DateTime dt = note->data().change_date();
-	// END DEBUG
-
-	// FIXME: Need to get the date time in here...
+	// BEGIN DEPRECATED
+  	// sharp::DateTime dt = note->data().change_date();
+	// END DEPRECATED
 
 	// BEGIN FIRST ITEM
 	ktomgirl::KTGItem *item = new ktomgirl::KTGItem(name, note);
-//	item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 	m_notesDialog->tableNotes->insertRow ( 0 );
 	m_notesDialog->tableNotes->setItem ( 0 , 0, item );
 	item->setIcon(notebookIcon);
@@ -220,7 +215,6 @@ SearchWindow::newItem(gnote::Note::Ptr & note){
 	// BEGIN SECOND ITEM
 	name = qdt.toString();
 	item = new ktomgirl::KTGItem(name, note);
-//	item->setData(Qt::BackgroundRole, (m_row%2)>0 ? Qt::white : Qt::lightGray);
 	m_notesDialog->tableNotes->setItem ( 0 , 1, item );
 	// END SECOND ITEM
 
@@ -228,8 +222,7 @@ SearchWindow::newItem(gnote::Note::Ptr & note){
 	return;
 }
 
-void
-SearchWindow::deleteItem(const QString &qs){
+void SearchWindow::deleteItem(const QString &qs){
 
 	QList<QTableWidgetItem*> ql = 
  	m_notesDialog->tableNotes->findItems ( qs, Qt::MatchExactly);
@@ -240,10 +233,13 @@ SearchWindow::deleteItem(const QString &qs){
 	
 	int row = m_notesDialog->tableNotes->row(ql[0]);
 	m_notesDialog->tableNotes->removeRow (row); 
-	// void QTableWidget::removeRow ( int row ) [slot]
 	styleNotes();
 	return;
 }
 
-//QList<QTableWidgetItem *> QTableWidget::findItems ( const QString & text, Qt::MatchFlags flags ) const
-// Sat May 26 17:49:08 PDT 2012
+void SearchWindow::slotHandleSearch(){
+	qDebug() << __PRETTY_FUNCTION__;
+	emit signalHandleSearch(m_searchBar->lineEditSearch->text() );
+}
+
+// Sun Sep 30 09:51:20 PDT 2012

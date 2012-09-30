@@ -73,7 +73,7 @@
 
 #include <dnssd/publicservice.h>
 
-using namespace ktomgirl;
+//using namespace ktomgirl;
 
 namespace knotes{
 class KNotesKeyDialog
@@ -128,7 +128,6 @@ KNotesApp::KNotesApp()
   m_searchWindow = new SearchWindow( this );
   m_searchWindow->loadNotes(m_gnmanager->get_notes());
   m_searchWindow->show();
-  // END SEARCH WINDOW
 
   connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
   connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
@@ -136,6 +135,9 @@ KNotesApp::KNotesApp()
   connect( m_searchWindow->actionShow_Open_Notes, SIGNAL( triggered() ), SLOT( slotSpewOpenNotes() ) );
 
   connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
+
+  connect( m_searchWindow, SIGNAL( signalHandleSearch(QString) ), SLOT( slotHandleSearch(QString) ) );
+  // END SEARCH WINDOW
 
   // BEGIN KStatusNotifierItem
   m_tray = new ktomgirl::KTGSystray(this, "ktomgirl");
@@ -418,6 +420,8 @@ void KNotesApp::slotWalkThroughNotes()
   }
 }
 
+#if 0
+// BEGIN DEPRECATED
 void KNotesApp::slotOpenFindDialog()
 {
   KFindDialog findDia( this );
@@ -459,6 +463,8 @@ void KNotesApp::slotFindNext()
     m_findPos = 0;
   }
 }
+// END DEPRECATED
+#endif
 
 void KNotesApp::slotPreferences()
 {
@@ -831,5 +837,18 @@ void  KNotesApp::slotOpenNote(QAction *act){
 }	
 // END KNotesApp::slotOpenNote(QAction*)
 
+void  KNotesApp::slotHandleSearch(QString qs){
+	qDebug() << __PRETTY_FUNCTION__ << qs; 
+
+#if 0
+	// BEGIN FIND THE GNOTE
+	std::string title = qsTitle.toStdString();
+	gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
+	QString m_content = QString::fromStdString(gnote->text_content());
+	QString uid = QString::fromStdString(gnote->uid());
+	// END FIND THE GNOTE
+#endif
+}
+
 } // namespace knotes
-// Thu Sep 27 12:54:48 PDT 2012
+// Sun Sep 30 10:42:55 PDT 2012

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>113</height>
+    <width>600</width>
+    <height>75</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,27 +18,30 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>500</width>
-    <height>113</height>
+    <width>600</width>
+    <height>75</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>500</width>
-    <height>500</height>
+    <width>600</width>
+    <height>75</height>
    </size>
   </property>
+  <property name="features">
+   <set>QDockWidget::NoDockWidgetFeatures</set>
+  </property>
   <property name="windowTitle">
-   <string>DockWidget</string>
+   <string/>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <widget class="QLabel" name="labelIcon">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>10</y>
-      <width>77</width>
-      <height>61</height>
+      <y>0</y>
+      <width>41</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -54,8 +57,8 @@
    <widget class="QLabel" name="labelText">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>10</y>
+      <x>80</x>
+      <y>-10</y>
       <width>77</width>
       <height>61</height>
      </rect>
@@ -67,11 +70,17 @@
    <widget class="QLineEdit" name="lineEditSearch">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>20</y>
-      <width>301</width>
+      <x>170</x>
+      <y>10</y>
+      <width>401</width>
       <height>28</height>
      </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>16777215</height>
+     </size>
     </property>
    </widget>
   </widget>

@@ -52,12 +52,14 @@ private:
 
 signals:
 	void signalNoteSelected(ktomgirl::KTGItem*);
+	void signalHandleSearch(QString);
 
 
 public slots:
 	void emitNoteSelected(QTableWidgetItem*);
 	void setItemName(const QString&, const QString&);
 	void slotItemClicked(QTableWidgetItem*);
+	void slotHandleSearch(void);
 
 
 }; // class SearchWindow
