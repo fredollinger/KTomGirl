@@ -623,74 +623,6 @@ void KNote::createActions()
   // rename, mail, print, save as, insert date, alarm, close, delete, new note
   KAction *action;
 
-  #if 0
-  action  = new KAction( KIcon( "document-new" ), i18n( "New" ),  this );
-  actionCollection()->addAction( "new_note", action );
-  connect( action, SIGNAL( triggered( bool ) ), SLOT( slotRequestNewNote() ) );
-
-  action  = new KAction( KIcon( "edit-rename" ), i18n( "Rename..." ), this );
-  actionCollection()->addAction( "rename_note", action );
-  connect( action, SIGNAL( triggered( bool ) ), SLOT( slotRename() ) );
-
-  m_readOnly  = new KToggleAction( KIcon( "object-locked" ),
-                                   i18n( "Lock" ), this );
-  actionCollection()->addAction( "lock_note", m_readOnly );
-  connect( m_readOnly, SIGNAL( triggered( bool ) ),
-  m_readOnly->setCheckedState( KGuiItem( i18n( "Unlock" ), "object-unlocked" ) );
-
-  action  = new KAction( KIcon( "window-close" ), i18n( "Hide" ), this );
-  actionCollection()->addAction( "hide_note", action );
-  // connect( action, SIGNAL( triggered( bool ) ), SLOT( slotClose() ) );
-  action->setShortcut( QKeySequence( Qt::Key_Escape ) );
-
-  //action  = new KAction( KIcon( "edit-delete" ), i18n( "Delete" ), this );
-  //actionCollection()->addAction( "delete_note", action );
-  //connect( action, SIGNAL( triggered( bool ) ), SLOT( slotKill() ),Qt::QueuedConnection );
-
-  action  = new KAction( KIcon( "knotes_date" ), i18n( "Insert Date" ), this );
-  actionCollection()->addAction( "insert_date", action );
-  connect( action, SIGNAL( triggered( bool ) ), SLOT( slotInsDate() ) );
-
-  action  = new KAction( KIcon( "knotes_alarm" ), i18n( "Set Alarm..." ),
-                         this );
-  actionCollection()->addAction( "set_alarm", action );
-  connect( action, SIGNAL( triggered( bool ) ), SLOT( slotSetAlarm() ) );
-
-  action  = new KAction( KIcon( "network-wired" ), i18n( "Send..." ), this );
-  actionCollection()->addAction( "send_note", action );
-  connect( action, SIGNAL( triggered( bool ) ), SLOT( slotSend() ) );
-
-  action  = new KAction( KIcon( "mail-send" ), i18n( "Mail..." ), this );
-  actionCollection()->addAction( "mail_note", action );
-  connect( action, SIGNAL( triggered( bool ) ), SLOT( slotMail() ) );
-
-  //action  = new KAction( KIcon( "document-save-as" ), i18n( "Save As..." ),
-                                //this );
-  //actionCollection()->addAction( "save_note", action );
-  //connect( action, SIGNAL( triggered( bool ) ), SLOT( slotSaveAs() ) );
-  //actionCollection()->addAction( KStandardAction::Print,  "print_note", this,
-                                 //SLOT( slotPrint() ) );
-
-  action  = new KAction( KIcon( "configure" ), i18n( "Preferences..." ), this );
-  actionCollection()->addAction( "configure_note", action );
-  connect( action, SIGNAL( triggered( bool ) ), SLOT( slotPreferences() ) );
-
-
-
-  m_keepAbove  = new KToggleAction( KIcon( "go-up" ),
-                                    i18n( "Keep Above Others" ), this );
-  actionCollection()->addAction( "keep_above", m_keepAbove );
-  connect( m_keepAbove, SIGNAL( triggered( bool ) ),
-           SLOT( slotKeepAbove() ) );
-
-  m_keepBelow  = new KToggleAction( KIcon( "go-down" ),
-                                    i18n( "Keep Below Others" ), this );
-  actionCollection()->addAction( "keep_below", m_keepBelow );
-  connect( m_keepBelow, SIGNAL( triggered( bool ) ),
-           SLOT( slotKeepBelow() ) );
-
-#endif
-
 #ifdef Q_WS_X11
   m_toDesktop  = new KSelectAction( i18n( "To Desktop" ), this );
   actionCollection()->addAction( "to_desktop", m_toDesktop );
@@ -698,24 +630,16 @@ void KNote::createActions()
            SLOT( slotPopupActionToDesktop( int ) ) );
   connect( m_toDesktop->menu(), SIGNAL( aboutToShow() ),
            SLOT( slotUpdateDesktopActions() ) );
-#endif
-
-  // invisible action to walk through the notes to make this configurable
-#if 0
-  action  = new KAction( i18n( "Walk Through Notes" ), this );
-  actionCollection()->addAction( "walk_notes", action );
-  connect( action, SIGNAL( triggered( bool ) ), SIGNAL( sigShowNextNote() ) );
-  action->setShortcut( QKeySequence( Qt::SHIFT + Qt::Key_Backtab ) );
-
-  actionCollection()->addAssociatedWidget( this );
-  foreach (QAction* action, actionCollection()->actions())
-    action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-#endif
+#endif // Q_WS_X11
 }
 
 void KNote::slotShowSearchWindow(){
 	emit sigShowSearchWindow();
 	
+}
+
+void KNote::slotShowNoteBookMenu(){
+	qDebug() << __PRETTY_FUNCTION__;
 }
 void KNote::createNoteHeader()
 {
@@ -753,9 +677,9 @@ void KNote::createNoteHeader()
   QAction *new_note_action = m_tool->addAction(iconNewNote, i18n("New Note"));
   connect(new_note_action, SIGNAL(triggered()), this, SLOT(emitNewNote()));
 
-  //KIcon iconNewNote = KIcon(":/icons/notebook.png");
-  //QAction *new_action = m_tool->addAction(iconNewNote, i18n("Trash"));
-  //connect(new_action, SIGNAL(triggered()), this, SLOT(slotCreateNewNote()));
+  KIcon iconNoteBook = KIcon(":/icons/notebook_edit.png");
+  QAction *noteBook_action = m_tool->addAction(iconNoteBook, i18n("Notebook"));
+  connect(noteBook_action, SIGNAL(triggered()), this, SLOT(slotShowNoteBookMenu()));
 
   m_noteLayout->addWidget( m_tool );
   m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
@@ -763,14 +687,6 @@ void KNote::createNoteHeader()
                                         // action menu )
   // setName( m_journal->summary() );      // don't worry, no signals are
                                         // connected at this stage yet
-  #if 0
-  m_button = new KNoteButton( "knotes_close", this );
-  headerLayout->addWidget( m_button );
-
-  connect( m_button, SIGNAL( clicked() ), this, SLOT( slotClose() ) );
-
-  m_noteLayout->addItem( headerLayout );
-  #endif
 }
 
 void KNote::createNoteEditor()

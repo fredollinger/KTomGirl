@@ -97,12 +97,13 @@ class KNote
 // END class KNote public:
 
   public slots:
-	void emitNewNote();
+    void emitNewNote();
     void slotRename(void);
     void slotKill(void);
-    // void slotClose(void);
     void formatTitle(void);
+    void slotShowNoteBookMenu(void);
     void slotShowSearchWindow(void);
+
   signals:
 	void sigNewNote(void);
     void sigRequestNewNote(void);
