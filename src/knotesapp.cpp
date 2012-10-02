@@ -150,11 +150,13 @@ KNotesApp::KNotesApp()
   m_menu->addAction(quitAct);
   connect( quitAct, SIGNAL( triggered() ), SLOT( slotQuit() ) );
 
-  QAction *searchAct = new QAction("&Search all notes", m_tray);
+  KIcon iconSearch = KIcon(":/icons/search.png");
+  QAction *searchAct = new QAction(iconSearch, "&Search all notes", m_tray);
   m_menu->addAction(searchAct);
   connect( searchAct, SIGNAL( triggered() ), SLOT( slotShowSearchWindow() ) );
 
-  QAction *createAct = new QAction("&Create new note", m_tray);
+  KIcon iconNewNote = KIcon(":/icons/notebook_edit.png");
+  QAction *createAct = new QAction(iconNewNote, "&Create new note", m_tray);
   m_menu->addAction(createAct);
   connect( createAct, SIGNAL( triggered() ), SLOT( createNote() ) );
 
@@ -802,7 +804,8 @@ void KNotesApp::showNote( KNote *note ) const
   qDebug() << __PRETTY_FUNCTION__ << "uid: " << m_notes.key( note );
   QString l_uid = m_notes.key( note );
   KMenu *m_menu = m_tray->contextMenu();
-  QAction *act = new QAction(note->name(), m_tray);
+  KIcon iconNote = KIcon(":/icons/notebook.png");
+  QAction *act = new QAction(iconNote, note->name(), m_tray);
   connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotOpenNote(QAction*) ) );
   m_tray->addNoteAction(act, l_uid);
 
