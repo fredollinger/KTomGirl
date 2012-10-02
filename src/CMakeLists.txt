@@ -32,6 +32,7 @@ ktgconfig.cpp
 ktgconfigskel.cpp
 ktgitem.cpp
 knote.cpp
+newnotebookdialog.cpp
 searchbar.cpp
 searchwindow.cpp
 resourcemanager.cpp

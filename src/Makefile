@@ -1,9 +1,9 @@
 UIC=uic-qt4
-UI_HEADERS= ui_searchwindow.h ui_searchbar.h
+UI_HEADERS= ui_searchwindow.h ui_notesdialog.h ui_notebooksdialog.h ktgconfigskel.h ui_searchbar.h ui_newnotebookdialog.h
 
 # .PHONY: ktgconfigskel.h
 
-all: ui_searchwindow.h ui_notesdialog.h ui_notebooksdialog.h ktgconfigskel.h ui_searchbar.h
+all: $(UI_HEADERS)
 	mkdir -p build
 	cd build && make 2>err
 setup:
@@ -51,5 +51,8 @@ ui_notesdialog.h:
 
 ui_notebooksdialog.h:
 	$(UIC) ui/notebooksdialog.ui > ui_notebooksdialog.h
+
+ui_newnotebookdialog.h:
+	$(UIC) ui/newnotebookdialog.ui > ui_newnotebookdialog.h
 
 # Sat May 19 09:33:42 PDT 2012
