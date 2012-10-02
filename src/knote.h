@@ -101,6 +101,7 @@ class KNote
     void slotRename(void);
     void slotKill(void);
     void formatTitle(void);
+    void slotNewNoteBook(void);
     void slotShowNoteBookMenu(void);
     void slotShowSearchWindow(void);
 
@@ -198,6 +199,7 @@ class KNote
 
     KFind         *m_find;
     KMenu         *m_menu;
+    KMenu         *m_noteBookMenu;
 
     KToggleAction *m_readOnly;
 

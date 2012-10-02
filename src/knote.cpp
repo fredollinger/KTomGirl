@@ -298,59 +298,16 @@ bool KNote::isModified() const
 
 // ------------------ private slots (menu actions) ------------------ //
 
-void KNote::slotRename()
-{
-  #if 0
-    m_blockEmitDataChanged = true;
-  // pop up dialog to get the new name
-  bool ok;
-  // const QString oldName = m_label->text();
-  const QString newName = KInputDialog::getText( QString::null, //krazy:exclude=nullstrassign for old broken gcc
-    // i18n( "Please enter the new name:" ), m_label->text(), &ok, this );
-  // m_blockEmitDataChanged = false;
-  if ( !ok || (oldName == newName) ) { // handle cancel
-    return;
-  }
-
-  setName( newName );
-  #endif
+void KNote::slotNewNoteBook(){
+	qDebug()<< __PRETTY_FUNCTION__;
 }
 
-// BEGIN void KNote::slotUpdateReadOnly()
-#if 0
-void KNote::slotUpdateReadOnly()
+void KNote::slotRename()
 {
-  const bool readOnly = m_readOnly->isChecked();
-
-  // m_editor->setReadOnly( readOnly );
-  // m_config->setReadOnly( readOnly );
-
-  // enable/disable actions accordingly
-  actionCollection()->action( "configure_note" )->setEnabled( !readOnly );
-  actionCollection()->action( "insert_date" )->setEnabled( !readOnly );
-  actionCollection()->action( "delete_note" )->setEnabled( true );
-  actionCollection()->action( "format_bold" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_italic" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_underline" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_strikeout" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_alignleft" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_aligncenter" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_alignright" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_alignblock" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_list" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_super" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_sub" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_increaseindent" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_decreaseindent" )->setEnabled( !readOnly );
-  actionCollection()->action( "text_background_color" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_size" )->setEnabled( !readOnly );
-  actionCollection()->action( "format_color" )->setEnabled( !readOnly );
-  actionCollection()->action( "rename_note" )->setEnabled( !readOnly);
-
-  updateFocus();
-} // END void KNote::slotUpdateReadOnly()
-#endif
-
+  m_blockEmitDataChanged = true;
+  m_blockEmitDataChanged = false;
+  return;
+}
 
 void KNote::commitData()
 {
@@ -614,6 +571,12 @@ void KNote::buildGui()
 
   m_menu = dynamic_cast<KMenu*>( factory.container( "note_context", this ) );
 
+  m_noteBookMenu = new KMenu("notebook", this);
+
+  KIcon iconNoteBook = KIcon(":/icons/notebook_edit.png");
+  QAction *notebook_action = m_noteBookMenu->addAction(iconNoteBook, i18n("New Notebook..."));
+  connect(notebook_action, SIGNAL(triggered()), this, SLOT(slotNewNoteBook()));
+
   createNoteFooter();
 }
 
@@ -640,7 +603,9 @@ void KNote::slotShowSearchWindow(){
 
 void KNote::slotShowNoteBookMenu(){
 	qDebug() << __PRETTY_FUNCTION__;
+	m_noteBookMenu->exec(QCursor::pos());
 }
+
 void KNote::createNoteHeader()
 {
   // load style configuration
