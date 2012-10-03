@@ -35,6 +35,7 @@
 
 #include "knoteedit.h"
 #include "ktgitem.h"
+#include "newnotebookdialog.h"
 
 #include <libktomgirl/note.hpp>
 
@@ -104,9 +105,11 @@ class KNote
     void slotNewNoteBook(void);
     void slotShowNoteBookMenu(void);
     void slotShowSearchWindow(void);
+    void slotMakeNoteBook(QString nb);
 
   signals:
-	void sigNewNote(void);
+    void sigNewNoteBook(QString);
+    void sigNewNote(void);
     void sigRequestNewNote(void);
     void sigNameChanged(const QString &);
     void sigNameChanged(const QString &, ktomgirl::KTGItem&);
@@ -164,6 +167,8 @@ class KNote
 
 // BEGIN class KNote private:
   private:
+    NewNoteBookDialog *m_dlg;
+
     QString m_content;
     QString m_title;
     QTimer *saveTimer;

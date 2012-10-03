@@ -25,6 +25,7 @@
 
 // knotes includes
 #include "knote.h"
+#include "newnotebookdialog.h"
 #include "version.h"
 
 // gnote includes
@@ -297,10 +298,6 @@ bool KNote::isModified() const
 }
 
 // ------------------ private slots (menu actions) ------------------ //
-
-void KNote::slotNewNoteBook(){
-	qDebug()<< __PRETTY_FUNCTION__;
-}
 
 void KNote::slotRename()
 {
@@ -1330,6 +1327,25 @@ void KNote::slotSave(){
   // we do this to save resources so we don't save every single note
   // that is closed only those who have changed.
   m_gnote->changed();
+}
+
+void KNote::slotMakeNoteBook(QString nb){
+	emit sigNewNoteBook(nb);
+}
+
+void KNote::slotNewNoteBook(){
+	qDebug()<< __PRETTY_FUNCTION__;
+
+	m_dlg = new NewNoteBookDialog();
+	m_dlg->show();
+
+	connect(m_dlg->buttonCancel, SIGNAL(clicked()), m_dlg, SLOT(hide()));
+	connect(m_dlg->buttonOK, SIGNAL(slotNew(QString)), this, SLOT(slotMakeNoteBook(QString)));
+
+
+//	delete dlg;
+
+	return;
 }
 // END KNOTE SLOTS
 }// namespace knotes

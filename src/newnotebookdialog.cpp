@@ -13,4 +13,6 @@ NewNoteBookDialog::NewNoteBookDialog(QWidget* pParent, const char* szName)
 
 NewNoteBookDialog::~NewNoteBookDialog() 
 {
+	qDebug() << __PRETTY_FUNCTION__;
 }
+// Tue Oct  2 19:08:11 PDT 2012
