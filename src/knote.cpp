@@ -1329,8 +1329,8 @@ void KNote::slotSave(){
   m_gnote->changed();
 }
 
-void KNote::slotMakeNoteBook(QString nb){
-	emit sigNewNoteBook(nb);
+void KNote::slotMakeNoteBook(const QString &nb){
+	emit sigNewNotebook(nb);
 }
 
 void KNote::slotNewNoteBook(){

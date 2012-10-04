@@ -714,6 +714,8 @@ void KNotesApp::noteInit( KNote *newNote){
   connect( newNote, SIGNAL( sigNewNote() ), this, SLOT( createNote()), Qt::QueuedConnection  );
 
   connect( newNote, SIGNAL( sigCloseNote(const QString&) ), this, SLOT( slotCloseNote(const QString&)), Qt::QueuedConnection  );
+
+  connect( newNote, SIGNAL( sigNewNotebook(const QString&) ), this, SLOT( slotNewNotebook(const QString&)), Qt::QueuedConnection  );
 }
 
 /* Perhaps we can combine this with the latter part of the
@@ -839,6 +841,10 @@ void  KNotesApp::slotOpenNote(QAction *act){
 	return;	
 }	
 // END KNotesApp::slotOpenNote(QAction*)
+
+void  KNotesApp::slotNewNotebook(const QString &qs){
+	qDebug() << __PRETTY_FUNCTION__ << qs;
+}
 
 void  KNotesApp::slotHandleSearch(QString qs){
 	qDebug() << __PRETTY_FUNCTION__ << qs; 
