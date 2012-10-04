@@ -105,7 +105,7 @@ class KNote
     void slotNewNoteBook(void);
     void slotShowNoteBookMenu(void);
     void slotShowSearchWindow(void);
-    void slotMakeNoteBook(const QString&);
+    void slotMakeNoteBook();
 
   signals:
     void sigNewNotebook(const QString&);

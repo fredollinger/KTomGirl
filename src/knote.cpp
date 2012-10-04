@@ -1329,21 +1329,26 @@ void KNote::slotSave(){
   m_gnote->changed();
 }
 
-void KNote::slotMakeNoteBook(const QString &nb){
-	emit sigNewNotebook(nb);
+void KNote::slotMakeNoteBook(){
+//	QString nb = QString("KNote::slotMakeNoteBook()");
+	qDebug()<< __PRETTY_FUNCTION__;
+	emit sigNewNotebook(m_dlg->lineEdit->text());
+	m_dlg->hide();
 }
 
 void KNote::slotNewNoteBook(){
 	qDebug()<< __PRETTY_FUNCTION__;
 
 	m_dlg = new NewNoteBookDialog();
-	m_dlg->show();
 
 	connect(m_dlg->buttonCancel, SIGNAL(clicked()), m_dlg, SLOT(hide()));
-	connect(m_dlg->buttonOK, SIGNAL(slotNew(QString)), this, SLOT(slotMakeNoteBook(QString)));
+//	connect(m_dlg->buttonOK, SIGNAL(slotNewNotebook(QString)), this, SLOT(slotMakeNoteBook(QString)));
+	connect(m_dlg->buttonOK, SIGNAL(clicked()), this, SLOT(slotMakeNoteBook()));
 
+	m_dlg->exec();
 
-//	delete dlg;
+	qDebug()<< __PRETTY_FUNCTION__ << "deleting popup";
+	delete m_dlg;
 
 	return;
 }
