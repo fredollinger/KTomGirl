@@ -719,6 +719,8 @@ void KNotesApp::noteInit( KNote *newNote){
 
   connect( this, SIGNAL( sigNewNotebook(const QString&) ), newNote, SLOT( slotAddNotebookMenu(const QString&)), Qt::QueuedConnection  );
 
+  connect( this, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
+
 }
 
 /* Perhaps we can combine this with the latter part of the
@@ -850,6 +852,7 @@ void  KNotesApp::slotNewNotebook(const QString &qs){
 
 	// tell all knotes to add the menu
 	emit sigNewNotebook(qs);
+
 }
 
 void  KNotesApp::slotHandleSearch(QString qs){

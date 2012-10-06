@@ -242,4 +242,16 @@ void SearchWindow::slotHandleSearch(){
 	emit signalHandleSearch(m_searchBar->lineEditSearch->text() );
 }
 
-// Sun Sep 30 09:51:20 PDT 2012
+void SearchWindow::slotAddNotebook(const QString &nb){
+	qDebug() << __PRETTY_FUNCTION__ << nb;
+	int rows = m_notebooksDialog->tableNotebooks->rowCount();
+
+	rows++;
+
+	m_notebooksDialog->tableNotebooks->setRowCount(rows);
+	
+	QTableWidgetItem *item = new QTableWidgetItem ();
+	item->setText(nb);
+	m_notebooksDialog->tableNotebooks->setItem ( rows, 0, item );
+}
+// Sat Oct  6 12:01:56 PDT 2012

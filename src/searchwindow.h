@@ -56,6 +56,7 @@ signals:
 
 
 public slots:
+	void slotAddNotebook(const QString&);
 	void emitNoteSelected(QTableWidgetItem*);
 	void setItemName(const QString&, const QString&);
 	void slotItemClicked(QTableWidgetItem*);
