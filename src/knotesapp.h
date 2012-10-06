@@ -169,6 +169,10 @@ class KNotesApp
     QDomDocument    m_noteGUI;
     QString m_noteUidModify;
     // END KNotesApp private:
+signals:
+	// Should be connected to all knotes so we can update
+	// all their menus in one emission.
+	void sigNewNotebook(const QString&);
 }; // END class KNotesApp
 }  //namespace knotes
 #endif

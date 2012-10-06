@@ -625,6 +625,8 @@ void KNote::createNoteHeader()
   // BEGIN MAKE TOOLBAR
   m_tool =  new KToolBar(this, true, false);
 
+  m_tool->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
   KIcon iconSearch = KIcon(":/icons/search.png");
   QAction *search_action = m_tool->addAction(iconSearch, i18n("Search"));
   connect(search_action, SIGNAL(triggered()), this, SLOT(slotShowSearchWindow()));
@@ -1342,7 +1344,6 @@ void KNote::slotNewNoteBook(){
 	m_dlg = new NewNoteBookDialog();
 
 	connect(m_dlg->buttonCancel, SIGNAL(clicked()), m_dlg, SLOT(hide()));
-//	connect(m_dlg->buttonOK, SIGNAL(slotNewNotebook(QString)), this, SLOT(slotMakeNoteBook(QString)));
 	connect(m_dlg->buttonOK, SIGNAL(clicked()), this, SLOT(slotMakeNoteBook()));
 
 	m_dlg->exec();
@@ -1352,6 +1353,16 @@ void KNote::slotNewNoteBook(){
 
 	return;
 }
+
+ /* Add a new notebook to the menu */
+ void KNote::slotAddNotebookMenu(const QString &nb){
+	qDebug()<< __PRETTY_FUNCTION__ << nb;
+ 	KIcon iconNoteBook = KIcon(":/icons/notebook_edit.png");
+   	QAction *notebook_action = m_noteBookMenu->addAction(iconNoteBook, nb);
+ 	// FIXME: Need to connect to actually naming notebook
+ // 	 connect(notebook_action, SIGNAL(triggered()), this, SLOT(slotNewNoteBook()));
+}
+
 // END KNOTE SLOTS
 }// namespace knotes
 // Mon Sep  3 14:23:36 PDT 2012

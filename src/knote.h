@@ -98,6 +98,7 @@ class KNote
 // END class KNote public:
 
   public slots:
+    void slotAddNotebookMenu(const QString&);
     void emitNewNote();
     void slotRename(void);
     void slotKill(void);
