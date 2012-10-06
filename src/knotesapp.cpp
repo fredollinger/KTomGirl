@@ -196,10 +196,10 @@ KNotesApp::KNotesApp()
 
 KNotesApp::~KNotesApp()
 {
+ m_config->store();
 /*
   saveConfigs();
   saveNotes();
- // m_config->store();
 
   blockSignals( true );
   qDeleteAll( m_notes );
@@ -852,7 +852,8 @@ void  KNotesApp::slotNewNotebook(const QString &qs){
 
 	// tell all knotes to add the menu
 	emit sigNewNotebook(qs);
-
+  	m_config->addNotebook(qs);
+	m_config->store();
 }
 
 void  KNotesApp::slotHandleSearch(QString qs){

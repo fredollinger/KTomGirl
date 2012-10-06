@@ -40,7 +40,7 @@ void knotesAuthors(  KAboutData &aboutData );
 
 int main( int argc, char *argv[] )
 {
-  QString version = QString::number( KNOTES_VERSION );
+  QString version = QString::number( KTOMGIRL_VERSION );
 
   KAboutData aboutData( "KTomGirl",
                          0,

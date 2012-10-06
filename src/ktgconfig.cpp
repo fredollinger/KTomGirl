@@ -11,8 +11,7 @@ KTGConfig::~KTGConfig()
 {
 }
 
-int
-KTGConfig::noteNumber(){ 
+int KTGConfig::noteNumber(){ 
 	int n;
 
 	if (mNoteNumber < 1) mNoteNumber = 1;
@@ -20,6 +19,11 @@ KTGConfig::noteNumber(){
 	n = mNoteNumber;
 	mNoteNumber++;
 	return n;
+}
+
+int KTGConfig::addNotebook(const QString &nb){ 
+  	mNoteBooks << nb;
+	qDebug() << mNoteBooks; 
 }
 
 } // namespace ktomgirl

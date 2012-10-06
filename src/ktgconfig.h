@@ -14,6 +14,7 @@ class KTGConfig: public KTGConfigSkel {
 public:
 	KTGConfig(void);
 	~KTGConfig(void);
+	int addNotebook(const QString &nb);
 	int noteNumber(void);
 	void setNoteNumber(int n){ mNoteNumber = n; }
 	void store(void){ writeConfig(); }
