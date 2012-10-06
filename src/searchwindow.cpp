@@ -243,15 +243,19 @@ void SearchWindow::slotHandleSearch(){
 }
 
 void SearchWindow::slotAddNotebook(const QString &nb){
-	qDebug() << __PRETTY_FUNCTION__ << nb;
 	int rows = m_notebooksDialog->tableNotebooks->rowCount();
 
-	rows++;
+	rows;
 
-	m_notebooksDialog->tableNotebooks->setRowCount(rows);
+  	KIcon notebookIcon = KIcon(":/icons/notebook_edit.png");
+
+	m_notebooksDialog->tableNotebooks->setRowCount(rows+1);
 	
 	QTableWidgetItem *item = new QTableWidgetItem ();
 	item->setText(nb);
+	item->setIcon(notebookIcon);
+	qDebug() << __PRETTY_FUNCTION__ << item->text();
+	
 	m_notebooksDialog->tableNotebooks->setItem ( rows, 0, item );
 }
 // Sat Oct  6 12:01:56 PDT 2012
