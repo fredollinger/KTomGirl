@@ -1363,6 +1363,14 @@ void KNote::slotNewNoteBook(){
  // 	 connect(notebook_action, SIGNAL(triggered()), this, SLOT(slotNewNoteBook()));
 }
 
+
+void KNote::loadNotebooks(const QStringList &qsl){
+  	foreach ( QString nb, qsl ) {
+		slotAddNotebookMenu(nb);
+	}
+	return;
+}
+
 // END KNOTE SLOTS
 }// namespace knotes
 // Mon Sep  3 14:23:36 PDT 2012

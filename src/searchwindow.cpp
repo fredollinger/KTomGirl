@@ -258,4 +258,12 @@ void SearchWindow::slotAddNotebook(const QString &nb){
 	
 	m_notebooksDialog->tableNotebooks->setItem ( rows, 0, item );
 }
+
+void SearchWindow::loadNotebooks(const QStringList &qsl){
+  	foreach ( QString nb, qsl ) {
+		slotAddNotebook(nb);
+	}
+	return;
+}
+
 // Sat Oct  6 12:01:56 PDT 2012

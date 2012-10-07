@@ -34,6 +34,9 @@ public:
 	/* iterate through note list and load up the titles into the qtablewidget */
 	void loadNotes(const gnote::Note::List&);
 
+	// iterate through notebooks and add them to the qtablewidget
+	void loadNotebooks(const QStringList&);
+
 	void newItem(gnote::Note::Ptr&);
 
 	// Given an item title, remove that item

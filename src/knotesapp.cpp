@@ -127,7 +127,10 @@ KNotesApp::KNotesApp()
   // BEGIN SEARCH WINDOW
   m_searchWindow = new SearchWindow( this );
   m_searchWindow->loadNotes(m_gnmanager->get_notes());
+  m_searchWindow->loadNotebooks(m_config->noteBooks());
   m_searchWindow->show();
+
+  connect( this, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
 
   connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
   connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
@@ -702,6 +705,7 @@ void KNotesApp::updateStyle()
 */
 
 /* Common code for createNote() and newNote() */
+// BEGIN noteInit()
 void KNotesApp::noteInit( KNote *newNote){
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
 
@@ -719,9 +723,8 @@ void KNotesApp::noteInit( KNote *newNote){
 
   connect( this, SIGNAL( sigNewNotebook(const QString&) ), newNote, SLOT( slotAddNotebookMenu(const QString&)), Qt::QueuedConnection  );
 
-  connect( this, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
-
-}
+  newNote->loadNotebooks(m_config->noteBooks());
+} // END noteInit()
 
 /* Perhaps we can combine this with the latter part of the
  * other openNote(ktgitem*) ?
@@ -730,7 +733,6 @@ void KNotesApp::openNote(QString &qs){
   qDebug() << __PRETTY_FUNCTION__;
 
   gnote::Note::Ptr gnote = m_gnmanager->find(qs.toStdString());
-
 
   if (! gnote){
         qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
