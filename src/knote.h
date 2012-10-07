@@ -197,6 +197,9 @@ class KNote
     QSizeGrip     *m_grip;
     QString 	  m_htmlTitle;
 
+    // Notebooks is the actions which are in the notebook menu
+    // Bundle then in a QActionGroup so they are checkable
+    QActionGroup  *m_notebooks;
     KNoteButton   *m_button;
     KToolBar      *m_tool; 
     KNoteEdit     *m_editor;

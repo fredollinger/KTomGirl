@@ -570,9 +570,16 @@ void KNote::buildGui()
 
   m_noteBookMenu = new KMenu("notebook", this);
 
+  m_notebooks = new QActionGroup(this);
+  m_notebooks->setExclusive(true);
+
   KIcon iconNoteBook = KIcon(":/icons/notebook_edit.png");
   QAction *notebook_action = m_noteBookMenu->addAction(iconNoteBook, i18n("New Notebook..."));
+  QAction *nonotebook_action = m_noteBookMenu->addAction(i18n("No Notebook..."));
+  m_noteBookMenu->addSeparator();
   connect(notebook_action, SIGNAL(triggered()), this, SLOT(slotNewNoteBook()));
+// TODO: connect no notebook option up
+  //connect(notebook_action, SIGNAL(triggered()), this, SLOT(slotNewNoteBook()));
 
   createNoteFooter();
 }
@@ -1359,6 +1366,9 @@ void KNote::slotNewNoteBook(){
 	qDebug()<< __PRETTY_FUNCTION__ << nb;
  	KIcon iconNoteBook = KIcon(":/icons/notebook_edit.png");
    	QAction *notebook_action = m_noteBookMenu->addAction(iconNoteBook, nb);
+	notebook_action->setCheckable(true);
+	// add to qactiongroup to make checkable
+	m_notebooks->addAction(notebook_action);
  	// FIXME: Need to connect to actually naming notebook
  // 	 connect(notebook_action, SIGNAL(triggered()), this, SLOT(slotNewNoteBook()));
 }
