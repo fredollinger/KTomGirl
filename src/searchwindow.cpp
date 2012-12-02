@@ -245,6 +245,8 @@ void SearchWindow::slotHandleSearch(){
 }
 
 void SearchWindow::slotAddNotebook(const QString &nb){
+  if (nb.trimmed().size() < 1) return;
+
 	int rows = m_notebooksDialog->tableNotebooks->rowCount();
 
 	rows;
