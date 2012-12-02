@@ -1378,11 +1378,14 @@ void KNote::slotNewNoteBook(){
  	// FIXME: Need to connect to actually naming notebook
   connect(m_notebooks, SIGNAL(triggered(QAction*)), this, SLOT(slotMoveToNotebook(QAction*)));
   if (notebook){
-	  qDebug()<< __PRETTY_FUNCTION__ << QString::fromStdString(notebook->get_name());
-    if (QString::fromStdString(notebook->get_name()) == text) notebook_action->setChecked(true);
+	  qDebug()<< __PRETTY_FUNCTION__ << "match? " << QString::fromStdString(notebook->get_name()) << " : " << text;
+    if (QString::fromStdString(notebook->get_name()) == text){
+	          qDebug()<< __PRETTY_FUNCTION__ << " match! ";
+            notebook_action->setChecked(true);
+    }
   }
   else
-	  qDebug()<< __PRETTY_FUNCTION__ << " no notebook for this note! ";
+	  qDebug()<< __PRETTY_FUNCTION__ << " no notebook for this note! " << text;
 }
 
 
