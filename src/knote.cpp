@@ -280,6 +280,8 @@ void KNote::find( KFind* kfind )
 // if TRUE, then we are NOT saved.
 bool KNote::isModified() const
 {
+  if (m_isModified) return true;
+
   QString newContent = m_editor->toPlainText();
 
   // qDebug() << __PRETTY_FUNCTION__ << "new: " << newContent << "old: " << m_content;
@@ -571,6 +573,7 @@ void KNote::buildGui()
   m_menu = dynamic_cast<KMenu*>( factory.container( "note_context", this ) );
 
   m_noteBookMenu = new KMenu("notebook", this);
+  //m_noteBookMenu->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
   m_notebooks = new QActionGroup(this);
   m_notebooks->setExclusive(true);
@@ -1336,6 +1339,7 @@ void KNote::slotSave(){
   // we do this to save resources so we don't save every single note
   // that is closed only those who have changed.
   m_gnote->changed();
+  m_isModified = false;
 }
 
 void KNote::slotMakeNoteBook(){
@@ -1364,15 +1368,21 @@ void KNote::slotNewNoteBook(){
 }
 
  /* Add a new notebook to the menu */
- void KNote::slotAddNotebookMenu(const QString &nb){
-	qDebug()<< __PRETTY_FUNCTION__ << nb;
+ void KNote::slotAddNotebookMenu(const QString &text){
+  gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook_from_note(m_gnote);
  	KIcon iconNoteBook = KIcon(":/icons/notebook_edit.png");
-   	QAction *notebook_action = m_noteBookMenu->addAction(iconNoteBook, nb);
+  QAction *notebook_action = m_noteBookMenu->addAction(iconNoteBook, text);
 	notebook_action->setCheckable(true);
 	// add to qactiongroup to make checkable
 	m_notebooks->addAction(notebook_action);
  	// FIXME: Need to connect to actually naming notebook
- // 	 connect(notebook_action, SIGNAL(triggered()), this, SLOT(slotNewNoteBook()));
+  connect(m_notebooks, SIGNAL(triggered(QAction*)), this, SLOT(slotMoveToNotebook(QAction*)));
+  if (notebook){
+	  qDebug()<< __PRETTY_FUNCTION__ << QString::fromStdString(notebook->get_name());
+    if (QString::fromStdString(notebook->get_name()) == text) notebook_action->setChecked(true);
+  }
+  else
+	  qDebug()<< __PRETTY_FUNCTION__ << " no notebook for this note! ";
 }
 
 
@@ -1381,10 +1391,21 @@ void KNote::loadNotebooks(){
   for(KTGlib::StringList::const_iterator iter = nbs.begin();
            iter != nbs.end(); ++iter) {
            const std::string & nb (*iter);
-		      //slotAddNotebookMenu(nb);
-		       slotAddNotebookMenu(QString::fromStdString(nb));
+           QString newNotebook = QString::fromStdString(nb);
+           qDebug() << "adding: " << newNotebook;
+		       slotAddNotebookMenu(newNotebook);
   }
 	return;
+}
+
+void KNote::slotMoveToNotebook(QAction *act){
+  QString qs = act->text().remove("&"); 
+  qDebug() << __PRETTY_FUNCTION__ << qs;
+  gnote::notebooks::NotebookManager::instance().move_note_to_notebook(m_gnote, qs.toStdString() );
+
+  act->setIconText(qs);
+  m_isModified=true;
+  slotSave();
 }
 
 // END KNOTE SLOTS

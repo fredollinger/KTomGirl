@@ -100,6 +100,7 @@ class KNote
 
   public slots:
     void slotAddNotebookMenu(const QString&);
+    void slotMoveToNotebook(QAction*);
     void emitNewNote();
     void slotRename(void);
     void slotKill(void);
@@ -222,6 +223,7 @@ class KNote
     KSharedConfig::Ptr m_kwinConf;
     bool m_blockEmitDataChanged;
     bool mBlockWriteConfigDuringCommitData;
+    bool m_isModified;
 // END class KNote private:
 }; // class KNote
 } // namespace knotes
