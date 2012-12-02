@@ -308,8 +308,6 @@ void KNotesApp::killNote( const QString &id, bool force )
 
 void KNotesApp::slotCloseNote( const QString &id )
 {
-  qDebug() << __PRETTY_FUNCTION__ << "closing note: "<< id;
-
   KNote *note = 0;
   // If we delete the note from the list, we are screwed
   // note = m_notes.take(id);
@@ -572,8 +570,6 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   newNote->setText(QString::fromStdString(title.toStdString()));
   newNote->setObjectName( journal->uid() );
 
-  qDebug() <<  journal->uid();
-
   m_notes.insert( journal->uid(), newNote );
   m_searchWindow->newItem(new_gnote);
   m_searchWindow->styleNotes();
@@ -589,8 +585,6 @@ void KNotesApp::createNote( KCal::Journal *journal ){
 }
 
 void KNotesApp::slotDeleteNote(const QString &qsTitle){
-	qDebug() << __PRETTY_FUNCTION__ << "note: " << qsTitle << "FIXME: NOT DONE";
-
 	m_searchWindow->deleteItem(qsTitle);	
 
 	// BEGIN FIND THE GNOTE
@@ -730,8 +724,6 @@ void KNotesApp::noteInit( KNote *newNote){
  * other openNote(ktgitem*) ?
  */
 void KNotesApp::openNote(QString &qs){
-  qDebug() << __PRETTY_FUNCTION__;
-
   gnote::Note::Ptr gnote = m_gnmanager->find(qs.toStdString());
 
   if (! gnote){
@@ -759,24 +751,17 @@ void KNotesApp::openNote(QString &qs){
 
 
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
-  qDebug() << __PRETTY_FUNCTION__;
-
   QMap<QString, KNote*>::const_iterator i = m_notes.find(QString::fromStdString(item->uid()));
   if (i != m_notes.end()) {
-        qDebug() << __PRETTY_FUNCTION__<< "Note exists: Showing note: " << QString::fromStdString ( item->uid() );
 	  	showNote(QString::fromStdString ( item->uid() ));
 	return;
   }
 
-  qDebug() << __PRETTY_FUNCTION__<< "Note does not exist: Opening note: " << item->text();
-
   gnote::Note::Ptr gnote = m_gnmanager->find(item->text().toStdString());
 
-
   if (! gnote){
-        qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
-	return;
-
+    qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
+	  return;
   }
 
   KCal::Journal *journal = new KCal::Journal();
@@ -801,7 +786,6 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
    Here we spew the open note titles to console.
  */
 void KNotesApp::slotSpewOpenNotes(){
-	qDebug() << __PRETTY_FUNCTION__;
 	foreach ( KNote *note, m_notes ) {
     		qDebug() << note->name();
   	}
@@ -810,7 +794,6 @@ void KNotesApp::slotSpewOpenNotes(){
 // BEGIN KNotesApp::showNote(KNote *)
 void KNotesApp::showNote( KNote *note ) const
 {
-  qDebug() << __PRETTY_FUNCTION__ << "uid: " << m_notes.key( note );
   QString l_uid = m_notes.key( note );
   KMenu *m_menu = m_tray->contextMenu();
   KIcon iconNote = KIcon(":/icons/notebook.png");
@@ -843,15 +826,12 @@ void  KNotesApp::slotOpenNote(QAction *act){
 		return;	
   	}
 
-	qDebug() << __PRETTY_FUNCTION__ << "open note";
 	openNote(l_uid);
 	return;	
 }	
 // END KNotesApp::slotOpenNote(QAction*)
 
 void  KNotesApp::slotNewNotebook(const QString &qs){
-	qDebug() << __PRETTY_FUNCTION__ << qs;
-
 	// tell all knotes to add the menu
 	emit sigNewNotebook(qs);
   	m_config->addNotebook(qs);

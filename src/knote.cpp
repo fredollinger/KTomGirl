@@ -1345,6 +1345,10 @@ void KNote::slotMakeNoteBook(){
 	qDebug()<< __PRETTY_FUNCTION__;
   
   QString nb = m_dlg->lineEdit->text();
+
+  // Refuse to add stupid blank notebooks
+  if (nb.trimmed().size() < 1) return;
+
 	m_dlg->hide();
 	emit sigNewNotebook(nb);
 }

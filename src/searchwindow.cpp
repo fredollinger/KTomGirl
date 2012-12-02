@@ -162,7 +162,6 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 */
 void SearchWindow::slotItemClicked(QTableWidgetItem* item){
 	QTableWidget *qtw = item->tableWidget();
-	qDebug() << __PRETTY_FUNCTION__ << " qtablewidget selected: " << qtw->objectName();
 	
 	/* Only operate on tables which we know how to work on. */
 	if (qtw->objectName() != "tableNotes") return;
@@ -240,7 +239,6 @@ void SearchWindow::deleteItem(const QString &qs){
 }
 
 void SearchWindow::slotHandleSearch(){
-	qDebug() << __PRETTY_FUNCTION__;
 	emit signalHandleSearch(m_searchBar->lineEditSearch->text() );
 }
 
@@ -258,7 +256,6 @@ void SearchWindow::slotAddNotebook(const QString &nb){
 	QTableWidgetItem *item = new QTableWidgetItem ();
 	item->setText(nb);
 	item->setIcon(notebookIcon);
-	qDebug() << __PRETTY_FUNCTION__ << item->text();
 	
 	m_notebooksDialog->tableNotebooks->setItem ( rows, 0, item );
 }
