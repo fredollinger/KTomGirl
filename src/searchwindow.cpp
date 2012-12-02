@@ -263,6 +263,7 @@ void SearchWindow::slotAddNotebook(const QString &nb){
 
 //void SearchWindow::loadNotebooks(const QStringList &qsl){
 void SearchWindow::loadNotebooks(){
+
   KTGlib::StringList nbs = gnote::notebooks::NotebookManager::instance().get_notebook_list();  
    for(KTGlib::StringList::const_iterator iter = nbs.begin();
            iter != nbs.end(); ++iter) {

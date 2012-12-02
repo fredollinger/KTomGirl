@@ -723,7 +723,7 @@ void KNotesApp::noteInit( KNote *newNote){
 
   connect( this, SIGNAL( sigNewNotebook(const QString&) ), newNote, SLOT( slotAddNotebookMenu(const QString&)), Qt::QueuedConnection  );
 
-  newNote->loadNotebooks(m_config->noteBooks());
+  newNote->loadNotebooks();
 } // END noteInit()
 
 /* Perhaps we can combine this with the latter part of the

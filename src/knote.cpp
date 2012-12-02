@@ -29,7 +29,9 @@
 #include "version.h"
 
 // gnote includes
+#include <libktomgirl/ktglib.hpp>
 #include <libktomgirl/note.hpp>
+#include <libktomgirl/notebookmanager.hpp>
 
 // BEGIN KDE INCLUDES
 #include <kaction.h>
@@ -578,8 +580,6 @@ void KNote::buildGui()
   QAction *nonotebook_action = m_noteBookMenu->addAction(i18n("No Notebook..."));
   m_noteBookMenu->addSeparator();
   connect(notebook_action, SIGNAL(triggered()), this, SLOT(slotNewNoteBook()));
-// TODO: connect no notebook option up
-  //connect(notebook_action, SIGNAL(triggered()), this, SLOT(slotNewNoteBook()));
 
   createNoteFooter();
 }
@@ -1339,10 +1339,12 @@ void KNote::slotSave(){
 }
 
 void KNote::slotMakeNoteBook(){
-//	QString nb = QString("KNote::slotMakeNoteBook()");
 	qDebug()<< __PRETTY_FUNCTION__;
-	emit sigNewNotebook(m_dlg->lineEdit->text());
+  
+  QString nb = m_dlg->lineEdit->text();
 	m_dlg->hide();
+	emit sigNewNotebook(nb);
+  gnote::notebooks::NotebookManager::instance().get_or_create_notebook(nb.toStdString());
 }
 
 void KNote::slotNewNoteBook(){
@@ -1374,10 +1376,14 @@ void KNote::slotNewNoteBook(){
 }
 
 
-void KNote::loadNotebooks(const QStringList &qsl){
-  	foreach ( QString nb, qsl ) {
-		slotAddNotebookMenu(nb);
-	}
+void KNote::loadNotebooks(){
+  KTGlib::StringList nbs = gnote::notebooks::NotebookManager::instance().get_notebook_list();  
+  for(KTGlib::StringList::const_iterator iter = nbs.begin();
+           iter != nbs.end(); ++iter) {
+           const std::string & nb (*iter);
+		      //slotAddNotebookMenu(nb);
+		       slotAddNotebookMenu(QString::fromStdString(nb));
+  }
 	return;
 }
 

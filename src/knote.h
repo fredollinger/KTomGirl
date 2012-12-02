@@ -75,7 +75,7 @@ class KNote
     void init( const QDomDocument& );
     void init_note(void);
     void load_gnote(void);
-    void loadNotebooks(const QStringList&);
+    void loadNotebooks();
 
     gnote::Note::Ptr m_gnote;
 
