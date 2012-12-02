@@ -35,7 +35,8 @@ public:
 	void loadNotes(const gnote::Note::List&);
 
 	// iterate through notebooks and add them to the qtablewidget
-	void loadNotebooks(const QStringList&);
+	//void loadNotebooks(const QStringList&);
+	void loadNotebooks();
 
 	void newItem(gnote::Note::Ptr&);
 

@@ -127,7 +127,7 @@ KNotesApp::KNotesApp()
   // BEGIN SEARCH WINDOW
   m_searchWindow = new SearchWindow( this );
   m_searchWindow->loadNotes(m_gnmanager->get_notes());
-  m_searchWindow->loadNotebooks(m_config->noteBooks());
+  m_searchWindow->loadNotebooks();
   m_searchWindow->show();
 
   connect( this, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );

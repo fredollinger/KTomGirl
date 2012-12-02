@@ -41,8 +41,10 @@
 #include "notebooksdialog.h"
 
 // GNOTE INCLUDES
+#include <libktomgirl/ktglib.hpp>
 #include <libktomgirl/gnote.hpp>
 #include <libktomgirl/note.hpp>
+#include <libktomgirl/notebookmanager.hpp>
 
 // BEGIN SEARCH WINDOW
 SearchWindow::SearchWindow(QWidget* pParent, const char* szName) :
@@ -58,8 +60,8 @@ m_row(0)
 
 	// BEGIN SEARCH BAR
 	m_searchBar = new SearchBar();
-        m_searchBar->setFeatures(QDockWidget::NoDockWidgetFeatures);
-   	addDockWidget(Qt::TopDockWidgetArea, m_searchBar);
+  m_searchBar->setFeatures(QDockWidget::NoDockWidgetFeatures);
+ 	addDockWidget(Qt::TopDockWidgetArea, m_searchBar);
  	connect (m_searchBar->lineEditSearch, SIGNAL(returnPressed()), this, SLOT(slotHandleSearch()));
 	//m_searchBar->resize(10, 50);
 	// END SEARCH BAR
@@ -69,14 +71,14 @@ m_row(0)
 	m_notebooksDialog = new NotebooksDialog();
 	//m_notebooksDialog->showMaximized();
 
-        m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
-        m_notebooksDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
+  m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
+  m_notebooksDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
 
-   	addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
+ 	addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
 	//m_notebooksDialog->setMinimumSize();
 
-	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
-    QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
+  m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
+  QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
 	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
 
 	// END NOTEBOOKS DIALOG
@@ -85,20 +87,20 @@ m_row(0)
 	m_notesDialog = new NotesDialog();
 	m_notesDialog->showMaximized();
 
-        m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
+  m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
 
-        m_notesDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
-   	addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
+  m_notesDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
+  addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
 
 	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
 	m_notesDialog->tableNotes->setShowGrid(false);
 	m_notesDialog->tableNotes->horizontalHeader()->setStretchLastSection(true);
 	m_notesDialog->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    QTableWidgetItem *noteHeader = m_notesDialog->tableNotes->horizontalHeaderItem(0);
+  QTableWidgetItem *noteHeader = m_notesDialog->tableNotes->horizontalHeaderItem(0);
 	noteHeader->setTextAlignment(Qt::AlignLeft);
 
-    QTableWidgetItem *dateHeader = m_notesDialog->tableNotes->horizontalHeaderItem(1);
+  QTableWidgetItem *dateHeader = m_notesDialog->tableNotes->horizontalHeaderItem(1);
 	dateHeader->setTextAlignment(Qt::AlignLeft);
 
  	connect (m_notesDialog->tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
@@ -247,7 +249,7 @@ void SearchWindow::slotAddNotebook(const QString &nb){
 
 	rows;
 
-  	KIcon notebookIcon = KIcon(":/icons/notebook_edit.png");
+ 	KIcon notebookIcon = KIcon(":/icons/notebook_edit.png");
 
 	m_notebooksDialog->tableNotebooks->setRowCount(rows+1);
 	
@@ -259,10 +261,15 @@ void SearchWindow::slotAddNotebook(const QString &nb){
 	m_notebooksDialog->tableNotebooks->setItem ( rows, 0, item );
 }
 
-void SearchWindow::loadNotebooks(const QStringList &qsl){
-  	foreach ( QString nb, qsl ) {
-		slotAddNotebook(nb);
-	}
+//void SearchWindow::loadNotebooks(const QStringList &qsl){
+void SearchWindow::loadNotebooks(){
+  KTGlib::StringList nbs = gnote::notebooks::NotebookManager::instance().get_notebook_list();  
+   for(KTGlib::StringList::const_iterator iter = nbs.begin();
+           iter != nbs.end(); ++iter) {
+           const std::string & nb (*iter);
+		       slotAddNotebook(QString::fromStdString(nb));
+    }
+
 	return;
 }
 
