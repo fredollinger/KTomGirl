@@ -99,6 +99,7 @@ class KNote
 // END class KNote public:
 
   public slots:
+    void slotAddNotebook(const QString &text);
     void slotAddNotebookMenu(const QString&);
     void slotMoveToNotebook(QAction*);
     void emitNewNote();

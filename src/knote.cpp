@@ -573,7 +573,6 @@ void KNote::buildGui()
   m_menu = dynamic_cast<KMenu*>( factory.container( "note_context", this ) );
 
   m_noteBookMenu = new KMenu("notebook", this);
-  //m_noteBookMenu->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
   m_notebooks = new QActionGroup(this);
   m_notebooks->setExclusive(true);
@@ -1348,7 +1347,6 @@ void KNote::slotMakeNoteBook(){
   QString nb = m_dlg->lineEdit->text();
 	m_dlg->hide();
 	emit sigNewNotebook(nb);
-  gnote::notebooks::NotebookManager::instance().get_or_create_notebook(nb.toStdString());
 }
 
 void KNote::slotNewNoteBook(){
@@ -1361,10 +1359,15 @@ void KNote::slotNewNoteBook(){
 
 	m_dlg->exec();
 
-	qDebug()<< __PRETTY_FUNCTION__ << "deleting popup";
 	delete m_dlg;
 
 	return;
+}
+
+ void KNote::slotAddNotebook(const QString &text){
+  gnote::notebooks::NotebookManager::instance().get_or_create_notebook(nb.toStdString());
+  gnote::notebooks::NotebookManager::instance().move_note_to_notebook(m_gnote, nb.toStdString() );
+ slotAddNotebookMenu(text);
 }
 
  /* Add a new notebook to the menu */
