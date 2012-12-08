@@ -92,9 +92,9 @@ using namespace KCal;
 namespace knotes{
 
 static const QString startTitle = "<font color=\"Blue\" size=\"16\"><u>";
-static const QString endTitle = "</u></font><br>";
+static const QString endTitle = "</u></font><br><br>";
 
-static const QString startNormal = "<font color=\"Black\" size=\"12\">";
+static const QString startNormal = "<font color=\"Black\" size=\"10\">";
 static const QString endNormal = "</font><br>";
 
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
@@ -118,11 +118,14 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	formatTimer->start(1000);
 
 	setWindowIcon(KIcon(":/icons/notebook.png"));
+
+  m_editor->setFontPointSize(12);
+
 }
 
 KNote::~KNote()
 {
-  qDebug() << __PRETTY_FUNCTION__ << ": " << name() << "\n";
+  qDebug() << __PRETTY_FUNCTION__ << " : " << name() << "\n";
 
   m_gnote->set_is_open(false);
 
@@ -160,8 +163,8 @@ void KNote::load_gnote(){
 	m_title = QString::fromStdString(m_gnote->get_title());
 	setName(m_title);
 
-  	qDebug() << __PRETTY_FUNCTION__<< "title***" << m_title << "!!!";
-  	qDebug() << __PRETTY_FUNCTION__<< "path***" << QString::fromStdString(m_gnote->file_path()) << "!!!";
+  	//qDebug() << __PRETTY_FUNCTION__<< "title***" << m_title << "!!!";
+  	//qDebug() << __PRETTY_FUNCTION__<< "path***" << QString::fromStdString(m_gnote->file_path()) << "!!!";
 	m_content = QString::fromStdString(m_gnote->text_content_plain());
 
 	/* Work around for stupid libktomgirl bug */
@@ -170,7 +173,7 @@ void KNote::load_gnote(){
 		m_content = QString::fromStdString(m_gnote->text_content());
 	}
 
-  	qDebug() << __PRETTY_FUNCTION__<< "loading text***" << m_content << "!!!";
+  	//qDebug() << __PRETTY_FUNCTION__<< "loading text***" << m_content << "!!!";
 	setText(m_content);
 	init_note();
 }
@@ -199,7 +202,7 @@ void KNote::saveData(bool update )
 {
   if(update)
   {
-     qDebug() << __PRETTY_FUNCTION__;
+     //qDebug() << __PRETTY_FUNCTION__;
      emit sigDataChanged(noteId());
      // m_editor->document()->setModified( false );
   }
@@ -608,7 +611,7 @@ void KNote::slotShowSearchWindow(){
 }
 
 void KNote::slotShowNoteBookMenu(){
-	qDebug() << __PRETTY_FUNCTION__;
+	//qDebug() << __PRETTY_FUNCTION__;
 	m_noteBookMenu->exec(QCursor::pos());
 }
 
@@ -978,7 +981,7 @@ void KNote::closeEvent( QCloseEvent * event )
 
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
 
-  qDebug() << __PRETTY_FUNCTION__ << " Emitting: sigCloseNote()" <<name();
+  //qDebug() << __PRETTY_FUNCTION__ << " Emitting: sigCloseNote()" <<name();
 
   emit sigCloseNote( QString::fromStdString(m_gnote->uid()) );
 
@@ -1135,7 +1138,8 @@ void KNote::formatTitle(){
   // Makes second line look black again and not underlined
   #if 0
   cursor.setPosition(pos2, QTextCursor::MoveAnchor);  
-  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  //cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor, 1);  
   s=cursor.selectedText();
   QString newtext = startNormal+s+endNormal.trimmed();
 
@@ -1198,12 +1202,12 @@ void KNote::slotFormatTitle(){
 
 // BEGIN KNOTE SLOTS
 void KNote::slotDataChanged(const QString &qs){
-  qDebug() << __PRETTY_FUNCTION__ << "***" << qs << "!!!";
+  //qDebug() << __PRETTY_FUNCTION__ << "***" << qs << "!!!";
 
   const QString newTitle = name();
 
   if ("" == newTitle){
-	qDebug() << "refusing to deal with blank note!!";
+	  qDebug() << "refusing to deal with blank note!!";
 	return;
   }
 
@@ -1216,7 +1220,7 @@ void KNote::slotDataChanged(const QString &qs){
   m_blockEmitDataChanged = true;
 
   // OK, we actually changed. Handle that:
-  qDebug() << __PRETTY_FUNCTION__ << "We really did change. New title: " << newTitle;
+  //qDebug() << __PRETTY_FUNCTION__ << "We really did change. New title: " << newTitle;
 
   std::string oldTitle = m_gnote->get_title();
 
@@ -1319,13 +1323,13 @@ void KNote::emitNewNote(){
 void KNote::slotSave(){
   // only save if we changed
   if (! isModified() ){
-  	qDebug() << __PRETTY_FUNCTION__ << " not modified. Not saving.";
+  //	qDebug() << __PRETTY_FUNCTION__ << " not modified. Not saving.";
 	return;
   }
   // Update the title everywhere
   slotNameChanged();
 
-  qDebug() << __PRETTY_FUNCTION__ << " Saving...";
+//  qDebug() << __PRETTY_FUNCTION__ << " Saving...";
 
   // cache content so we know if we are modified/saved in the future
   m_content = m_editor->toPlainText();
@@ -1342,7 +1346,7 @@ void KNote::slotSave(){
 }
 
 void KNote::slotMakeNoteBook(){
-	qDebug()<< __PRETTY_FUNCTION__;
+	//qDebug()<< __PRETTY_FUNCTION__;
   
   QString nb = m_dlg->lineEdit->text();
 
@@ -1354,7 +1358,7 @@ void KNote::slotMakeNoteBook(){
 }
 
 void KNote::slotNewNoteBook(){
-	qDebug()<< __PRETTY_FUNCTION__;
+	//qDebug()<< __PRETTY_FUNCTION__;
 
 	m_dlg = new NewNoteBookDialog();
 
@@ -1385,14 +1389,14 @@ void KNote::slotNewNoteBook(){
  	// FIXME: Need to connect to actually naming notebook
   connect(m_notebooks, SIGNAL(triggered(QAction*)), this, SLOT(slotMoveToNotebook(QAction*)));
   if (notebook){
-	  qDebug()<< __PRETTY_FUNCTION__ << "match? " << QString::fromStdString(notebook->get_name()) << " : " << text;
+	  //qDebug()<< __PRETTY_FUNCTION__ << "match? " << QString::fromStdString(notebook->get_name()) << " : " << text;
     if (QString::fromStdString(notebook->get_name()) == text){
-	          qDebug()<< __PRETTY_FUNCTION__ << " match! ";
+	          //qDebug()<< __PRETTY_FUNCTION__ << " match! ";
             notebook_action->setChecked(true);
     }
   }
-  else
-	  qDebug()<< __PRETTY_FUNCTION__ << " no notebook for this note! " << text;
+  //else
+	  //qDebug()<< __PRETTY_FUNCTION__ << " no notebook for this note! " << text;
 }
 
 
@@ -1402,7 +1406,7 @@ void KNote::loadNotebooks(){
            iter != nbs.end(); ++iter) {
            const std::string & nb (*iter);
            QString newNotebook = QString::fromStdString(nb);
-           qDebug() << "adding: " << newNotebook;
+           //qDebug() << "adding: " << newNotebook;
 		       slotAddNotebookMenu(newNotebook);
   }
 	return;
@@ -1410,7 +1414,7 @@ void KNote::loadNotebooks(){
 
 void KNote::slotMoveToNotebook(QAction *act){
   QString qs = act->text().remove("&"); 
-  qDebug() << __PRETTY_FUNCTION__ << qs;
+  //qDebug() << __PRETTY_FUNCTION__ << qs;
   gnote::notebooks::NotebookManager::instance().move_note_to_notebook(m_gnote, qs.toStdString() );
 
   act->setIconText(qs);

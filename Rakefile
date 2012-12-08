@@ -17,4 +17,8 @@ task :ui do
 	sh "cd src && make"
 end
 
+desc "rebuild notes dialog"
+task :nd do
+	sh "cd src && rm -f ui_notesdialog.h && make"
+end
 

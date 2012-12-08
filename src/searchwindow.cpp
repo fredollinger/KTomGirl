@@ -25,9 +25,10 @@
 
 // BEGIN QT INCLUDES
 #include <qdebug.h>
-#include <QMainWindow>
-#include <QTableWidget>
 #include <QDateTime>
+#include <QMainWindow>
+#include <QScrollBar>
+#include <QTableWidget>
 // END QT INCLUDES
 
 #include <KParts/MainWindow>
@@ -81,6 +82,9 @@ m_row(0)
   QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
 	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
 
+  //m_notebooksDialog->tableNotebooks->verticalScrollBar()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  //m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
 	// END NOTEBOOKS DIALOG
 
 	// BEGIN NOTES DIALOG
@@ -89,7 +93,7 @@ m_row(0)
 
   m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
 
-  m_notesDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
+  //m_notesDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
   addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
 
 	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
@@ -99,6 +103,9 @@ m_row(0)
 
   QTableWidgetItem *noteHeader = m_notesDialog->tableNotes->horizontalHeaderItem(0);
 	noteHeader->setTextAlignment(Qt::AlignLeft);
+
+  //m_notebooksDialog->tableNotebooks->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  //m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
   QTableWidgetItem *dateHeader = m_notesDialog->tableNotes->horizontalHeaderItem(1);
 	dateHeader->setTextAlignment(Qt::AlignLeft);
@@ -143,8 +150,9 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 		// END ITEM ONE
 
 		// BEGIN ITEM TWO
-  		sharp::DateTime qdt = note->data().change_date();
+  	sharp::DateTime qdt = note->data().change_date();
 		qs = QString::fromStdString(qdt.to_string());
+    qDebug() << __PRETTY_FUNCTION__ << " : "<< qs;
 		item = new ktomgirl::KTGItem(qs, note);
 		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
 		// END ITEM TWO
