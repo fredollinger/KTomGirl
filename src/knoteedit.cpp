@@ -42,8 +42,10 @@ static const short ICON_SIZE = 10;
 
 namespace knotes{
 KNoteEdit::KNoteEdit( KActionCollection *actions, QWidget *parent )
-  : KTextEdit( parent ), m_note( 0 )
+  : KRichTextEdit( parent ), m_note( 0 )
 {
+  setFontPointSize(12);
+  //setTextBackgroundColor( QColor (254, 255, 144)); //feff90
   setAcceptDrops( true );
   setWordWrapMode( QTextOption::WordWrap );
   setLineWrapMode( WidgetWidth );

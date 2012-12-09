@@ -95,7 +95,7 @@ class KNote
 
     bool isModified() const;
     void blockEmitDataChanged( bool _b ) { m_blockEmitDataChanged = _b;}
-    void commitData();
+    //void commitData();
 // END class KNote public:
 
   public slots:
@@ -171,6 +171,8 @@ class KNote
 
 // BEGIN class KNote private:
   private:
+    void setContent( const QString &title, const QString &text );
+
     NewNoteBookDialog *m_dlg;
 
     QString m_content;

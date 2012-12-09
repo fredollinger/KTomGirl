@@ -119,7 +119,6 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 
 	setWindowIcon(KIcon(":/icons/notebook.png"));
 
-  m_editor->setFontPointSize(12);
 
 }
 
@@ -159,12 +158,9 @@ void KNote::load_gnote(){
 		return;
 	}
 
-	// m_gnote->reload();
 	m_title = QString::fromStdString(m_gnote->get_title());
 	setName(m_title);
 
-  	//qDebug() << __PRETTY_FUNCTION__<< "title***" << m_title << "!!!";
-  	//qDebug() << __PRETTY_FUNCTION__<< "path***" << QString::fromStdString(m_gnote->file_path()) << "!!!";
 	m_content = QString::fromStdString(m_gnote->text_content_plain());
 
 	/* Work around for stupid libktomgirl bug */
@@ -173,8 +169,7 @@ void KNote::load_gnote(){
 		m_content = QString::fromStdString(m_gnote->text_content());
 	}
 
-  	//qDebug() << __PRETTY_FUNCTION__<< "loading text***" << m_content << "!!!";
-	setText(m_content);
+	setContent(m_title, m_content);
 	init_note();
 }
 
@@ -261,6 +256,12 @@ void KNote::setName( const QString& name )
   emit sigNameChanged(name);
 }
 
+void KNote::setContent( const QString& title, const QString& text )
+{
+  m_editor->setText( text );
+  formatTitle();
+}
+
 void KNote::setText( const QString& text )
 {
   m_editor->setText( text );
@@ -313,10 +314,12 @@ void KNote::slotRename()
   return;
 }
 
+/*
 void KNote::commitData()
 {
-  mBlockWriteConfigDuringCommitData = true;
+  //mBlockWriteConfigDuringCommitData = true;
 }
+*/
 
 #if 0
 // BEGIN KNote::slotClose()
@@ -461,7 +464,6 @@ void KNote::slotApplyConfig()
   #if 0
   m_label->setFont( m_config->titleFont() );
   // m_editor->setRichText( m_config->richText() );
-  m_editor->setTextFont( m_config->font() );
   m_editor->setTabStop( m_config->tabSize() );
   m_editor->setAutoIndentMode( m_config->autoIndent() );
 
@@ -711,7 +713,6 @@ void KNote::prepare()
   m_editor->setContentsMargins( 0, 0, 0, 0 );
   m_editor->setBackgroundRole( QPalette::Base );
   m_editor->setFrameStyle( NoFrame );
-  // m_editor->setText( m_journal->description() );
 
   // load the display configuration of the note
   #if 0
@@ -1228,7 +1229,6 @@ void KNote::slotDataChanged(const QString &qs){
 
   // Sync title bar with title
   setWindowTitle(newTitle);
-  //m_label->setText(t);
   /* Make sure the title is blue, big, and underlined
    * and ensure that other things are not... */
 

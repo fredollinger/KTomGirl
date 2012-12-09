@@ -229,14 +229,16 @@ KNotesApp::~KNotesApp()
   m_tray->deleteLater();
 }
 
+/*
 bool KNotesApp::commitData( QSessionManager & )
 {
   foreach ( KNote *note, m_notes ) {
-    note->commitData();
+    //note->commitData();
   }
   saveConfigs();
   return true;
 }
+*/
 
 // -------------------- public D-Bus interface -------------------- //
 

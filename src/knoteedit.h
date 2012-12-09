@@ -26,7 +26,7 @@
 #include <QTextCharFormat>
 #include <QWidget>
 
-#include <ktextedit.h>
+#include <krichtextedit.h>
 
 class QFont;
 
@@ -42,7 +42,7 @@ namespace knotes{
 
 namespace knotes{
 class KNoteEdit
-  : public KTextEdit
+  : public KRichTextEdit
 {
   Q_OBJECT
   public:

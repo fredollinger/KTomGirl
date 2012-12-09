@@ -85,7 +85,7 @@ class KNotesApp
 
     QVariantMap notes() const;
 
-    bool commitData( QSessionManager & );
+    //bool commitData( QSessionManager & );
 
     ktomgirl::KTGConfig *m_config;
 
