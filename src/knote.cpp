@@ -256,10 +256,38 @@ void KNote::setName( const QString& name )
   emit sigNameChanged(name);
 }
 
+/* FRED: TODO: Set the title and the text separate using insertBlock() with a custom
+ * blue underline block for the title. Then formatTitle() will work better plus we 
+ * can more easily squeeze out annoying line breaks which messes up the title all the 
+ * time!
+ */
 void KNote::setContent( const QString& title, const QString& text )
 {
-  m_editor->setText( text );
-  formatTitle();
+  QString newtitle = title;
+  /* If our title and the first line of the text content do not match then something
+   * bad has happened, probably during a save. To recover, we just use the content
+   * that we all ready have. */ 
+  if (!text.startsWith(title)) {
+    qDebug() << __PRETTY_FUNCTION__ << " Error: this does not start with " << title; 
+    m_editor->setText( text );
+    formatTitle();
+  }
+
+  QTextCursor cursor = m_editor->textCursor();
+  int pos = cursor.position();
+
+  QStringRef body = text.midRef(title.size(), -1);
+  qDebug() << "Inserting: "<< body.toString() << " title: " << title;
+
+
+  newtitle = startTitle+newtitle.remove("\n")+endTitle.trimmed();
+
+  cursor.movePosition(QTextCursor::Start);
+  m_editor->insertHtml( newtitle );
+  cursor.movePosition(QTextCursor::EndOfBlock);
+  cursor.insertBlock();
+  m_editor->insertPlainText( body.toString() );
+
 }
 
 void KNote::setText( const QString& text )
@@ -1112,6 +1140,7 @@ QString KNote::getTitle(){
 // END DEPRECATED
 
 void KNote::formatTitle(){
+  return;
   QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
   int pos2; // start of second line 
@@ -1164,6 +1193,7 @@ void KNote::formatTitle(){
  * want the title formatted such as upon first startup. 
  */ 
 void KNote::slotFormatTitle(){
+  return;
   QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
   int pos2; // start of second line 
