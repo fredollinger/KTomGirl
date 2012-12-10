@@ -39,9 +39,11 @@
 
 #include <libktomgirl/note.hpp>
 
+
 class QLabel;
 class QLayout;
 class QSizeGrip;
+//class QTextDocument;
 
 class KFind;
 class KMenu;

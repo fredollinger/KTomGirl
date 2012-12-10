@@ -25,6 +25,7 @@
 #include <QDropEvent>
 #include <QTextCharFormat>
 #include <QWidget>
+//#include <QTextDocument>
 
 #include <krichtextedit.h>
 
@@ -43,6 +44,7 @@ namespace knotes{
 namespace knotes{
 class KNoteEdit
   : public KRichTextEdit
+  //: public QTextDocument
 {
   Q_OBJECT
   public:

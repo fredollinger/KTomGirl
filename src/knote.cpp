@@ -77,8 +77,12 @@
 #include <QPixmap>
 #include <QSize>
 #include <QSizeGrip>
-#include <QTimer>
+#include <QTextCursor>
 #include <QTextStream>
+#include <QTextBlock>
+#include <QTextBlockFormat>
+#include <QTextDocument>
+#include <QTimer>
 #include <QVBoxLayout>
 // END QT INCLUDES
 
@@ -99,7 +103,7 @@ static const QString endNormal = "</font><br>";
 
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
-    m_button( 0 ), m_tool( 0 ), m_editor( 0 ), m_journal( j ),
+    m_button( 0 ), m_tool( 0 ), m_journal( j ), m_editor(0), 
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnote(gnoteptr)
     , m_content("")
@@ -198,7 +202,6 @@ void KNote::saveData(bool update )
   if(update)
   {
      emit sigDataChanged(noteId());
-     // m_editor->document()->setModified( false );
   }
 }
 
@@ -262,6 +265,14 @@ void KNote::setName( const QString& name )
  */
 void KNote::setContent( const QString& title, const QString& text )
 {
+  QTextCharFormat bodyFormat;
+  QTextCursor cursor = m_editor->textCursor();
+  QTextBlock firstBlock = cursor.block();
+  QTextBlockFormat titleFormat = firstBlock.blockFormat();
+  titleFormat.setNonBreakableLines(true);
+
+  // FIXME: Set format blue and underlined...
+
   QString newtitle = title;
   /* If our title and the first line of the text content do not match then something
    * bad has happened, probably during a save. To recover, we just use the content
@@ -272,7 +283,6 @@ void KNote::setContent( const QString& title, const QString& text )
     slotFormatTitle();
   }
 
-  QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
 
   QStringRef body = text.midRef(title.size(), -1);
@@ -281,7 +291,12 @@ void KNote::setContent( const QString& title, const QString& text )
 
   cursor.movePosition(QTextCursor::Start);
   m_editor->insertHtml( newtitle );
+
+
   cursor.movePosition(QTextCursor::EndOfBlock);
+
+  qDebug() << " TITLE: " << firstBlock.text();
+
   cursor.insertBlock();
   m_editor->insertPlainText( body.toString() );
 
