@@ -1187,7 +1187,7 @@ void KNote::formatTitle(){
 void KNote::slotFormatTitle(){
   QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
-  int pos2; // start of second line 
+  //int pos2; // start of second line 
   int col = cursor.columnNumber();
 
   // if we are on the first line don't change anything
@@ -1198,11 +1198,9 @@ void KNote::slotFormatTitle(){
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
-  qDebug() << "orignal title: " << s << " size: " << s.count();
   s.remove("\n");
-  qDebug() << "new title: " << s << " size: " << s.count();
   m_title = s;
-  pos2 = s.count() + 1;
+  //pos2 = s.count() + 1;
   QString newtitle = startTitle+s+endTitle.trimmed()+"\n";
 
   if (m_htmlTitle == newtitle) {
@@ -1210,20 +1208,14 @@ void KNote::slotFormatTitle(){
 	  return;
   }
 
-// BEGIN PREVENT AUTO INSERT
-/* If we don't do the following, we'll continuously add line breaks after the title
- * for some reason. Let's prevent that.
- */
   cursor.removeSelectedText();	
-  //cursor.deleteChar();
-// END PREVENT AUTO INSERT
 
   cursor.setKeepPositionOnInsert(true);
   cursor.insertHtml(newtitle);  
   m_htmlTitle = newtitle;
 
   //cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);  
-  cursor.setPosition(pos, QTextCursor::KeepAnchor);  
+//  cursor.setPosition(pos, QTextCursor::KeepAnchor);  
 }
 // END slotFormatTitle()
 
