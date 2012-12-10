@@ -105,7 +105,7 @@ class KNote
     void emitNewNote();
     void slotRename(void);
     void slotKill(void);
-    void formatTitle(void);
+    //void formatTitle(void);
     void slotNewNoteBook(void);
     void slotShowNoteBookMenu(void);
     void slotShowSearchWindow(void);

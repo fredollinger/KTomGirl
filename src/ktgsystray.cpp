@@ -32,12 +32,9 @@ KTGSystray::~KTGSystray()
 }
 
 void KTGSystray::slotQuit(){
-	qDebug() << __PRETTY_FUNCTION__;
 }
 
 void KTGSystray::addNoteAction(QAction *act, const QString &uid){
-	qDebug() << __PRETTY_FUNCTION__ << "title: " << " uid: " << uid<< m_qslNotes.length();
-
 	static bool first_run = true;
 
 	if (first_run){
@@ -66,7 +63,6 @@ void KTGSystray::addNoteAction(QAction *act, const QString &uid){
 
 void KTGSystray::removeNoteAction(const QString &qs){
 	foreach ( QAction *act, m_actions ) {
-		qDebug() << __PRETTY_FUNCTION__ << m_actions.key(act);
 		if ( m_actions.key(act) == qs){
 			m_actions.remove(qs);
   			contextMenu()->removeAction(act);
@@ -79,7 +75,6 @@ void KTGSystray::removeNoteAction(const QString &qs){
 void KTGSystray::setItemName(const QString &neu, const QString &old){
 	// Find the note that matches
 	foreach ( QAction *act, m_actions ) {
-		qDebug() << __PRETTY_FUNCTION__ << act->iconText();
 		if (act->iconText() == old)
 			act->setText(neu);
 	}

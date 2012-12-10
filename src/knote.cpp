@@ -145,7 +145,7 @@ KNote::~KNote()
 
 /* This is to be done last */
 void KNote::init_note(){
-	formatTitle();
+	slotFormatTitle();
 	connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
 }
 
@@ -197,7 +197,6 @@ void KNote::saveData(bool update )
 {
   if(update)
   {
-     //qDebug() << __PRETTY_FUNCTION__;
      emit sigDataChanged(noteId());
      // m_editor->document()->setModified( false );
   }
@@ -257,7 +256,7 @@ void KNote::setName( const QString& name )
 }
 
 /* FRED: TODO: Set the title and the text separate using insertBlock() with a custom
- * blue underline block for the title. Then formatTitle() will work better plus we 
+ * blue underline block for the title. Then format Title() will work better plus we 
  * can more easily squeeze out annoying line breaks which messes up the title all the 
  * time!
  */
@@ -268,17 +267,15 @@ void KNote::setContent( const QString& title, const QString& text )
    * bad has happened, probably during a save. To recover, we just use the content
    * that we all ready have. */ 
   if (!text.startsWith(title)) {
-    qDebug() << __PRETTY_FUNCTION__ << " Error: this does not start with " << title; 
+   // qDebug() << __PRETTY_FUNCTION__ << " Error: this does not start with " << title; 
     m_editor->setText( text );
-    formatTitle();
+    slotFormatTitle();
   }
 
   QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
 
   QStringRef body = text.midRef(title.size(), -1);
-  qDebug() << "Inserting: "<< body.toString() << " title: " << title;
-
 
   newtitle = startTitle+newtitle.remove("\n")+endTitle.trimmed()+"\n\n";
 
@@ -293,7 +290,7 @@ void KNote::setContent( const QString& title, const QString& text )
 void KNote::setText( const QString& text )
 {
   m_editor->setText( text );
-  formatTitle();
+  slotFormatTitle();
 }
 
 void KNote::find( KFind* kfind )
@@ -316,8 +313,6 @@ bool KNote::isModified() const
 
   QString newContent = m_editor->toPlainText();
 
-  // qDebug() << __PRETTY_FUNCTION__ << "new: " << newContent << "old: " << m_content;
-
   if ("" == newContent){
   	qDebug() << __PRETTY_FUNCTION__ << "Note is Empty, don't save";
 	return false;
@@ -326,10 +321,8 @@ bool KNote::isModified() const
 // FIXME: return false when this is fixed
   if (newContent == m_content){
 	return false;
-  	// qDebug() << __PRETTY_FUNCTION__ << "Don't appear to be modified";
   }
 
-  // qDebug() << __PRETTY_FUNCTION__ << "Modified";
   return true;
 }
 
@@ -353,8 +346,6 @@ void KNote::commitData()
 // BEGIN KNote::slotClose()
 void KNote::slotClose()
 {
-  //qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(m_gnote->get_title());
-  qDebug() << __PRETTY_FUNCTION__ << name();
  /*
   saveTimer->stop();
   formatTimer->stop();
@@ -641,7 +632,6 @@ void KNote::slotShowSearchWindow(){
 }
 
 void KNote::slotShowNoteBookMenu(){
-	//qDebug() << __PRETTY_FUNCTION__;
 	m_noteBookMenu->exec(QCursor::pos());
 }
 
@@ -1010,8 +1000,6 @@ void KNote::closeEvent( QCloseEvent * event )
 
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
 
-  //qDebug() << __PRETTY_FUNCTION__ << " Emitting: sigCloseNote()" <<name();
-
   emit sigCloseNote( QString::fromStdString(m_gnote->uid()) );
 
   // slotClose();
@@ -1035,15 +1023,14 @@ bool KNote::event( QEvent *ev )
   }
 }
 
- void KNote::keyPressEvent(QKeyEvent *event)
-{
+void KNote::keyPressEvent(QKeyEvent *event) {
         if (event->key() == Qt::Key_Return) {
-		formatTitle();
-            	QWidget::keyPressEvent(event);
+		      slotFormatTitle();
+         	QWidget::keyPressEvent(event);
         } else {
             QWidget::keyPressEvent(event);
         }
-    }
+}
 
 bool KNote::eventFilter( QObject *o, QEvent *ev )
 {
@@ -1067,39 +1054,6 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
     dropEvent( static_cast<QDropEvent *>( ev ) );
     return true;
   }
-
- #if 0
-  if ( o == m_label ) {
-    QMouseEvent *e = ( QMouseEvent * )ev;
-
-    if ( ev->type() == QEvent::MouseButtonDblClick ) {
-       if(!m_editor->isReadOnly())
-          slotRename();
-    }
-
-    if ( ev->type() == QEvent::MouseButtonPress &&
-        ( e->button() == Qt::LeftButton || e->button() == Qt::MidButton ) ) {
-//#ifdef Q_WS_X11
-      e->button() == Qt::LeftButton ? KWindowSystem::raiseWindow( winId() )
-                                    : KWindowSystem::lowerWindow( winId() );
-
-      XUngrabPointer( QX11Info::display(), QX11Info::appTime() );
-      NETRootInfo wm_root( QX11Info::display(), NET::WMMoveResize );
-      wm_root.moveResizeRequest( winId(), e->globalX(), e->globalY(),
-                                 NET::Move );
-      return true;
-    }
-
-    if ( ev->type() == QEvent::MouseButtonRelease ) {
-        NETRootInfo wm_root( QX11Info::display(), NET::WMMoveResize );
-        wm_root.moveResizeRequest( winId(), e->globalX(), e->globalY(),
-                                   NET::MoveResizeCancel );
-        return false;
-    }
-
-    return false;
-  }
-#endif
 
   if ( o == m_editor ) {
     if ( ev->type() == QEvent::FocusOut ) {
@@ -1129,6 +1083,7 @@ QString KNote::name() const{
 	return str.trimmed();
 }
 
+#if 0
 void KNote::formatTitle(){
   qDebug() << __PRETTY_FUNCTION__ << "BUG: CALLING DEPRECATED FUNCTION";
   return;
@@ -1175,13 +1130,14 @@ void KNote::formatTitle(){
 
   cursor.setPosition(pos, QTextCursor::KeepAnchor);  
 }
+#endif
 
 // BEGIN slotFormatTitle()
 /* This slot is called every second. We don't reformat title each time b/c that
  * would be annoying. Thus, we do a few checks and only do so when the time is
  * right aka, we won't be fighting with the user as they try to edit the title.
- * Our sister function formatTitle() does the same thing, but without the check
- * which is because we use formatTitle() for those times when we know we really
+ * Our sister function format Title() does the same thing, but without the check
+ * which is because we use format Title() for those times when we know we really
  * want the title formatted such as upon first startup. 
  */ 
 void KNote::slotFormatTitle(){
@@ -1204,7 +1160,6 @@ void KNote::slotFormatTitle(){
   QString newtitle = startTitle+s+endTitle.trimmed()+"\n";
 
   if (m_htmlTitle == newtitle) {
-    qDebug() << __PRETTY_FUNCTION__ << "title is the same not updating.";
 	  return;
   }
 
@@ -1243,7 +1198,7 @@ void KNote::slotDataChanged(const QString &qs){
 
   std::string oldTitle = m_gnote->get_title();
 
-  formatTitle();
+  slotFormatTitle();
 
   // Sync title bar with title
   setWindowTitle(newTitle);
