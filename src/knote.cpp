@@ -92,7 +92,7 @@ using namespace KCal;
 namespace knotes{
 
 static const QString startTitle = "<font color=\"Blue\" size=\"16\"><u>";
-static const QString endTitle = "</u></font><br><br>";
+static const QString endTitle = "</u></font>";
 
 static const QString startNormal = "<font color=\"Black\" size=\"10\">";
 static const QString endNormal = "</font><br>";
@@ -280,7 +280,7 @@ void KNote::setContent( const QString& title, const QString& text )
   qDebug() << "Inserting: "<< body.toString() << " title: " << title;
 
 
-  newtitle = startTitle+newtitle.remove("\n")+endTitle.trimmed();
+  newtitle = startTitle+newtitle.remove("\n")+endTitle.trimmed()+"\n\n";
 
   cursor.movePosition(QTextCursor::Start);
   m_editor->insertHtml( newtitle );
@@ -1129,18 +1129,10 @@ QString KNote::name() const{
 	return str.trimmed();
 }
 
-// BEGIN DEPRECATED
-#if 0
-QString KNote::getTitle(){
-	QString t = m_editor->toPlainText();
-	QString str = t.section('\n', 0, 1);
-	return str.trimmed();
-}
-#endif
-// END DEPRECATED
-
 void KNote::formatTitle(){
+  qDebug() << __PRETTY_FUNCTION__ << "BUG: CALLING DEPRECATED FUNCTION";
   return;
+
   QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
   int pos2; // start of second line 
@@ -1193,7 +1185,6 @@ void KNote::formatTitle(){
  * want the title formatted such as upon first startup. 
  */ 
 void KNote::slotFormatTitle(){
-  return;
   QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
   int pos2; // start of second line 
@@ -1205,14 +1196,18 @@ void KNote::slotFormatTitle(){
 
   /* Make the first line blue and underlined */
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
-  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
+  qDebug() << "orignal title: " << s << " size: " << s.count();
+  s.remove("\n");
+  qDebug() << "new title: " << s << " size: " << s.count();
   m_title = s;
   pos2 = s.count() + 1;
-  QString newtitle = startTitle+s+endTitle.trimmed();
+  QString newtitle = startTitle+s+endTitle.trimmed()+"\n";
 
   if (m_htmlTitle == newtitle) {
-	return;
+    qDebug() << __PRETTY_FUNCTION__ << "title is the same not updating.";
+	  return;
   }
 
 // BEGIN PREVENT AUTO INSERT
@@ -1220,13 +1215,14 @@ void KNote::slotFormatTitle(){
  * for some reason. Let's prevent that.
  */
   cursor.removeSelectedText();	
-  cursor.deleteChar();
+  //cursor.deleteChar();
 // END PREVENT AUTO INSERT
 
   cursor.setKeepPositionOnInsert(true);
   cursor.insertHtml(newtitle);  
   m_htmlTitle = newtitle;
 
+  //cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);  
   cursor.setPosition(pos, QTextCursor::KeepAnchor);  
 }
 // END slotFormatTitle()
