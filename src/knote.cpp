@@ -97,6 +97,8 @@ namespace knotes{
 
 static const QString startTitle = "<font color=\"Blue\" size=\"16\"><u>";
 static const QString endTitle = "</u></font>";
+//static const QString startTitle = "";
+//static const QString endTitle = "";
 
 static const QString startNormal = "<font color=\"Black\" size=\"10\">";
 static const QString endNormal = "</font><br>";
@@ -265,11 +267,11 @@ void KNote::setName( const QString& name )
  */
 void KNote::setContent( const QString& title, const QString& text )
 {
+  QBrush titleColor = QBrush(QColor(Qt::blue));
   QTextCharFormat bodyFormat;
   QTextCursor cursor = m_editor->textCursor();
-  QTextBlock firstBlock = cursor.block();
-  QTextBlockFormat titleFormat = firstBlock.blockFormat();
-  titleFormat.setNonBreakableLines(true);
+
+  //void QTextCharFormat::setUnderlineStyle ( UnderlineStyle style )
 
   // FIXME: Set format blue and underlined...
 
@@ -290,8 +292,16 @@ void KNote::setContent( const QString& title, const QString& text )
   newtitle = startTitle+newtitle.remove("\n")+endTitle.trimmed()+"\n\n";
 
   cursor.movePosition(QTextCursor::Start);
-  m_editor->insertHtml( newtitle );
 
+  QTextBlock firstBlock = cursor.block();
+  QTextBlockFormat titleFormat = firstBlock.blockFormat();
+  titleFormat.setNonBreakableLines(true);
+  QTextCharFormat titleCharFormat = firstBlock.charFormat();
+  titleCharFormat.setUnderlineStyle(QTextCharFormat::SingleUnderline);
+  titleCharFormat.setForeground(titleColor);
+
+  m_editor->insertHtml( newtitle );
+  //m_editor->insertPlainText( newtitle );
 
   cursor.movePosition(QTextCursor::EndOfBlock);
 
