@@ -95,13 +95,13 @@ using namespace KCal;
 
 namespace knotes{
 
-static const QString startTitle = "<font color=\"Blue\" size=\"16\"><u>";
-static const QString endTitle = "</u></font>";
+static const QString startTitle = "<p><font color=\"Blue\" size=\"16\"><u>";
+static const QString endTitle = "</u></font></p>";
 //static const QString startTitle = "";
 //static const QString endTitle = "";
 
-static const QString startNormal = "<font color=\"Black\" size=\"10\">";
-static const QString endNormal = "</font><br>";
+static const QString startNormal = "<p><font color=\"Black\" size=\"5\">";
+static const QString endNormal = "</font></p>";
 
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
@@ -113,7 +113,8 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 { 
 	j->setUid(QString::fromStdString(gnoteptr->uid()));
 	init(buildDoc);
-  	m_gnote->set_is_open(true);
+
+ 	m_gnote->set_is_open(true);
 
 	saveTimer = new QTimer(this);
 	formatTimer = new QTimer(this);
@@ -124,8 +125,6 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	formatTimer->start(1000);
 
 	setWindowIcon(KIcon(":/icons/notebook.png"));
-
-
 }
 
 KNote::~KNote()
@@ -1166,10 +1165,16 @@ void KNote::formatTitle(){
  * want the title formatted such as upon first startup. 
  */ 
 void KNote::slotFormatTitle(){
+  QString newContent;
   QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
   //int pos2; // start of second line 
   int col = cursor.columnNumber();
+
+  QTextCharFormat bodyFormat;
+  bodyFormat.setFontUnderline(false); 
+  bodyFormat.setForeground(QBrush(QColor(Qt::black))); 
+  bodyFormat.setFontPointSize(14);
 
   // if we are on the first line don't change anything
   // otherwise, we'll wind up running over things
@@ -1194,8 +1199,21 @@ void KNote::slotFormatTitle(){
   cursor.insertHtml(newtitle);  
   m_htmlTitle = newtitle;
 
+  //cursor.setPosition(0, QTextCursor::MoveAnchor);  
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);  
+  cursor.setCharFormat(bodyFormat);
+  cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);  
+  //cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor, 1);  
+  newContent = startNormal+cursor.selectedText()+endNormal;
+  qDebug() << __PRETTY_FUNCTION__ <<  " selected text: " << newContent;
+
+  //cursor.setPosition(pos2, QTextCursor::MoveAnchor);  
+  //cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  cursor.removeSelectedText();	
+  cursor.insertHtml(newContent);  
+
   //cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);  
-//  cursor.setPosition(pos, QTextCursor::KeepAnchor);  
+  cursor.setPosition(pos, QTextCursor::KeepAnchor);  
 }
 // END slotFormatTitle()
 

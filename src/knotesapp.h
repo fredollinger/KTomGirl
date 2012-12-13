@@ -90,7 +90,11 @@ class KNotesApp
     ktomgirl::KTGConfig *m_config;
 
   public slots:
-	void slotNewNotebook(const QString&);
+    void showAllNotes(void);
+    void showFilteredNotes(const QString&);
+    void showUnFiledNotes(void);
+
+	  void slotNewNotebook(const QString&);
     void slotHandleSearch(QString);
     void slotOpenNote(QAction*);
     void slotCloseNote(const QString&);

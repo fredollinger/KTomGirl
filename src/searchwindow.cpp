@@ -135,7 +135,7 @@ void SearchWindow::styleNotes(){
 void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 	QString qs;
 
-  	KIcon notebookIcon = KIcon(":/icons/notebook.png");
+ 	KIcon notebookIcon = KIcon(":/icons/notebook.png");
         
 	for(gnote::Note::List::const_iterator iter = notesCopy.begin();
 		iter != notesCopy.end(); ++iter) {

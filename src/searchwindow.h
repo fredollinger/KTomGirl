@@ -29,7 +29,7 @@ public:
 	~SearchWindow();
 
 	/* add notes to a row from a string list */
-	void setStringList(int, QStringList&, QTableWidget*, QString);
+	//void setStringList(int, QStringList&, QTableWidget*, QString);
 
 	/* iterate through note list and load up the titles into the qtablewidget */
 	void loadNotes(const gnote::Note::List&);

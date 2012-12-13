@@ -853,5 +853,20 @@ void  KNotesApp::slotHandleSearch(QString qs){
 #endif
 }
 
+/* Given a NoteBook String, filter the notes */
+void  KNotesApp::showFilteredNotes(const QString &qs){
+	qDebug() << __PRETTY_FUNCTION__ << qs; 
+}
+
+/* Given a NoteBook String, filter the notes */
+void  KNotesApp::showAllNotes(){
+	qDebug() << __PRETTY_FUNCTION__;
+}
+
+/* Given a NoteBook String, filter the notes */
+void  KNotesApp::showUnFiledNotes(){
+	qDebug() << __PRETTY_FUNCTION__;
+}
+
 } // namespace knotes
-// Sun Sep 30 10:42:55 PDT 2012
+// Wed Dec 12 16:12:58 PST 2012
