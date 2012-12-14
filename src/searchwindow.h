@@ -31,6 +31,9 @@ public:
 	/* add notes to a row from a string list */
 	//void setStringList(int, QStringList&, QTableWidget*, QString);
 
+	// Given an item title, remove that item
+	void deleteItem(const QString&);
+
 	/* iterate through note list and load up the titles into the qtablewidget */
 	void loadNotes(const gnote::Note::List&);
 
@@ -40,11 +43,10 @@ public:
 
 	void newItem(gnote::Note::Ptr&);
 
-	// Given an item title, remove that item
-	void deleteItem(const QString&);
-
 	// add the background gray and anything else to the notes...
 	void styleNotes(void);
+
+  void showFilteredNotes(const QString&);
 
 private:
 	KTGlib::StringList m_list;
@@ -58,15 +60,14 @@ signals:
 	void signalNoteSelected(ktomgirl::KTGItem*);
 	void signalHandleSearch(QString);
 
-
 public slots:
 	void slotAddNotebook(const QString&);
 	void emitNoteSelected(QTableWidgetItem*);
 	void setItemName(const QString&, const QString&);
 	void slotItemClicked(QTableWidgetItem*);
 	void slotHandleSearch(void);
-
+  void notebookDoubleClicked(int, int);
 
 }; // class SearchWindow
 #endif // SEARCH_WINDOW_H
-// Fri Sep 28 13:00:43 PDT 2012
+// Thu Dec 13 18:07:53 PST 2012

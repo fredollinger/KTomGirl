@@ -46,6 +46,7 @@
 #include <libktomgirl/gnote.hpp>
 #include <libktomgirl/note.hpp>
 #include <libktomgirl/notebookmanager.hpp>
+#include <libktomgirl/tagmanager.hpp>
 
 // BEGIN SEARCH WINDOW
 SearchWindow::SearchWindow(QWidget* pParent, const char* szName) :
@@ -84,6 +85,8 @@ m_row(0)
 
   //m_notebooksDialog->tableNotebooks->verticalScrollBar()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
   //m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+ 	connect (m_notebooksDialog->tableNotebooks, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(notebookDoubleClicked(int, int)));
 
 	// END NOTEBOOKS DIALOG
 
@@ -254,8 +257,6 @@ void SearchWindow::slotAddNotebook(const QString &nb){
 
 	int rows = m_notebooksDialog->tableNotebooks->rowCount();
 
-	rows;
-
  	KIcon notebookIcon = KIcon(":/icons/notebook_edit.png");
 
 	m_notebooksDialog->tableNotebooks->setRowCount(rows+1);
@@ -267,7 +268,6 @@ void SearchWindow::slotAddNotebook(const QString &nb){
 	m_notebooksDialog->tableNotebooks->setItem ( rows, 0, item );
 }
 
-//void SearchWindow::loadNotebooks(const QStringList &qsl){
 void SearchWindow::loadNotebooks(){
 
   KTGlib::StringList nbs = gnote::notebooks::NotebookManager::instance().get_notebook_list();  
@@ -280,4 +280,32 @@ void SearchWindow::loadNotebooks(){
 	return;
 }
 
-// Sat Oct  6 12:01:56 PDT 2012
+/* FRED: FIXME: Need to be able to search for the tag in the note...
+ * Need to figure out how to get tagmanager, probably best to let note class in libktgirl
+ * to do this...
+ */
+void SearchWindow::showFilteredNotes(const QString &filter){
+  //gnote::Tag tag = gnote::TagManager.instance()->create_tag(filter.toStdString()); 
+  //gnote::Tag tag = gnote::TagManager.instance()->create_tag(filter.toStdString()); 
+  int m_rows = m_notesDialog->tableNotes->rowCount();
+	for(int i=0;  i < m_rows; i++){
+	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
+		if (0 != item){
+      gnote::Note::Ptr note = item->get_note();
+      qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(note->get_title());
+   //   if (note->contains_tag(tag)) m_tableNotes->setRowHidden(i,false);
+    //  else m_tableNotes->setRowHidden(i,true);
+    }
+
+	  //emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
+    // TODO: If we are valid, then we need to check to see if we are in the notebook
+    // aka the filter. If so show it, otherwise, hide it...
+	}
+}
+
+void SearchWindow::notebookDoubleClicked(int row, int col){
+	QTableWidgetItem *item = m_notebooksDialog->tableNotebooks->item(row, col);
+  showFilteredNotes(item->text());
+  qDebug() << __PRETTY_FUNCTION__ << item->text();
+}
+// Thu Dec 13 18:08:00 PST 2012
