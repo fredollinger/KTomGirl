@@ -44,7 +44,7 @@ namespace knotes{
 KNoteEdit::KNoteEdit( KActionCollection *actions, QWidget *parent )
   : KRichTextEdit( parent ), m_note( 0 )
 {
-  setFontPointSize(12);
+  setFontPointSize(14);
   //setTextBackgroundColor( QColor (254, 255, 144)); //feff90
   setAcceptDrops( true );
   setWordWrapMode( QTextOption::WordWrap );

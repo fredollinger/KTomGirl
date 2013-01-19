@@ -285,16 +285,18 @@ void SearchWindow::loadNotebooks(){
  * to do this...
  */
 void SearchWindow::showFilteredNotes(const QString &filter){
-  //gnote::Tag tag = gnote::TagManager.instance()->create_tag(filter.toStdString()); 
-  //gnote::Tag tag = gnote::TagManager.instance()->create_tag(filter.toStdString()); 
+  gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook ( filter.toStdString() );
+
   int m_rows = m_notesDialog->tableNotes->rowCount();
 	for(int i=0;  i < m_rows; i++){
 	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
 		if (0 != item){
       gnote::Note::Ptr note = item->get_note();
       qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(note->get_title());
-   //   if (note->contains_tag(tag)) m_tableNotes->setRowHidden(i,false);
-    //  else m_tableNotes->setRowHidden(i,true);
+      if (notebook->contains_note(note)) 
+        m_notebooksDialog->tableNotebooks->setRowHidden(i,false);
+      else 
+        m_notebooksDialog->tableNotebooks->setRowHidden(i,true);
     }
 
 	  //emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
@@ -308,4 +310,4 @@ void SearchWindow::notebookDoubleClicked(int row, int col){
   showFilteredNotes(item->text());
   qDebug() << __PRETTY_FUNCTION__ << item->text();
 }
-// Thu Dec 13 18:08:00 PST 2012
+// Sat Jan 19 14:26:33 PST 2013

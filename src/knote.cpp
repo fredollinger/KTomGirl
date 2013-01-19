@@ -1241,7 +1241,7 @@ void KNote::slotDataChanged(const QString &qs){
 
   std::string oldTitle = m_gnote->get_title();
 
-  slotFormatTitle();
+  //slotFormatTitle();
 
   // Sync title bar with title
   setWindowTitle(newTitle);
