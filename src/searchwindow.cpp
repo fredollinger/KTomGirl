@@ -292,11 +292,14 @@ void SearchWindow::showFilteredNotes(const QString &filter){
 	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
 		if (0 != item){
       gnote::Note::Ptr note = item->get_note();
-      qDebug() << __PRETTY_FUNCTION__ << QString::fromStdString(note->get_title());
-      if (notebook->contains_note(note)) 
-        m_notebooksDialog->tableNotebooks->setRowHidden(i,false);
-      else 
-        m_notebooksDialog->tableNotebooks->setRowHidden(i,true);
+      if (notebook->contains_note(note)){
+        qDebug() << __PRETTY_FUNCTION__ << " not hidden: " <<QString::fromStdString(note->get_title());
+        m_notesDialog->tableNotes->setRowHidden(i,false);
+      }
+      else {
+        qDebug() << __PRETTY_FUNCTION__ << " hidden: " <<QString::fromStdString(note->get_title());
+        m_notesDialog->tableNotes->setRowHidden(i,true);
+       }
     }
 
 	  //emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
