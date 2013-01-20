@@ -58,6 +58,9 @@ private:
 	NotebooksDialog *m_notebooksDialog;
 	SearchBar *m_searchBar;
 
+  typedef QList<ktomgirl::KTGItem*> NoteItemList;
+  NoteItemList m_noteList;
+
 signals:
 	void signalNoteSelected(ktomgirl::KTGItem*);
 	void signalHandleSearch(QString);
