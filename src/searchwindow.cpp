@@ -280,10 +280,7 @@ void SearchWindow::loadNotebooks(){
 	return;
 }
 
-/* FRED: FIXME: Need to be able to search for the tag in the note...
- * Need to figure out how to get tagmanager, probably best to let note class in libktgirl
- * to do this...
- */
+// BEGIN showFilteredNotes
 void SearchWindow::showFilteredNotes(const QString &filter){
   gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook ( filter.toStdString() );
 
@@ -293,24 +290,39 @@ void SearchWindow::showFilteredNotes(const QString &filter){
 		if (0 != item){
       gnote::Note::Ptr note = item->get_note();
       if (notebook->contains_note(note)){
-        qDebug() << __PRETTY_FUNCTION__ << " not hidden: " <<QString::fromStdString(note->get_title());
         m_notesDialog->tableNotes->setRowHidden(i,false);
       }
       else {
-        qDebug() << __PRETTY_FUNCTION__ << " hidden: " <<QString::fromStdString(note->get_title());
         m_notesDialog->tableNotes->setRowHidden(i,true);
        }
     }
-
 	  //emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
     // TODO: If we are valid, then we need to check to see if we are in the notebook
     // aka the filter. If so show it, otherwise, hide it...
 	}
-}
+} // END showFilteredNotes
 
 void SearchWindow::notebookDoubleClicked(int row, int col){
 	QTableWidgetItem *item = m_notebooksDialog->tableNotebooks->item(row, col);
+  // void SearchWindow::notebookDoubleClicked(int, int) "All Notes" 
+  // void SearchWindow::notebookDoubleClicked(int, int) "Unfiled Notes" 
+  if ( tr("All Notes") == item->text() ){
+    showAllNotes();
+    return;
+  }
+  else if ( tr("Unfiled Notes") == item->text() ){
+    return;
+  }
   showFilteredNotes(item->text());
-  qDebug() << __PRETTY_FUNCTION__ << item->text();
 }
-// Sat Jan 19 14:26:33 PST 2013
+
+void SearchWindow::showAllNotes(){
+  int m_rows = m_notesDialog->tableNotes->rowCount();
+	for(int i=0;  i < m_rows; i++){
+	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
+		if (0 != item)
+      m_notesDialog->tableNotes->setRowHidden(i,false);
+    }
+}
+
+// Sat Jan 19 15:07:31 PST 2013

@@ -46,6 +46,7 @@ public:
 	// add the background gray and anything else to the notes...
 	void styleNotes(void);
 
+  void showAllNotes(void);
   void showFilteredNotes(const QString&);
 
 private:
