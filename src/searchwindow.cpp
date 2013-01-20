@@ -86,7 +86,7 @@ m_row(0)
   //m_notebooksDialog->tableNotebooks->verticalScrollBar()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
   //m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
- 	connect (m_notebooksDialog->tableNotebooks, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(notebookDoubleClicked(int, int)));
+ 	connect (m_notebooksDialog->tableNotebooks, SIGNAL(cellClicked(int, int)), this, SLOT(notebookClicked(int, int)));
 
 	// END NOTEBOOKS DIALOG
 
@@ -296,25 +296,8 @@ void SearchWindow::showFilteredNotes(const QString &filter){
         m_notesDialog->tableNotes->setRowHidden(i,true);
        }
     }
-	  //emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
-    // TODO: If we are valid, then we need to check to see if we are in the notebook
-    // aka the filter. If so show it, otherwise, hide it...
 	}
 } // END showFilteredNotes
-
-void SearchWindow::notebookDoubleClicked(int row, int col){
-	QTableWidgetItem *item = m_notebooksDialog->tableNotebooks->item(row, col);
-  // void SearchWindow::notebookDoubleClicked(int, int) "All Notes" 
-  // void SearchWindow::notebookDoubleClicked(int, int) "Unfiled Notes" 
-  if ( tr("All Notes") == item->text() ){
-    showAllNotes();
-    return;
-  }
-  else if ( tr("Unfiled Notes") == item->text() ){
-    return;
-  }
-  showFilteredNotes(item->text());
-}
 
 void SearchWindow::showAllNotes(){
   int m_rows = m_notesDialog->tableNotes->rowCount();
@@ -324,5 +307,40 @@ void SearchWindow::showAllNotes(){
       m_notesDialog->tableNotes->setRowHidden(i,false);
     }
 }
+
+void SearchWindow::notebookClicked(int row, int col){
+	QTableWidgetItem *item = m_notebooksDialog->tableNotebooks->currentItem();
+  QString text = item->text();
+
+  if ( tr("All Notes") == text ){
+    showAllNotes();
+    return;
+  }
+  else if ( tr("Unfiled Notes") == text ){
+    showUnfilteredNotes();
+    return;
+  }
+  showFilteredNotes(item->text());
+}
+
+// BEGIN showUnfilteredNotes
+void SearchWindow::showUnfilteredNotes(){
+
+  int m_rows = m_notesDialog->tableNotes->rowCount();
+	for(int i=0;  i < m_rows; i++){
+	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
+
+		if (0 != item){
+      gnote::Note::Ptr note = item->get_note();
+      gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook_from_note ( note );
+      if (NULL == note){
+        m_notesDialog->tableNotes->setRowHidden(i,true);
+      }
+      else {
+        m_notesDialog->tableNotes->setRowHidden(i,false);
+       }
+    }
+	}
+} // END showUnfilteredNotes
 
 // Sat Jan 19 15:07:31 PST 2013

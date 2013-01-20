@@ -100,7 +100,7 @@ static const QString endTitle = "</u></font></p>";
 //static const QString startTitle = "";
 //static const QString endTitle = "";
 
-static const QString startNormal = "<p><font color=\"Black\" size=\"5\">";
+static const QString startNormal = "<p><font color=\"Black\" size=\"10\">";
 static const QString endNormal = "</font></p>";
 
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )

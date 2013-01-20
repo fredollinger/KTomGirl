@@ -47,6 +47,7 @@ public:
 	void styleNotes(void);
 
   void showAllNotes(void);
+  void showUnfilteredNotes(void);
   void showFilteredNotes(const QString&);
 
 private:
@@ -67,7 +68,7 @@ public slots:
 	void setItemName(const QString&, const QString&);
 	void slotItemClicked(QTableWidgetItem*);
 	void slotHandleSearch(void);
-  void notebookDoubleClicked(int, int);
+  void notebookClicked(int, int);
 
 }; // class SearchWindow
 #endif // SEARCH_WINDOW_H
