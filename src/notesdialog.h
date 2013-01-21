@@ -19,6 +19,8 @@ class NotesDialog : public QDockWidget, public Ui::NotesDialog
 public:
 	NotesDialog(QWidget* pParent = NULL, const char* szName = NULL);
 	~NotesDialog();
+protected:
+  void contextMenuEvent ( QContextMenuEvent * ev );
 
 }; // class NotesDialog
 #endif //_KTOMGIRL_NOTES_DIALOG_H

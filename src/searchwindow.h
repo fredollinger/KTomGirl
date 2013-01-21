@@ -60,6 +60,7 @@ private:
 
   typedef QList<ktomgirl::KTGItem*> NoteItemList;
   NoteItemList m_noteList;
+  NoteItemList m_dateList;
 
 signals:
 	void signalNoteSelected(ktomgirl::KTGItem*);

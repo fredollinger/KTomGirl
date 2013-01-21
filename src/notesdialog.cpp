@@ -15,3 +15,9 @@ NotesDialog::NotesDialog(QWidget* pParent, const char* szName)
 NotesDialog::~NotesDialog()
 {
 }
+
+void NotesDialog::contextMenuEvent ( QContextMenuEvent * ev ){
+  qDebug() << __PRETTY_FUNCTION__;
+  //QPoint globalPos = myWidget->mapToGlobal(pos);
+  return;
+}
