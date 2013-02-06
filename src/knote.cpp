@@ -3,7 +3,7 @@
 
  Copyright (c) 1997-2007, The KNotes Developers
 
- 2012 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
+ 2012, 2013 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -1051,7 +1051,11 @@ void KNote::keyPressEvent(QKeyEvent *event) {
         if (event->key() == Qt::Key_Return) {
 		      slotFormatTitle();
          	QWidget::keyPressEvent(event);
-        } else {
+        } 
+        else if ((event->key()==Qt::Key_Z) && (event->modifiers()==Qt::ControlModifier)){
+                qDebug() << __PRETTY_FUNCTION__ << " CTRL-Z Pressed";
+        }
+        else {
             QWidget::keyPressEvent(event);
         }
 }
@@ -1440,4 +1444,4 @@ void KNote::slotMoveToNotebook(QAction *act){
 
 // END KNOTE SLOTS
 }// namespace knotes
-// Mon Sep  3 14:23:36 PDT 2012
+// Mon Jan 21 18:51:08 PST 2013
