@@ -1179,14 +1179,25 @@ void KNote::slotFormatTitle(){
   bodyFormat.setFontUnderline(false); 
   bodyFormat.setForeground(QBrush(QColor(Qt::black))); 
   bodyFormat.setFontPointSize(14);
+  static bool bNeedsFormatting = false;
 
   // if we are on the first line don't change anything
   // otherwise, we'll wind up running over things
-  if (pos == col) return;
+  if (pos == col){
+    bNeedsFormatting = true;
+    return;
+  }
+
+  if (!bNeedsFormatting){
+    return;
+  }
+
+  bNeedsFormatting = false;
 
   /* Make the first line blue and underlined */
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
-  cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor, 1);  
+  // cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor, 1);  
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
   s.remove("\n");
   m_title = s;
@@ -1199,9 +1210,11 @@ void KNote::slotFormatTitle(){
 
   cursor.removeSelectedText();	
 
-  cursor.setKeepPositionOnInsert(true);
+  //cursor.setKeepPositionOnInsert(true);
   cursor.insertHtml(newtitle);  
   m_htmlTitle = newtitle;
+
+  qDebug() << __PRETTY_FUNCTION__ <<  " new title: " << newtitle;
 
   //cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);  
