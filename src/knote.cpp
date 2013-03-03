@@ -317,6 +317,11 @@ void KNote::setText( const QString& text )
   slotFormatTitle();
 }
 
+void KNote::setTitleAndBody( const QString &title, const QString &body ){
+  QString formattedText = startTitle + title + endTitle + startNormal + "\n" + body + endNormal; 
+  m_editor->setHtml(formattedText);
+}
+
 void KNote::find( KFind* kfind )
 {
   m_find = kfind;

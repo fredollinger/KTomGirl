@@ -564,12 +564,14 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   int n = m_config->noteNumber();
 
   QString title = tr("New Note ") + QString::number(n, 10); 
+  QString body = tr("Describe your new note here.");
 
   gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(title.toStdString(), journal->uid().toStdString());
   m_manager->addNewNote( journal );
 
   KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
-  newNote->setText(QString::fromStdString(title.toStdString()));
+  //newNote->setText(QString::fromStdString(title.toStdString()));
+  newNote->setTitleAndBody(title, body);
   newNote->setObjectName( journal->uid() );
 
   m_notes.insert( journal->uid(), newNote );
