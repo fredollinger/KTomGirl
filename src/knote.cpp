@@ -365,8 +365,6 @@ bool KNote::isModified() const
   return true;
 }
 
-// ------------------ private slots (menu actions) ------------------ //
-
 void KNote::slotRename()
 {
   m_blockEmitDataChanged = true;
@@ -374,12 +372,9 @@ void KNote::slotRename()
   return;
 }
 
-/*
-void KNote::commitData()
-{
-  //mBlockWriteConfigDuringCommitData = true;
+void KNote::slotDebug(){
+  qDebug() << __PRETTY_FUNCTION__;
 }
-*/
 
 #if 0
 // BEGIN KNote::slotClose()
@@ -717,7 +712,7 @@ void KNote::createNoteHeader()
   connect(noteBook_action, SIGNAL(triggered()), this, SLOT(slotShowNoteBookMenu()));
 
   KIcon iconBug = KIcon(":/icons/bug.png");
-  QAction *bug_action = m_tool->addAction(iconTrash, i18n("Debug"));
+  QAction *bug_action = m_tool->addAction(iconBug, i18n("Debug"));
   connect(bug_action, SIGNAL(triggered()), this, SLOT(slotDebug()));
 
   m_noteLayout->addWidget( m_tool );
@@ -1476,4 +1471,4 @@ void KNote::slotMoveToNotebook(QAction *act){
 
 // END KNOTE SLOTS
 }// namespace knotes
-// Mon Jan 21 18:51:08 PST 2013
+// Sun Mar 10 12:50:51 PDT 2013

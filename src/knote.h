@@ -104,11 +104,11 @@ class KNote
   public slots:
     void slotAddNotebook(const QString &text);
     void slotAddNotebookMenu(const QString&);
+    void slotDebug(void);
     void slotMoveToNotebook(QAction*);
     void emitNewNote();
     void slotRename(void);
     void slotKill(void);
-    //void formatTitle(void);
     void slotNewNoteBook(void);
     void slotShowNoteBookMenu(void);
     void slotShowSearchWindow(void);
