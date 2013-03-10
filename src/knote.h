@@ -74,6 +74,7 @@ class KNote
     // KNote( gnote::NoteManager *gnmanager, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
     KNote( gnote::Note::Ptr, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
     ~KNote();
+    void formatText(void);
     void init( const QDomDocument& );
     void init_note(void);
     void load_gnote(void);
@@ -175,6 +176,7 @@ class KNote
 // BEGIN class KNote private:
   private:
     void setContent( const QString &title, const QString &text );
+
 
     NewNoteBookDialog *m_dlg;
 

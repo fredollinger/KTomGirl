@@ -151,7 +151,7 @@ KNote::~KNote()
 
 /* This is to be done last */
 void KNote::init_note(){
-	slotFormatTitle();
+	formatText();
 	connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
 }
 
@@ -1185,6 +1185,8 @@ void KNote::formatTitle(){
  * want the title formatted such as upon first startup. 
  */ 
 void KNote::slotFormatTitle(){
+  static bool bNeedsFormatting = false;
+  QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
   int col = cursor.columnNumber();
 
@@ -1195,24 +1197,20 @@ void KNote::slotFormatTitle(){
     return;
   }
 
+  if (!bNeedsFormatting){
+    return;
+  }
+  bNeedsFormatting = false;
+
   QString newContent;
-  QTextCursor cursor = m_editor->textCursor();
 
   QTextCharFormat bodyFormat;
   bodyFormat.setFontUnderline(false); 
   bodyFormat.setForeground(QBrush(QColor(Qt::black))); 
   bodyFormat.setFontPointSize(14);
-  static bool bNeedsFormatting = false;
-
-  if (!bNeedsFormatting){
-    return;
-  }
-
-  bNeedsFormatting = false;
 
   /* Make the first line blue and underlined */
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
-  // cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor, 1);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
   s.remove("\n");
@@ -1222,6 +1220,8 @@ void KNote::slotFormatTitle(){
   if (m_htmlTitle == newtitle) {
 	  return;
   }
+  formatText();
+  return;
 
   cursor.removeSelectedText();	
 
@@ -1468,6 +1468,57 @@ void KNote::slotMoveToNotebook(QAction *act){
   m_isModified=true;
   slotSave();
 }
+
+// BEGIN formatText()
+/* This slot is called every second. We don't reformat title each time b/c that
+ * would be annoying. Thus, we do a few checks and only do so when the time is
+ * right aka, we won't be fighting with the user as they try to edit the title.
+ * Our sister function format Title() does the same thing, but without the check
+ * which is because we use format Title() for those times when we know we really
+ * want the title formatted such as upon first startup. 
+ */ 
+void KNote::formatText(){
+  QTextCursor cursor = m_editor->textCursor();
+  int pos = cursor.position();
+  int col = cursor.columnNumber();
+
+  QString newContent;
+
+  QTextCharFormat bodyFormat;
+  bodyFormat.setFontUnderline(false); 
+  bodyFormat.setForeground(QBrush(QColor(Qt::black))); 
+  bodyFormat.setFontPointSize(14);
+  static bool bNeedsFormatting = false;
+
+  /* Make the first line blue and underlined */
+  cursor.setPosition(0, QTextCursor::MoveAnchor);  
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  QString s=cursor.selectedText();
+  s.remove("\n");
+  m_title = s;
+  QString newtitle = startTitle+s+endTitle.trimmed()+"\n";
+
+  cursor.removeSelectedText();	
+
+  cursor.insertHtml(newtitle);  
+  int bodyPos = cursor.position();
+  m_htmlTitle = newtitle;
+
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);  
+  cursor.setCharFormat(bodyFormat);
+  cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);  
+  newContent = startNormal+cursor.selectedText()+endNormal;
+
+  cursor.removeSelectedText();	
+  cursor.insertHtml(newContent);  
+
+  cursor.setPosition(bodyPos, QTextCursor::KeepAnchor );
+  qDebug() << __PRETTY_FUNCTION__ <<  " SELECTED TEXT: " << cursor.selection().toHtml();
+  cursor.setCharFormat(bodyFormat);
+
+  cursor.setPosition(pos, QTextCursor::KeepAnchor);  
+}
+// END formatText()
 
 // END KNOTE SLOTS
 }// namespace knotes
