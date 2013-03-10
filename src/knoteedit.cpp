@@ -44,7 +44,7 @@ namespace knotes{
 KNoteEdit::KNoteEdit( KActionCollection *actions, QWidget *parent )
   : KRichTextEdit( parent ), m_note( 0 )
 {
-  setFontPointSize(14);
+  setFontPointSize(10);
   //setTextBackgroundColor( QColor (254, 255, 144)); //feff90
   setAcceptDrops( true );
   setWordWrapMode( QTextOption::WordWrap );
@@ -54,7 +54,7 @@ KNoteEdit::KNoteEdit( KActionCollection *actions, QWidget *parent )
   } else {
     setAutoFormatting( AutoNone );
   }
-  setCheckSpellingEnabled( true );
+  setCheckSpellingEnabled( false );
 
   // create the actions modifying the text format
   m_textBold  = new KToggleAction( KIcon( "format-text-bold" ), i18n( "Bold" ),

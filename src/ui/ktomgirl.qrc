@@ -4,5 +4,6 @@
     <file>notebook.png</file>
     <file>search.png</file>
     <file>trash.png</file>
+    <file>bug.png</file>
   </qresource>
 </RCC>

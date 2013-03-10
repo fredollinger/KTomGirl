@@ -318,8 +318,18 @@ void KNote::setText( const QString& text )
 }
 
 void KNote::setTitleAndBody( const QString &title, const QString &body ){
-  QString formattedText = startTitle + title + endTitle + startNormal + "\n" + body + endNormal; 
+  QTextCursor cursor = m_editor->textCursor();
+
+  QString formattedText = startTitle + title + endTitle;
   m_editor->setHtml(formattedText);
+
+  /* TODO: Highlight selected body until the user presses a key
+  cursor.movePosition(QTextCursor::EndOfText, QTextCursor::MoveAnchor, 1);  
+  m_editor->insertHtml(formattedText);
+  QString formattedBody = startNormal + "\n\n" + body + endNormal; 
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  */
+
 }
 
 void KNote::find( KFind* kfind )
@@ -705,6 +715,10 @@ void KNote::createNoteHeader()
   KIcon iconNoteBook = KIcon(":/icons/notebook_edit.png");
   QAction *noteBook_action = m_tool->addAction(iconNoteBook, i18n("Notebook"));
   connect(noteBook_action, SIGNAL(triggered()), this, SLOT(slotShowNoteBookMenu()));
+
+  KIcon iconBug = KIcon(":/icons/bug.png");
+  QAction *bug_action = m_tool->addAction(iconTrash, i18n("Debug"));
+  connect(bug_action, SIGNAL(triggered()), this, SLOT(slotDebug()));
 
   m_noteLayout->addWidget( m_tool );
   m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
