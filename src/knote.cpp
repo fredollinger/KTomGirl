@@ -78,6 +78,7 @@
 #include <QSize>
 #include <QSizeGrip>
 #include <QTextCursor>
+#include <QTextDocumentFragment>
 #include <QTextStream>
 #include <QTextBlock>
 #include <QTextBlockFormat>
@@ -100,7 +101,7 @@ static const QString endTitle = "</u></font></p>";
 //static const QString startTitle = "";
 //static const QString endTitle = "";
 
-static const QString startNormal = "<p><font color=\"Black\" size=\"10\">";
+static const QString startNormal = "<p><font face=\"georgia, serif\" color=\"Black\" size=\"15\">";
 static const QString endNormal = "</font></p>";
 
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
@@ -260,7 +261,7 @@ void KNote::setName( const QString& name )
 }
 
 /* FRED: TODO: Set the title and the text separate using insertBlock() with a custom
- * blue underline block for the title. Then format Title() will work better plus we 
+ * b lue underline block for the title. Then format Title() will work better plus we 
  * can more easily squeeze out annoying line breaks which messes up the title all the 
  * time!
  */
@@ -304,7 +305,7 @@ void KNote::setContent( const QString& title, const QString& text )
 
   cursor.movePosition(QTextCursor::EndOfBlock);
 
-  qDebug() << " TITLE: " << firstBlock.text();
+  // qDebug() << " TITLE: " << firstBlock.text();
 
   cursor.insertBlock();
   m_editor->insertPlainText( body.toString() );
@@ -373,7 +374,8 @@ void KNote::slotRename()
 }
 
 void KNote::slotDebug(){
-  qDebug() << __PRETTY_FUNCTION__;
+  qDebug() << __PRETTY_FUNCTION__ << m_editor->toHtml();
+
 }
 
 #if 0
@@ -1183,17 +1185,8 @@ void KNote::formatTitle(){
  * want the title formatted such as upon first startup. 
  */ 
 void KNote::slotFormatTitle(){
-  QString newContent;
-  QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
-  //int pos2; // start of second line 
   int col = cursor.columnNumber();
-
-  QTextCharFormat bodyFormat;
-  bodyFormat.setFontUnderline(false); 
-  bodyFormat.setForeground(QBrush(QColor(Qt::black))); 
-  bodyFormat.setFontPointSize(14);
-  static bool bNeedsFormatting = false;
 
   // if we are on the first line don't change anything
   // otherwise, we'll wind up running over things
@@ -1201,6 +1194,15 @@ void KNote::slotFormatTitle(){
     bNeedsFormatting = true;
     return;
   }
+
+  QString newContent;
+  QTextCursor cursor = m_editor->textCursor();
+
+  QTextCharFormat bodyFormat;
+  bodyFormat.setFontUnderline(false); 
+  bodyFormat.setForeground(QBrush(QColor(Qt::black))); 
+  bodyFormat.setFontPointSize(14);
+  static bool bNeedsFormatting = false;
 
   if (!bNeedsFormatting){
     return;
@@ -1215,7 +1217,6 @@ void KNote::slotFormatTitle(){
   QString s=cursor.selectedText();
   s.remove("\n");
   m_title = s;
-  //pos2 = s.count() + 1;
   QString newtitle = startTitle+s+endTitle.trimmed()+"\n";
 
   if (m_htmlTitle == newtitle) {
@@ -1226,9 +1227,8 @@ void KNote::slotFormatTitle(){
 
   //cursor.setKeepPositionOnInsert(true);
   cursor.insertHtml(newtitle);  
+  int bodyPos = cursor.position();
   m_htmlTitle = newtitle;
-
-  qDebug() << __PRETTY_FUNCTION__ <<  " new title: " << newtitle;
 
   //cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);  
@@ -1236,14 +1236,14 @@ void KNote::slotFormatTitle(){
   cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);  
   //cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor, 1);  
   newContent = startNormal+cursor.selectedText()+endNormal;
-  qDebug() << __PRETTY_FUNCTION__ <<  " selected text: " << newContent;
 
-  //cursor.setPosition(pos2, QTextCursor::MoveAnchor);  
-  //cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   cursor.removeSelectedText();	
   cursor.insertHtml(newContent);  
 
-  //cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);  
+  cursor.setPosition(bodyPos, QTextCursor::KeepAnchor );
+  qDebug() << __PRETTY_FUNCTION__ <<  " SELECTED TEXT: " << cursor.selection().toHtml();
+  cursor.setCharFormat(bodyFormat);
+
   cursor.setPosition(pos, QTextCursor::KeepAnchor);  
 }
 // END slotFormatTitle()
