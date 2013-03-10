@@ -98,11 +98,9 @@ namespace knotes{
 
 static const QString startTitle = "<p><font color=\"Blue\" size=\"16\"><u>";
 static const QString endTitle = "</u></font></p>";
-//static const QString startTitle = "";
-//static const QString endTitle = "";
 
-static const QString startNormal = "<p><font face=\"georgia, serif\" color=\"Black\" size=\"15\">";
-static const QString endNormal = "</font></p>";
+//static const QString startNormal = "<p><font face=\"georgia, serif\" color=\"Black\" size=\"15\">";
+//static const QString endNormal = "</font></p>";
 
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
@@ -227,14 +225,6 @@ QString KNote::noteId() const
   return m_journal->uid();
 }
 
-/*
-const QString KNote::name() const
-{
-  return getTitle();
-  // return m_label->text();
-}
-*/
-
 QString KNote::text() const
 {
   //QString qs;
@@ -323,14 +313,6 @@ void KNote::setTitleAndBody( const QString &title, const QString &body ){
 
   QString formattedText = startTitle + title + endTitle;
   m_editor->setHtml(formattedText);
-
-  /* TODO: Highlight selected body until the user presses a key
-  cursor.movePosition(QTextCursor::EndOfText, QTextCursor::MoveAnchor, 1);  
-  m_editor->insertHtml(formattedText);
-  QString formattedBody = startNormal + "\n\n" + body + endNormal; 
-  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
-  */
-
 }
 
 void KNote::find( KFind* kfind )
@@ -406,15 +388,7 @@ void KNote::slotInsDate()
 
 void KNote::slotSetAlarm()
 {
-    m_blockEmitDataChanged = true;
-  #if 0
-  // KNoteAlarmDlg dlg( name(), this );
-  // dlg.setIncidence( m_journal );
-
-  if ( dlg.exec() == QDialog::Accepted ) {
-    emit sigDataChanged(noteId());
-  }
-  #endif
+  m_blockEmitDataChanged = true;
   m_blockEmitDataChanged = false;
 }
 
@@ -427,8 +401,6 @@ void KNote::slotPreferences()
   // KNoteSimpleConfigDlg *dialog = new KNoteSimpleConfigDlg( m_config, name(), this, noteId() );
   connect( dialog, SIGNAL( settingsChanged( const QString & ) ) , this,
            SLOT( slotApplyConfig() ) );
-  connect( this, SIGNAL( sigNameChanged(const QString &) ), dialog,
-           SLOT( slotUpdateCaption(const QString &) ) );
   dialog->exec();
   delete dialog;
   m_blockEmitDataChanged = false;
@@ -468,28 +440,7 @@ void KNote::slotSend()
 }
 
 void KNote::slotMail()
-{
-  #if 0
-  // get the mail action command
-  // const QStringList cmd_list = KNotesGlobalConfig::mailAction().split( QChar(' '),
-      QString::SkipEmptyParts );
-
-  KProcess mail;
-  foreach ( const QString &cmd, cmd_list ) {
-    if ( cmd == "%f" ) {
-      // mail << m_editor->toPlainText();
-    } else if ( cmd == "%t" ) {
-      mail << m_label->text();
-    } else {
-      mail << cmd;
-    }
-  }
-
-  if ( !mail.startDetached() ) {
-    KMessageBox::sorry( this, i18n( "Unable to start the mail process." ) );
-  }
-  #endif
-}
+{}
 
 void KNote::slotPrint()
 {
@@ -511,8 +462,6 @@ void KNote::slotPopupActionToDesktop( int id )
   toDesktop( id - 1 ); // compensate for the menu separator, -1 == all desktops
 }
 
-
-// ------------------ private slots (configuration) ------------------ //
 
 void KNote::slotApplyConfig()
 {
@@ -574,16 +523,6 @@ void KNote::slotUpdateKeepAboveBelow()
 
 void KNote::slotUpdateShowInTaskbar()
 {
-#if 0
-#ifdef Q_WS_X11
-  if ( !m_config->showInTaskbar() ) {
-    KWindowSystem::setState( winId(), KWindowSystem::windowInfo( winId(),
-                             NET::WMState ).state() | NET::SkipTaskbar );
-  } else {
-    KWindowSystem::clearState( winId(), NET::SkipTaskbar );
-  }
-#endif
-#endif
 }
 
 void KNote::slotUpdateDesktopActions()
@@ -615,9 +554,6 @@ void KNote::slotUpdateDesktopActions()
   }
 #endif
 }
-
-
-// -------------------- private methods -------------------- //
 
 void KNote::buildGui()
 {
@@ -1122,59 +1058,13 @@ bool KNote::eventFilter( QObject *o, QEvent *ev )
 }
 
 QString KNote::name() const{
+  return m_title;
+  /*
 	QString t = m_editor->toPlainText();
 	QString str = t.section('\n', 0, 1);
 	return str.trimmed();
+  */
 }
-
-#if 0
-void KNote::formatTitle(){
-  qDebug() << __PRETTY_FUNCTION__ << "BUG: CALLING DEPRECATED FUNCTION";
-  return;
-
-  QTextCursor cursor = m_editor->textCursor();
-  int pos = cursor.position();
-  int pos2; // start of second line 
-  int col = cursor.columnNumber();
-
-  /* Make the first line blue and underlined */
-  cursor.setPosition(0, QTextCursor::MoveAnchor);  
-  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
-  QString s=cursor.selectedText();
-  m_title = s;
-  pos2 = s.count() + 1;
-  QString newtitle = startTitle+s+endTitle.trimmed();
-
-// BEGIN PREVENT AUTO INSERT
-/* If we don't do the following, we'll continuously add line breaks after the title
- * for some reason. Let's prevent that.
- */
-  cursor.removeSelectedText();	
-  cursor.deleteChar();
-// END PREVENT AUTO INSERT
-
-  cursor.insertHtml(newtitle);  
-
-  // BEGIN FIX SECOND LINE
-  // Makes second line look black again and not underlined
-  #if 0
-  cursor.setPosition(pos2, QTextCursor::MoveAnchor);  
-  //cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
-  cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor, 1);  
-  s=cursor.selectedText();
-  QString newtext = startNormal+s+endNormal.trimmed();
-
-  cursor.removeSelectedText();	
-  cursor.deleteChar();
-
-  cursor.insertHtml(newtext);  
-  #endif
-  // END FIX SECOND LINE
-
-
-  cursor.setPosition(pos, QTextCursor::KeepAnchor);  
-}
-#endif
 
 // BEGIN slotFormatTitle()
 /* This slot is called every second. We don't reformat title each time b/c that
@@ -1204,12 +1094,13 @@ void KNote::slotFormatTitle(){
 
   QString newContent;
 
+  /*
   QTextCharFormat bodyFormat;
   bodyFormat.setFontUnderline(false); 
   bodyFormat.setForeground(QBrush(QColor(Qt::black))); 
   bodyFormat.setFontPointSize(14);
+  */
 
-  /* Make the first line blue and underlined */
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
@@ -1222,29 +1113,6 @@ void KNote::slotFormatTitle(){
   }
   formatText();
   return;
-
-  cursor.removeSelectedText();	
-
-  //cursor.setKeepPositionOnInsert(true);
-  cursor.insertHtml(newtitle);  
-  int bodyPos = cursor.position();
-  m_htmlTitle = newtitle;
-
-  //cursor.setPosition(0, QTextCursor::MoveAnchor);  
-  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);  
-  cursor.setCharFormat(bodyFormat);
-  cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);  
-  //cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor, 1);  
-  newContent = startNormal+cursor.selectedText()+endNormal;
-
-  cursor.removeSelectedText();	
-  cursor.insertHtml(newContent);  
-
-  cursor.setPosition(bodyPos, QTextCursor::KeepAnchor );
-  qDebug() << __PRETTY_FUNCTION__ <<  " SELECTED TEXT: " << cursor.selection().toHtml();
-  cursor.setCharFormat(bodyFormat);
-
-  cursor.setPosition(pos, QTextCursor::KeepAnchor);  
 }
 // END slotFormatTitle()
 
@@ -1374,9 +1242,8 @@ void KNote::slotSave(){
 	return;
   }
   // Update the title everywhere
+  qDebug() << __PRETTY_FUNCTION__; 
   slotNameChanged();
-
-//  qDebug() << __PRETTY_FUNCTION__ << " Saving...";
 
   // cache content so we know if we are modified/saved in the future
   m_content = m_editor->toPlainText();
@@ -1490,13 +1357,12 @@ void KNote::formatText(){
   bodyFormat.setFontPointSize(14);
   static bool bNeedsFormatting = false;
 
-  /* Make the first line blue and underlined */
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString s=cursor.selectedText();
   s.remove("\n");
   m_title = s;
-  QString newtitle = startTitle+s+endTitle.trimmed()+"\n";
+  QString newtitle = startTitle+s+endTitle.trimmed();
 
   cursor.removeSelectedText();	
 
@@ -1507,13 +1373,12 @@ void KNote::formatText(){
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);  
   cursor.setCharFormat(bodyFormat);
   cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);  
-  newContent = startNormal+cursor.selectedText()+endNormal;
+  newContent = cursor.selectedText();
 
   cursor.removeSelectedText();	
   cursor.insertHtml(newContent);  
 
   cursor.setPosition(bodyPos, QTextCursor::KeepAnchor );
-  qDebug() << __PRETTY_FUNCTION__ <<  " SELECTED TEXT: " << cursor.selection().toHtml();
   cursor.setCharFormat(bodyFormat);
 
   cursor.setPosition(pos, QTextCursor::KeepAnchor);  
