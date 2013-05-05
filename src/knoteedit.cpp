@@ -37,15 +37,17 @@
 #include <QFont>
 #include <QPixmap>
 
+namespace knotes{
 static const short SEP = 5;
 static const short ICON_SIZE = 10;
+static const short POINT_SIZE = 14;
 
-namespace knotes{
 KNoteEdit::KNoteEdit( KActionCollection *actions, QWidget *parent )
   : KRichTextEdit( parent ), m_note( 0 )
 {
-  setFontPointSize(10);
-  //setTextBackgroundColor( QColor (254, 255, 144)); //feff90
+  QFont font("Sans", 14);
+  //setFontPointSize(POINT_SIZE);
+  setCurrentFont(font);
   setAcceptDrops( true );
   setWordWrapMode( QTextOption::WordWrap );
   setLineWrapMode( WidgetWidth );
@@ -210,8 +212,8 @@ void KNoteEdit::setTextFont( const QFont &font )
     setCurrentFont( font );
 }
 
-void KNoteEdit::setTextFontSize( int size )
-{
+void KNoteEdit::setTextFontSize( int size ) {
+  qDebug() << __PRETTY_FUNCTION__ << " new font size: " << size;
   setFontPointSize( size );
 }
 
@@ -455,11 +457,17 @@ void KNoteEdit::focusOutEvent( QFocusEvent *e )
 
 /** private slots **/
 
-void KNoteEdit::slotCurrentCharFormatChanged( const QTextCharFormat &f )
-{
+void KNoteEdit::slotCurrentCharFormatChanged( const QTextCharFormat &f ) {
+  // FRED      
+  qDebug() << __PRETTY_FUNCTION__ << " new font  size: " << f.fontPointSize();
+  qDebug() << __PRETTY_FUNCTION__ << " current font  size: " << fontPointSize();
+  qDebug() << __PRETTY_FUNCTION__ << " new family: " << f.fontFamily();
+  qDebug() << __PRETTY_FUNCTION__ << " currentfont family: " << fontFamily();
   // font changes
   m_textFont->setFont( f.fontFamily() );
-  m_textSize->setFontSize( (f.fontPointSize()>0 ) ?  ( int ) f.fontPointSize() :10);
+  //m_textSize->setFontSize( (f.fontPointSize()>0 ) ?  ( int ) f.fontPointSize() :10);
+  //m_textSize->setFontSize( (f.fontPointSize()>0 ) ?  ( int ) f.fontPointSize() :14);
+  m_textSize->setFontSize( POINT_SIZE);
 
   m_textBold->setChecked( f.font().bold() );
   m_textItalic->setChecked( f.fontItalic() );

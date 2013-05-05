@@ -1376,7 +1376,10 @@ void KNote::formatText(){
   newContent = cursor.selectedText();
 
   cursor.removeSelectedText();	
-  cursor.insertHtml(newContent);  
+
+  // FRED
+  //cursor.insertHtml(newContent);  
+  cursor.insertText(newContent);  
 
   cursor.setPosition(bodyPos, QTextCursor::KeepAnchor );
   cursor.setCharFormat(bodyFormat);
