@@ -37,7 +37,7 @@
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kapplication.h>
-#include <kcal/journal.h>
+//#include <kcal/journal.h>
 #include <kcodecs.h>
 #include <kcombobox.h>
 #include <kdebug.h>
@@ -92,7 +92,7 @@
 #include <QX11Info>
 #endif
 
-using namespace KCal;
+//using namespace KCal;
 
 namespace knotes{
 
@@ -102,15 +102,15 @@ static const QString endTitle = "</u></font></p>";
 //static const QString startNormal = "<p><font face=\"georgia, serif\" color=\"Black\" size=\"15\">";
 //static const QString endNormal = "</font></p>";
 
-KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *j, QWidget *parent )
+KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
-    m_button( 0 ), m_tool( 0 ), m_journal( j ), m_editor(0), 
+    m_button( 0 ), m_tool( 0 ), m_editor(0), 
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnote(gnoteptr)
     , m_content("")
     , m_title("")
 { 
-	j->setUid(QString::fromStdString(gnoteptr->uid()));
+	//j->setUid(QString::fromStdString(gnoteptr->uid()));
 	init(buildDoc);
 
  	m_gnote->set_is_open(true);
@@ -186,7 +186,7 @@ void KNote::init( const QDomDocument& buildDoc ){
   setAcceptDrops( true );
   setAttribute( Qt::WA_DeleteOnClose );
   setDOMDocument( buildDoc );
-  setObjectName( m_journal->uid() );
+  //setObjectName( m_journal->uid() );
   setXMLFile( componentData().componentName() + "ui.rc", false, false );
 
   // create the main layout
@@ -227,7 +227,7 @@ void KNote::saveConfig() const
 
 QString KNote::noteId() const
 {
-  return m_journal->uid();
+  //return m_journal->uid();
 }
 
 QString KNote::text() const

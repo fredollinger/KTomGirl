@@ -58,9 +58,11 @@ namespace ktomgirl {
 	class KTGItem;	
 }
 
+/*
 namespace KCal {
 class Journal;
 }
+*/
 
 namespace knotes{
 // BEGIN class KNote
@@ -72,7 +74,7 @@ class KNote
   public:
     // CONSTRUCTOR
     // KNote( gnote::NoteManager *gnmanager, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
-    KNote( gnote::Note::Ptr, const QDomDocument& buildDoc, KCal::Journal *journal, QWidget *parent = 0 );
+    KNote( gnote::Note::Ptr, const QDomDocument& buildDoc, QWidget *parent = 0 );
     ~KNote();
     void formatText(void);
     void init( const QDomDocument& );
@@ -82,7 +84,7 @@ class KNote
 
     gnote::Note::Ptr m_gnote;
 
-    void changeJournal(KCal::Journal *);
+    //void changeJournal(KCal::Journal *);
     void saveData( bool update = true);
     void saveConfig() const;
 
@@ -215,7 +217,7 @@ class KNote
     KNoteEdit     *m_editor;
 
     // KNoteConfig   *m_config;
-    KCal::Journal *m_journal;
+    //KCal::Journal *m_journal;
 
     KFind         *m_find;
     KMenu         *m_menu;

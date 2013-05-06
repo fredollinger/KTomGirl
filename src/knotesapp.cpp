@@ -59,8 +59,8 @@
 #include <kxmlguibuilder.h>
 #include <kxmlguifactory.h>
 #include <KStatusNotifierItem>
-#include <kcal/calendarlocal.h>
-#include <kcal/journal.h>
+//#include <kcal/calendarlocal.h>
+//#include <kcal/journal.h>
 #include <kiconloader.h>
 // END   KDE INCLUDES
 

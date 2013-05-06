@@ -31,19 +31,23 @@
  your version.
 *******************************************************************/
 
+
 #ifndef KNOTES_RESOURCEMANAGER_H
 #define KNOTES_RESOURCEMANAGER_H
 
+#include <QObject>
 
-#include <kcal/alarm.h>
+//#include <kcal/alarm.h>
 // #include <knotes/resourcenotes.h>
-#include <kresources/manager.h>
+//#include <kresources/manager.h>
 
 class KNote;
 
+/*
 namespace KCal {
 class Journal;
 }
+*/
 
 
 class ResourceNotes{
@@ -60,12 +64,12 @@ class KNotesResourceManager
     void load();
     void save();
     
-    void addNewNote( KCal::Journal *journal );
-    void registerNote( ResourceNotes *resource, KCal::Journal *journal );
+    //void addNewNote( KCal::Journal *journal );
+    //void registerNote( ResourceNotes *resource, KCal::Journal *journal );
     
-    void deleteNote( KCal::Journal *journal );
+    //void deleteNote( KCal::Journal *journal );
     
-    KCal::Alarm::List alarms( const KDateTime &from, const KDateTime &to );
+    //KCal::Alarm::List alarms( const KDateTime &from, const KDateTime &to );
     
     // from the ManagerObserver interface
     virtual void resourceAdded( ResourceNotes *resource );
@@ -73,8 +77,8 @@ class KNotesResourceManager
     virtual void resourceDeleted( ResourceNotes *resource );
     
   signals:
-    void sigRegisteredNote( KCal::Journal *journal );
-    void sigDeregisteredNote( KCal::Journal *journal );
+    //void sigRegisteredNote( KCal::Journal *journal );
+    //void sigDeregisteredNote( KCal::Journal *journal );
     
   private:
     ResourceNotes *m_manager;

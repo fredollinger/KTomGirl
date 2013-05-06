@@ -34,7 +34,7 @@
 #include "resourcemanager.h"
 // #include "resourcelocal.h"
 
-#include <kcal/journal.h>
+//#include <kcal/journal.h>
 
 
 KNotesResourceManager::KNotesResourceManager()
@@ -57,6 +57,8 @@ void KNotesResourceManager::save()
 }
 
 // when adding a new note, make sure a config file exists!!
+//void KNotesResourceManager::addNewNote( KCal::Journal *journal )
+#if 0
 void KNotesResourceManager::addNewNote( KCal::Journal *journal )
 {
   qDebug() << __PRETTY_FUNCTION__;
@@ -80,6 +82,7 @@ void KNotesResourceManager::registerNote( ResourceNotes *resource,
   emit sigRegisteredNote( journal );
 }
 
+
 void KNotesResourceManager::deleteNote( KCal::Journal *journal )
 {
   const QString uid = journal->uid();
@@ -92,13 +95,16 @@ void KNotesResourceManager::deleteNote( KCal::Journal *journal )
   // emit the journal here
   emit sigDeregisteredNote( journal );
 }
+#endif
 
+/*
 KCal::Alarm::List KNotesResourceManager::alarms( const KDateTime &from,
                                                  const KDateTime &to )
 {
   KCal::Alarm::List result;
   return result;
 }
+*/
 
 void KNotesResourceManager::resourceAdded( ResourceNotes *resource )
 {
