@@ -43,9 +43,11 @@ class KNote;
 namespace ktomgirl{
 class Journal{
 public:
+	//Journal(const QString&);
 	Journal(void);
 	~Journal(void);
 	QString uid(void){ return m_uid; };
+	void setUid(const QString&);
 private:
 	QString m_uid;
 }; // class Journal
@@ -95,3 +97,4 @@ class KNotesResourceManager
 };
 
 #endif // RESOURCEMANAGER_H
+// Mon May  6 14:31:17 PDT 2013

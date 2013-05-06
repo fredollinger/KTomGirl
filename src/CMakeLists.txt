@@ -44,14 +44,13 @@ application.cpp
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS} ${QtApp_RCC_SRCS})
 
-#target_link_libraries(yourapp ${SIGC2_LIBRARIES})
-# target_link_libraries(ktomgirl ${LibXML_LIBRARIES} ${SIGC2_LIBRARIES} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
-
-target_link_libraries(ktomgirl ${KDEPIMLIBS_KCAL_LIBS} kdepim ${KDEPIMLIBS_KRESOURCES_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
+#target_link_libraries(ktomgirl ${KDEPIMLIBS_KCAL_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
+#target_link_libraries(ktomgirl ${KDEPIMLIBS_KCAL_LIBS} kdepim ${KDEPIMLIBS_KRESOURCES_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
+target_link_libraries(ktomgirl ${KDEPIMLIBS_KCAL_LIBS} ${KDEPIMLIBS_KRESOURCES_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
 ${LibXML_LIBRARIES}  ${SIGC2_LIBRARIES} 
 ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
 
 install(TARGETS ktomgirl  DESTINATION ${BIN_INSTALL_DIR})
 install(FILES ui/ktomgirl.rc DESTINATION ${DATA_INSTALL_DIR}/ktomgirl)
 install(FILES DESTINATION ${BIN_INSTALL_DIR})
-# Fri Feb 10 09:20:49 PST 2012
+# Mon May  6 14:31:02 PDT 2013

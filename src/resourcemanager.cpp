@@ -38,10 +38,14 @@
 //#include <kcal/journal.h>
 
 namespace ktomgirl{
-	Journal::Journal():
-	m_uid( "" )	
+	//Journal::Journal(const QString &uid):
+	Journal::Journal(void) 
+	: m_uid( "" )	
 	{}
 	Journal::~Journal(){}
+	void Journal::setUid(const QString &uid){
+		m_uid = uid;
+	}
 } //namespace ktomgirl{
 
 
@@ -134,4 +138,4 @@ void KNotesResourceManager::resourceModified( ResourceNotes *resource )
 void KNotesResourceManager::resourceDeleted( ResourceNotes *resource )
 {
 }
-// Sun Mar 18 12:20:45 PDT 2012
+// Mon May  6 14:31:10 PDT 2013

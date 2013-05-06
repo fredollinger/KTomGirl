@@ -103,6 +103,7 @@ static const QString endTitle = "</u></font></p>";
 //static const QString startNormal = "<p><font face=\"georgia, serif\" color=\"Black\" size=\"15\">";
 //static const QString endNormal = "</font></p>";
 
+
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, ktomgirl::Journal *journal,  QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
     m_button( 0 ), m_tool( 0 ), m_editor(0), m_journal(journal), 
@@ -111,7 +112,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, ktomgirl:
     , m_content("")
     , m_title("")
 { 
-	//j->setUid(QString::fromStdString(gnoteptr->uid()));
+	journal->setUid(QString::fromStdString(gnoteptr->uid()));
 	init(buildDoc);
 
  	m_gnote->set_is_open(true);

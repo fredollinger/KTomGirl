@@ -71,8 +71,8 @@ class KNote
 // BEGIN class KNote public:
   public:
     // CONSTRUCTOR
-     KNote( gnote::NoteManager *gnmanager, const QDomDocument& buildDoc, ktomgirl::Journal *journal, QWidget *parent = 0 );
-    //KNote( gnote::Note::Ptr, const QDomDocument& buildDoc, QWidget *parent = 0 );
+     //KNote( gnote::NoteManager *gnmanager, const QDomDocument& buildDoc, ktomgirl::Journal *journal, QWidget *parent = 0 );
+    KNote( gnote::Note::Ptr, const QDomDocument& buildDoc, ktomgirl::Journal *journal, QWidget *parent = 0 );
     ~KNote();
     void formatText(void);
     void init( const QDomDocument& );
