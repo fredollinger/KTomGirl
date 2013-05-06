@@ -119,6 +119,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, Journal *
 	formatTimer = new QTimer(this);
 	connect(saveTimer, SIGNAL(timeout()), this, SLOT(slotSave()));
 	connect(formatTimer, SIGNAL(timeout()), this, SLOT(slotFormatTitle()));
+	connect(m_editor, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
 
 	saveTimer->start(4000);
 	formatTimer->start(1000);
@@ -261,16 +262,11 @@ void KNote::setContent( const QString& title, const QString& text )
   QTextCharFormat bodyFormat;
   QTextCursor cursor = m_editor->textCursor();
 
-  //void QTextCharFormat::setUnderlineStyle ( UnderlineStyle style )
-
-  // FIXME: Set format blue and underlined...
-
   QString newtitle = title;
   /* If our title and the first line of the text content do not match then something
    * bad has happened, probably during a save. To recover, we just use the content
    * that we all ready have. */ 
   if (!text.startsWith(title)) {
-   // qDebug() << __PRETTY_FUNCTION__ << " Error: this does not start with " << title; 
     m_editor->setText( text );
     slotFormatTitle();
   }
@@ -280,6 +276,7 @@ void KNote::setContent( const QString& title, const QString& text )
   QStringRef body = text.midRef(title.size(), -1);
 
   newtitle = startTitle+newtitle.remove("\n")+endTitle.trimmed()+"\n\n";
+  //newtitle = startTitle+newtitle.remove("\n")+endTitle.trimmed();
 
   cursor.movePosition(QTextCursor::Start);
 
@@ -291,15 +288,11 @@ void KNote::setContent( const QString& title, const QString& text )
   titleCharFormat.setForeground(titleColor);
 
   m_editor->insertHtml( newtitle );
-  //m_editor->insertPlainText( newtitle );
 
   cursor.movePosition(QTextCursor::EndOfBlock);
 
-  // qDebug() << " TITLE: " << firstBlock.text();
-
   cursor.insertBlock();
   m_editor->insertPlainText( body.toString() );
-
 }
 
 void KNote::setText( const QString& text )
@@ -1000,10 +993,16 @@ bool KNote::event( QEvent *ev )
 }
 
 void KNote::keyPressEvent(QKeyEvent *event) {
+        // BEGIN RETURN KEY
         if (event->key() == Qt::Key_Return) {
-		      slotFormatTitle();
-         	QWidget::keyPressEvent(event);
-        } 
+          int line = m_editor->textCursor().blockNumber() + 1;
+          if (1 == line ){
+           qDebug() << __PRETTY_FUNCTION__ <<  line;
+		       slotFormatTitle();
+         	 QWidget::keyPressEvent(event);
+            //formatText();
+          }
+        } // END RETURN KEY
         else if ((event->key()==Qt::Key_Z) && (event->modifiers()==Qt::ControlModifier)){
                 qDebug() << __PRETTY_FUNCTION__ << " CTRL-Z Pressed";
         }
@@ -1012,8 +1011,23 @@ void KNote::keyPressEvent(QKeyEvent *event) {
         }
 }
 
-bool KNote::eventFilter( QObject *o, QEvent *ev )
-{
+bool KNote::eventFilter( QObject *o, QEvent *ev ) {
+
+#if 0
+  if(ev->type() == QEvent::KeyPress) {
+    // Stupid Qtism: Key_Return is keyboard vs Key_Enter on keypad.
+    // * Sigh *
+    if( static_cast<QKeyEvent*>(ev)->key() == Qt::Key_Enter ||
+        static_cast<QKeyEvent*>(ev)->key() == Qt::Key_Return ){
+        int line = m_editor->textCursor().blockNumber() + 1;
+        if (1 == line ){
+         qDebug() << __PRETTY_FUNCTION__ <<  line;
+         //formatText();
+        }
+      }
+  }
+#endif
+
   if ( ev->type() == QEvent::FocusOut ){
 	formatTimer->stop();
 	saveTimer->stop();
@@ -1348,6 +1362,14 @@ void KNote::formatText(){
   QTextCursor cursor = m_editor->textCursor();
   int pos = cursor.position();
   int col = cursor.columnNumber();
+  int line = m_editor->textCursor().blockNumber() + 1;
+  qDebug() << "BEGIN: " << __PRETTY_FUNCTION__ << " pos: " << pos << " line: " << line << " block: " << cursor.block().blockNumber();
+  bool nasty_fix=false;
+
+
+  // Nasty hack to make sure we wind up in the right spot at the end.
+  // If we are on line 2, only, does this manifest
+  if ( 2 == line ) nasty_fix=true;
 
   QString newContent;
 
@@ -1379,14 +1401,37 @@ void KNote::formatText(){
 
   // FRED
   //cursor.insertHtml(newContent);  
+  //cursor.insertBlock();
   cursor.insertText(newContent);  
 
   cursor.setPosition(bodyPos, QTextCursor::KeepAnchor );
   cursor.setCharFormat(bodyFormat);
 
-  cursor.setPosition(pos, QTextCursor::KeepAnchor);  
+  cursor.setPosition(pos, QTextCursor::MoveAnchor);  
+
+  // This line is needed to actually set the text cursor
+  m_editor->setTextCursor(cursor); 
+
+/*
+  line = m_editor->textCursor().blockNumber() + 1;
+  if (nasty_fix && line > 2){
+    qDebug() << " need to go up: "<< line-2;
+    qDebug() << "new pos: " << __PRETTY_FUNCTION__ << " pos: " << cursor.position() << " line: " << m_editor->textCursor().blockNumber() + 1;
+    //int pos = cursor.position();
+    //cursor.setPosition(0, QTextCursor::KeepAnchor);  
+    cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::KeepAnchor, 1);  
+    //cursor.movePosition(QTextCursor::Up, QTextCursor::KeepAnchor, 1);  
+  }
+  */
+
+  qDebug() << "END: " << __PRETTY_FUNCTION__ << " pos: " << pos << " line: " << line << " block: " << cursor.block().blockNumber();
 }
 // END formatText()
+
+void KNote::slotTextChanged(){
+ // qDebug() << __PRETTY_FUNCTION__;
+  //QTextCursor cursor = m_editor->textCursor();
+}
 
 // END KNOTE SLOTS
 }// namespace knotes

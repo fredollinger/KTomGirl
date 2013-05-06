@@ -213,7 +213,7 @@ void KNoteEdit::setTextFont( const QFont &font )
 }
 
 void KNoteEdit::setTextFontSize( int size ) {
-  qDebug() << __PRETTY_FUNCTION__ << " new font size: " << size;
+  //qDebug() << __PRETTY_FUNCTION__ << " new font size: " << size;
   setFontPointSize( size );
 }
 
@@ -458,11 +458,6 @@ void KNoteEdit::focusOutEvent( QFocusEvent *e )
 /** private slots **/
 
 void KNoteEdit::slotCurrentCharFormatChanged( const QTextCharFormat &f ) {
-  // FRED      
-  qDebug() << __PRETTY_FUNCTION__ << " new font  size: " << f.fontPointSize();
-  qDebug() << __PRETTY_FUNCTION__ << " current font  size: " << fontPointSize();
-  qDebug() << __PRETTY_FUNCTION__ << " new family: " << f.fontFamily();
-  qDebug() << __PRETTY_FUNCTION__ << " currentfont family: " << fontFamily();
   // font changes
   m_textFont->setFont( f.fontFamily() );
   //m_textSize->setFontSize( (f.fontPointSize()>0 ) ?  ( int ) f.fontPointSize() :10);

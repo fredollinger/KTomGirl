@@ -107,13 +107,14 @@ class KNote
     void slotAddNotebookMenu(const QString&);
     void slotDebug(void);
     void slotMoveToNotebook(QAction*);
+    void slotMakeNoteBook();
     void emitNewNote();
     void slotRename(void);
     void slotKill(void);
     void slotNewNoteBook(void);
     void slotShowNoteBookMenu(void);
     void slotShowSearchWindow(void);
-    void slotMakeNoteBook();
+    void slotTextChanged(void);
 
   signals:
     void sigNewNotebook(const QString&);
