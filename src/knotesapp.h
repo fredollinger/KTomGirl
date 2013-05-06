@@ -55,9 +55,10 @@ namespace ktomgirl{
 	class KTGItem;
 }
 
-namespace KCal {
+namespace ktomgirl {
 class Journal;
 }
+
 namespace DNSSD {
 class PublicService;
 }
@@ -123,7 +124,7 @@ class KNotesApp
     void slotPreferences();
     void slotConfigureAccels();
 
-    void slotNoteKilled( KCal::Journal *journal );
+    void slotNoteKilled( ktomgirl::Journal *journal );
 
     void slotQuit();
 
@@ -136,8 +137,8 @@ class KNotesApp
     // void updateStyle();
 
     void createNote();
-    void createNote( KCal::Journal *journal );
-    void killNote( KCal::Journal *journal );
+    void createNote( ktomgirl::Journal *journal );
+    void killNote( ktomgirl::Journal *journal );
 
 // BEGIN KNotesApp private:
   private:

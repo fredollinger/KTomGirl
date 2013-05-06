@@ -32,9 +32,17 @@
 *******************************************************************/
 
 #include "resourcemanager.h"
+#include <QDebug>
 // #include "resourcelocal.h"
 
 //#include <kcal/journal.h>
+
+namespace ktomgirl{
+	Journal::Journal():
+	m_uid( "" )	
+	{}
+	Journal::~Journal(){}
+} //namespace ktomgirl{
 
 
 KNotesResourceManager::KNotesResourceManager()
@@ -57,9 +65,7 @@ void KNotesResourceManager::save()
 }
 
 // when adding a new note, make sure a config file exists!!
-//void KNotesResourceManager::addNewNote( KCal::Journal *journal )
-#if 0
-void KNotesResourceManager::addNewNote( KCal::Journal *journal )
+void KNotesResourceManager::addNewNote( ktomgirl::Journal *journal )
 {
   qDebug() << __PRETTY_FUNCTION__;
   // TODO: Make this configurable
@@ -75,15 +81,15 @@ void KNotesResourceManager::addNewNote( KCal::Journal *journal )
 }
 
 void KNotesResourceManager::registerNote( ResourceNotes *resource,
-                                          KCal::Journal *journal )
+                                          ktomgirl::Journal *journal )
 {
   // TODO: only emit the signal if the journal is new?
   // m_resourceMap.insert( journal->uid(), resource );
-  emit sigRegisteredNote( journal );
+  //emit sigRegisteredNote( journal );
 }
 
 
-void KNotesResourceManager::deleteNote( KCal::Journal *journal )
+void KNotesResourceManager::deleteNote( ktomgirl::Journal *journal )
 {
   const QString uid = journal->uid();
   
@@ -93,15 +99,14 @@ void KNotesResourceManager::deleteNote( KCal::Journal *journal )
   
   // libkcal does not delete the journal immediately, therefore it is ok to
   // emit the journal here
-  emit sigDeregisteredNote( journal );
+  //emit sigDeregisteredNote( journal );
 }
-#endif
 
 /*
-KCal::Alarm::List KNotesResourceManager::alarms( const KDateTime &from,
+ktomgirl::Alarm::List KNotesResourceManager::alarms( const KDateTime &from,
                                                  const KDateTime &to )
 {
-  KCal::Alarm::List result;
+  ktomgirl::Alarm::List result;
   return result;
 }
 */

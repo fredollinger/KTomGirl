@@ -244,7 +244,7 @@ bool KNotesApp::commitData( QSessionManager & )
 
 QString KNotesApp::newNote( const QString &name, const QString &text )
 {
-  KCal::Journal *journal = new KCal::Journal();
+  ktomgirl::Journal *journal = new ktomgirl::Journal();
   m_manager->addNewNote( journal );
   showNote( journal->uid() );
   return journal->uid();
@@ -528,7 +528,7 @@ void KNotesApp::slotConfigureAccels()
   }
 }
 
-void KNotesApp::slotNoteKilled( KCal::Journal *journal )
+void KNotesApp::slotNoteKilled( ktomgirl::Journal *journal )
 {
   #if 0
   m_noteUidModify.clear();
@@ -560,7 +560,7 @@ void KNotesApp::slotShowSearchWindow(){
 	m_searchWindow->activateWindow();
 }
 
-void KNotesApp::createNote( KCal::Journal *journal ){
+void KNotesApp::createNote( ktomgirl::Journal *journal ){
   int n = m_config->noteNumber();
 
   QString title = tr("New Note ") + QString::number(n, 10); 
@@ -615,13 +615,13 @@ void KNotesApp::slotDeleteNote(const QString &qsTitle){
 
 void KNotesApp::createNote()
 {
-  KCal::Journal *journal = new KCal::Journal();
+  ktomgirl::Journal *journal = new ktomgirl::Journal();
   createNote(journal);
 
   return; 
 }
 
-void KNotesApp::killNote( KCal::Journal *journal )
+void KNotesApp::killNote( ktomgirl::Journal *journal )
 {
 }
 
@@ -737,7 +737,7 @@ void KNotesApp::openNote(QString &qs){
 
   }
 
-  KCal::Journal *journal = new KCal::Journal();
+  ktomgirl::Journal *journal = new ktomgirl::Journal();
 
   KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
   newNote->load_gnote();
@@ -769,7 +769,7 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 	  return;
   }
 
-  KCal::Journal *journal = new KCal::Journal();
+  ktomgirl::Journal *journal = new ktomgirl::Journal();
 
   KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
   newNote->load_gnote();

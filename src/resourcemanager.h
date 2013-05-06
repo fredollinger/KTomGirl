@@ -36,12 +36,20 @@
 #define KNOTES_RESOURCEMANAGER_H
 
 #include <QObject>
-
-//#include <kcal/alarm.h>
-// #include <knotes/resourcenotes.h>
-//#include <kresources/manager.h>
+#include <QString>
 
 class KNote;
+
+namespace ktomgirl{
+class Journal{
+public:
+	Journal(void);
+	~Journal(void);
+	QString uid(void){ return m_uid; };
+private:
+	QString m_uid;
+}; // class Journal
+} //namespace ktomgirl{
 
 /*
 namespace KCal {
@@ -64,10 +72,10 @@ class KNotesResourceManager
     void load();
     void save();
     
-    //void addNewNote( KCal::Journal *journal );
-    //void registerNote( ResourceNotes *resource, KCal::Journal *journal );
+    void addNewNote( ktomgirl::Journal *journal );
+    void registerNote( ResourceNotes *resource, ktomgirl::Journal *journal );
     
-    //void deleteNote( KCal::Journal *journal );
+    void deleteNote( ktomgirl::Journal *journal );
     
     //KCal::Alarm::List alarms( const KDateTime &from, const KDateTime &to );
     

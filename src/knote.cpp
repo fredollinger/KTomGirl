@@ -26,6 +26,7 @@
 // knotes includes
 #include "knote.h"
 #include "newnotebookdialog.h"
+#include "resourcemanager.h"
 #include "version.h"
 
 // gnote includes
@@ -102,9 +103,9 @@ static const QString endTitle = "</u></font></p>";
 //static const QString startNormal = "<p><font face=\"georgia, serif\" color=\"Black\" size=\"15\">";
 //static const QString endNormal = "</font></p>";
 
-KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, QWidget *parent )
+KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, ktomgirl::Journal *journal,  QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
-    m_button( 0 ), m_tool( 0 ), m_editor(0), 
+    m_button( 0 ), m_tool( 0 ), m_editor(0), m_journal(journal), 
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnote(gnoteptr)
     , m_content("")
