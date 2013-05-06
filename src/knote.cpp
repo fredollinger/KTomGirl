@@ -150,7 +150,8 @@ KNote::~KNote()
 
 /* This is to be done last */
 void KNote::init_note(){
-	formatText();
+  //qDebug() << __PRETTY_FUNCTION__ << " Calling formatText()";
+	//formatText();
 	connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
 }
 
@@ -175,7 +176,10 @@ void KNote::load_gnote(){
 	}
 
 	setContent(m_title, m_content);
-	init_note();
+
+  qDebug() << __PRETTY_FUNCTION__ << " calling init_note()";
+  formatText();
+	//init_note();
 }
 
 void KNote::init( const QDomDocument& buildDoc ){
@@ -304,8 +308,25 @@ void KNote::setText( const QString& text )
 void KNote::setTitleAndBody( const QString &title, const QString &body ){
   QTextCursor cursor = m_editor->textCursor();
 
+  QTextCharFormat bodyFormat;
+  bodyFormat.setFontUnderline(false); 
+  bodyFormat.setForeground(QBrush(QColor(Qt::black))); 
+  bodyFormat.setFontPointSize(14);
+
   QString formattedText = startTitle + title + endTitle;
   m_editor->setHtml(formattedText);
+
+  cursor.insertBlock();
+
+  int pos = cursor.position();
+
+  cursor.insertText(body);  
+
+  cursor.setPosition(pos, QTextCursor::KeepAnchor);
+  cursor.setCharFormat(bodyFormat);
+
+  m_editor->setTextCursor(cursor); 
+  
 }
 
 void KNote::find( KFind* kfind )
@@ -1000,7 +1021,6 @@ void KNote::keyPressEvent(QKeyEvent *event) {
            qDebug() << __PRETTY_FUNCTION__ <<  line;
 		       slotFormatTitle();
          	 QWidget::keyPressEvent(event);
-            //formatText();
           }
         } // END RETURN KEY
         else if ((event->key()==Qt::Key_Z) && (event->modifiers()==Qt::ControlModifier)){
@@ -1022,7 +1042,6 @@ bool KNote::eventFilter( QObject *o, QEvent *ev ) {
         int line = m_editor->textCursor().blockNumber() + 1;
         if (1 == line ){
          qDebug() << __PRETTY_FUNCTION__ <<  line;
-         //formatText();
         }
       }
   }
@@ -1125,7 +1144,9 @@ void KNote::slotFormatTitle(){
   if (m_htmlTitle == newtitle) {
 	  return;
   }
+  qDebug() << __PRETTY_FUNCTION__ << " Calling formatText()";
   formatText();
+
   return;
 }
 // END slotFormatTitle()
@@ -1377,7 +1398,6 @@ void KNote::formatText(){
   bodyFormat.setFontUnderline(false); 
   bodyFormat.setForeground(QBrush(QColor(Qt::black))); 
   bodyFormat.setFontPointSize(14);
-  static bool bNeedsFormatting = false;
 
   cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  

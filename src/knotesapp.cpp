@@ -578,6 +578,7 @@ void KNotesApp::createNote( KCal::Journal *journal ){
   m_searchWindow->newItem(new_gnote);
   m_searchWindow->styleNotes();
 
+  // FRED: TODO: DO WE NEED THIS?
   newNote->init_note();
 
   noteInit( newNote );
