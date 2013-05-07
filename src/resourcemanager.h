@@ -53,13 +53,6 @@ private:
 }; // class Journal
 } //namespace ktomgirl{
 
-/*
-namespace KCal {
-class Journal;
-}
-*/
-
-
 class ResourceNotes{
 };
 

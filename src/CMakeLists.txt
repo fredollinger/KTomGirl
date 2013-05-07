@@ -44,8 +44,6 @@ application.cpp
 
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS} ${QtApp_RCC_SRCS})
 
-#target_link_libraries(ktomgirl ${KDEPIMLIBS_KCAL_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
-#target_link_libraries(ktomgirl ${KDEPIMLIBS_KCAL_LIBS} kdepim ${KDEPIMLIBS_KRESOURCES_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
 target_link_libraries(ktomgirl ${KDEPIMLIBS_KCAL_LIBS} ${KDEPIMLIBS_KRESOURCES_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
 ${LibXML_LIBRARIES}  ${SIGC2_LIBRARIES} 
 ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
