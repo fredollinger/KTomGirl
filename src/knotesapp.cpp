@@ -771,6 +771,9 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
   ktomgirl::Journal *journal = new ktomgirl::Journal();
 
+  // FRED: There's probably a crash around here due to poor handling of pointers...
+  // We need to purge journals by letting the app handle its own uids.
+
   KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
   newNote->load_gnote();
 

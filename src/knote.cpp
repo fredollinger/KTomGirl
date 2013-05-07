@@ -138,7 +138,7 @@ KNote::~KNote()
   saveTimer->stop();
   m_gnote->set_text_content(m_editor->toPlainText().toStdString());
   m_gnote->save();
-  emit sigDataChanged(noteId());
+  //emit sigDataChanged(noteId());
 
   formatTimer->stop();
 
@@ -154,7 +154,7 @@ KNote::~KNote()
 void KNote::init_note(){
   //qDebug() << __PRETTY_FUNCTION__ << " Calling formatText()";
 	//formatText();
-	connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
+	//connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
 }
 
 void KNote::load_gnote(){
@@ -206,10 +206,12 @@ void KNote::init( const QDomDocument& buildDoc ){
 
 void KNote::saveData(bool update )
 {
+  /*
   if(update)
   {
      emit sigDataChanged(noteId());
   }
+  */
 }
 
 void KNote::saveConfig() const
