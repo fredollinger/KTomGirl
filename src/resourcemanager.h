@@ -37,16 +37,16 @@
 
 #include <QObject>
 #include <QString>
+#include "uuid.hpp"
 
 class KNote;
 
 namespace ktomgirl{
 class Journal{
 public:
-	//Journal(const QString&);
 	Journal(void);
 	~Journal(void);
-	QString uid(void){ return m_uid; };
+  QString uid(void) { return m_uid; }
 	void setUid(const QString&);
 private:
 	QString m_uid;
