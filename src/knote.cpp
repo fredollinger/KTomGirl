@@ -113,6 +113,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, ktomgirl:
     , m_title("")
 { 
 	journal->setUid(QString::fromStdString(gnoteptr->uid()));
+	m_noteId=QString::fromStdString(gnoteptr->uid());
 	init(buildDoc);
 
  	m_gnote->set_is_open(true);
@@ -188,7 +189,7 @@ void KNote::init( const QDomDocument& buildDoc ){
   setAcceptDrops( true );
   setAttribute( Qt::WA_DeleteOnClose );
   setDOMDocument( buildDoc );
-  //setObjectName( m_journal->uid() );
+  setObjectName( m_noteId );
   setXMLFile( componentData().componentName() + "ui.rc", false, false );
 
   // create the main layout
@@ -231,7 +232,7 @@ void KNote::saveConfig() const
 
 QString KNote::noteId() const
 {
-  //return m_journal->uid();
+  return m_noteId;
 }
 
 QString KNote::text() const
@@ -675,7 +676,7 @@ void KNote::createNoteHeader()
   m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
   // END MAKE TOOLBAR
                                         // action menu )
-  // setName( m_journal->summary() );      // don't worry, no signals are
+  //setName( m_journal->summary() );      // don't worry, no signals are
                                         // connected at this stage yet
 }
 

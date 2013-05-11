@@ -193,7 +193,7 @@ KNotesApp::KNotesApp()
 
   KConfigGroup config( KGlobal::config(), "Global Keybindings" );
 
-  m_manager = new KNotesResourceManager();
+  m_manager = new KNotesResourceManager(); // deprecated, remove when safe
 }
 // END KNotesApp::KNotesApp()
 
@@ -222,7 +222,7 @@ KNotesApp::~KNotesApp()
 
   // FIXME: Try to use smart deleting aka deleteLater() or the
   // smart ptr equiv...
-  delete m_manager;
+  delete m_manager; // deprecated
   delete m_gnmanager;
   delete m_guiBuilder;
   // delete m_tray;
@@ -244,10 +244,15 @@ bool KNotesApp::commitData( QSessionManager & )
 
 QString KNotesApp::newNote( const QString &name, const QString &text )
 {
+  qDebug() << __PRETTY_FUNCTION__ << " BUG: DO NOT CALL DEAD CODE. Please remove this.";
+  QString qs = "";
+  return qs;
+  /*
   ktomgirl::Journal *journal = new ktomgirl::Journal();
-  m_manager->addNewNote( journal );
-  showNote( journal->uid() );
+  //m_manager->addNewNote( journal );
+  //showNote( journal->uid() );
   return journal->uid();
+  */
 }
 
 QString KNotesApp::newNoteFromClipboard( const QString &name )
@@ -528,8 +533,9 @@ void KNotesApp::slotConfigureAccels()
   }
 }
 
-void KNotesApp::slotNoteKilled( ktomgirl::Journal *journal )
-{
+void KNotesApp::slotNoteKilled( ktomgirl::Journal *journal ) {
+
+  qDebug() << __PRETTY_FUNCTION__ << " BUG: DO NOT CALL DEAD CODE. Please remove this.";
   #if 0
   m_noteUidModify.clear();
   m_manager->deleteNote( journal );
@@ -567,7 +573,7 @@ void KNotesApp::createNote( ktomgirl::Journal *journal ){
   QString body = tr("Describe your new note here.");
 
   gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(title.toStdString(), journal->uid().toStdString());
-  m_manager->addNewNote( journal );
+  //m_manager->addNewNote( journal );
 
   KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
   //newNote->setText(QString::fromStdString(title.toStdString()));

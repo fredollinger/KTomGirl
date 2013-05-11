@@ -178,11 +178,11 @@ class KNote
   private:
     void setContent( const QString &title, const QString &text );
 
-
     NewNoteBookDialog *m_dlg;
 
     QString m_content;
     QString m_title;
+    QString m_noteId; // note uuid; replaces the kcal::Journal
     QTimer *saveTimer;
     QTimer *formatTimer;
 
