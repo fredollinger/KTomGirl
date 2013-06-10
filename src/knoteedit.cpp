@@ -179,6 +179,7 @@ KNoteEdit::KNoteEdit( KActionCollection *actions, QWidget *parent )
            SLOT( slotCursorPositionChanged() ) );
   slotCurrentCharFormatChanged( currentCharFormat() );
   slotCursorPositionChanged();
+  setUndoRedoEnabled(true);
 }
 
 KNoteEdit::~KNoteEdit()
