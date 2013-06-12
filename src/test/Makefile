@@ -1,13 +1,18 @@
-UI=searchwindow newnotebookdialog notebooksdialog notesdialog searchbar 
+UI:=$(patsubst ../ui/%.ui,%,$(wildcard ../ui/*.ui))
 
-test: ui_searchwindow.py ktomgirl_rc
+this:  
+	echo $(UI)
+
+test: ui_searchwindow.py ktomgirl_rc  ui_newnotebookdialog.py
+	echo $(UI)
 	python searchwindow.py
 
-ui_$(UI).py:
-	pyuic4 ../ui/$(UI).ui > ui_$(UI).py
+
+.ui.py:
+	pyuic4 ../ui/$(UI).ui > $(UI).ui.py
 
 clean:
-	rm -f ui_$(UI).py *.pyc ktomgirl_rc
+	rm -f ui_*.py *.pyc ktomgirl_rc
 	
 ktomgirl_rc:
 	pyrcc4 ../ui/ktomgirl.qrc > ktomgirl_rc.py
