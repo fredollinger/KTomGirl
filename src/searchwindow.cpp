@@ -62,7 +62,7 @@ m_row(0)
 
 	// BEGIN SEARCH BAR
 	m_searchBar = new SearchBar();
-  m_searchBar->setFeatures(QDockWidget::NoDockWidgetFeatures);
+	m_searchBar->setFeatures(QDockWidget::NoDockWidgetFeatures);
  	addDockWidget(Qt::TopDockWidgetArea, m_searchBar);
  	connect (m_searchBar->lineEditSearch, SIGNAL(returnPressed()), this, SLOT(slotHandleSearch()));
 	//m_searchBar->resize(10, 50);
@@ -73,18 +73,18 @@ m_row(0)
 	m_notebooksDialog = new NotebooksDialog();
 	//m_notebooksDialog->showMaximized();
 
-  m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
-  m_notebooksDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
+	m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
+	m_notebooksDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
 
  	addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
 	//m_notebooksDialog->setMinimumSize();
 
-  m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
-  QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
+	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
+	QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
 	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
 
-  //m_notebooksDialog->tableNotebooks->verticalScrollBar()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-  //m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	//m_notebooksDialog->tableNotebooks->verticalScrollBar()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	//m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
  	connect (m_notebooksDialog->tableNotebooks, SIGNAL(cellClicked(int, int)), this, SLOT(notebookClicked(int, int)));
 
@@ -94,23 +94,23 @@ m_row(0)
 	m_notesDialog = new NotesDialog();
 	m_notesDialog->showMaximized();
 
-  m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
-  m_notesDialog->setContextMenuPolicy(Qt::CustomContextMenu);
+	m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
+	m_notesDialog->setContextMenuPolicy(Qt::CustomContextMenu);
 
-  addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
+	addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
 
 	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
 	m_notesDialog->tableNotes->setShowGrid(false);
 	m_notesDialog->tableNotes->horizontalHeader()->setStretchLastSection(true);
 	m_notesDialog->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-  QTableWidgetItem *noteHeader = m_notesDialog->tableNotes->horizontalHeaderItem(0);
+	QTableWidgetItem *noteHeader = m_notesDialog->tableNotes->horizontalHeaderItem(0);
 	noteHeader->setTextAlignment(Qt::AlignLeft);
 
-  //m_notebooksDialog->tableNotebooks->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-  //m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	//m_notebooksDialog->tableNotebooks->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	//m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
-  QTableWidgetItem *dateHeader = m_notesDialog->tableNotes->horizontalHeaderItem(1);
+	QTableWidgetItem *dateHeader = m_notesDialog->tableNotes->horizontalHeaderItem(1);
 	dateHeader->setTextAlignment(Qt::AlignLeft);
 
  	connect (m_notesDialog->tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
