@@ -1,45 +1,73 @@
-#!/usr/bin/env python
- 
-import sys
-from PyQt4 import Qt
-from ui_searchwindow import Ui_SearchWindow
+# -*- coding: utf-8 -*-
 
-class SearchWindow(Ui_SearchWindow, Qt.QMainWindow):
-	pass
+# Form implementation generated from reading ui file 'searchwindow.ui'
+#
+# Created: Sun Jun 23 18:55:08 2013
+#      by: PyQt4 UI code generator 4.8.5
+#
+# WARNING! All changes made in this file will be lost!
 
-class TestApp(Qt.QApplication):
- 
-    def __init__(self, args):
-        """ In the constructor we're doing everything to get our application
-            started, which is basically constructing a basic QApplication by 
-            its __init__ method, then adding our widgets and finally starting 
-            the exec_loop."""
-        Qt.QApplication.__init__(self,args)
- 
-        # We pass None since it's the top-level widget, we could in fact leave 
-        # that one out, but this way it's easier to add more dialogs or widgets.
-        self.maindialog = SearchWindow()
- 
-        #self.setMainWidget(self.maindialog)
-        self.maindialog.show()
+from PyQt4 import QtCore, QtGui
 
-        #self.exec_loop()
- 
-## We instantiate a QApplication passing the arguments of the script to it:
-#a = Qt.QApplication(sys.argv)
-# 
-## Add a basic widget to this application:
-## The first argument is the text we want this QWidget to show, the second
-## one is the parent widget. Since Our "hello" is the only thing we use (the 
-## so-called "MainWidget", it does not have a parent.
-#hello = Qt.QLabel("Hello, World")
-# 
-## ... and that it should be shown.
-#hello.show()
-# 
-## Now we can start it.
-#a.exec_()
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
 
-if __name__ == "__main__":
-    app = TestApp(sys.argv)
-    sys.exit(app.exec_())
+class Ui_SearchWindow(object):
+    def setupUi(self, SearchWindow):
+        SearchWindow.setObjectName(_fromUtf8("SearchWindow"))
+        SearchWindow.resize(649, 415)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(48)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(SearchWindow.sizePolicy().hasHeightForWidth())
+        SearchWindow.setSizePolicy(sizePolicy)
+        SearchWindow.setMinimumSize(QtCore.QSize(100, 100))
+        SearchWindow.setWindowTitle(QtGui.QApplication.translate("SearchWindow", "KTomGirl", None, QtGui.QApplication.UnicodeUTF8))
+        self.widget = QtGui.QWidget(SearchWindow)
+        self.widget.setEnabled(False)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
+        self.widget.setSizePolicy(sizePolicy)
+        self.widget.setMinimumSize(QtCore.QSize(0, 0))
+        self.widget.setMaximumSize(QtCore.QSize(0, 0))
+        self.widget.setObjectName(_fromUtf8("widget"))
+        SearchWindow.setCentralWidget(self.widget)
+        self.menubar = QtGui.QMenuBar(SearchWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 649, 27))
+        self.menubar.setObjectName(_fromUtf8("menubar"))
+        self.menuSearch = QtGui.QMenu(self.menubar)
+        self.menuSearch.setTitle(QtGui.QApplication.translate("SearchWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuSearch.setObjectName(_fromUtf8("menuSearch"))
+        self.menuDebug = QtGui.QMenu(self.menubar)
+        self.menuDebug.setTitle(QtGui.QApplication.translate("SearchWindow", "Debug", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuDebug.setObjectName(_fromUtf8("menuDebug"))
+        SearchWindow.setMenuBar(self.menubar)
+        self.statusbar = QtGui.QStatusBar(SearchWindow)
+        self.statusbar.setObjectName(_fromUtf8("statusbar"))
+        SearchWindow.setStatusBar(self.statusbar)
+        self.actionNew_Note = QtGui.QAction(SearchWindow)
+        self.actionNew_Note.setText(QtGui.QApplication.translate("SearchWindow", "New Note", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNew_Note.setObjectName(_fromUtf8("actionNew_Note"))
+        self.actionQuit = QtGui.QAction(SearchWindow)
+        self.actionQuit.setText(QtGui.QApplication.translate("SearchWindow", "Quit", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionQuit.setObjectName(_fromUtf8("actionQuit"))
+        self.actionShow_Open_Notes = QtGui.QAction(SearchWindow)
+        self.actionShow_Open_Notes.setText(QtGui.QApplication.translate("SearchWindow", "Show Open Notes", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionShow_Open_Notes.setObjectName(_fromUtf8("actionShow_Open_Notes"))
+        self.menuSearch.addAction(self.actionNew_Note)
+        self.menuSearch.addAction(self.actionQuit)
+        self.menuDebug.addAction(self.actionShow_Open_Notes)
+        self.menubar.addAction(self.menuSearch.menuAction())
+        self.menubar.addAction(self.menuDebug.menuAction())
+
+        self.retranslateUi(SearchWindow)
+        QtCore.QMetaObject.connectSlotsByName(SearchWindow)
+
+    def retranslateUi(self, SearchWindow):
+        pass
+
+import ktomgirl_rc

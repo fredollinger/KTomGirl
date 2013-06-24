@@ -1,20 +1,15 @@
-UI:=$(patsubst ../ui/%.ui,%,$(wildcard ../ui/*.ui))
+#SOURCES:=$(patsubst ../ui/%.ui,%,$(wildcard ../ui/*.ui))
+SOURCES:=notebooksdialog  notesdialog  searchbar  searchwindow
+OBJECTS=$(addsuffix .py,$(SOURCES)) ktomgirl_rc.py
 
-this:  
-	echo $(UI)
+all: $(OBJECTS) 
+	./test.py
 
-test: ui_searchwindow.py ktomgirl_rc  ui_newnotebookdialog.py
-	echo $(UI)
-	python searchwindow.py
-
-
-.ui.py:
-	pyuic4 ../ui/$(UI).ui > $(UI).ui.py
-
-clean:
-	rm -f ui_*.py *.pyc ktomgirl_rc
+%.py : %.ui
+	pyuic4 $<  > $@
 	
-ktomgirl_rc:
+clean:
+	rm -f ui_*.py *.pyc ktomgirl_rc $(OBJECTS)
+	
+ktomgirl_rc.py:
 	pyrcc4 ../ui/ktomgirl.qrc > ktomgirl_rc.py
-	#echo "class ktomgirl_rc():" >> ktomgirl_rc.py
-	#echo "pass" >> ktomgirl_rc.py
