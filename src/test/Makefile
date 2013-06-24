@@ -10,6 +10,13 @@ all: $(OBJECTS)
 	
 clean:
 	rm -f ui_*.py *.pyc ktomgirl_rc $(OBJECTS)
+
+dist-clean:
+	make clean
+	rm -f *.ui
 	
 ktomgirl_rc.py:
 	pyrcc4 ../ui/ktomgirl.qrc > ktomgirl_rc.py
+
+setup:
+	cp ../ui/*.ui .

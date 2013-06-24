@@ -6,10 +6,16 @@ from searchwindow import Ui_SearchWindow
 from notebooksdialog import Ui_NotebooksDialog
 
 class SearchWindow(Ui_SearchWindow, Qt.QMainWindow):
-	pass
+  def __init__(self,parent=None):
+    Qt.QMainWindow.__init__(self,parent)
+    self.ui = Ui_SearchWindow()
+    self.ui.setupUi(self)
 
-class NotebooksDialog(Ui_NotebooksDialog, Qt.QMainWindow):
-	pass
+class NotebooksDialog(Ui_NotebooksDialog, Qt.QDockWidget):
+  def __init__(self,parent=None):
+    Qt.QDockWidget.__init__(self,parent)
+    self.ui = Ui_NotebooksDialog()
+    self.ui.setupUi(self)
 
 class TestApp(Qt.QApplication):
  
@@ -24,7 +30,7 @@ class TestApp(Qt.QApplication):
         # that one out, but this way it's easier to add more dialogs or widgets.
         self.maindialog = SearchWindow()
         self.nbsdialog = NotebooksDialog()
- 
+
         #self.setMainWidget(self.maindialog)
         self.nbsdialog.show()
         self.maindialog.show()
