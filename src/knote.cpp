@@ -132,7 +132,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, ktomgirl:
 
 KNote::~KNote()
 {
-  qDebug() << __PRETTY_FUNCTION__ << " : " << name() << "\n";
+  //qDebug() << __PRETTY_FUNCTION__ << " : " << name() << "\n";
 
   m_gnote->set_is_open(false);
 
@@ -152,11 +152,13 @@ KNote::~KNote()
 }
 
 /* This is to be done last */
+#if 0
 void KNote::init_note(){
-  //qDebug() << __PRETTY_FUNCTION__ << " Calling formatText()";
+  qDebug() << __PRETTY_FUNCTION__ << " BUG: REMOVE DEPRECATED FUNCTION";
 	//formatText();
 	//connect( this, SIGNAL( sigDataChanged(const QString &) ), this, SLOT( slotDataChanged(const QString &) ) );
 }
+#endif
 
 void KNote::load_gnote(){
 	static bool l_loaded = false;
@@ -174,13 +176,12 @@ void KNote::load_gnote(){
 
 	/* Work around for stupid libktomgirl bug */
  	if ("" == m_content){
-  		qDebug() << __PRETTY_FUNCTION__<< "loading text busted***" << m_content << "!!!";
-		m_content = QString::fromStdString(m_gnote->text_content());
+  		//qDebug() << __PRETTY_FUNCTION__<< "loading text busted***" << m_content << "!!!";
+			m_content = QString::fromStdString(m_gnote->text_content());
 	}
 
 	setContent(m_title, m_content);
 
-  qDebug() << __PRETTY_FUNCTION__ << " calling init_note()";
   formatText();
 	//init_note();
 }
@@ -355,8 +356,8 @@ bool KNote::isModified() const
   QString newContent = m_editor->toPlainText();
 
   if ("" == newContent){
-  	qDebug() << __PRETTY_FUNCTION__ << "Note is Empty, don't save";
-	return false;
+  	//qDebug() << __PRETTY_FUNCTION__ << "Note is Empty, don't save";
+		return false;
   }
 
 // FIXME: return false when this is fixed
@@ -1023,7 +1024,7 @@ void KNote::keyPressEvent(QKeyEvent *event) {
         if (event->key() == Qt::Key_Return) {
           int line = m_editor->textCursor().blockNumber() + 1;
           if (1 == line ){
-           qDebug() << __PRETTY_FUNCTION__ <<  line;
+           //qDebug() << __PRETTY_FUNCTION__ <<  line;
 		       slotFormatTitle();
          	 QWidget::keyPressEvent(event);
           }
@@ -1046,7 +1047,6 @@ bool KNote::eventFilter( QObject *o, QEvent *ev ) {
         static_cast<QKeyEvent*>(ev)->key() == Qt::Key_Return ){
         int line = m_editor->textCursor().blockNumber() + 1;
         if (1 == line ){
-         qDebug() << __PRETTY_FUNCTION__ <<  line;
         }
       }
   }
@@ -1149,7 +1149,7 @@ void KNote::slotFormatTitle(){
   if (m_htmlTitle == newtitle) {
 	  return;
   }
-  qDebug() << __PRETTY_FUNCTION__ << " Calling formatText()";
+  //qDebug() << __PRETTY_FUNCTION__ << " Calling formatText()";
   formatText();
 
   return;
@@ -1281,8 +1281,10 @@ void KNote::slotSave(){
   //	qDebug() << __PRETTY_FUNCTION__ << " not modified. Not saving.";
 	return;
   }
-  // Update the title everywhere
+
   qDebug() << __PRETTY_FUNCTION__; 
+  // Update the title everywhere
+  //qDebug() << __PRETTY_FUNCTION__; 
   slotNameChanged();
 
   // cache content so we know if we are modified/saved in the future
@@ -1389,7 +1391,7 @@ void KNote::formatText(){
   int pos = cursor.position();
   int col = cursor.columnNumber();
   int line = m_editor->textCursor().blockNumber() + 1;
-  qDebug() << "BEGIN: " << __PRETTY_FUNCTION__ << " pos: " << pos << " line: " << line << " block: " << cursor.block().blockNumber();
+  //qDebug() << "BEGIN: " << __PRETTY_FUNCTION__ << " pos: " << pos << " line: " << line << " block: " << cursor.block().blockNumber();
   bool nasty_fix=false;
 
 
@@ -1449,7 +1451,7 @@ void KNote::formatText(){
   }
   */
 
-  qDebug() << "END: " << __PRETTY_FUNCTION__ << " pos: " << pos << " line: " << line << " block: " << cursor.block().blockNumber();
+  //qDebug() << "END: " << __PRETTY_FUNCTION__ << " pos: " << pos << " line: " << line << " block: " << cursor.block().blockNumber();
 }
 // END formatText()
 

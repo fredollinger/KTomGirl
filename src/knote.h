@@ -76,7 +76,7 @@ class KNote
     ~KNote();
     void formatText(void);
     void init( const QDomDocument& );
-    void init_note(void);
+    //void init_note(void);
     void load_gnote(void);
     void loadNotebooks();
 

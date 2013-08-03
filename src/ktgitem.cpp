@@ -33,6 +33,9 @@ KTGItem::KTGItem(QString &qs, const gnote::Note::Ptr &note) : QTableWidgetItem(q
 , m_note(note)
 , m_uid(note->uid())
 {
+	qDebug() << __PRETTY_FUNCTION__ << " note addy: [" << &note << "] path: [" << QString::fromStdString(m_note->file_path()) << "]";
+				//qDebug() << __PRETTY_FUNCTION__ << " uid: [" << QString::fromStdString(m_uid) << "]";
+				//qDebug() << __PRETTY_FUNCTION__ << " note text: [" << QString::fromStdString(m_note->get_title()) << "]";
 }
 
 KTGItem::~KTGItem()
@@ -40,6 +43,8 @@ KTGItem::~KTGItem()
 }
 
 gnote::Note::Ptr KTGItem::get_note(){
+	qDebug() << __PRETTY_FUNCTION__ << " BEGIN";
+	qDebug() << __PRETTY_FUNCTION__ << " note addy: [" << &m_note << "]";
 	return m_note;
 }
 

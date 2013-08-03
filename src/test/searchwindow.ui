@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SearchWindow</class>
+ <widget class="QMainWindow" name="SearchWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>567</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>32</width>
+    <height>32</height>
+   </size>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QTableWidget" name="tableWidget"/>
+    </item>
+    <item>
+     <widget class="QTableWidget" name="tableWidget_2"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>567</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionClose"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuShape">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <widget class="QMenu" name="menuMacros">
+     <property name="title">
+      <string>Macros</string>
+     </property>
+     <addaction name="actionAddRobot"/>
+     <addaction name="actionAddSnowman"/>
+    </widget>
+    <addaction name="separator"/>
+    <addaction name="actionAddCircle"/>
+    <addaction name="actionAddRectangle"/>
+    <addaction name="actionAddTriangle"/>
+    <addaction name="actionRemoveShape"/>
+    <addaction name="separator"/>
+    <addaction name="actionRed"/>
+    <addaction name="actionGreen"/>
+    <addaction name="actionBlue"/>
+    <addaction name="separator"/>
+    <addaction name="menuMacros"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionAboutQt"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuShape"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="dockWidget">
+   <attribute name="dockWidgetArea">
+    <number>4</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <widget class="QLabel" name="labelIcon">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>:/icons/search.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelText">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>0</y>
+       <width>77</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Search</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelIcon_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>:/icons/search.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditSearch">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>20</y>
+       <width>401</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/fileopen.png</normaloff>:/icons/fileopen.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Open</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/fileclose.png</normaloff>:/icons/fileclose.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Close</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/filenew.png</normaloff>:/icons/filenew.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;New</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/filesave.png</normaloff>:/icons/filesave.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>E&amp;xit</string>
+   </property>
+  </action>
+  <action name="actionRed">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/red.png</normaloff>:/icons/red.png</iconset>
+   </property>
+   <property name="text">
+    <string>Red</string>
+   </property>
+  </action>
+  <action name="actionGreen">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/green.png</normaloff>:/icons/green.png</iconset>
+   </property>
+   <property name="text">
+    <string>Green</string>
+   </property>
+  </action>
+  <action name="actionBlue">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/blue.png</normaloff>:/icons/blue.png</iconset>
+   </property>
+   <property name="text">
+    <string>Blue</string>
+   </property>
+  </action>
+  <action name="actionAddRectangle">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/rectangle.png</normaloff>:/icons/rectangle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Rectangle</string>
+   </property>
+  </action>
+  <action name="actionAddCircle">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/circle.png</normaloff>:/icons/circle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Circle</string>
+   </property>
+  </action>
+  <action name="actionRemoveShape">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/remove.png</normaloff>:/icons/remove.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Shape</string>
+   </property>
+  </action>
+  <action name="actionAddRobot">
+   <property name="text">
+    <string>Add robot</string>
+   </property>
+  </action>
+  <action name="actionAddSnowman">
+   <property name="text">
+    <string>Add snowan</string>
+   </property>
+  </action>
+  <action name="actionAddTriangle">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/triangle.png</normaloff>:/icons/triangle.png</iconset>
+   </property>
+   <property name="text">
+    <string>addTriangle</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

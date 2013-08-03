@@ -29,10 +29,10 @@ class TestApp(Qt.QApplication):
         # We pass None since it's the top-level widget, we could in fact leave 
         # that one out, but this way it's easier to add more dialogs or widgets.
         self.maindialog = SearchWindow()
-        self.nbsdialog = NotebooksDialog()
+        #self.nbsdialog = NotebooksDialog()
 
         #self.setMainWidget(self.maindialog)
-        self.nbsdialog.show()
+        #self.nbsdialog.show()
         self.maindialog.show()
 
         #self.exec_loop()

@@ -154,7 +154,7 @@ class KNotesApp
 
     QList<QAction *>       m_noteActions;
 
-    KNotesResourceManager  *m_manager;
+    //KNotesResourceManager  *m_manager;
     KNotesAlarm            *m_alarm;
     QTcpServer             *m_listener;
     DNSSD::PublicService   *m_publisher;

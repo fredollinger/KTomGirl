@@ -147,7 +147,7 @@ KNotesApp::KNotesApp()
 
   KMenu *m_menu = new KMenu("KTomGirl");
 
-  connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotShowNote(QAction*) ) );
+  //connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotShowNote(QAction*) ) );
 
   QAction *quitAct = new QAction("&Quit", m_tray);
   m_menu->addAction(quitAct);
@@ -192,8 +192,6 @@ KNotesApp::KNotesApp()
   m_noteGUI.setContent( doc );
 
   KConfigGroup config( KGlobal::config(), "Global Keybindings" );
-
-  m_manager = new KNotesResourceManager(); // deprecated, remove when safe
 }
 // END KNotesApp::KNotesApp()
 
@@ -222,7 +220,7 @@ KNotesApp::~KNotesApp()
 
   // FIXME: Try to use smart deleting aka deleteLater() or the
   // smart ptr equiv...
-  delete m_manager; // deprecated
+  //delete m_manager; // deprecated
   delete m_gnmanager;
   delete m_guiBuilder;
   // delete m_tray;
@@ -247,12 +245,12 @@ QString KNotesApp::newNote( const QString &name, const QString &text )
   qDebug() << __PRETTY_FUNCTION__ << " BUG: DO NOT CALL DEAD CODE. Please remove this.";
   QString qs = "";
   return qs;
-  /*
+	/*
   ktomgirl::Journal *journal = new ktomgirl::Journal();
   //m_manager->addNewNote( journal );
   //showNote( journal->uid() );
   return journal->uid();
-  */
+	*/
 }
 
 QString KNotesApp::newNoteFromClipboard( const QString &name )
@@ -572,20 +570,21 @@ void KNotesApp::createNote( ktomgirl::Journal *journal ){
   QString title = tr("New Note ") + QString::number(n, 10); 
   QString body = tr("Describe your new note here.");
 
+
   gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(title.toStdString(), journal->uid().toStdString());
-  //m_manager->addNewNote( journal );
+
+	new_gnote->save();
+
+	qDebug() << __PRETTY_FUNCTION__ << "*** m_gnmanager->create_new_note() Title: [" << title << "] uid: [" << journal->uid() << "] addy: [" << new_gnote << "]";
 
   KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
-  //newNote->setText(QString::fromStdString(title.toStdString()));
+	//newNote->load_gnote();
   newNote->setTitleAndBody(title, body);
   newNote->setObjectName( journal->uid() );
 
   m_notes.insert( journal->uid(), newNote );
   m_searchWindow->newItem(new_gnote);
   m_searchWindow->styleNotes();
-
-  // FRED: TODO: DO WE NEED THIS?
-  newNote->init_note();
 
   noteInit( newNote );
 
@@ -745,6 +744,7 @@ void KNotesApp::openNote(QString &qs){
 
   ktomgirl::Journal *journal = new ktomgirl::Journal();
 
+	qDebug() << __PRETTY_FUNCTION__ << "*** Calling new KNote **";
   KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
   newNote->load_gnote();
 
@@ -780,6 +780,7 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   // FRED: There's probably a crash around here due to poor handling of pointers...
   // We need to purge journals by letting the app handle its own uids.
 
+	qDebug() << __PRETTY_FUNCTION__ << "*** Calling new KNote **";
   KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
   newNote->load_gnote();
 

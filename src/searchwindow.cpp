@@ -288,13 +288,22 @@ void SearchWindow::showFilteredNotes(const QString &filter){
 	for(int i=0;  i < m_rows; i++){
 	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
 		if (0 != item){
+
+		  qDebug() << __PRETTY_FUNCTION__ << " [" << item->text() << "]";
+
       gnote::Note::Ptr note = item->get_note();
+
+			// FRED: FIXME: REMOVE
+			continue;
+
+		  //qDebug() << __PRETTY_FUNCTION__ << " [" << QString::fromStdString(note->uid()) << "]";
       if (notebook->contains_note(note)){
         m_notesDialog->tableNotes->setRowHidden(i,false);
       }
       else {
         m_notesDialog->tableNotes->setRowHidden(i,true);
        }
+
     }
 	}
   styleNotes();
@@ -311,8 +320,10 @@ void SearchWindow::showAllNotes(){
 }
 
 void SearchWindow::notebookClicked(int row, int col){
+	qDebug() << __PRETTY_FUNCTION__ << "BEGIN";
 	QTableWidgetItem *item = m_notebooksDialog->tableNotebooks->currentItem();
   QString text = item->text();
+
 
   if ( tr("All Notes") == text ){
     showAllNotes();
@@ -327,12 +338,18 @@ void SearchWindow::notebookClicked(int row, int col){
 
 // BEGIN showUnfilteredNotes
 void SearchWindow::showUnfilteredNotes(){
+	qDebug() << __PRETTY_FUNCTION__ << "BEGIN";
 
   int m_rows = m_notesDialog->tableNotes->rowCount();
+
+	qDebug() << __PRETTY_FUNCTION__ << " rows: " << m_rows;
 	for(int i=0;  i < m_rows; i++){
 	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
 
+		qDebug() << __PRETTY_FUNCTION__ << "text: [" << item->text() << "]";
+
 		if (0 != item){
+#if 0
       gnote::Note::Ptr note = item->get_note();
       gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook_from_note ( note );
       if (NULL == note){
@@ -341,6 +358,7 @@ void SearchWindow::showUnfilteredNotes(){
       else {
         m_notesDialog->tableNotes->setRowHidden(i,false);
        }
+	#endif
     }
 	}
   styleNotes();

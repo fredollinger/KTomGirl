@@ -1,7 +1,7 @@
 UIC=uic-qt4
 UI_HEADERS= ui_searchwindow.h ui_notesdialog.h ui_notebooksdialog.h ktgconfigskel.h ui_searchbar.h ui_newnotebookdialog.h
 
-# .PHONY: ktgconfigskel.h
+.PHONY: test
 
 all: $(UI_HEADERS)
 	mkdir -p build
