@@ -25,10 +25,36 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTableWidget" name="tableWidget"/>
+     <widget class="QTableWidget" name="tableNotebooks">
+      <row>
+       <property name="text">
+        <string/>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string/>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>Notebooks</string>
+       </property>
+      </column>
+      <item row="0" column="0">
+       <property name="text">
+        <string>All Notes</string>
+       </property>
+      </item>
+      <item row="1" column="0">
+       <property name="text">
+        <string>Unfiled Notes</string>
+       </property>
+      </item>
+     </widget>
     </item>
     <item>
-     <widget class="QTableWidget" name="tableWidget_2"/>
+     <widget class="QTableWidget" name="tableNotes2"/>
     </item>
    </layout>
   </widget>
@@ -48,39 +74,7 @@
     <addaction name="actionNew_Note"/>
     <addaction name="actionQuit"/>
    </widget>
-   <widget class="QMenu" name="menuShape">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-    <widget class="QMenu" name="menuMacros">
-     <property name="title">
-      <string>Macros</string>
-     </property>
-     <addaction name="actionAddRobot"/>
-     <addaction name="actionAddSnowman"/>
-    </widget>
-    <addaction name="separator"/>
-    <addaction name="actionAddCircle"/>
-    <addaction name="actionAddRectangle"/>
-    <addaction name="actionAddTriangle"/>
-    <addaction name="actionRemoveShape"/>
-    <addaction name="separator"/>
-    <addaction name="actionRed"/>
-    <addaction name="actionGreen"/>
-    <addaction name="actionBlue"/>
-    <addaction name="separator"/>
-    <addaction name="menuMacros"/>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionAbout"/>
-    <addaction name="actionAboutQt"/>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuShape"/>
-   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dockWidget">

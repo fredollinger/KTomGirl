@@ -45,9 +45,11 @@
     </size>
    </property>
    <widget class="QTableWidget" name="tableNotebooks">
+
     <property name="enabled">
      <bool>true</bool>
     </property>
+
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -95,8 +97,11 @@
      <property name="text">
       <string>Unfiled Notes</string>
      </property>
+
     </item>
+
    </widget>
+
   </widget>
  </widget>
  <resources/>

@@ -39,7 +39,7 @@
 #include "searchbar.h"
 #include "searchwindow.h"
 #include "notesdialog.h"
-#include "notebooksdialog.h"
+//#include "notebooksdialog.h"
 
 // GNOTE INCLUDES
 #include <libktomgirl/ktglib.hpp>
@@ -70,36 +70,38 @@ m_row(0)
 
 
 	// BEGIN NOTEBOOKS DIALOG
-	m_notebooksDialog = new NotebooksDialog();
+	//m_notebooksDialog = new NotebooksDialog();
 	//m_notebooksDialog->showMaximized();
 
-	m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
-	m_notebooksDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
+	//m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
+	//m_notebooksDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
 
- 	addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
+ 	//addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
 	//m_notebooksDialog->setMinimumSize();
 
-	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
-	QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
+#if 0
+	tableNotebooks->setCurrentItem(tableNotebooks->item(0,0));
+	QTableWidgetItem *noteBooksHeader = tableNotebooks->horizontalHeaderItem(0);
 	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
+#endif
 
 	//m_notebooksDialog->tableNotebooks->verticalScrollBar()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	//m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
- 	connect (m_notebooksDialog->tableNotebooks, SIGNAL(cellClicked(int, int)), this, SLOT(notebookClicked(int, int)));
+ 	//connect (tableNotebooks, SIGNAL(cellClicked(int, int)), this, SLOT(notebookClicked(int, int)));
 
 	// END NOTEBOOKS DIALOG
 
 	// BEGIN NOTES DIALOG
 	m_notesDialog = new NotesDialog();
-	m_notesDialog->showMaximized();
+	//m_notesDialog->showMaximized();
 
-	m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
-	m_notesDialog->setContextMenuPolicy(Qt::CustomContextMenu);
+	//m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
+	//m_notesDialog->setContextMenuPolicy(Qt::CustomContextMenu);
 
-	addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
+	//addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
 
-	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
+	//m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
 	m_notesDialog->tableNotes->setShowGrid(false);
 	m_notesDialog->tableNotes->horizontalHeader()->setStretchLastSection(true);
 	m_notesDialog->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -161,7 +163,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 
 		m_row++;
 	}
-	m_notesDialog->tableNotes->setRowCount(m_row);
+	//m_notesDialog->tableNotes->setRowCount(m_row);
 	styleNotes();
 	return;
 }
@@ -253,19 +255,21 @@ void SearchWindow::slotHandleSearch(){
 }
 
 void SearchWindow::slotAddNotebook(const QString &nb){
+#if 0
   if (nb.trimmed().size() < 1) return;
 
-	int rows = m_notebooksDialog->tableNotebooks->rowCount();
+	int rows = tableNotebooks->rowCount();
 
  	KIcon notebookIcon = KIcon(":/icons/notebook_edit.png");
 
-	m_notebooksDialog->tableNotebooks->setRowCount(rows+1);
+	//tableNotebooks->setRowCount(rows+1);
 	
 	QTableWidgetItem *item = new QTableWidgetItem ();
 	item->setText(nb);
 	item->setIcon(notebookIcon);
 	
-	m_notebooksDialog->tableNotebooks->setItem ( rows, 0, item );
+	tableNotebooks->setItem ( rows, 0, item );
+#endif
 }
 
 void SearchWindow::loadNotebooks(){
@@ -321,7 +325,8 @@ void SearchWindow::showAllNotes(){
 
 void SearchWindow::notebookClicked(int row, int col){
 	qDebug() << __PRETTY_FUNCTION__ << "BEGIN";
-	QTableWidgetItem *item = m_notebooksDialog->tableNotebooks->currentItem();
+#if 0
+	QTableWidgetItem *item = tableNotebooks->currentItem();
   QString text = item->text();
 
 
@@ -334,6 +339,7 @@ void SearchWindow::notebookClicked(int row, int col){
     return;
   }
   showFilteredNotes(item->text());
+#endif
 }
 
 // BEGIN showUnfilteredNotes
