@@ -56,7 +56,7 @@ m_row(0)
 	QStringList qsl; 
 	setupUi(this);
 	setWindowIcon(KIcon(":/icons/notebook.png"));
-	widget->hide();
+	//widget->hide();
 
 	m_list = gnote::Gnote::get_note_list();
 
