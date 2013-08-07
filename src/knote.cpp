@@ -1329,8 +1329,11 @@ void KNote::slotNewNoteBook(){
 }
 
  void KNote::slotAddNotebook(const QString &text){
+  qDebug() << __PRETTY_FUNCTION__ << " 1 ";
   gnote::notebooks::NotebookManager::instance().get_or_create_notebook(text.toStdString());
+  qDebug() << __PRETTY_FUNCTION__ << " 2 ";
   gnote::notebooks::NotebookManager::instance().move_note_to_notebook(m_gnote, text.toStdString() );
+  qDebug() << __PRETTY_FUNCTION__ << " 3 ";
  slotAddNotebookMenu(text);
 }
 

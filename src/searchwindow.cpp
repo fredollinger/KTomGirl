@@ -6,7 +6,7 @@
  * This is the window which shows a list of all the notes or the 
  * particular notes that match a search term.
  *
- * Copyright (C) 2012 Fred Ollinger
+ * Copyright (C) 2012, 2013 Fred Ollinger
  * <follinge@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -280,26 +280,6 @@ void SearchWindow::loadNotebooks(){
 	return;
 }
 
-// BEGIN showFilteredNotes
-void SearchWindow::showFilteredNotes(const QString &filter){
-  gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook ( filter.toStdString() );
-
-  int m_rows = m_notesDialog->tableNotes->rowCount();
-	for(int i=0;  i < m_rows; i++){
-	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
-		if (0 != item){
-      gnote::Note::Ptr note = item->get_note();
-      if (notebook->contains_note(note)){
-        m_notesDialog->tableNotes->setRowHidden(i,false);
-      }
-      else {
-        m_notesDialog->tableNotes->setRowHidden(i,true);
-       }
-    }
-	}
-  styleNotes();
-} // END showFilteredNotes
-
 void SearchWindow::showAllNotes(){
   int m_rows = m_notesDialog->tableNotes->rowCount();
 	for(int i=0;  i < m_rows; i++){
@@ -346,4 +326,26 @@ void SearchWindow::showUnfilteredNotes(){
   styleNotes();
 } // END showUnfilteredNotes
 
-// Sat Jan 19 15:07:31 PST 2013
+// BEGIN showFilteredNotes
+void SearchWindow::showFilteredNotes(const QString &filter){
+  gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook ( filter.toStdString() );
+
+	qDebug() << " notebook: [" << QString::fromStdString( notebook->get_name() ) << "]" ; 
+
+  int m_rows = m_notesDialog->tableNotes->rowCount();
+	for(int i=0;  i < m_rows; i++){
+	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
+		if (0 != item){
+      gnote::Note::Ptr note = item->get_note();
+      if (notebook->contains_note(note)){
+        m_notesDialog->tableNotes->setRowHidden(i,false);
+      }
+      else {
+        m_notesDialog->tableNotes->setRowHidden(i,true);
+       }
+    }
+	}
+  styleNotes();
+} // END showFilteredNotes
+
+// Wed Aug  7 10:04:34 PDT 2013
