@@ -27,6 +27,7 @@ set(ktomgirl_SRCS
 ktgmenu.cpp
 ktgsystray.cpp
 notesdialog.cpp
+notebooksdialog.cpp
 ktgconfig.cpp
 ktgconfigskel.cpp
 ktgitem.cpp

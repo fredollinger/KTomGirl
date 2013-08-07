@@ -2,7 +2,7 @@
 SOURCES:=notebooksdialog  notesdialog  searchbar  searchwindow
 OBJECTS=$(addsuffix .py,$(SOURCES)) ktomgirl_rc.py
 
-all: $(OBJECTS) 
+test: $(OBJECTS) 
 	./test.py
 
 %.py : %.ui

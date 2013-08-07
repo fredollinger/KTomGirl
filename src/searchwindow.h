@@ -9,8 +9,8 @@
 
 #include "ui_searchwindow.h"
 #include "notesdialog.h"
-#include "notesdialog.h"
-//#include "notebooksdialog.h"
+#include "notebooksdialog.h"
+#include "notebooksdialog.h"
 #include "searchbar.h"
 
 // GNOTE INCLUDES
@@ -55,7 +55,7 @@ private:
 	// QStringListModel *m_model;
 	int m_row; // current row
 	NotesDialog *m_notesDialog;
-	//NotebooksDialog *m_notebooksDialog;
+	NotebooksDialog *m_notebooksDialog;
 	SearchBar *m_searchBar;
 
   typedef QList<ktomgirl::KTGItem*> NoteItemList;

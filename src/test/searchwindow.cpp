@@ -39,7 +39,7 @@
 #include "searchbar.h"
 #include "searchwindow.h"
 #include "notesdialog.h"
-#include "notebooksdialog.h"
+//#include "notebooksdialog.h"
 
 // GNOTE INCLUDES
 #include <libktomgirl/ktglib.hpp>
@@ -56,7 +56,7 @@ m_row(0)
 	QStringList qsl; 
 	setupUi(this);
 	setWindowIcon(KIcon(":/icons/notebook.png"));
-	widget->hide();
+	//widget->hide();
 
 	m_list = gnote::Gnote::get_note_list();
 
@@ -68,38 +68,39 @@ m_row(0)
 	//m_searchBar->resize(10, 50);
 	// END SEARCH BAR
 
+	splitter->showMaximized();
 
 	// BEGIN NOTEBOOKS DIALOG
-	m_notebooksDialog = new NotebooksDialog();
+	//m_notebooksDialog = new NotebooksDialog();
 	//m_notebooksDialog->showMaximized();
 
-	m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
-	m_notebooksDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
+	//m_notebooksDialog->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::BottomDockWidgetArea );
+	//m_notebooksDialog->setFeatures(QDockWidget::NoDockWidgetFeatures);
 
- 	addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
+ 	//addDockWidget(Qt::BottomDockWidgetArea, m_notebooksDialog);
 	//m_notebooksDialog->setMinimumSize();
 
-	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
-	QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
+	tableNotebooks->setCurrentItem(tableNotebooks->item(0,0));
+	QTableWidgetItem *noteBooksHeader = tableNotebooks->horizontalHeaderItem(0);
 	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
 
-	//m_notebooksDialog->tableNotebooks->verticalScrollBar()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-	//m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	//tableNotebooks->verticalScrollBar()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
- 	connect (m_notebooksDialog->tableNotebooks, SIGNAL(cellClicked(int, int)), this, SLOT(notebookClicked(int, int)));
+ 	connect (tableNotebooks, SIGNAL(cellClicked(int, int)), this, SLOT(notebookClicked(int, int)));
 
 	// END NOTEBOOKS DIALOG
 
 	// BEGIN NOTES DIALOG
 	m_notesDialog = new NotesDialog();
-	m_notesDialog->showMaximized();
+	//m_notesDialog->showMaximized();
 
-	m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
-	m_notesDialog->setContextMenuPolicy(Qt::CustomContextMenu);
+	//m_notesDialog->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea );
+	//m_notesDialog->setContextMenuPolicy(Qt::CustomContextMenu);
 
-	addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
+	//addDockWidget(Qt::BottomDockWidgetArea, m_notesDialog);
 
-	m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
+	//m_notesDialog->tableNotes->setRowCount(m_list.size()+1);
 	m_notesDialog->tableNotes->setShowGrid(false);
 	m_notesDialog->tableNotes->horizontalHeader()->setStretchLastSection(true);
 	m_notesDialog->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -107,8 +108,8 @@ m_row(0)
 	QTableWidgetItem *noteHeader = m_notesDialog->tableNotes->horizontalHeaderItem(0);
 	noteHeader->setTextAlignment(Qt::AlignLeft);
 
-	//m_notebooksDialog->tableNotebooks->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-	//m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	tableNotebooks->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
 	QTableWidgetItem *dateHeader = m_notesDialog->tableNotes->horizontalHeaderItem(1);
 	dateHeader->setTextAlignment(Qt::AlignLeft);
@@ -161,7 +162,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 
 		m_row++;
 	}
-	m_notesDialog->tableNotes->setRowCount(m_row);
+	//m_notesDialog->tableNotes->setRowCount(m_row);
 	styleNotes();
 	return;
 }
@@ -255,17 +256,17 @@ void SearchWindow::slotHandleSearch(){
 void SearchWindow::slotAddNotebook(const QString &nb){
   if (nb.trimmed().size() < 1) return;
 
-	int rows = m_notebooksDialog->tableNotebooks->rowCount();
+	int rows = tableNotebooks->rowCount();
 
  	KIcon notebookIcon = KIcon(":/icons/notebook_edit.png");
 
-	m_notebooksDialog->tableNotebooks->setRowCount(rows+1);
+	//tableNotebooks->setRowCount(rows+1);
 	
 	QTableWidgetItem *item = new QTableWidgetItem ();
 	item->setText(nb);
 	item->setIcon(notebookIcon);
 	
-	m_notebooksDialog->tableNotebooks->setItem ( rows, 0, item );
+	tableNotebooks->setItem ( rows, 0, item );
 }
 
 void SearchWindow::loadNotebooks(){
@@ -288,13 +289,22 @@ void SearchWindow::showFilteredNotes(const QString &filter){
 	for(int i=0;  i < m_rows; i++){
 	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
 		if (0 != item){
+
+		  qDebug() << __PRETTY_FUNCTION__ << " [" << item->text() << "]";
+
       gnote::Note::Ptr note = item->get_note();
+
+			// FRED: FIXME: REMOVE
+			continue;
+
+		  //qDebug() << __PRETTY_FUNCTION__ << " [" << QString::fromStdString(note->uid()) << "]";
       if (notebook->contains_note(note)){
         m_notesDialog->tableNotes->setRowHidden(i,false);
       }
       else {
         m_notesDialog->tableNotes->setRowHidden(i,true);
        }
+
     }
 	}
   styleNotes();
@@ -311,8 +321,10 @@ void SearchWindow::showAllNotes(){
 }
 
 void SearchWindow::notebookClicked(int row, int col){
-	QTableWidgetItem *item = m_notebooksDialog->tableNotebooks->currentItem();
+	qDebug() << __PRETTY_FUNCTION__ << "BEGIN";
+	QTableWidgetItem *item = tableNotebooks->currentItem();
   QString text = item->text();
+
 
   if ( tr("All Notes") == text ){
     showAllNotes();
@@ -327,12 +339,18 @@ void SearchWindow::notebookClicked(int row, int col){
 
 // BEGIN showUnfilteredNotes
 void SearchWindow::showUnfilteredNotes(){
+	qDebug() << __PRETTY_FUNCTION__ << "BEGIN";
 
   int m_rows = m_notesDialog->tableNotes->rowCount();
+
+	qDebug() << __PRETTY_FUNCTION__ << " rows: " << m_rows;
 	for(int i=0;  i < m_rows; i++){
 	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
 
+		qDebug() << __PRETTY_FUNCTION__ << "text: [" << item->text() << "]";
+
 		if (0 != item){
+#if 0
       gnote::Note::Ptr note = item->get_note();
       gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook_from_note ( note );
       if (NULL == note){
@@ -341,6 +359,7 @@ void SearchWindow::showUnfilteredNotes(){
       else {
         m_notesDialog->tableNotes->setRowHidden(i,false);
        }
+	#endif
     }
 	}
   styleNotes();
