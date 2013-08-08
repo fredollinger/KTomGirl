@@ -63,6 +63,7 @@ private:
   NoteItemList m_dateList;
 
 signals:
+	void signalNotebookClicked(QString&);
 	void signalNoteSelected(ktomgirl::KTGItem*);
 	void signalHandleSearch(QString);
 
@@ -76,4 +77,4 @@ public slots:
 
 }; // class SearchWindow
 #endif // SEARCH_WINDOW_H
-// Thu Dec 13 18:07:53 PST 2012
+// Wed Aug  7 16:34:35 PDT 2013

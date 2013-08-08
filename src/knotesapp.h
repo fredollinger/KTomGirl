@@ -95,6 +95,10 @@ class KNotesApp
     void showFilteredNotes(const QString&);
     void showUnFiledNotes(void);
 
+
+	  // Here we sync up the new notebook
+		void slotUpdateNotebook(const QString&);
+
 	  void slotNewNotebook(const QString&);
     void slotHandleSearch(QString);
     void slotOpenNote(QAction*);
@@ -173,6 +177,7 @@ class KNotesApp
 
     QDomDocument    m_noteGUI;
     QString m_noteUidModify;
+		QString m_notebook;
     // END KNotesApp private:
 signals:
 	// Should be connected to all knotes so we can update

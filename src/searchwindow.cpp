@@ -49,8 +49,8 @@
 #include <libktomgirl/tagmanager.hpp>
 
 // BEGIN SEARCH WINDOW
-SearchWindow::SearchWindow(QWidget* pParent, const char* szName) :
-m_row(0)
+SearchWindow::SearchWindow(QWidget* pParent, const char* szName) 
+	: m_row(0)
 {
 	QString qs;
 	QStringList qsl; 
@@ -293,6 +293,7 @@ void SearchWindow::showAllNotes(){
 void SearchWindow::notebookClicked(int row, int col){
 	QTableWidgetItem *item = m_notebooksDialog->tableNotebooks->currentItem();
   QString text = item->text();
+	emit signalNotebookClicked(text);
 
   if ( tr("All Notes") == text ){
     showAllNotes();
@@ -347,5 +348,4 @@ void SearchWindow::showFilteredNotes(const QString &filter){
 	}
   styleNotes();
 } // END showFilteredNotes
-
-// Wed Aug  7 10:04:34 PDT 2013
+// Wed Aug  7 16:34:24 PDT 2013

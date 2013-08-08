@@ -24,6 +24,7 @@
 #include <libktomgirl/gnote.hpp>
 #include <libktomgirl/note.hpp>
 #include <libktomgirl/notemanager.hpp>
+#include <libktomgirl/search.hpp>
 // END gnote INCLUDES
 
 // BEGIN KTOMGIRL INCLUDES
@@ -115,6 +116,7 @@ static bool qActionLessThan( const QAction *a1, const QAction *a2 )
 
 KNotesApp::KNotesApp()
   : QWidget(), m_alarm( 0 ), m_listener( 0 ), m_publisher( 0 ), m_find( 0 ), m_findPos( 0 )
+	, m_notebook("")
 {
   m_gnmanager = new gnote::NoteManager();
   kapp->setQuitOnLastWindowClosed( false );
@@ -129,6 +131,9 @@ KNotesApp::KNotesApp()
   m_searchWindow->loadNotes(m_gnmanager->get_notes());
   m_searchWindow->loadNotebooks();
   m_searchWindow->show();
+
+  connect( m_searchWindow, SIGNAL( sigNotebookCliecked(const QString&) ), this, SLOT( slotUpdateNotebook(const QString&)), Qt::QueuedConnection  );
+  connect( m_searchWindow, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
 
   connect( this, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
 
@@ -853,19 +858,6 @@ void  KNotesApp::slotNewNotebook(const QString &qs){
 	m_config->store();
 }
 
-void  KNotesApp::slotHandleSearch(QString qs){
-	qDebug() << __PRETTY_FUNCTION__ << qs; 
-
-#if 0
-	// BEGIN FIND THE GNOTE
-	std::string title = qsTitle.toStdString();
-	gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
-	QString m_content = QString::fromStdString(gnote->text_content());
-	QString uid = QString::fromStdString(gnote->uid());
-	// END FIND THE GNOTE
-#endif
-}
-
 /* Given a NoteBook String, filter the notes */
 void  KNotesApp::showFilteredNotes(const QString &qs){
 	qDebug() << __PRETTY_FUNCTION__ << qs; 
@@ -881,5 +873,28 @@ void  KNotesApp::showUnFiledNotes(){
 	qDebug() << __PRETTY_FUNCTION__;
 }
 
+void  KNotesApp::slotHandleSearch(QString qs){
+	qDebug() << __PRETTY_FUNCTION__ << qs; 
+	//gnote::Note::Ptr gnote = m_gnmanager->find(qs.toStdString());
+  gnote::Search search(m_gnmanager);
+  std::string text = qs.toStdString();
+	//notebooks::Notebook::Ptr selected_notebook = get_selected_notebook ();
+
+#if 0
+	// BEGIN FIND THE GNOTE
+	std::string title = qsTitle.toStdString();
+	gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
+	QString m_content = QString::fromStdString(gnote->text_content());
+	QString uid = QString::fromStdString(gnote->uid());
+	// END FIND THE GNOTE
+#endif
+}
+
+void  KNotesApp::slotUpdateNotebook(const QString &notebook){
+					qDebug() << __PRETTY_FUNCTION__;
+					m_notebook = notebook;
+					return;
+}
+
 } // namespace knotes
-// Mon May  6 14:20:06 PDT 2013
+// Wed Aug  7 16:34:17 PDT 2013
