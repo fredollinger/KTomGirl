@@ -868,6 +868,12 @@ void  KNotesApp::showAllNotes(){
 	qDebug() << __PRETTY_FUNCTION__;
 }
 
+void  KNotesApp::slotUpdateNotebook(const QString &notebook){
+					qDebug() << __PRETTY_FUNCTION__;
+					m_notebook = notebook;
+					return;
+}
+
 /* Given a NoteBook String, filter the notes */
 void  KNotesApp::showUnFiledNotes(){
 	qDebug() << __PRETTY_FUNCTION__;
@@ -875,10 +881,11 @@ void  KNotesApp::showUnFiledNotes(){
 
 void  KNotesApp::slotHandleSearch(QString qs){
 	qDebug() << __PRETTY_FUNCTION__ << qs; 
-	//gnote::Note::Ptr gnote = m_gnmanager->find(qs.toStdString());
   gnote::Search search(m_gnmanager);
   std::string text = qs.toStdString();
-	//notebooks::Notebook::Ptr selected_notebook = get_selected_notebook ();
+  gnote::Search::ResultsPtr results =
+	  search.search_notes( text, false );
+	m_searchWindow->loadNotes(results);
 
 #if 0
 	// BEGIN FIND THE GNOTE
@@ -888,12 +895,6 @@ void  KNotesApp::slotHandleSearch(QString qs){
 	QString uid = QString::fromStdString(gnote->uid());
 	// END FIND THE GNOTE
 #endif
-}
-
-void  KNotesApp::slotUpdateNotebook(const QString &notebook){
-					qDebug() << __PRETTY_FUNCTION__;
-					m_notebook = notebook;
-					return;
 }
 
 } // namespace knotes

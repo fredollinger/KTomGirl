@@ -16,6 +16,7 @@
 // GNOTE INCLUDES
 #include <libktomgirl/note.hpp>
 #include <libktomgirl/gnote.hpp>
+#include <libktomgirl/search.hpp>
 
 namespace ktomgirl{
 	class KTGItem;
@@ -36,6 +37,7 @@ public:
 
 	/* iterate through note list and load up the titles into the qtablewidget */
 	void loadNotes(const gnote::Note::List&);
+	void loadNotes(const gnote::Search::ResultsPtr&);
 
 	// iterate through notebooks and add them to the qtablewidget
 	//void loadNotebooks(const QStringList&);

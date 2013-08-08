@@ -348,4 +348,20 @@ void SearchWindow::showFilteredNotes(const QString &filter){
 	}
   styleNotes();
 } // END showFilteredNotes
+
+// BEGIN loadNotes
+void SearchWindow::loadNotes(const gnote::Search::ResultsPtr &notes){
+        
+    //typedef std::map<Note::Ptr,int> Results;
+	for(gnote::Search::Results::const_iterator iter = notes.get()->begin();
+		iter != notes.get()->end(); ++iter) {
+
+		const gnote::Note & note(*iter->first);
+		QString qs = QString::fromStdString(note.get_title());
+	  qDebug() << __PRETTY_FUNCTION__ << "[" << qs << "]";
+
+	}
+
+} // END loadNotes
+
 // Wed Aug  7 16:34:24 PDT 2013
