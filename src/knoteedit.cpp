@@ -596,5 +596,11 @@ void KNoteEdit::disableRichTextActions()
   m_textIncreaseIndent->setEnabled( false );
   m_textDecreaseIndent->setEnabled( false );
 }
+
+void KNoteEdit::paste(){
+				QTextEdit::paste();
+				qDebug() << __PRETTY_FUNCTION__;
+}
+
 } // namespace knotes
-// Mon Mar 19 14:53:18 PDT 2012
+// Mon Oct 14 16:06:29 PDT 2013

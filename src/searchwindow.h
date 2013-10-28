@@ -70,12 +70,15 @@ signals:
 	void signalHandleSearch(QString);
 
 public slots:
-	void slotAddNotebook(const QString&);
 	void emitNoteSelected(QTableWidgetItem*);
 	void setItemName(const QString&, const QString&);
-	void slotItemClicked(QTableWidgetItem*);
 	void slotHandleSearch(void);
   void notebookClicked(int, int);
+	void noteClicked(int, int);
+	void slotAddNotebook(const QString&);
+  void slotHeaderClicked(QTableWidgetItem*);
+	void slotItemClicked(QTableWidgetItem*);
+	void slotSortNotes(void);
 
 }; // class SearchWindow
 #endif // SEARCH_WINDOW_H

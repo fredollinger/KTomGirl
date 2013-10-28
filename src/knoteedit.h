@@ -51,6 +51,8 @@ class KNoteEdit
     KNoteEdit( KActionCollection *actions, QWidget *parent = 0 );
     ~KNoteEdit();
 
+    void paste();
+
     void setNote( KNote *_note ) {
         m_note = _note;
     }
