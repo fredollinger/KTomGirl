@@ -56,4 +56,18 @@ task :orig  do
 	sh "tar --exclude libktomgirl-0.0.9/debian -czvf libktomgirl_0.0.9.orig.tar.gz libktomgirl-0.0.9"
 end
 
+desc "file of dependencies"
+task :deps do
+	sh "ldd src/build/ktomgirl > /tmp/ldd"
+	File.open("/tmp/ldd") do |f|
+		while line = f.gets
+			a = line.split("=>")
+			next if a.length() < 2
+		  b=a[1].split("(")
+			next if "" == b[0].strip()
+			sh "dpkg -S #{b[0]} >> /tmp/deps"
+	  end
+	end
+end
+
 # Sun Oct 27 16:20:25 PDT 2013
