@@ -54,7 +54,7 @@
      <x>0</x>
      <y>0</y>
      <width>649</width>
-     <height>27</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSearch">
@@ -69,6 +69,7 @@
      <string>Debug</string>
     </property>
     <addaction name="actionShow_Open_Notes"/>
+    <addaction name="actionSort_Notes"/>
    </widget>
    <addaction name="menuSearch"/>
    <addaction name="menuDebug"/>
@@ -87,6 +88,11 @@
   <action name="actionShow_Open_Notes">
    <property name="text">
     <string>Show Open Notes</string>
+   </property>
+  </action>
+  <action name="actionSort_Notes">
+   <property name="text">
+    <string>Sort Notes</string>
    </property>
   </action>
  </widget>

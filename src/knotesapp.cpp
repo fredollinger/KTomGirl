@@ -142,6 +142,8 @@ KNotesApp::KNotesApp()
 
   connect( m_searchWindow->actionShow_Open_Notes, SIGNAL( triggered() ), SLOT( slotSpewOpenNotes() ) );
 
+  connect( m_searchWindow->actionSort_Notes, SIGNAL( triggered() ), m_searchWindow, SLOT( slotSortNotes() ) );
+
   connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
 
   connect( m_searchWindow, SIGNAL( signalHandleSearch(QString) ), SLOT( slotHandleSearch(QString) ) );

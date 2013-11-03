@@ -3,7 +3,7 @@
 
  Copyright (c) 1997-2006, The KNotes Developers
 
- 2012 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
+ 2012-2013 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License

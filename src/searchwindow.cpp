@@ -82,6 +82,8 @@ SearchWindow::SearchWindow(QWidget* pParent, const char* szName)
 	m_notebooksDialog->tableNotebooks->setCurrentItem(m_notebooksDialog->tableNotebooks->item(0,0));
 	QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
 	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
+ 	//connect (m_notebooksDialog->tableNotebooks, SIGNAL(cellClicked(int, int)), this, SLOT(notebookClicked(int, int)));
+
 
 	//m_notebooksDialog->tableNotebooks->verticalScrollBar()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	//m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -112,6 +114,8 @@ SearchWindow::SearchWindow(QWidget* pParent, const char* szName)
 
 	QTableWidgetItem *dateHeader = m_notesDialog->tableNotes->horizontalHeaderItem(1);
 	dateHeader->setTextAlignment(Qt::AlignLeft);
+
+ 	connect (m_notesDialog->tableNotes, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(slotHeaderClicked(QTableWidgetItem*)));
 
  	connect (m_notesDialog->tableNotes, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(emitNoteSelected(QTableWidgetItem*)));
 
@@ -190,6 +194,7 @@ void SearchWindow::slotItemClicked(QTableWidgetItem* item){
 	return;
 }
 
+
 void SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 	emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
 }
@@ -253,6 +258,7 @@ void SearchWindow::slotHandleSearch(){
 }
 
 void SearchWindow::slotAddNotebook(const QString &nb){
+  qDebug() << __PRETTY_FUNCTION__ << " [" << nb << "]";
   if (nb.trimmed().size() < 1) return;
 
 	int rows = m_notebooksDialog->tableNotebooks->rowCount();
@@ -363,5 +369,19 @@ void SearchWindow::loadNotes(const gnote::Search::ResultsPtr &notes){
 	}
 
 } // END loadNotes
+
+/* Mainly used to sort notes */
+void SearchWindow::slotHeaderClicked(QTableWidgetItem* item){
+	qDebug() << __PRETTY_FUNCTION__;
+}
+
+void SearchWindow::noteClicked(int row, int col){
+	qDebug() << __PRETTY_FUNCTION__;
+}
+
+void SearchWindow::slotSortNotes(){
+	qDebug() << __PRETTY_FUNCTION__;
+  m_notesDialog->tableNotes->sortItems(0);
+}
 
 // Wed Aug  7 16:34:24 PDT 2013
