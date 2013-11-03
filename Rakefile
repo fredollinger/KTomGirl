@@ -66,6 +66,7 @@ task :deps do
 		  b=a[1].split("(")
 			next if "" == b[0].strip()
 			sh "dpkg -S #{b[0]} >> /tmp/deps"
+		  sh "cat /tmp/deps  | cut -d: -f1 | sort | uniq > src/dependencies"
 	  end
 	end
 end
