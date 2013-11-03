@@ -2,13 +2,17 @@ require 'rake/clean'
 
 REPO="/var/www/repo/dists/precise/universe/binary-amd64"
 
-CLEAN.include("*.deb", "*.changes", "*.dsc", "libktomgirl_0.0.9-1.debian.tar.gz")
-
+APP="ktomgirl"
 MAJOR_VERSION="0"
 MINOR_VERSION="0"
 MICRO_VERSION="9"
 UBUNTU_VERSION="1"
-WHOLE_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION + "-" + UBUNTU_VERSION 
+WHOLE_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION 
+DEBIAN_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION + "-" + UBUNTU_VERSION 
+APP_DIR="ktomgirl" + "-" + WHOLE_VERSION
+
+CLEAN.include("*.deb", "*.changes", "*.dsc", "#{APP}_#{DEBIAN_VERSION}.debian.tar.gz")
+
 desc "build it"
 task :default => :ui do
 end
@@ -69,6 +73,11 @@ task :deps do
 		  sh "cat /tmp/deps  | cut -d: -f1 | sort | uniq > src/dependencies"
 	  end
 	end
+end
+
+desc "build debian package"
+task :deb do
+	puts "cd .. && rm #{APP_DIR} && ln -s KTomGirl #{APP_DIR}"
 end
 
 # Sun Oct 27 16:20:25 PDT 2013
