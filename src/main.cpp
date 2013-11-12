@@ -48,7 +48,7 @@ int main( int argc, char *argv[] )
                          version.toLatin1(),
                          ki18n( "KDE Tomboy Note Taking Clone" ),
                          KAboutData::License_GPL,
-                         ki18n( "(c) 1997-2009, The KTomGirl Developers" ) );
+                         ki18n( "(c) 1997-2013, The KTomGirl Developers" ) );
 
   knotesAuthors( aboutData );
 

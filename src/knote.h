@@ -83,12 +83,12 @@ class KNote
     gnote::Note::Ptr m_gnote;
 
     //void changeJournal(ktomgirl::Journal *);
-    void saveData( bool update = true);
+    //void saveData( bool update = true);
     void saveConfig() const;
 
     QString noteId() const;
 
-    QString name() const;
+    QString name();
     QString text() const;
 
     void setName( const QString &name );
@@ -214,7 +214,6 @@ class KNote
     KToolBar      *m_tool; 
     KNoteEdit     *m_editor;
 
-    // KNoteConfig   *m_config;
     ktomgirl::Journal *m_journal;
 
     KFind         *m_find;

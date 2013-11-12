@@ -68,7 +68,7 @@ libxt6,
 zlib1g
 
 Standards-Version: 3.9.2
-Homepage: <insert the upstream URL, if relevant>
+Homepage: https://github.com/fredollinger/KTomGirl
 #Vcs-Git: git://git.debian.org/collab-maint/ktomgirl.git
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/ktomgirl.git;a=summary
 

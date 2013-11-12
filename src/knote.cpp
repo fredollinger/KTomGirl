@@ -206,6 +206,8 @@ void KNote::init( const QDomDocument& buildDoc ){
 
 // -------------------- public member functions -------------------- //
 
+/* TODO: Either fix or eliminate */
+#if 0
 void KNote::saveData(bool update )
 {
   /*
@@ -215,6 +217,7 @@ void KNote::saveData(bool update )
   }
   */
 }
+#endif
 
 void KNote::saveConfig() const
 {
@@ -248,7 +251,7 @@ void KNote::setName( const QString& name )
   updateLabelAlignment();
 
   if ( m_editor ) {    // not called from CTOR?
-    saveData();
+		slotSave();
   }
 #ifdef Q_WS_X11
   // set the window's name for the taskbar entry to be more helpful (#58338)
@@ -690,11 +693,13 @@ void KNote::createNoteEditor()
   setFocusProxy( m_editor );
 }
 
+/* I have no clue what this does. */
 void KNote::slotRequestNewNote()
 {
     //Be sure to save before to request a new note
     saveConfig();
-    saveData();
+		slotSave();
+    //saveData();
     emit sigRequestNewNote();
 }
 
@@ -1082,7 +1087,7 @@ bool KNote::eventFilter( QObject *o, QEvent *ev ) {
             if ( isModified() ) {
               saveConfig();
               if ( !m_blockEmitDataChanged )
-                  saveData();
+                  slotSave();
             }
           }
     } else if ( ev->type() == QEvent::FocusIn ) {
@@ -1095,13 +1100,23 @@ bool KNote::eventFilter( QObject *o, QEvent *ev ) {
   return false;
 }
 
-QString KNote::name() const{
+QString KNote::name(){
+  QTextCursor cursor = m_editor->textCursor();
+	cursor.setPosition(0, QTextCursor::MoveAnchor);  
+  cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
+  QString newtitle=cursor.selectedText();
+  newtitle.remove("\n");
+
+  //int n = m_config->noteNumber();
+	if ( "" != newtitle ){
+		m_title=newtitle;
+	}
+	else{
+		qDebug() << __PRETTY_FUNCTION__ << " Blank name!";
+		// FRED: TODO: NEED TO PASTE THE PROPER NAME HERE...
+	}
+
   return m_title;
-  /*
-	QString t = m_editor->toPlainText();
-	QString str = t.section('\n', 0, 1);
-	return str.trimmed();
-  */
 }
 
 // BEGIN slotFormatTitle()
@@ -1282,7 +1297,7 @@ void KNote::slotSave(){
 	return;
   }
 
-  qDebug() << __PRETTY_FUNCTION__; 
+  // qDebug() << __PRETTY_FUNCTION__; 
   // Update the title everywhere
   //qDebug() << __PRETTY_FUNCTION__; 
   slotNameChanged();

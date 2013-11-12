@@ -15,6 +15,7 @@ CLEAN.include("*.deb", "*.changes", "*.dsc", "#{APP}_#{DEBIAN_VERSION}.debian.ta
 
 desc "build it"
 task :default => :ui do
+	#sh "cd src && debuild -i -us -uc -b"
 end
 
 desc "show errors"
@@ -36,11 +37,6 @@ end
 desc "rebuild notes dialog"
 task :nd do
 	sh "cd src && rm -f ui_notesdialog.h && make"
-end
-
-desc "Build the project (default)"
-task :build  do
-	puts "default"
 end
 
 desc "Upload ppa to ubuntu"
