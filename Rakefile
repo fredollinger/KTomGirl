@@ -10,12 +10,18 @@ UBUNTU_VERSION="1"
 WHOLE_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION 
 DEBIAN_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION + "-" + UBUNTU_VERSION 
 APP_DIR="ktomgirl" + "-" + WHOLE_VERSION
+BUILD='builddir'
 
-CLEAN.include("*.deb", "*.changes", "*.dsc", "#{APP}_#{DEBIAN_VERSION}.debian.tar.gz")
+CLEAN.include("*.deb", "*.changes", "*.dsc", "#{APP}_#{DEBIAN_VERSION}.debian.tar.gz", "src/obj-x86_64-linux-gnu", '#{BUILD}')
+
+directory 'builddir'
 
 desc "build it"
 task :default => :ui do
-	#sh "cd src && debuild -i -us -uc -b"
+end
+
+desc "build it"
+task :build => :ui do
 end
 
 desc "show errors"
@@ -25,18 +31,18 @@ end
 
 desc "test"
 task :test do
-	sh "cd src && make test"
+	sh "cd #{BUILD} && ./ktomgirl"
 	#puts  WHOLE_VERSION
 end
 
-desc "Create build dir"
-task "build" do
-	sh "mkdir -p build && cmake src"
+desc "Create build dir and setup"
+task 'builddir' do
+	sh "mkdir -p #{BUILD} && cd #{BUILD} && cmake ../src"
 end
 
 desc "build it"
-task :ui => "build" do
-	sh "cd src && mkdir -p build && cd build && make 2>err"
+task :ui => 'builddir' do
+	sh "cd #{BUILD} && make 2>err"
 end
 
 desc "rebuild notes dialog"
@@ -63,7 +69,7 @@ end
 
 desc "file of dependencies"
 task :deps do
-	sh "ldd src/build/ktomgirl > /tmp/ldd"
+	sh "ldd #{BUILD}/ktomgirl > /tmp/ldd"
 	File.open("/tmp/ldd") do |f|
 		while line = f.gets
 			a = line.split("=>")
