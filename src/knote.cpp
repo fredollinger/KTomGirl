@@ -165,11 +165,16 @@ void KNote::load_gnote(){
 
 	/* We are not handling notes being closed properly due to some over cleverness!! */
 	if (l_loaded){
-  		qDebug() << __PRETTY_FUNCTION__<< "BUG!! Note all ready loaded!!";
+  	qDebug() << __PRETTY_FUNCTION__<< "BUG!! Note all ready loaded!!";
 		return;
 	}
 
 	m_title = QString::fromStdString(m_gnote->get_title());
+
+	if ("" == m_title){
+		qDebug() << __PRETTY_FUNCTION__<< "BUG: Loading blank note.";
+  }
+
 	setName(m_title);
 
 	m_content = QString::fromStdString(m_gnote->text_content_plain());

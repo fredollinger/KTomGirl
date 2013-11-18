@@ -29,9 +29,14 @@ task :test do
 	#puts  WHOLE_VERSION
 end
 
+desc "Create build dir"
+task "build" do
+	sh "mkdir -p build && cmake src"
+end
+
 desc "build it"
-task :ui do
-	sh "cd src && make"
+task :ui => "build" do
+	sh "cd src && mkdir -p build && cd build && make 2>err"
 end
 
 desc "rebuild notes dialog"
@@ -74,6 +79,7 @@ end
 desc "build debian package"
 task :deb do
 	puts "cd .. && rm #{APP_DIR} && ln -s KTomGirl #{APP_DIR}"
+	sh "cd src && debuild -i -us -uc -b"
 end
 
 # Sun Oct 27 16:20:25 PDT 2013
