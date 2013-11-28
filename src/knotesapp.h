@@ -88,7 +88,8 @@ class KNotesApp
 
     //bool commitData( QSessionManager & );
 
-    ktomgirl::KTGConfig *m_config;
+		// Replaced with singleton
+    //ktomgirl::KTGConfig *m_config;
 
   public slots:
     void showAllNotes(void);

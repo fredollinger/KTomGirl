@@ -10,14 +10,21 @@
 #include "ktgconfigskel.h"
 
 namespace ktomgirl {
-class KTGConfig: public KTGConfigSkel {
+class KTGConfig 
+     : public KTGConfigSkel {
 public:
-	KTGConfig(void);
+   static KTGConfig & obj(){ 
+        static KTGConfig * instance = new KTGConfig();
+        return *instance;
+    }
+
 	~KTGConfig(void);
 	int addNotebook(const QString &nb);
 	int noteNumber(void);
 	void setNoteNumber(int n){ mNoteNumber = n; }
 	void store(void){ writeConfig(); }
+private:
+	KTGConfig(void);
 	
 }; // class KTGConfig
 }  // namespace ktomgirl

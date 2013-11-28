@@ -35,6 +35,7 @@
 //#include <iostream>
 
 // KTOMGIRL INCLUDES
+#include "ktgconfig.h"
 #include "ktgitem.h"
 #include "searchbar.h"
 #include "searchwindow.h"
@@ -149,6 +150,12 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 
 		const gnote::Note::Ptr & note(*iter);
 		qs = QString::fromStdString(note->get_title());
+
+		if ( "" == qs ){
+       int n = ktomgirl::KTGConfig::obj().noteNumber();
+			 qs = tr("New Note ") + QString::number(n, 10); 
+			 note->set_title(qs.toStdString());
+		}
 
 		// BEGIN ITEM ONE
 		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
@@ -384,4 +391,4 @@ void SearchWindow::slotSortNotes(){
   m_notesDialog->tableNotes->sortItems(0);
 }
 
-// Wed Aug  7 16:34:24 PDT 2013
+// Wed Nov 27 17:50:09 PST 2013

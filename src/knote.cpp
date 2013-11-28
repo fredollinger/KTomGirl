@@ -161,6 +161,7 @@ void KNote::init_note(){
 #endif
 
 void KNote::load_gnote(){
+	qDebug() << __PRETTY_FUNCTION__;
 	static bool l_loaded = false;
 
 	/* We are not handling notes being closed properly due to some over cleverness!! */
@@ -170,10 +171,6 @@ void KNote::load_gnote(){
 	}
 
 	m_title = QString::fromStdString(m_gnote->get_title());
-
-	if ("" == m_title){
-		qDebug() << __PRETTY_FUNCTION__<< "BUG: Loading blank note.";
-  }
 
 	setName(m_title);
 
@@ -1485,4 +1482,4 @@ void KNote::slotTextChanged(){
 
 // END KNOTE SLOTS
 }// namespace knotes
-// Sun Mar 10 12:50:51 PDT 2013
+// Wed Nov 27 17:59:30 PST 2013

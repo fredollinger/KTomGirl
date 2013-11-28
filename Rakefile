@@ -26,7 +26,7 @@ end
 
 desc "show errors"
 task :err do
-	sh "cd src && make err"
+	sh "vim #{BUILD}/err"
 end
 
 desc "test"

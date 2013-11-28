@@ -121,7 +121,9 @@ KNotesApp::KNotesApp()
   m_gnmanager = new gnote::NoteManager();
   kapp->setQuitOnLastWindowClosed( false );
 
-  m_config = new ktomgirl::KTGConfig();
+  //m_config = new ktomgirl::ktomgirl::KTGConfig();
+	//m_config->readConfig();
+	ktomgirl::KTGConfig::obj().readConfig();
 
   // BEGIN DOCK WIDGET
   // create the dock widget...
@@ -132,7 +134,7 @@ KNotesApp::KNotesApp()
   m_searchWindow->loadNotebooks();
   m_searchWindow->show();
 
-  connect( m_searchWindow, SIGNAL( sigNotebookCliecked(const QString&) ), this, SLOT( slotUpdateNotebook(const QString&)), Qt::QueuedConnection  );
+  connect( m_searchWindow, SIGNAL( sigNotebookClicked(const QString&) ), this, SLOT( slotUpdateNotebook(const QString&)), Qt::QueuedConnection  );
   connect( m_searchWindow, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
 
   connect( this, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
@@ -204,7 +206,8 @@ KNotesApp::KNotesApp()
 
 KNotesApp::~KNotesApp()
 {
- m_config->store();
+ //m_config->store();
+ ktomgirl::KTGConfig::obj().store();
 /*
   saveConfigs();
   saveNotes();
@@ -572,7 +575,8 @@ void KNotesApp::slotShowSearchWindow(){
 }
 
 void KNotesApp::createNote( ktomgirl::Journal *journal ){
-  int n = m_config->noteNumber();
+  //int n = m_config->noteNumber();
+  int n = ktomgirl::KTGConfig::obj().noteNumber();
 
   QString title = tr("New Note ") + QString::number(n, 10); 
   QString body = tr("Describe your new note here.");
@@ -655,7 +659,8 @@ void KNotesApp::saveNotes()
 
 void KNotesApp::saveConfigs()
 {
-  m_config->store();
+  // m_config->store();
+  ktomgirl::KTGConfig::obj().store();
 }
 
 void KNotesApp::updateNoteActions()
@@ -856,8 +861,10 @@ void  KNotesApp::slotOpenNote(QAction *act){
 void  KNotesApp::slotNewNotebook(const QString &qs){
 	// tell all knotes to add the menu
 	emit sigNewNotebook(qs);
-  	m_config->addNotebook(qs);
-	m_config->store();
+ 	//m_config->addNotebook(qs);
+	ktomgirl::KTGConfig::obj().addNotebook(qs);
+	//m_config->store();
+	ktomgirl::KTGConfig::obj().store();
 }
 
 /* Given a NoteBook String, filter the notes */
