@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(ktomgirl)
 
+set (QT_QMAKE_EXECUTABLE "/usr/bin/qmake-qt4")
+set (CMAKE_INSTALL_PREFIX "$(kde4-config) --prefix")
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SIGC2 REQUIRED sigc++-2.0)
 include_directories(${SIGC2_INCLUDE_DIRS})

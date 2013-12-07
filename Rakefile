@@ -10,9 +10,11 @@ UBUNTU_VERSION="1"
 WHOLE_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION 
 DEBIAN_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION + "-" + UBUNTU_VERSION 
 APP_DIR="ktomgirl" + "-" + WHOLE_VERSION
-BUILD='builddir'
+BUILD='src/builddir'
+#CMAKE="cmake -DQT_QMAKE_EXECUTABLE=/usr/bin/qmake-qt4 -DCMAKE_INSTALL_PREFIX=$(kde4-config --prefix) .."
+CMAKE="cmake .."
 
-CLEAN.include("*.deb", "*.changes", "*.dsc", "#{APP}_#{DEBIAN_VERSION}.debian.tar.gz", "src/obj-x86_64-linux-gnu", '#{BUILD}')
+CLEAN.include("*.deb", "*.changes", "*.dsc", "#{APP}_#{DEBIAN_VERSION}.debian.tar.gz", "obj-x86_64-linux-gnu", 'builddir')
 
 directory 'builddir'
 
@@ -37,17 +39,12 @@ end
 
 desc "Create build dir and setup"
 task 'builddir' do
-	sh "mkdir -p #{BUILD} && cd #{BUILD} && cmake ../src"
+	sh "mkdir -p #{BUILD} && cd #{BUILD} && #{CMAKE}"
 end
 
 desc "build it"
 task :ui => 'builddir' do
-	sh "cd #{BUILD} && make 2>err"
-end
-
-desc "rebuild notes dialog"
-task :nd do
-	sh "cd src && rm -f ui_notesdialog.h && make"
+	sh "cd #{BUILD} && cmake .. && make 2>err"
 end
 
 desc "Upload ppa to ubuntu"
