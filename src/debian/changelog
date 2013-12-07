@@ -1,3 +1,9 @@
+ktomgirl (0.0.10-1) unstable; urgency=low
+
+  * Give names to untitled notes
+
+ -- Frederick Ollinger <follinge@gmail.com>  Sat, 07 Dec 2013 11:17:46 -0700
+
 ktomgirl (0.0.9-1) unstable; urgency=low
 
   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>

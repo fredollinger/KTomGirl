@@ -30,9 +30,8 @@
 #include "version.h"
 
 // gnote includes
-#include <libktomgirl/ktglib.hpp>
-#include <libktomgirl/note.hpp>
 #include <libktomgirl/notebookmanager.hpp>
+//#include <libktomgirl/note.hpp>
 
 // BEGIN KDE INCLUDES
 #include <kaction.h>
