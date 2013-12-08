@@ -10,11 +10,13 @@ UBUNTU_VERSION="1"
 WHOLE_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION 
 DEBIAN_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION + "-" + UBUNTU_VERSION 
 APP_DIR="ktomgirl" + "-" + WHOLE_VERSION
-BUILD='src/builddir'
+BUILD='builddir'
 #CMAKE="cmake -DQT_QMAKE_EXECUTABLE=/usr/bin/qmake-qt4 -DCMAKE_INSTALL_PREFIX=$(kde4-config --prefix) .."
-CMAKE="cmake .."
+CMAKE="cmake ../src"
+TARBALL="#{APP}_#{DEBIAN_VERSION}.orig.tar.gz"
+LINKPATH="#{APP}-#{WHOLE_VERSION}"
 
-CLEAN.include("*.deb", "*.changes", "*.dsc", "#{APP}_#{DEBIAN_VERSION}.debian.tar.gz", "obj-x86_64-linux-gnu", 'builddir')
+CLEAN.include("*.deb", "*.changes", "*.dsc", "#{APP}_#{DEBIAN_VERSION}.debian.tar.gz", "src/obj-x86_64-linux-gnu", "builddir", "#{TARBALL}", "#{LINKPATH}")
 
 directory 'builddir'
 
@@ -44,7 +46,7 @@ end
 
 desc "build it"
 task :ui => 'builddir' do
-	sh "cd #{BUILD} && cmake .. && make 2>err"
+	sh "cd builddir && make 2>err"
 end
 
 desc "Upload ppa to ubuntu"
@@ -80,9 +82,16 @@ task :deps do
 end
 
 desc "build debian package"
-task :deb do
-	puts "cd .. && rm #{APP_DIR} && ln -s KTomGirl #{APP_DIR}"
-	sh "cd src && debuild -i -us -uc -b"
+task :deb => [:clean, :tgz] do
+	sh "cd #{LINKPATH} && debuild -i -us -uc -b"
+end
+
+desc "build debian package"
+task :tgz do
+	#ktomgirl_0.0.10.orig.tar.gz
+	sh "rm -f #{LINKPATH}"
+	sh "ln -s src #{LINKPATH}"
+	sh "tar --exclude debian -chzvf #{TARBALL} #{LINKPATH}"
 end
 
 # Sun Oct 27 16:20:25 PDT 2013

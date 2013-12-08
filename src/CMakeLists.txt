@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(ktomgirl)
 
 set (QT_QMAKE_EXECUTABLE "/usr/bin/qmake-qt4")
-set (CMAKE_INSTALL_PREFIX "$(kde4-config) --prefix")
+set (CMAKE_INSTALL_PREFIX "/usr")
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SIGC2 REQUIRED sigc++-2.0)
@@ -22,7 +22,6 @@ QT4_ADD_RESOURCES(QtApp_RCC_SRCS ${QtApp_RCCS})
 kde4_add_ui_files(ktomgirl_SRCS)
 
 kde4_add_kcfg_files(ktomgirl_SRCS ktgconfigskel.kcfgc)
-install(FILES ktgconfigskel.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
 set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lboost_date_time-mt -lpcrecpp -lktomgirl")
 
@@ -51,7 +50,6 @@ target_link_libraries(ktomgirl ${KDEPIMLIBS_KCAL_LIBS} ${KDEPIMLIBS_KRESOURCES_L
 ${LibXML_LIBRARIES}  ${SIGC2_LIBRARIES} 
 ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
 
-install(TARGETS ktomgirl  DESTINATION ${BIN_INSTALL_DIR})
-install(FILES ui/ktomgirl.rc DESTINATION ${DATA_INSTALL_DIR}/ktomgirl)
-install(FILES DESTINATION ${BIN_INSTALL_DIR})
-# Mon May  6 14:31:02 PDT 2013
+install( TARGETS ktomgirl  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+#install(FILES ktgconfigskel.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+# Sat Dec  7 15:06:49 PST 2013
