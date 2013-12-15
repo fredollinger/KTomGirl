@@ -23,7 +23,7 @@ kde4_add_ui_files(ktomgirl_SRCS)
 
 kde4_add_kcfg_files(ktomgirl_SRCS ktgconfigskel.kcfgc)
 
-set (CMAKE_CXX_FLAGS "-fexceptions -lboost_filesystem-mt -lboost_date_time-mt -lpcrecpp -lktomgirl")
+set (CMAKE_CXX_FLAGS "-luuid -lX11 -fexceptions -lboost_filesystem-mt -lboost_date_time-mt -lpcrecpp -lktomgirl")
 
 set(ktomgirl_SRCS
 ktgmenu.cpp

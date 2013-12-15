@@ -141,10 +141,14 @@ void SearchWindow::styleNotes(){
 }
 
 void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
-	QString qs;
+  m_notesDialog->tableNotes->clearContents();
+  m_notesDialog->tableNotes->setRowCount(notesCopy.size());
 
+	QString qs;
  	KIcon notebookIcon = KIcon(":/icons/notebook.png");
-        
+	m_row=0;
+
+
 	for(gnote::Note::List::const_iterator iter = notesCopy.begin();
 		iter != notesCopy.end(); ++iter) {
 
@@ -174,6 +178,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
 	}
 	m_notesDialog->tableNotes->setRowCount(m_row);
 	styleNotes();
+
 	return;
 }
 
@@ -363,18 +368,37 @@ void SearchWindow::showFilteredNotes(const QString &filter){
 } // END showFilteredNotes
 
 // BEGIN loadNotes
-void SearchWindow::loadNotes(const gnote::Search::ResultsPtr &notes){
-        
-    //typedef std::map<Note::Ptr,int> Results;
-	for(gnote::Search::Results::const_iterator iter = notes.get()->begin();
-		iter != notes.get()->end(); ++iter) {
+void SearchWindow::loadNotes(const gnote::Search::ResultsPtr &notesCopy){
+  m_notesDialog->tableNotes->clearContents();
+  //m_notesDialog->tableNotes->setRowCount(notesCopy.size());
 
-		const gnote::Note & note(*iter->first);
-		QString qs = QString::fromStdString(note.get_title());
-	  qDebug() << __PRETTY_FUNCTION__ << "[" << qs << "]";
+	QString qs;
+ 	KIcon notebookIcon = KIcon(":/icons/notebook.png");
+	m_row=0;
 
+  for(gnote::Search::Results::iterator iter = notesCopy.get()->begin();
+				iter != notesCopy.get()->end(); ++iter) {
+
+				const gnote::Note::Ptr & note = iter->first;
+				qs = QString::fromStdString(note->get_title());
+
+		// BEGIN ITEM ONE
+		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
+		item->setIcon(notebookIcon);
+		m_notesDialog->tableNotes->setItem ( m_row, 0, item );
+		// END ITEM ONE
+
+		// BEGIN ITEM TWO
+  	sharp::DateTime qdt = note->data().change_date();
+		qs = QString::fromStdString(qdt.to_string());
+		item = new ktomgirl::KTGItem(qs, note);
+		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
+		// END ITEM TWO
+
+		m_row++;
 	}
-
+	m_notesDialog->tableNotes->setRowCount(m_row);
+	styleNotes();
 } // END loadNotes
 
 /* Mainly used to sort notes */

@@ -1,3 +1,9 @@
+ktomgirl (0.0.11-0) unstable; urgency=low
+
+  * Seach now works
+
+ -- Frederick Ollinger <follinge@gmail.com>  Sat, 14 Dec 2013 15:17:46 -0700
+
 ktomgirl (0.0.10-1) unstable; urgency=low
 
   * Give names to untitled notes
