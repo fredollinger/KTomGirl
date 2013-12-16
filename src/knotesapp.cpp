@@ -750,7 +750,7 @@ void KNotesApp::openNote(QString &qs){
 
   if (! gnote){
         qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
-	return;
+				return;
 
   }
 
@@ -892,19 +892,15 @@ void  KNotesApp::slotHandleSearch(QString qs){
 	qDebug() << __PRETTY_FUNCTION__ << qs; 
   gnote::Search search(m_gnmanager);
   std::string text = qs.toStdString();
-  gnote::Search::ResultsPtr results =
-	  search.search_notes( text, false );
-	m_searchWindow->loadNotes(results);
 
-#if 0
-	// BEGIN FIND THE GNOTE
-	std::string title = qsTitle.toStdString();
-	gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
-	QString m_content = QString::fromStdString(gnote->text_content());
-	QString uid = QString::fromStdString(gnote->uid());
-	// END FIND THE GNOTE
-#endif
+	// If we're just whitespace then load all the notes otherwise do a search
+  if ("" != qs.trimmed()){
+				gnote::Search::ResultsPtr results = search.search_notes( text, false );
+				m_searchWindow->loadNotes(results);
+	}
+  else
+				m_searchWindow->loadNotes(m_gnmanager->get_notes());
 }
 
 } // namespace knotes
-// Wed Aug  7 16:34:17 PDT 2013
+// Sun Dec 15 15:58:34 PST 2013
