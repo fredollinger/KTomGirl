@@ -34,9 +34,8 @@ task :err do
 end
 
 desc "test"
-task :test do
+task :test => :ui do
 	sh "cd #{BUILD} && ./ktomgirl"
-	#puts  WHOLE_VERSION
 end
 
 desc "Create build dir and setup"

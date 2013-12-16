@@ -76,7 +76,7 @@ class KNote
     void formatText(void);
     void init( const QDomDocument& );
     //void init_note(void);
-    void load_gnote(void);
+    bool load_gnote(void);
     void loadNotebooks();
 
     gnote::Note::Ptr m_gnote;
@@ -180,6 +180,11 @@ class KNote
     NewNoteBookDialog *m_dlg;
 
     QString m_content;
+		// m_noteNumber is only for the corner cases where we have a blank title.
+		// Ideally this will never be used, b/c we should actually fix the problem
+		// of blank titles.
+		// But it's a bug fix hack for now.
+    int m_noteNumber; 
     QString m_title;
     QString m_noteId; // note uuid; replaces the kcal::Journal
     QTimer *saveTimer;

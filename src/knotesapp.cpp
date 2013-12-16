@@ -758,7 +758,10 @@ void KNotesApp::openNote(QString &qs){
 
 	qDebug() << __PRETTY_FUNCTION__ << "*** Calling new KNote **";
   KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
-  newNote->load_gnote();
+  if (!newNote->load_gnote()) {
+				qDebug() << __PRETTY_FUNCTION__ << "*** BUG: refusing to open blank note **";
+				return;
+  }
 
   m_notes.insert( newNote->noteId(), newNote );
 
@@ -787,6 +790,8 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 	  return;
   }
 
+  qDebug() << __PRETTY_FUNCTION__<< "text content of note: [" << QString::fromStdString(gnote->text_content()) << "]";
+
   ktomgirl::Journal *journal = new ktomgirl::Journal();
 
   // FRED: There's probably a crash around here due to poor handling of pointers...
@@ -794,7 +799,10 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
 
 	qDebug() << __PRETTY_FUNCTION__ << "*** Calling new KNote **";
   KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
-  newNote->load_gnote();
+  if (!newNote->load_gnote()) {
+				qDebug() << __PRETTY_FUNCTION__ << "*** BUG: refusing to open blank note **";
+				return;
+  }
 
   m_notes.insert( newNote->noteId(), newNote );
 

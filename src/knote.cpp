@@ -109,6 +109,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, ktomgirl:
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnote(gnoteptr)
     , m_content("")
+    , m_noteNumber(1)
     , m_title("")
 { 
 	journal->setUid(QString::fromStdString(gnoteptr->uid()));
@@ -136,7 +137,9 @@ KNote::~KNote()
   m_gnote->set_is_open(false);
 
   saveTimer->stop();
+
   m_gnote->set_text_content(m_editor->toPlainText().toStdString());
+
   m_gnote->save();
   //emit sigDataChanged(noteId());
 
@@ -159,32 +162,43 @@ void KNote::init_note(){
 }
 #endif
 
-void KNote::load_gnote(){
+bool KNote::load_gnote(){
+
+  // Need to set not modified right away to stop slotSave() from stompoing over the note
+	// before we even open it properly.
+  m_isModified = false;
+
 	qDebug() << __PRETTY_FUNCTION__;
 	static bool l_loaded = false;
 
 	/* We are not handling notes being closed properly due to some over cleverness!! */
 	if (l_loaded){
   	qDebug() << __PRETTY_FUNCTION__<< "BUG!! Note all ready loaded!!";
-		return;
+		return true;
+	}
+
+	m_content = QString::fromStdString(m_gnote->text_content());
+	/* Work around for stupid libktomgirl bug */
+ 	if ("" == m_content){
+  		qDebug() << __PRETTY_FUNCTION__<< "loading text busted***" << m_content << "!!!";
+			return false;
 	}
 
 	m_title = QString::fromStdString(m_gnote->get_title());
 
+ 	if ("" == m_title){
+    QString qs;
+		qs.setNum(m_noteNumber);
+    m_title="Untitled Note " + qs;
+		m_noteNumber++;
+  }
+
 	setName(m_title);
 
-	m_content = QString::fromStdString(m_gnote->text_content_plain());
-
-	/* Work around for stupid libktomgirl bug */
- 	if ("" == m_content){
-  		//qDebug() << __PRETTY_FUNCTION__<< "loading text busted***" << m_content << "!!!";
-			m_content = QString::fromStdString(m_gnote->text_content());
-	}
-
 	setContent(m_title, m_content);
-
   formatText();
-	//init_note();
+
+	return true;
 }
 
 void KNote::init( const QDomDocument& buildDoc ){
@@ -355,12 +369,18 @@ void KNote::find( KFind* kfind )
 // if TRUE, then we are NOT saved.
 bool KNote::isModified() const
 {
+
+  if (m_content == m_editor->toPlainText()){
+				qDebug() << __PRETTY_FUNCTION__ << "text is unmodified";
+				return false;
+	}
+
   if (m_isModified) return true;
 
   QString newContent = m_editor->toPlainText();
 
   if ("" == newContent){
-  	//qDebug() << __PRETTY_FUNCTION__ << "Note is Empty, don't save";
+  	qDebug() << __PRETTY_FUNCTION__ << "Note is Empty, don't save";
 		return false;
   }
 
@@ -391,7 +411,6 @@ void KNote::slotClose()
  /*
   saveTimer->stop();
   formatTimer->stop();
-  m_gnote->set_text_content(m_editor->toPlainText().toStdString());
   m_gnote->save();
   emit sigDataChanged(noteId());
   saveTimer->stop();
@@ -979,16 +998,6 @@ void KNote::showEvent( QShowEvent * )
 {
   saveTimer->start();
   formatTimer->start();
-  #if 0
-  if ( m_config->hideNote() ) {
-    // KWin does not preserve these properties for hidden windows
-    slotUpdateKeepAboveBelow();
-    slotUpdateShowInTaskbar();
-    toDesktop( m_config->desktop() );
-    move( m_config->position() );
-    m_config->setHideNote( false );
-  }
-  #endif
 }
 
 void KNote::resizeEvent( QResizeEvent *qre )
@@ -1041,6 +1050,7 @@ void KNote::keyPressEvent(QKeyEvent *event) {
         else {
             QWidget::keyPressEvent(event);
         }
+				m_isModified=true;
 }
 
 bool KNote::eventFilter( QObject *o, QEvent *ev ) {
@@ -1298,9 +1308,8 @@ void KNote::slotSave(){
 	return;
   }
 
-  // qDebug() << __PRETTY_FUNCTION__; 
-  // Update the title everywhere
-  //qDebug() << __PRETTY_FUNCTION__; 
+  m_isModified = false;
+
   slotNameChanged();
 
   // cache content so we know if we are modified/saved in the future
@@ -1314,6 +1323,7 @@ void KNote::slotSave(){
   // we do this to save resources so we don't save every single note
   // that is closed only those who have changed.
   m_gnote->changed();
+
   m_isModified = false;
 }
 
