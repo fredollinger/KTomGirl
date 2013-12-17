@@ -1,8 +1,8 @@
-ktomgirl (0.0.12-0) unstable; urgency=low
+ktomgirl (0.0.12-1) unstable; urgency=low
 
   * Fix bug where we lose data.
 
- -- Frederick Ollinger <follinge@gmail.com>  Sat, 14 Dec 2013 15:17:46 -0700
+ -- Frederick Ollinger <follinge@gmail.com>  Sat, 16 Dec 2013 16:17:46 -0700
 
 ktomgirl (0.0.11-0) unstable; urgency=low
 
