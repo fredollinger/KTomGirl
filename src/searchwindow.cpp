@@ -314,7 +314,8 @@ void SearchWindow::notebookClicked(int row, int col){
 	emit signalNotebookClicked(text);
 
   if ( tr("All Notes") == text ){
-    showAllNotes();
+		emit signalHandleSearch(m_searchBar->lineEditSearch->text() );
+    //showAllNotes();
     return;
   }
   else if ( tr("Unfiled Notes") == text ){
