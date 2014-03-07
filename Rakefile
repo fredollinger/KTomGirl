@@ -82,7 +82,7 @@ end
 
 desc "build debian package"
 task :deb => [:clean, :tgz] do
-	sh "cd #{LINKPATH} && debuild -i -us -uc -b"
+	sh "cd #{LINKPATH} && debuild -i -us -uc -b -d"
 end
 
 desc "build debian package"
