@@ -1,3 +1,9 @@
+ktomgirl (0.0.13-1) unstable; urgency=low
+
+  * Build on newer versions of gcc such as 4.8 and newer cmake like 2.8.11.
+
+ -- Frederick Ollinger <follinge@gmail.com>  Mon, 17 Mar 2014 11:56:28 -0700
+
 ktomgirl (0.0.12-1) unstable; urgency=low
 
   * Fix bug where we lose data.

@@ -7,7 +7,7 @@
 #include <QTableWidget>
 #include <QDockWidget>
 
-#include "ui_notebooksdialog.h"
+#include <ui_notebooksdialog.h>
 
 namespace ktomgirl{
 	class KTGItem;
