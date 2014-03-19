@@ -5,7 +5,7 @@ REPO="/var/www/repo/dists/precise/universe/binary-amd64"
 APP="ktomgirl"
 MAJOR_VERSION="0"
 MINOR_VERSION="0"
-MICRO_VERSION="12"
+MICRO_VERSION="13"
 UBUNTU_VERSION="0"
 WHOLE_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION 
 DEBIAN_VERSION=MAJOR_VERSION + "." + MINOR_VERSION + "." + MICRO_VERSION + "-" + UBUNTU_VERSION 
@@ -45,7 +45,7 @@ end
 
 desc "build it"
 task :ui => 'builddir' do
-	sh "cd builddir && make 2>err"
+	sh "cd builddir && rm -f ktomgirl && make -j3 2>err"
 end
 
 desc "Upload ppa to ubuntu"

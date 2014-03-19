@@ -2,7 +2,10 @@ ktomgirl (0.0.13-1) unstable; urgency=low
 
   * Build on newer versions of gcc such as 4.8 and newer cmake like 2.8.11.
 
- -- Frederick Ollinger <follinge@gmail.com>  Mon, 17 Mar 2014 11:56:28 -0700
+  * Open note by uri instead of by title which will allow for duplicate notes.
+	- We will still deny duplicates in future versions.
+
+ -- Frederick Ollinger <follinge@gmail.com>  Tue, 18 Mar 2014 17:26:22 -0700
 
 ktomgirl (0.0.12-1) unstable; urgency=low
 

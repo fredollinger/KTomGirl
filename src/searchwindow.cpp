@@ -208,6 +208,8 @@ void SearchWindow::slotItemClicked(QTableWidgetItem* item){
 
 
 void SearchWindow::emitNoteSelected(QTableWidgetItem* item){
+	ktomgirl::KTGItem *ktg = static_cast<ktomgirl::KTGItem*>(item);
+	qDebug() << __PRETTY_FUNCTION__ << "[" <<  QString::fromStdString(ktg->uid()) << "] [" << QString::fromStdString(ktg->get_note()->get_title()) << "]";
 	emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
 }
 
