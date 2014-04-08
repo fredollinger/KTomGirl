@@ -127,18 +127,24 @@ SearchWindow::SearchWindow(QWidget* pParent, const char* szName)
 
 SearchWindow::~SearchWindow(){}
 
-void SearchWindow::styleNotes(){
-	// Loop through all notes and set the background colors...
-	int m_rows = m_notesDialog->tableNotes->rowCount();
-	for(int i=0;  i < m_rows; i++){
-		QTableWidgetItem *item = m_notesDialog->tableNotes->item(i, 0);
-		QTableWidgetItem *item2 = m_notesDialog->tableNotes->item(i, 1);
-		if (0 != item){
-			item->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
-			item2->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
-		}
-	}
-}
+void SearchWindow::styleNotes() {
+    // Loop through all notes and set the background colors...
+    int m_rows = m_notesDialog->tableNotes->rowCount();
+    for (int i = 0; i < m_rows; i++) {
+        if (! m_notesDialog->tableNotes->isRowHidden(i)){
+		    QTableWidgetItem *item = m_notesDialog->tableNotes->item(i, 0);
+		    QTableWidgetItem *item2 = m_notesDialog->tableNotes->item(i, 1);
+
+            // FRED TODO ONLY DO THIS IF WE ARE NOT HIDDEN
+            // m_notesDialog->tableNotes->setRowHidden(i, false);
+
+		    if (0 != item ){
+			    item->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
+			    item2->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
+		    }
+        } // END if (! m_notesDialog->tableNotes->isRowHidden(i)
+    } // END for (int i = 0; i < m_rows; i++)
+} // END SearchWindow::styleNotes()
 
 void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
   m_notesDialog->tableNotes->clearContents();
@@ -314,19 +320,20 @@ void SearchWindow::showAllNotes(){
 
 void SearchWindow::notebookClicked(int row, int col){
 	QTableWidgetItem *item = m_notebooksDialog->tableNotebooks->currentItem();
-  QString text = item->text();
-	emit signalNotebookClicked(text);
+    QString text = item->text();
+    emit signalNotebookClicked(text);
 
-  if ( tr("All Notes") == text ){
-		emit signalHandleSearch(m_searchBar->lineEditSearch->text() );
-    //showAllNotes();
-    return;
-  }
-  else if ( tr("Unfiled Notes") == text ){
-    showUnfilteredNotes();
-    return;
-  }
-  showFilteredNotes(item->text());
+    if ( tr("All Notes") == text ){
+ 	    emit signalHandleSearch(m_searchBar->lineEditSearch->text() );
+        //showAllNotes();
+        return;
+    }
+    else if ( tr("Unfiled Notes") == text ){
+        showUnfilteredNotes();
+        return;
+    }
+    showFilteredNotes(item->text());
+    styleNotes();
 }
 
 // BEGIN showUnfilteredNotes
@@ -347,64 +354,65 @@ void SearchWindow::showUnfilteredNotes(){
        }
     }
 	}
-  styleNotes();
 } // END showUnfilteredNotes
 
 // BEGIN showFilteredNotes
-void SearchWindow::showFilteredNotes(const QString &filter){
-  gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook ( filter.toStdString() );
+void SearchWindow::showFilteredNotes(const QString &filter) {
+    gnote::notebooks::Notebook::Ptr notebook =
+        gnote::notebooks::NotebookManager::instance().get_notebook(
+            filter.toStdString());
 
-	qDebug() << " notebook: [" << QString::fromStdString( notebook->get_name() ) << "]" ; 
+    qDebug() << " notebook: [" << QString::fromStdString(notebook->get_name())
+             << "]";
 
-  int m_rows = m_notesDialog->tableNotes->rowCount();
-	for(int i=0;  i < m_rows; i++){
-	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
-		if (0 != item){
-      gnote::Note::Ptr note = item->get_note();
-      if (notebook->contains_note(note)){
-        m_notesDialog->tableNotes->setRowHidden(i,false);
-      }
-      else {
-        m_notesDialog->tableNotes->setRowHidden(i,true);
-       }
+    int m_rows = m_notesDialog->tableNotes->rowCount();
+    for (int i = 0; i < m_rows; i++) {
+        ktomgirl::KTGItem *item = static_cast<ktomgirl::KTGItem *>(
+            m_notesDialog->tableNotes->item(i, 0));
+        if (0 != item) {
+            gnote::Note::Ptr note = item->get_note();
+            if (notebook->contains_note(note)) {
+                m_notesDialog->tableNotes->setRowHidden(i, false);
+            } else {
+                m_notesDialog->tableNotes->setRowHidden(i, true);
+            }
+        }
     }
-	}
-  styleNotes();
-} // END showFilteredNotes
+}  // END showFilteredNotes
 
 // BEGIN loadNotes
-void SearchWindow::loadNotes(const gnote::Search::ResultsPtr &notesCopy){
-  m_notesDialog->tableNotes->clearContents();
-  //m_notesDialog->tableNotes->setRowCount(notesCopy.size());
+void SearchWindow::loadNotes(const gnote::Search::ResultsPtr &notesCopy) {
+    m_notesDialog->tableNotes->clearContents();
+    // m_notesDialog->tableNotes->setRowCount(notesCopy.size());
 
-	QString qs;
- 	KIcon notebookIcon = KIcon(":/icons/notebook.png");
-	m_row=0;
+    QString qs;
+    KIcon notebookIcon = KIcon(":/icons/notebook.png");
+    m_row = 0;
 
-  for(gnote::Search::Results::iterator iter = notesCopy.get()->begin();
-				iter != notesCopy.get()->end(); ++iter) {
+    for (gnote::Search::Results::iterator iter = notesCopy.get()->begin();
+         iter != notesCopy.get()->end(); ++iter) {
 
-				const gnote::Note::Ptr & note = iter->first;
-				qs = QString::fromStdString(note->get_title());
+        const gnote::Note::Ptr &note = iter->first;
+        qs = QString::fromStdString(note->get_title());
 
-		// BEGIN ITEM ONE
-		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
-		item->setIcon(notebookIcon);
-		m_notesDialog->tableNotes->setItem ( m_row, 0, item );
-		// END ITEM ONE
+        // BEGIN ITEM ONE
+        ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
+        item->setIcon(notebookIcon);
+        m_notesDialog->tableNotes->setItem(m_row, 0, item);
+        // END ITEM ONE
 
-		// BEGIN ITEM TWO
-  	sharp::DateTime qdt = note->data().change_date();
-		qs = QString::fromStdString(qdt.to_string());
-		item = new ktomgirl::KTGItem(qs, note);
-		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
-		// END ITEM TWO
+        // BEGIN ITEM TWO
+        sharp::DateTime qdt = note->data().change_date();
+        qs = QString::fromStdString(qdt.to_string());
+        item = new ktomgirl::KTGItem(qs, note);
+        m_notesDialog->tableNotes->setItem(m_row, 1, item);
+        // END ITEM TWO
 
-		m_row++;
-	}
-	m_notesDialog->tableNotes->setRowCount(m_row);
-	styleNotes();
-} // END loadNotes
+        m_row++;
+    }
+    m_notesDialog->tableNotes->setRowCount(m_row);
+    styleNotes();
+}  // END loadNotes
 
 /* Mainly used to sort notes */
 void SearchWindow::slotHeaderClicked(QTableWidgetItem* item){
@@ -416,7 +424,7 @@ void SearchWindow::noteClicked(int row, int col){
 }
 
 void SearchWindow::slotSortNotes(){
-	qDebug() << __PRETTY_FUNCTION__;
+  qDebug() << __PRETTY_FUNCTION__;
   m_notesDialog->tableNotes->sortItems(0);
 }
 
