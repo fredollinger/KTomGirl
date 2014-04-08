@@ -1,3 +1,11 @@
+ktomgirl (0.0.13-1) unstable; urgency=low
+
+ * Fix build bug.
+  
+ * Small library change for debian wheezy compat.
+
+ -- Frederick Ollinger <follinge@gmail.com>  Fri, 07 Mar 2014 11:27:33 -0800
+
 ktomgirl (0.0.12-1) unstable; urgency=low
 
   * Fix bug where we lose data.
