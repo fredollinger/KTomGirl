@@ -101,7 +101,7 @@ class KNotesApp
 
 	  void slotNewNotebook(const QString&);
     void slotHandleSearch(QString);
-    void slotOpenNote(QAction*);
+    //void slotOpenNote(QAction*);
     void slotCloseNote(const QString&);
     QString newNote( const QString &name = QString(),
                      const QString &text = QString() );
@@ -110,7 +110,7 @@ class KNotesApp
 
     void hideAllNotes() const;
     void openNote(ktomgirl::KTGItem*);
-    void openNote(QString&);
+    //void openNote(QString&);
     void showAllNotes() const;
     void slotDeleteNote(const QString&);
     void slotShowSearchWindow(void);

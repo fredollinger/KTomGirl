@@ -45,7 +45,7 @@ end
 
 desc "build it"
 task :ui => 'builddir' do
-	sh "cd builddir && make 2>err"
+	sh "cd builddir && rm -f ktomgirl && make -j3 2>err"
 end
 
 desc "Upload ppa to ubuntu"

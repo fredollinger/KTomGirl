@@ -34,6 +34,8 @@ public:
   ~KTGItem(void); 
   gnote::Note::Ptr get_note(void);
   std::string uid(void){ return m_uid; }
+	// uri() redundant function to make code more readable
+  std::string uri(void){ return "note://gnote/" + uid(); }
 private:
   const gnote::Note::Ptr &m_note;
   std::string m_uid;

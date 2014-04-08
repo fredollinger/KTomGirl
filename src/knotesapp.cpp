@@ -258,8 +258,8 @@ QString KNotesApp::newNote( const QString &name, const QString &text )
 	/*
   ktomgirl::Journal *journal = new ktomgirl::Journal();
   //m_manager->addNewNote( journal );
-  //showNote( journal->uid() );
-  return journal->uid();
+  //showNote( journal->u id() );
+  return journal->u id();
 	*/
 }
 
@@ -474,8 +474,8 @@ void KNotesApp::slotFindNext()
     KNote *note = * ( (*m_findPos)++ );
     note->find( m_find );
   } else {
-    m_find->displayFinalDialog();
-    m_find->deleteLater(); //we can't delete m_find now because it is the signal emitter
+    m_find ->displayFinalDialog();
+    m_find ->deleteLater(); //we can't delete m_find now because it is the signal emitter
     m_find = 0;
     delete m_findPos;
     m_findPos = 0;
@@ -605,6 +605,7 @@ void KNotesApp::createNote( ktomgirl::Journal *journal ){
   //m_config->store();
 }
 
+/* FIXME: FRED: Want to delete by uri NOT by not title as the former is more robust */
 void KNotesApp::slotDeleteNote(const QString &qsTitle){
 	m_searchWindow->deleteItem(qsTitle);	
 
@@ -742,21 +743,25 @@ void KNotesApp::noteInit( KNote *newNote){
   newNote->loadNotebooks();
 } // END noteInit()
 
+#if 0
 /* Perhaps we can combine this with the latter part of the
  * other openNote(ktgitem*) ?
  */
 void KNotesApp::openNote(QString &qs){
-  gnote::Note::Ptr gnote = m_gnmanager->find(qs.toStdString());
+  // FRED: FIXME: Changing api from title to uri here
+  //gnote::Note::Ptr gnote = m_gnmanager->find(qs.toStdString());
+	
+  qDebug() << __PRETTY_FUNCTION__ << " opening: [" << qs << "]";
+  gnote::Note::Ptr gnote = m_gnmanager->find_by_uri(qs.toStdString());
 
   if (! gnote){
         qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
 				return;
-
   }
 
   ktomgirl::Journal *journal = new ktomgirl::Journal();
 
-	qDebug() << __PRETTY_FUNCTION__ << "*** Calling new KNote **";
+	//qDebug() << __PRETTY_FUNCTION__ << "*** Calling new KNote **";
   KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
   if (!newNote->load_gnote()) {
 				qDebug() << __PRETTY_FUNCTION__ << "*** BUG: refusing to open blank note **";
@@ -774,23 +779,26 @@ void KNotesApp::openNote(QString &qs){
 
   return;
 }
-
+#endif
 
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
   QMap<QString, KNote*>::const_iterator i = m_notes.find(QString::fromStdString(item->uid()));
   if (i != m_notes.end()) {
-	  	showNote(QString::fromStdString ( item->uid() ));
-	return;
+    showNote(QString::fromStdString ( item->uid() ));
+    return;
   }
 
-  gnote::Note::Ptr gnote = m_gnmanager->find(item->text().toStdString());
+	// FRED: FIxmE chaning api from title to uri
+  //gnote::Note::Ptr gnote = m_gnmanager->find(item->text().toStdString());
+  qDebug() << __PRETTY_FUNCTION__<< "calling find_by_uri(): [" << QString::fromStdString(item->uri()) << "]";
+  gnote::Note::Ptr gnote = m_gnmanager->find_by_uri(item->uri());
 
   if (! gnote){
     qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
 	  return;
   }
 
-  qDebug() << __PRETTY_FUNCTION__<< "text content of note: [" << QString::fromStdString(gnote->text_content()) << "]";
+  //qDebug() << __PRETTY_FUNCTION__<< "text content of note: [" << QString::fromStdString(gnote->text_content()) << "]";
 
   ktomgirl::Journal *journal = new ktomgirl::Journal();
 
@@ -814,7 +822,6 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   noteInit( newNote );
 
   return;
-
 }
 
 /* This is here purely for debugging purposes. 
@@ -846,6 +853,7 @@ void KNotesApp::showNote( KNote *note ) const
 }
 // END KNotesApp::showNote(KNote *)
 
+#if 0
 // BEGIN KNotesApp::slotOpenNote(QAction*)
 void  KNotesApp::slotOpenNote(QAction *act){
 	// FIXME: Open note here...
@@ -861,10 +869,11 @@ void  KNotesApp::slotOpenNote(QAction *act){
 		return;	
   	}
 
-	openNote(l_uid);
+	open Note(l_uid);
 	return;	
 }	
 // END KNotesApp::slotOpenNote(QAction*)
+#endif
 
 void  KNotesApp::slotNewNotebook(const QString &qs){
 	// tell all knotes to add the menu
@@ -911,4 +920,4 @@ void  KNotesApp::slotHandleSearch(QString qs){
 }
 
 } // namespace knotes
-// Sun Dec 15 15:58:34 PST 2013
+// Tue Mar 18 16:23:31 PDT 2014

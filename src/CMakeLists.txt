@@ -19,11 +19,9 @@ SET(QtApp_RCCS ui/ktomgirl.qrc)
 # generate rules for building source files from the resources
 QT4_ADD_RESOURCES(QtApp_RCC_SRCS ${QtApp_RCCS})
 
-kde4_add_ui_files(ktomgirl_SRCS)
-
 kde4_add_kcfg_files(ktomgirl_SRCS ktgconfigskel.kcfgc)
 
-set (CMAKE_CXX_FLAGS "-luuid -lX11 -fexceptions -lboost_filesystem-mt -lboost_date_time-mt -lpcrecpp -lktomgirl")
+set (CMAKE_CXX_FLAGS "-L/usr/lib/x86_64-linux-gnu -lX11 -luuid -fexceptions -lboost_filesystem-mt -lboost_date_time-mt -lpcrecpp -lxml2 -lktomgirl -I.")
 
 set(ktomgirl_SRCS
 ktgmenu.cpp
@@ -44,12 +42,19 @@ main.cpp
 application.cpp
 )
 
+kde4_add_ui_files(ktomgirl_SRCS 
+ui/newnotebookdialog.ui
+ui/notebooksdialog.ui
+ui/notesdialog.ui
+ui/searchbar.ui
+ui/searchwindow.ui
+)
+
 kde4_add_executable(ktomgirl ${ktomgirl_SRCS} ${QtApp_RCC_SRCS})
 
-target_link_libraries(ktomgirl ${KDEPIMLIBS_KCAL_LIBS} ${KDEPIMLIBS_KRESOURCES_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
+target_link_libraries(ktomgirl ${CMAKE_CXX_FLAGS} ${KDEPIMLIBS_KCAL_LIBS} ${KDEPIMLIBS_KRESOURCES_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
 ${LibXML_LIBRARIES}  ${SIGC2_LIBRARIES} 
 ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
 
 install( TARGETS ktomgirl  ${INSTALL_TARGETS_DEFAULT_ARGS} )
-#install(FILES ktgconfigskel.kcfg DESTINATION ${KCFG_INSTALL_DIR})
-# Sat Dec  7 15:06:49 PST 2013
+# Sun Mar 16 20:15:53 PDT 2014

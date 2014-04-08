@@ -11,5 +11,6 @@ Homepage: https://github.com/fredollinger/KTomGirl
 Package: ktomgirl
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libacl1, libattr1, libaudio2, libboost-date-time1.49.0, libboost-filesystem1.49.0, libboost-system1.49.0, libbz2-1.0, libc6, libdbus-1-3, libdbusmenu-qt2, libdlrestrictions1, libexpat1, libffi6, libfontconfig1, libfreetype6, libgcc1, libglib2.0-0, libice6, libkde3support4, libkdecore5, libkdeui5, libkdnssd4, libkio5, libkparts4, libkpty4, libktexteditor4, libktomgirl (>= 0.0.11-0), liblzma5, libnepomuk4, libnepomukquery4a, libnepomukutils4, libpcre3, libpcrecpp0, libpng12-0, libqt4-dbus, libqt4-network, libqt4-qt3support, libqt4-sql, libqt4-svg, libqt4-xml, libqtcore4, libqtgui4, libsigc++-2.0-0c2a, libsm6, libsolid4, libsoprano4, libstdc++6, libstreamanalyzer0, libstreams0, libudev0, libutempter0, libuuid1, libx11-6, libxau6, libxcb1, libxdmcp6, libxext6, libxi6, libxml2, libxrender1, libxt6, zlib1g
+
 Description: KDE clone of gnote and tomboy
  Note taking application which is a KDE clone of gnote and tomboy
