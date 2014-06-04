@@ -128,22 +128,25 @@ SearchWindow::SearchWindow(QWidget* pParent, const char* szName)
 SearchWindow::~SearchWindow(){}
 
 void SearchWindow::styleNotes() {
+   qDebug() << "BEGIN"; 
     // Loop through all notes and set the background colors...
-    int m_rows = m_notesDialog->tableNotes->rowCount();
-    for (int i = 0; i < m_rows; i++) {
+    int rows = m_notesDialog->tableNotes->rowCount();
+    for (int i = 0; i < rows; i++) {
         if (! m_notesDialog->tableNotes->isRowHidden(i)){
-		    QTableWidgetItem *item = m_notesDialog->tableNotes->item(i, 0);
-		    QTableWidgetItem *item2 = m_notesDialog->tableNotes->item(i, 1);
 
-            // FRED TODO ONLY DO THIS IF WE ARE NOT HIDDEN
-            // m_notesDialog->tableNotes->setRowHidden(i, false);
+  		QTableWidgetItem *item = m_notesDialog->tableNotes->item(i, 0);
+		QTableWidgetItem *item2 = m_notesDialog->tableNotes->item(i, 1);
 
-		    if (0 != item ){
-			    item->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
-			    item2->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
-		    }
+            	// FRED TODO ONLY DO THIS IF WE ARE NOT HIDDEN
+            	// m_notesDialog->tableNotes->setRowHidden(i, false);
+
+		if (0 != item && 0!= item2 ){
+			item->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
+			item2->setData(Qt::BackgroundRole, (i%2)>0 ? Qt::white : Qt::lightGray);
+		} // END if (0 != item )
         } // END if (! m_notesDialog->tableNotes->isRowHidden(i)
-    } // END for (int i = 0; i < m_rows; i++)
+    } // END for (int i = 0; i < rows; i++)
+   qDebug() << "END"; 
 } // END SearchWindow::styleNotes()
 
 void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
@@ -261,17 +264,20 @@ void SearchWindow::newItem(gnote::Note::Ptr & note){
 }
 
 void SearchWindow::deleteItem(const QString &qs){
-
-	QList<QTableWidgetItem*> ql = 
- 	m_notesDialog->tableNotes->findItems ( qs, Qt::MatchExactly);
+	qDebug() << " BEGIN";
+	QList<QTableWidgetItem*> ql 
+	= m_notesDialog->tableNotes->findItems ( qs, Qt::MatchExactly);
 	if (ql.count() < 1){
-		qDebug() << __PRETTY_FUNCTION__<< "ERR: no note named" <<  qs << ql.count();
+		qDebug() << "ERR: no note named" <<  qs << ql.count();
 		return;
 	}
 	
 	int row = m_notesDialog->tableNotes->row(ql[0]);
-	m_notesDialog->tableNotes->removeRow (row); 
+	qDebug() << " Removing row";
+	m_notesDialog->tableNotes->removeRow(row); 
+	qDebug() << " Calling styleNotes()";
 	styleNotes();
+	qDebug() << " END";
 	return;
 }
 

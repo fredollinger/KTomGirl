@@ -3,7 +3,7 @@
 
  Copyright (c) 1997-2009, The KNotes Developers
 
- 2012 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
+ 2012-2014 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -255,12 +255,6 @@ QString KNotesApp::newNote( const QString &name, const QString &text )
   qDebug() << __PRETTY_FUNCTION__ << " BUG: DO NOT CALL DEAD CODE. Please remove this.";
   QString qs = "";
   return qs;
-	/*
-  ktomgirl::Journal *journal = new ktomgirl::Journal();
-  //m_manager->addNewNote( journal );
-  //showNote( journal->u id() );
-  return journal->u id();
-	*/
 }
 
 QString KNotesApp::newNoteFromClipboard( const QString &name )
@@ -581,25 +575,24 @@ void KNotesApp::createNote( ktomgirl::Journal *journal ){
   QString title = tr("New Note ") + QString::number(n, 10); 
   QString body = tr("Describe your new note here.");
 
-
   gnote::Note::Ptr new_gnote = m_gnmanager->create_new_note(title.toStdString(), journal->uid().toStdString());
 
-	new_gnote->save();
+  new_gnote->save();
 
-	qDebug() << __PRETTY_FUNCTION__ << "*** m_gnmanager->create_new_note() Title: [" << title << "] uid: [" << journal->uid() << "] addy: [" << new_gnote << "]";
+  qDebug() << __PRETTY_FUNCTION__ << "*** m_gnmanager->create_new_gnote() Title: [" << title << "] uid: [" << QString::fromStdString(new_gnote->uid()) << "]";
 
   KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
 	//newNote->load_gnote();
   newNote->setTitleAndBody(title, body);
-  newNote->setObjectName( journal->uid() );
+  newNote->setObjectName( QString::fromStdString(new_gnote->uid()));
 
-  m_notes.insert( journal->uid(), newNote );
-  m_searchWindow->newItem(new_gnote);
+  m_notes.insert( QString::fromStdString(new_gnote->uid()), newNote );
+  m_searchWindow->newItem(QString::fromStdString(new_gnote));
   m_searchWindow->styleNotes();
 
   noteInit( newNote );
 
-  showNote( journal->uid() );
+  showNote( QString::fromStdString(new_gnote->uid()) );
 
   saveConfigs();
   //m_config->store();
@@ -607,7 +600,6 @@ void KNotesApp::createNote( ktomgirl::Journal *journal ){
 
 /* FIXME: FRED: Want to delete by uri NOT by not title as the former is more robust */
 void KNotesApp::slotDeleteNote(const QString &qsTitle){
-	m_searchWindow->deleteItem(qsTitle);	
 
 	// BEGIN FIND THE GNOTE
 	std::string title = qsTitle.toStdString();
@@ -616,17 +608,26 @@ void KNotesApp::slotDeleteNote(const QString &qsTitle){
 	QString uid = QString::fromStdString(gnote->uid());
 	// END FIND THE GNOTE
 	
+	qDebug() << __PRETTY_FUNCTION__ << " deleting note: [" << uid << "]";
+	
 	// delete note from systray
 	m_tray->removeNoteAction(uid);
 
 	// delete knote from list
-	KNote *knote = m_notes.value(uid);
+	//KNote *knote = m_notes.value(uid);
+	KNote *knote = 0;
+	knote = m_notes.take(uid);
 
-	// delete actual knote
-	delete knote;
+	if ( 0 != knote ){
+		qDebug() << __PRETTY_FUNCTION__ << "[" << knote->name() << "]";
+		delete knote;
+	}
+	else
+		qDebug() << __PRETTY_FUNCTION__ << " WARN: knote is NULL!!]";
 
 	// delete gnote from list
 	m_gnmanager->delete_note(gnote);
+	m_searchWindow->deleteItem(qsTitle);	
 }
 
 
@@ -673,7 +674,7 @@ void KNotesApp::updateNoteActions()
 
     KAction *action = new KAction( note->name().replace( "&", "&&" ), this );
 		action->setObjectName( note->noteId() );
-    connect( action, SIGNAL( triggered( bool ) ), SLOT( slotOpenNote() ) );
+    //connect( action, SIGNAL( triggered( bool ) ), SLOT( slotOpenNote() ) );
     KIconEffect effect;
     QPixmap icon =
       effect.apply( qApp->windowIcon().pixmap( IconSize( KIconLoader::Small ),
@@ -743,44 +744,6 @@ void KNotesApp::noteInit( KNote *newNote){
   newNote->loadNotebooks();
 } // END noteInit()
 
-#if 0
-/* Perhaps we can combine this with the latter part of the
- * other openNote(ktgitem*) ?
- */
-void KNotesApp::openNote(QString &qs){
-  // FRED: FIXME: Changing api from title to uri here
-  //gnote::Note::Ptr gnote = m_gnmanager->find(qs.toStdString());
-	
-  qDebug() << __PRETTY_FUNCTION__ << " opening: [" << qs << "]";
-  gnote::Note::Ptr gnote = m_gnmanager->find_by_uri(qs.toStdString());
-
-  if (! gnote){
-        qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
-				return;
-  }
-
-  ktomgirl::Journal *journal = new ktomgirl::Journal();
-
-	//qDebug() << __PRETTY_FUNCTION__ << "*** Calling new KNote **";
-  KNote *newNote = new KNote( gnote, m_noteGUI, journal, 0);
-  if (!newNote->load_gnote()) {
-				qDebug() << __PRETTY_FUNCTION__ << "*** BUG: refusing to open blank note **";
-				return;
-  }
-
-  m_notes.insert( newNote->noteId(), newNote );
-
-  m_noteUidModify = journal->uid();
-  newNote->setObjectName( journal->uid() );
-
-  showNote(journal->uid() );
-
-  noteInit( newNote );
-
-  return;
-}
-#endif
-
 void KNotesApp::openNote(ktomgirl::KTGItem *item){
   QMap<QString, KNote*>::const_iterator i = m_notes.find(QString::fromStdString(item->uid()));
   if (i != m_notes.end()) {
@@ -840,7 +803,7 @@ void KNotesApp::showNote( KNote *note ) const
   KMenu *m_menu = m_tray->contextMenu();
   KIcon iconNote = KIcon(":/icons/notebook.png");
   QAction *act = new QAction(iconNote, note->name(), m_tray);
-  connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotOpenNote(QAction*) ) );
+  //connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotOpenNote(QAction*) ) );
   m_tray->addNoteAction(act, l_uid);
 
   note->show();
@@ -895,9 +858,9 @@ void  KNotesApp::showAllNotes(){
 }
 
 void  KNotesApp::slotUpdateNotebook(const QString &notebook){
-					qDebug() << __PRETTY_FUNCTION__;
-					m_notebook = notebook;
-					return;
+    qDebug() << __PRETTY_FUNCTION__;
+    m_notebook = notebook;
+    return;
 }
 
 /* Given a NoteBook String, filter the notes */
@@ -906,18 +869,18 @@ void  KNotesApp::showUnFiledNotes(){
 }
 
 void  KNotesApp::slotHandleSearch(QString qs){
-	qDebug() << __PRETTY_FUNCTION__ << qs; 
-  gnote::Search search(m_gnmanager);
-  std::string text = qs.toStdString();
+    qDebug() << __PRETTY_FUNCTION__ << qs; 
+    gnote::Search search(m_gnmanager);
+    std::string text = qs.toStdString();
 
 	// If we're just whitespace then load all the notes otherwise do a search
-  if ("" != qs.trimmed()){
-				gnote::Search::ResultsPtr results = search.search_notes( text, false );
-				m_searchWindow->loadNotes(results);
-	}
-  else
-				m_searchWindow->loadNotes(m_gnmanager->get_notes());
+    if ("" != qs.trimmed()){
+        gnote::Search::ResultsPtr results = search.search_notes( text, false );
+        m_searchWindow->loadNotes(results);
+    }
+    else
+        m_searchWindow->loadNotes(m_gnmanager->get_notes());
 }
 
 } // namespace knotes
-// Tue Mar 18 16:23:31 PDT 2014
+// Sun Jun  1 17:08:50 PDT 2014

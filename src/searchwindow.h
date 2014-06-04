@@ -64,6 +64,7 @@ private:
     NoteItemList m_dateList;
 
 signals:
+        void sigNotebookClicked(const QString&);
 	void signalNotebookClicked(QString&);
 	void signalNoteSelected(ktomgirl::KTGItem*);
 	void signalHandleSearch(QString);
@@ -138,30 +139,30 @@ public:
 
 private:
     KTGlib::StringList m_list;
-	int m_row; // current row
-	NotesDialog *m_notesDialog;
-	NotebooksDialog *m_notebooksDialog;
-	SearchBar *m_searchBar;
+    int m_row; // current row
+    NotesDialog *m_notesDialog;
+    NotebooksDialog *m_notebooksDialog;
+    SearchBar *m_searchBar;
 
     typedef QList<ktomgirl::KTGItem*> NoteItemList;
     NoteItemList m_noteList;
     NoteItemList m_dateList;
 
 signals:
-	void signalNotebookClicked(QString&);
-	void signalNoteSelected(ktomgirl::KTGItem*);
-	void signalHandleSearch(QString);
+    void signalNotebookClicked(QString&);
+    void signalNoteSelected(ktomgirl::KTGItem*);
+    void signalHandleSearch(QString);
 
 public slots:
-	void emitNoteSelected(QTableWidgetItem*);
+    void emitNoteSelected(QTableWidgetItem*);
     void notebookClicked(int, int);
-	void noteClicked(int, int);
-	void setItemName(const QString&, const QString&);
-	void slotHandleSearch(void);
-	void slotAddNotebook(const QString&);
+    void noteClicked(int, int);
+    void setItemName(const QString&, const QString&);
+    void slotHandleSearch(void);
+    void slotAddNotebook(const QString&);
     void slotHeaderClicked(QTableWidgetItem*);
-	void slotItemClicked(QTableWidgetItem*);
-	void slotSortNotes(void);
+    void slotItemClicked(QTableWidgetItem*);
+    void slotSortNotes(void);
 
 }; // class SearchWindow
 #endif // SEARCH_WINDOW_H

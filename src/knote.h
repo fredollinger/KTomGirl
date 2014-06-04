@@ -3,7 +3,7 @@
 
  Copyright (c) 1997-2006, The KNotes Developers
 
- 2012-2013 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
+ 2012-2014 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -43,12 +43,10 @@
 class QLabel;
 class QLayout;
 class QSizeGrip;
-//class QTextDocument;
 
 class KFind;
 class KMenu;
 class KNoteButton;
-//class KNoteConfig;
 class KNoteEdit;
 class KSelectAction;
 class KToggleAction;
@@ -240,4 +238,4 @@ class KNote
 }; // class KNote
 } // namespace knotes
 #endif // KNOTE_H
-// Sat May 26 08:05:12 PDT 2012
+// Sun Jun  1 17:10:43 PDT 2014

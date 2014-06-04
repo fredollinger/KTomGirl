@@ -37,7 +37,6 @@
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kapplication.h>
-//#include <kcal/journal.h>
 #include <kcodecs.h>
 #include <kcombobox.h>
 #include <kdebug.h>
@@ -699,9 +698,6 @@ void KNote::createNoteHeader()
   m_noteLayout->addWidget( m_tool );
   m_noteLayout->setAlignment( m_tool, Qt::AlignTop);
   // END MAKE TOOLBAR
-                                        // action menu )
-  //setName( m_journal->summary() );      // don't worry, no signals are
-                                        // connected at this stage yet
 }
 
 void KNote::createNoteEditor()
@@ -742,8 +738,7 @@ void KNote::createNoteFooter()
 
 }
 
-void KNote::prepare()
-{
+void KNote::prepare(){
   // set up the look&feel of the note
   setFrameStyle( Panel | Raised );
   setMinimumSize( 20, 20 );
@@ -752,103 +747,6 @@ void KNote::prepare()
   m_editor->setContentsMargins( 0, 0, 0, 0 );
   m_editor->setBackgroundRole( QPalette::Base );
   m_editor->setFrameStyle( NoFrame );
-
-  // load the display configuration of the note
-  #if 0
-  uint width = m_config->width();
-  uint height = m_config->height();
-  resize( width, height );
-
-  // let KWin do the placement if the position is illegal--at least 10 pixels
-  // of a note need to be visible
-  const QPoint& position = m_config->position();
-  QRect desk = kapp->desktop()->rect();
-  desk.adjust( 10, 10, -10, -10 );
-  if ( desk.intersects( QRect( position, QSize( width, height ) ) ) ) {
-    move( position );           // do before calling show() to avoid flicker
-  }
-
-  // config items in the journal have priority
-  QString property = m_journal->customProperty( "KNotes", "FgColor" );
-  if ( !property.isNull() ) {
-    m_config->setFgColor( QColor( property ) );
-  } else {
-    m_journal->setCustomProperty( "KNotes", "FgColor",
-                                  m_config->fgColor().name() );
-  }
-
-  property = m_journal->customProperty( "KNotes", "BgColor" );
-  if ( !property.isNull() ) {
-    m_config->setBgColor( QColor( property ) );
-  } else {
-    m_journal->setCustomProperty( "KNotes", "BgColor",
-                                  m_config->bgColor().name() );
-  }
-  property = m_journal->customProperty( "KNotes", "RichText" );
-  if ( !property.isNull() ) {
-    m_config->setRichText( property == "true" ? true : false );
-  } else {
-    m_journal->setCustomProperty( "KNotes", "RichText",
-                                  m_config->richText() ? "true" : "false" );
-  }
-
-  // read configuration settings...
-  slotApplyConfig();
-
-  // if this is a new note put on current desktop - we can't use defaults
-  // in KConfig XT since only _changes_ will be stored in the config file
-  int desktop = m_config->desktop();
-
-#ifdef Q_WS_X11
-  if ( ( desktop < 0 && desktop != NETWinInfo::OnAllDesktops ) ||
-       !m_config->rememberDesktop() )
-    desktop = KWindowSystem::currentDesktop();
-#endif
-
-  // show the note if desired
-  if ( desktop != 0 && !m_config->hideNote() ) {
-    // to avoid flicker, call this before show()
-    toDesktop( desktop );
-    show();
-
-    // because KWin forgets about that for hidden windows
-#ifdef Q_WS_X11
-    if ( desktop == NETWinInfo::OnAllDesktops ) {
-      toDesktop( desktop );
-    }
-#endif
-  }
-
-  m_readOnly->setChecked( m_config->readOnly() );
-
-  if ( m_config->keepAbove() ) {
-    m_keepAbove->setChecked( true );
-  } else if ( m_config->keepBelow() ) {
-    m_keepBelow->setChecked( true );
-  } else {
-    m_keepAbove->setChecked( false );
-    m_keepBelow->setChecked( false );
-  }
-  slotUpdateKeepAboveBelow();
-
-  // HACK: update the icon color - again after showing the note, to make kicker
-  // aware of the new colors
-  KIconEffect effect;
-  QPixmap icon = effect.apply( qApp->windowIcon().pixmap(
-                                 IconSize( KIconLoader::Desktop ),
-                                 IconSize( KIconLoader::Desktop ) ),
-                               KIconEffect::Colorize,
-                               1, m_config->bgColor(), false );
-  QPixmap miniIcon = effect.apply( qApp->windowIcon().pixmap(
-                                     IconSize( KIconLoader::Small ),
-                                     IconSize( KIconLoader::Small ) ),
-                                   KIconEffect::Colorize,
-                                   1, m_config->bgColor(), false );
-#ifdef Q_WS_X11
-  KWindowSystem::setIcons( winId(), icon, miniIcon );
-#endif
-  m_editor->document()->setModified( false );
-  #endif
 }
 
 void KNote::toDesktop( int desktop )
@@ -1113,19 +1011,19 @@ bool KNote::eventFilter( QObject *o, QEvent *ev ) {
 
 QString KNote::name(){
   QTextCursor cursor = m_editor->textCursor();
-	cursor.setPosition(0, QTextCursor::MoveAnchor);  
+  cursor.setPosition(0, QTextCursor::MoveAnchor);  
   cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor, 1);  
   QString newtitle=cursor.selectedText();
   newtitle.remove("\n");
 
   //int n = m_config->noteNumber();
-	if ( "" != newtitle ){
+  if ( "" != newtitle ){
 		m_title=newtitle;
 	}
 	else{
 		qDebug() << __PRETTY_FUNCTION__ << " Blank name!";
 		// FRED: TODO: NEED TO PASTE THE PROPER NAME HERE...
-	}
+  }
 
   return m_title;
 }
