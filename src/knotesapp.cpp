@@ -587,12 +587,12 @@ void KNotesApp::createNote( ktomgirl::Journal *journal ){
   newNote->setObjectName( QString::fromStdString(new_gnote->uid()));
 
   m_notes.insert( QString::fromStdString(new_gnote->uid()), newNote );
-  m_searchWindow->newItem(QString::fromStdString(new_gnote));
+  m_searchWindow->newItem(new_gnote);
   m_searchWindow->styleNotes();
 
   noteInit( newNote );
 
-  showNote( QString::fromStdString(new_gnote->uid()) );
+  showNote( QString::fromStdString( new_gnote->uid()) );
 
   saveConfigs();
   //m_config->store();
