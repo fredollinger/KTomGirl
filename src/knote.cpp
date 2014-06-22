@@ -161,41 +161,45 @@ void KNote::init_note(){
 }
 #endif
 
-bool KNote::load_gnote(){
+bool KNote::load_gnote() {
 
-  // Need to set not modified right away to stop slotSave() from stompoing over the note
+	// Need to set not modified right away to stop slotSave() from stompoing
+	// over the note
 	// before we even open it properly.
-  m_isModified = false;
+	m_isModified = false;
 
-	qDebug() << __PRETTY_FUNCTION__;
+	//	qDebug() << __PRETTY_FUNCTION__;
 	static bool l_loaded = false;
 
-	/* We are not handling notes being closed properly due to some over cleverness!! */
-	if (l_loaded){
-  	qDebug() << __PRETTY_FUNCTION__<< "BUG!! Note all ready loaded!!";
+	/* We are not handling notes being closed properly due to some over
+	 * cleverness!! */
+	if (l_loaded) {
+		qDebug() << __PRETTY_FUNCTION__
+			 << "BUG!! Note all ready loaded!!";
 		return true;
 	}
 
 	m_content = QString::fromStdString(m_gnote->text_content());
 	/* Work around for stupid libktomgirl bug */
- 	if ("" == m_content){
-  		qDebug() << __PRETTY_FUNCTION__<< "loading text busted***" << m_content << "!!!";
-			return false;
+	if ("" == m_content) {
+		qDebug() << __PRETTY_FUNCTION__ << "loading text busted***"
+			 << m_content << "!!!";
+		return false;
 	}
 
 	m_title = QString::fromStdString(m_gnote->get_title());
 
- 	if ("" == m_title){
-    QString qs;
+	if ("" == m_title) {
+		QString qs;
 		qs.setNum(m_noteNumber);
-    m_title="Untitled Note " + qs;
+		m_title = "Untitled Note " + qs;
 		m_noteNumber++;
-  }
+	}
 
 	setName(m_title);
 
 	setContent(m_title, m_content);
-  formatText();
+	formatText();
 
 	return true;
 }
@@ -1151,7 +1155,7 @@ void KNote::slotKill()
    * Ultimately, we should either use name, or better yet switch to 
    * always constant (per note) and reliable uids. 
    */
-	emit sigKillNote(QString::fromStdString(m_gnote->get_title()));
+	emit sigKillNote(QString::fromStdString(m_gnote->get_title()), QString::fromStdString(m_gnote->uid())  );
 }
 
 void KNote::slotFindNext()

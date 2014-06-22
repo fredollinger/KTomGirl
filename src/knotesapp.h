@@ -112,7 +112,7 @@ class KNotesApp
     void openNote(ktomgirl::KTGItem*);
     //void openNote(QString&);
     void showAllNotes() const;
-    void slotDeleteNote(const QString&);
+    void slotDeleteNote(const QString&, const QString&);
     void slotShowSearchWindow(void);
     void slotSpewOpenNotes(void);
 

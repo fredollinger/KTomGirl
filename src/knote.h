@@ -123,7 +123,7 @@ class KNote
     void sigDataChanged(const QString &);
     void sigColorChanged();
     void sigCloseNote(const QString &);
-    void sigKillNote(const QString &);
+    void sigKillNote(const QString &, const QString &);
     void sigShowNextNote();
     void sigFindFinished();
     void sigShowSearchWindow(void);

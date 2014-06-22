@@ -599,16 +599,16 @@ void KNotesApp::createNote( ktomgirl::Journal *journal ){
 }
 
 /* FIXME: FRED: Want to delete by uri NOT by not title as the former is more robust */
-void KNotesApp::slotDeleteNote(const QString &qsTitle){
+void KNotesApp::slotDeleteNote(const QString &qsTitle, const QString &uid){
 
 	// BEGIN FIND THE GNOTE
 	std::string title = qsTitle.toStdString();
 	gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
-	QString m_content = QString::fromStdString(gnote->text_content());
-	QString uid = QString::fromStdString(gnote->uid());
+	//QString m_content = QString::fromStdString(gnote->text_content());
+	//QString uid = QString::fromStdString(gnote->uid());
 	// END FIND THE GNOTE
 	
-	qDebug() << __PRETTY_FUNCTION__ << " deleting note: [" << uid << "]";
+	qDebug() << __PRETTY_FUNCTION__ << " deleting note: [" << uid << "] [" << qsTitle << "]";
 	
 	// delete note from systray
 	m_tray->removeNoteAction(uid);
@@ -729,7 +729,7 @@ void KNotesApp::noteInit( KNote *newNote){
 
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_tray, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
 
-  connect( newNote, SIGNAL( sigKillNote(const QString&) ), this, SLOT( slotDeleteNote(const QString&)), Qt::QueuedConnection  );
+  connect( newNote, SIGNAL( sigKillNote(const QString&, const QString&) ), this, SLOT( slotDeleteNote(const QString&, const QString&)), Qt::QueuedConnection  );
 
   connect( newNote, SIGNAL( sigShowSearchWindow() ), this, SLOT( slotShowSearchWindow()), Qt::QueuedConnection  );
 
