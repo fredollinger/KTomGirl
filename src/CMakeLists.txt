@@ -21,7 +21,7 @@ QT4_ADD_RESOURCES(QtApp_RCC_SRCS ${QtApp_RCCS})
 
 kde4_add_kcfg_files(ktomgirl_SRCS ktgconfigskel.kcfgc)
 
-set (CMAKE_CXX_FLAGS "-L/usr/lib/x86_64-linux-gnu -lX11 -luuid -fexceptions -lboost_filesystem-mt -lboost_date_time-mt -lpcrecpp -lxml2 -lktomgirl -I.")
+set (CMAKE_CXX_FLAGS "-L/usr/lib/x86_64-linux-gnu -lX11 -luuid -fexceptions -lboost_filesystem -lboost_date_time -lpcrecpp -lxml2 -lktomgirl -I.")
 
 set(ktomgirl_SRCS
 ktgmenu.cpp
