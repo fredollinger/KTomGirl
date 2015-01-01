@@ -141,8 +141,12 @@ KNotesApp::KNotesApp()
 
   connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
   connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
+  connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
+
+    //QAction *actionSort_Notes;
 
   connect( m_searchWindow->actionShow_Open_Notes, SIGNAL( triggered() ), SLOT( slotSpewOpenNotes() ) );
+  connect( m_searchWindow->actionSort_Notes, SIGNAL( triggered() ), SLOT( slot() ) );
 
   //connect( m_searchWindow->actionSort_Notes, SIGNAL( triggered() ), m_searchWindow, SLOT( slotSortNotes() ) );
 

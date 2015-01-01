@@ -70,6 +70,7 @@
     </property>
     <addaction name="actionShow_Open_Notes"/>
     <addaction name="actionSort_Notes"/>
+    <addaction name="actionShow_Note_Detail"/>
    </widget>
    <addaction name="menuSearch"/>
    <addaction name="menuDebug"/>
@@ -93,6 +94,11 @@
   <action name="actionSort_Notes">
    <property name="text">
     <string>Sort Notes</string>
+   </property>
+  </action>
+  <action name="actionShow_Note_Detail">
+   <property name="text">
+    <string>Show Note Detail</string>
    </property>
   </action>
  </widget>
