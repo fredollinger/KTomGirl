@@ -66,9 +66,10 @@ SearchWindow::SearchWindow(QWidget* pParent, const char* szName)
 	m_searchBar->setFeatures(QDockWidget::NoDockWidgetFeatures);
  	addDockWidget(Qt::TopDockWidgetArea, m_searchBar);
  	connect (m_searchBar->lineEditSearch, SIGNAL(returnPressed()), this, SLOT(slotHandleSearch()));
-	//m_searchBar->resize(10, 50);
+
 	// END SEARCH BAR
 
+        connect( actionShow_Note_Detail, SIGNAL( triggered() ), SLOT( slotSpewNoteDetail() ) );
 
 	// BEGIN NOTEBOOKS DIALOG
 	m_notebooksDialog = new NotebooksDialog();
@@ -84,7 +85,6 @@ SearchWindow::SearchWindow(QWidget* pParent, const char* szName)
 	QTableWidgetItem *noteBooksHeader = m_notebooksDialog->tableNotebooks->horizontalHeaderItem(0);
 	noteBooksHeader->setTextAlignment(Qt::AlignLeft);
  	//connect (m_notebooksDialog->tableNotebooks, SIGNAL(cellClicked(int, int)), this, SLOT(notebookClicked(int, int)));
-
 
 	//m_notebooksDialog->tableNotebooks->verticalScrollBar()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	//m_notebooksDialog->tableNotebooks->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -432,6 +432,22 @@ void SearchWindow::noteClicked(int row, int col){
 void SearchWindow::slotSortNotes(){
   qDebug() << __PRETTY_FUNCTION__;
   m_notesDialog->tableNotes->sortItems(0);
+}
+
+void SearchWindow::slotSpewNoteDetail(){
+  qDebug() << __PRETTY_FUNCTION__;
+  QTableWidget *tableNotes;
+
+  ktomgirl::KTGItem *item = NULL;
+  item = static_cast<ktomgirl::KTGItem*>( m_notesDialog->tableNotes->currentItem() );
+
+  if ( NULL != item){
+    qDebug() << __PRETTY_FUNCTION__ << "[" << item->text() << "]";
+    qDebug() << __PRETTY_FUNCTION__ << "[" << QString::fromStdString(item->uid()) << "]";
+  }
+  else
+    qDebug() << __PRETTY_FUNCTION__ << " item is NULL";
+  return;
 }
 
 // Wed Nov 27 17:50:09 PST 2013

@@ -114,7 +114,6 @@ class KNotesApp
     void showAllNotes() const;
     void slotDeleteNote(const QString&, const QString&);
     void slotShowSearchWindow(void);
-    void slotSpewNoteDetail(void);
     void slotSpewOpenNotes(void);
 
   protected slots:

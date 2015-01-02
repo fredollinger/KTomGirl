@@ -64,21 +64,22 @@ private:
     NoteItemList m_dateList;
 
 signals:
-        void sigNotebookClicked(const QString&);
-	void signalNotebookClicked(QString&);
-	void signalNoteSelected(ktomgirl::KTGItem*);
-	void signalHandleSearch(QString);
+    void sigNotebookClicked(const QString&);
+    void signalNotebookClicked(QString&);
+    void signalNoteSelected(ktomgirl::KTGItem*);
+    void signalHandleSearch(QString);
 
 public slots:
-	void emitNoteSelected(QTableWidgetItem*);
-	void setItemName(const QString&, const QString&);
-	void slotHandleSearch(void);
+    void emitNoteSelected(QTableWidgetItem*);
+    void setItemName(const QString&, const QString&);
+    void slotHandleSearch(void);
     void notebookClicked(int, int);
-	void noteClicked(int, int);
-	void slotAddNotebook(const QString&);
+    void noteClicked(int, int);
+    void slotAddNotebook(const QString&);
     void slotHeaderClicked(QTableWidgetItem*);
-	void slotItemClicked(QTableWidgetItem*);
-	void slotSortNotes(void);
+    void slotItemClicked(QTableWidgetItem*);
+    void slotSortNotes(void);
+    void slotSpewNoteDetail(void);
 
 }; // class SearchWindow
 #endif // SEARCH_WINDOW_H

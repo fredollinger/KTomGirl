@@ -143,11 +143,8 @@ KNotesApp::KNotesApp()
   connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
   connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
 
-  connect( m_searchWindow->actionShow_Open_Notes, SIGNAL( triggered() ), SLOT( slotSpewOpenNotes() ) );
-  connect( m_searchWindow->actionShow_Note_Detail, SIGNAL( triggered() ), SLOT( slotSpewNoteDetail() ) );
-
-  //  QAction *actionShow_Note_Detail;
-
+  // connect( m_searchWindow->actionShow_Note_Detail, SIGNAL( triggered() ), SLOT( slotSpewNoteDetail() ) );
+    
   //connect( m_searchWindow->actionSort_Notes, SIGNAL( triggered() ), m_searchWindow, SLOT( slotSortNotes() ) );
 
   connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
@@ -789,11 +786,6 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
   noteInit( newNote );
 
   return;
-}
-
-void KNotesApp::slotSpewNoteDetail(){
-    qDebug() << __PRETTY_FUNCTION__;
-    return;
 }
 
 /* This is here purely for debugging purposes. 

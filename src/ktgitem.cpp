@@ -50,7 +50,7 @@ gnote::Note::Ptr KTGItem::get_note(){
 }
 
 void KTGItem::setName(const QString &qs){
-	setText(qs);
+  setText(qs);
 }
 
 ///home/follinge/projects/deb/ktomgirl-deb/KTomGirl/src/searchwindow.cpp :394: error: no matching function for call to 'ktomgirl::KTGItem::KTGItem(QString&, const gnote::Note&)
