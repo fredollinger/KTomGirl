@@ -30,6 +30,7 @@ class KTGDateItem : public KTGItem {
 public:
   KTGDateItem(QString&, const gnote::Note::Ptr&);
   ~KTGDateItem(void); 
+  bool operator<( const QTableWidgetItem& ) const;
 }; // END KTGDATEITEM
 } // namespace ktomgirl 
 #endif  //_KTG_DATE_ITEM_HPP__

@@ -29,11 +29,16 @@ namespace ktomgirl{
 KTGDateItem::KTGDateItem(QString &qs, const gnote::Note::Ptr &note) 
 : KTGItem(qs, note) 
 {
-  qDebug() << __PRETTY_FUNCTION__;
+  // qDebug() << __PRETTY_FUNCTION__;
 }
 
 KTGDateItem::~KTGDateItem()
 {
+}
+
+bool KTGDateItem::operator<( const QTableWidgetItem &other ) const{
+  qDebug() << __PRETTY_FUNCTION__;
+  return QTableWidgetItem ::operator<(other);
 }
 
 } // namespace ktomgirl
