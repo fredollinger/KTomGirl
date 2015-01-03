@@ -31,6 +31,7 @@ notebooksdialog.cpp
 ktgconfig.cpp
 ktgconfigskel.cpp
 ktgitem.cpp
+ktgdateitem.cpp
 knote.cpp
 newnotebookdialog.cpp
 searchbar.cpp

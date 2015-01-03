@@ -1,3 +1,9 @@
+ktomgirl (0.0.15-1) unstable; urgency=low
+
+ * Remove stale signal sigNewNoteBook in SearchWindow.
+
+ -- Frederick Ollinger <follinge@gmail.com>  Sat, 3 Jun 2015 09:47:02 -0700
+
 ktomgirl (0.0.14-1) unstable; urgency=low
 
  * Fix bug where we can't always delete notes b/c of poor uid handling. Better uid handling now.
@@ -12,32 +18,31 @@ ktomgirl (0.0.13-1) unstable; urgency=low
 
  -- Frederick Ollinger <follinge@gmail.com>  Fri, 07 Mar 2014 11:27:33 -0800
 
-  * Build on newer versions of gcc such as 4.8 and newer cmake like 2.8.11.
-
-  * Open note by uri instead of by title which will allow for duplicate notes.
+ * Build on newer versions of gcc such as 4.8 and newer cmake like 2.8.11.
+ * Open note by uri instead of by title which will allow for duplicate notes.
 
  -- Frederick Ollinger <follinge@gmail.com>  Tue, 18 Mar 2014 17:26:22 -0700
 
 ktomgirl (0.0.12-1) unstable; urgency=low
 
-  * Fix bug where we lose data.
+ * Fix bug where we lose data.
 
  -- Frederick Ollinger <follinge@gmail.com>  Sat, 16 Dec 2013 16:17:46 -0700
 
 ktomgirl (0.0.11-0) unstable; urgency=low
 
-  * Seach now works
+ * Seach now works
 
  -- Frederick Ollinger <follinge@gmail.com>  Sat, 14 Dec 2013 15:17:46 -0700
 
 ktomgirl (0.0.10-1) unstable; urgency=low
 
-  * Give names to untitled notes
+ * Give names to untitled notes
 
  -- Frederick Ollinger <follinge@gmail.com>  Sat, 07 Dec 2013 11:17:46 -0700
 
 ktomgirl (0.0.9-1) unstable; urgency=low
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+ * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
 
  -- Frederick Ollinger <follinge@gmail.com>  Sat, 02 Nov 2013 20:19:46 -0700
