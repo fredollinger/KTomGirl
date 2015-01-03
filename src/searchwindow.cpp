@@ -36,7 +36,7 @@
 
 // KTOMGIRL INCLUDES
 #include "ktgconfig.h"
-#include "ktgitem.h"
+#include "ktgdateitem.h"
 #include "searchbar.h"
 #include "searchwindow.h"
 #include "notesdialog.h"
@@ -153,42 +153,42 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
   m_notesDialog->tableNotes->clearContents();
   m_notesDialog->tableNotes->setRowCount(notesCopy.size());
 
-	QString qs;
- 	KIcon notebookIcon = KIcon(":/icons/notebook.png");
-	m_row=0;
+  QString qs;
+  KIcon notebookIcon = KIcon(":/icons/notebook.png");
+  m_row=0;
 
 
-	for(gnote::Note::List::const_iterator iter = notesCopy.begin();
-		iter != notesCopy.end(); ++iter) {
+  for(gnote::Note::List::const_iterator iter = notesCopy.begin();
+    iter != notesCopy.end(); ++iter) {
 
-		const gnote::Note::Ptr & note(*iter);
-		qs = QString::fromStdString(note->get_title());
+    const gnote::Note::Ptr & note(*iter);
+    qs = QString::fromStdString(note->get_title());
 
-		if ( "" == qs ){
-       int n = ktomgirl::KTGConfig::obj().noteNumber();
-			 qs = tr("New Note ") + QString::number(n, 10); 
-			 note->set_title(qs.toStdString());
-		}
+    if ( "" == qs ){
+      int n = ktomgirl::KTGConfig::obj().noteNumber();
+      qs = tr("New Note ") + QString::number(n, 10); 
+      note->set_title(qs.toStdString());
+    }
 
-		// BEGIN ITEM ONE
-		ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
-		item->setIcon(notebookIcon);
-		m_notesDialog->tableNotes->setItem ( m_row, 0, item );
-		// END ITEM ONE
+    // BEGIN ITEM ONE
+    ktomgirl::KTGItem *item = new ktomgirl::KTGItem(qs, note);
+    item->setIcon(notebookIcon);
+    m_notesDialog->tableNotes->setItem ( m_row, 0, item );
+    // END ITEM ONE
 
-		// BEGIN ITEM TWO
-  	sharp::DateTime qdt = note->data().change_date();
-		qs = QString::fromStdString(qdt.to_string());
-		item = new ktomgirl::KTGItem(qs, note);
-		m_notesDialog->tableNotes->setItem ( m_row, 1, item );
-		// END ITEM TWO
+    // BEGIN ITEM TWO
+    sharp::DateTime qdt = note->data().change_date();
+    qs = QString::fromStdString(qdt.to_string());
+    item = new ktomgirl::KTGDateItem(qs, note);
+    m_notesDialog->tableNotes->setItem ( m_row, 1, item );
+    // END ITEM TWO
 
-		m_row++;
-	}
-	m_notesDialog->tableNotes->setRowCount(m_row);
-	styleNotes();
+    m_row++;
+  }
 
-	return;
+  m_notesDialog->tableNotes->setRowCount(m_row);
+  styleNotes();
+  return;
 }
 
 /* Handle the case where the itme is clicked once.
@@ -218,7 +218,6 @@ void SearchWindow::slotItemClicked(QTableWidgetItem* item){
 
 void SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 	ktomgirl::KTGItem *ktg = static_cast<ktomgirl::KTGItem*>(item);
-	qDebug() << __PRETTY_FUNCTION__ << "[crashing]";
 	qDebug() << __PRETTY_FUNCTION__ << "[" <<  QString::fromStdString(ktg->uid()) << "]";
 	//qDebug() << __PRETTY_FUNCTION__ << "[" <<  QString::fromStdString(ktg->uid()) << "] [" << ktg->text() << "]";
 	emit signalNoteSelected(static_cast<ktomgirl::KTGItem*>(item));
