@@ -38,7 +38,21 @@ KTGDateItem::~KTGDateItem()
 
 bool KTGDateItem::operator<( const QTableWidgetItem &other ) const{
   qDebug() << __PRETTY_FUNCTION__;
-  return QTableWidgetItem ::operator<(other);
+
+  sharp::DateTime qdt1 = this->m_note->data().change_date();
+
+  QTableWidgetItem *item = other.tableWidget()->item(other.column(), other.row());
+  ktomgirl::KTGItem *ktg = static_cast<ktomgirl::KTGItem*>(item);
+
+  sharp::DateTime qdt2 = ktg->get_note()->data().change_date();
+
+  //ktomgirl::KTGDateItem *ktg = static_cast<ktomgirl::KTGDateItem*>(&other);
+  //KTGDateItem::KTGDateItem(QString &qs, const gnote::Note::Ptr &note) 
+  // sharp::DateTime qdt2 = ktg->m_note->data().change_date();
+  //return true;
+  return qdt1.operator>(qdt2);
+  //return qdt1 < qdt2;
+  //return QTableWidgetItem ::operator<(other);
 }
 
 } // namespace ktomgirl

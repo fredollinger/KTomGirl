@@ -43,10 +43,8 @@ KTGItem::~KTGItem()
 {
 }
 
-gnote::Note::Ptr KTGItem::get_note(){
-	//qDebug() << __PRETTY_FUNCTION__ << " BEGIN";
-	//qDebug() << __PRETTY_FUNCTION__ << " note addy: [" << &m_note << "]";
-	return m_note;
+const gnote::Note::Ptr KTGItem::get_note(){
+  return m_note;
 }
 
 void KTGItem::setName(const QString &qs){

@@ -32,11 +32,12 @@ class KTGItem : public QTableWidgetItem {
 public:
   KTGItem(QString&, const gnote::Note::Ptr&);
   ~KTGItem(void); 
-  gnote::Note::Ptr get_note(void);
+  const gnote::Note::Ptr get_note(void);
   std::string uid(void){ return m_uid; }
   std::string uri(void){ return "note://gnote/" + uid(); }
-private:
+protected:
   const gnote::Note::Ptr &m_note;
+private:
   std::string m_uid;
 public slots:
   void setName(const QString&);
