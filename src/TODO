@@ -1,0 +1,19 @@
+FIXES: 
+
+1. fix sort notes
+
+2. re-size note w/o changing the name--should be better
+
+WISH LIST
+
+1. LINKS
+a. read links in old files
+b. follow links when clicked
+c. add new links based on right click
+d. add new links automatically
+
+2. SEARCH
+a. search text not only the title
+
+3. NEW NOTE
+a. make sure we don't have the same name 2 notes

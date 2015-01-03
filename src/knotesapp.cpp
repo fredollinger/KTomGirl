@@ -135,7 +135,7 @@ KNotesApp::KNotesApp()
   m_searchWindow->show();
 
   connect( m_searchWindow, SIGNAL( sigNotebookClicked(const QString&) ), this, SLOT( slotUpdateNotebook(const QString&)), Qt::QueuedConnection  );
-  connect( m_searchWindow, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
+  // connect( m_searchWindow, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
 
   connect( this, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
 
