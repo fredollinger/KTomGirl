@@ -1,6 +1,7 @@
 ktomgirl (0.0.15-1) unstable; urgency=low
 
- * Remove stale signal sigNewNoteBook in SearchWindow.
+  * Remove stale signal sigNewNoteBook in SearchWindow.
+  * Fix sorting of dates.
 
  -- Frederick Ollinger <follinge@gmail.com>  Sat, 3 Jun 2015 09:47:02 -0700
 
