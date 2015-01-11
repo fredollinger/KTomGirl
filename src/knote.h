@@ -106,7 +106,7 @@ class KNote
     void slotMoveToNotebook(QAction*);
     void slotMakeNoteBook();
     void emitNewNote();
-    void slotRename(void);
+    // void slotRename(void);
     void slotKill(void);
     void slotNewNoteBook(void);
     void slotShowNoteBookMenu(void);
@@ -145,13 +145,13 @@ class KNote
     void slotDataChanged(const QString&);
 
     void slotFormatTitle(void);
-    void slotPrint();
-    void slotMail();
+    //void slotPrint();
+    //void slotMail();
     void slotNameChanged(void);
     void slotSend();
     void slotSave(void);
 
-    void slotInsDate();
+    //void slotInsDate();
     void slotSetAlarm();
 
     void slotPreferences();
@@ -178,12 +178,13 @@ class KNote
     NewNoteBookDialog *m_dlg;
 
     QString m_content;
-		// m_noteNumber is only for the corner cases where we have a blank title.
-		// Ideally this will never be used, b/c we should actually fix the problem
-		// of blank titles.
-		// But it's a bug fix hack for now.
+    // m_noteNumber is only for the corner cases where we have a blank title.
+    // Ideally this will never be used, b/c we should actually fix the problem
+    // of blank titles.
+    // But it's a bug fix hack for now.
     int m_noteNumber; 
     QString m_title;
+    std::string m_oldTitle;
     QString m_noteId; // note uuid; replaces the kcal::Journal
     QTimer *saveTimer;
     QTimer *formatTimer;
@@ -202,7 +203,6 @@ class KNote
     void setColor( const QColor &, const QColor & );
 
     void toDesktop( int desktop );
-
 
     QLayout       *m_noteLayout;
     QLabel        *m_label;

@@ -3,7 +3,7 @@
 
  Copyright (c) 1997-2007, The KNotes Developers
 
- 2012, 2013 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
+ 2012-2014 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -111,6 +111,7 @@ KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, ktomgirl:
     , m_noteNumber(1)
     , m_title("")
 { 
+	m_oldTitle=gnoteptr->get_title();
 	journal->setUid(QString::fromStdString(gnoteptr->uid()));
 	m_noteId=QString::fromStdString(gnoteptr->uid());
 	init(buildDoc);
@@ -370,24 +371,22 @@ void KNote::find( KFind* kfind )
 
 // FIXME: implement. Tells if the note changed and is not yet saved.
 // if TRUE, then we are NOT saved.
-bool KNote::isModified() const
-{
+bool KNote::isModified() const {
 
   if (m_content == m_editor->toPlainText()){
-				qDebug() << __PRETTY_FUNCTION__ << "text is unmodified";
-				return false;
-	}
+    qDebug() << __PRETTY_FUNCTION__ << "text is unmodified";
+    return false;
+  }
 
   if (m_isModified) return true;
 
   QString newContent = m_editor->toPlainText();
 
   if ("" == newContent){
-  	qDebug() << __PRETTY_FUNCTION__ << "Note is Empty, don't save";
-		return false;
+    qDebug() << __PRETTY_FUNCTION__ << "Note is Empty, don't save";
+    return false;
   }
 
-// FIXME: return false when this is fixed
   if (newContent == m_content){
 	return false;
   }
@@ -395,42 +394,27 @@ bool KNote::isModified() const
   return true;
 }
 
+/*
 void KNote::slotRename()
 {
   m_blockEmitDataChanged = true;
   m_blockEmitDataChanged = false;
   return;
 }
+*/
 
 void KNote::slotDebug(){
   qDebug() << __PRETTY_FUNCTION__ << m_editor->toHtml();
 
 }
 
-#if 0
-// BEGIN KNote::slotClose()
-void KNote::slotClose()
-{
- /*
-  saveTimer->stop();
-  formatTimer->stop();
-  m_gnote->save();
-  emit sigDataChanged(noteId());
-  saveTimer->stop();
-  formatTimer->stop();
-*/
-  // emit sigCloseNote( QString::fromStdString(m_gnote->get_title()));
-
-  emit sigCloseNote( name() );
-  // hide();
-} // END KNote::slotClose()
-#endif
-
+/*
 void KNote::slotInsDate()
 {
   // m_editor->insertPlainText(
     // KGlobal::locale()->formatDateTime( QDateTime::currentDateTime() ) );
 }
+*/
 
 void KNote::slotSetAlarm()
 {
@@ -485,9 +469,12 @@ void KNote::slotSend()
   #endif
 }
 
+/*
 void KNote::slotMail()
 {}
+*/
 
+#if 0
 void KNote::slotPrint()
 {
   QString content;
@@ -502,6 +489,7 @@ void KNote::slotPrint()
   printer.printNote( name(), content );
   */
 }
+#endif
 
 void KNote::slotPopupActionToDesktop( int id )
 {
@@ -910,11 +898,8 @@ void KNote::resizeEvent( QResizeEvent *qre )
 
 void KNote::closeEvent( QCloseEvent * event )
 {
-
   event->ignore(); //We don't want to close (and delete the widget). Just hide it
-
   emit sigCloseNote( QString::fromStdString(m_gnote->uid()) );
-
   // slotClose();
 }
 
@@ -942,7 +927,7 @@ void KNote::keyPressEvent(QKeyEvent *event) {
           int line = m_editor->textCursor().blockNumber() + 1;
           if (1 == line ){
            //qDebug() << __PRETTY_FUNCTION__ <<  line;
-		       slotFormatTitle();
+		 slotFormatTitle();
          	 QWidget::keyPressEvent(event);
           }
         } // END RETURN KEY
@@ -956,20 +941,6 @@ void KNote::keyPressEvent(QKeyEvent *event) {
 }
 
 bool KNote::eventFilter( QObject *o, QEvent *ev ) {
-
-#if 0
-  if(ev->type() == QEvent::KeyPress) {
-    // Stupid Qtism: Key_Return is keyboard vs Key_Enter on keypad.
-    // * Sigh *
-    if( static_cast<QKeyEvent*>(ev)->key() == Qt::Key_Enter ||
-        static_cast<QKeyEvent*>(ev)->key() == Qt::Key_Return ){
-        int line = m_editor->textCursor().blockNumber() + 1;
-        if (1 == line ){
-        }
-      }
-  }
-#endif
-
   if ( ev->type() == QEvent::FocusOut ){
 	formatTimer->stop();
 	saveTimer->stop();
@@ -1022,15 +993,15 @@ QString KNote::name(){
 
   //int n = m_config->noteNumber();
   if ( "" != newtitle ){
-		m_title=newtitle;
-	}
-	else{
-		qDebug() << __PRETTY_FUNCTION__ << " Blank name!";
-		// FRED: TODO: NEED TO PASTE THE PROPER NAME HERE...
+    m_title=newtitle;
+  }
+  else{
+    qDebug() << __PRETTY_FUNCTION__ << " Blank name!";
+    // FRED: TODO: NEED TO PASTE THE PROPER NAME HERE...
   }
 
   return m_title;
-}
+} // END KNote::name()
 
 // BEGIN slotFormatTitle()
 /* This slot is called every second. We don't reformat title each time b/c that
@@ -1086,12 +1057,12 @@ void KNote::slotFormatTitle(){
 
 // BEGIN KNOTE SLOTS
 void KNote::slotDataChanged(const QString &qs){
-  //qDebug() << __PRETTY_FUNCTION__ << "***" << qs << "!!!";
+  qDebug() << __PRETTY_FUNCTION__ << "***" << qs << "!!!";
 
   const QString newTitle = name();
 
   if ("" == newTitle){
-	  qDebug() << "refusing to deal with blank note!!";
+	qDebug() << "refusing to deal with blank note!!";
 	return;
   }
 
@@ -1118,7 +1089,7 @@ void KNote::slotDataChanged(const QString &qs){
   slotSave();
 
   m_blockEmitDataChanged = false;
-}
+} // END slotDataChanged()
 
 void KNote::slotKill()
 {
@@ -1200,13 +1171,14 @@ void KNote::slotNameChanged(){
 }
 
 void KNote::emitNewNote(){
-	emit sigNewNote();
+  emit sigNewNote();
 }
 
 void KNote::slotSave(){
+  qDebug() << __PRETTY_FUNCTION__;
   // only save if we changed
   if (! isModified() ){
-  //	qDebug() << __PRETTY_FUNCTION__ << " not modified. Not saving.";
+  	qDebug() << __PRETTY_FUNCTION__ << " not modified. Not saving.";
 	return;
   }
 
