@@ -196,6 +196,7 @@ void SearchWindow::loadNotes(const gnote::Note::List &notesCopy){
    The one clicked is all ready highlighted to we just need to find the other one. 
 */
 void SearchWindow::slotItemClicked(QTableWidgetItem* item){
+	qDebug() << "BEGIN " << __PRETTY_FUNCTION__;
 	QTableWidget *qtw = item->tableWidget();
 	
 	/* Only operate on tables which we know how to work on. */
@@ -212,9 +213,9 @@ void SearchWindow::slotItemClicked(QTableWidgetItem* item){
 	QTableWidgetItem *qtwi = qtw->item(row, col);
 	qtwi->setSelected(true);
 	
+	qDebug() << "END " << __PRETTY_FUNCTION__;
 	return;
-}
-
+} // END slotItemClicked()
 
 void SearchWindow::emitNoteSelected(QTableWidgetItem* item){
 	ktomgirl::KTGItem *ktg = static_cast<ktomgirl::KTGItem*>(item);

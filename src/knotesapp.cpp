@@ -121,13 +121,11 @@ KNotesApp::KNotesApp()
   m_gnmanager = new gnote::NoteManager();
   kapp->setQuitOnLastWindowClosed( false );
 
-  //m_config = new ktomgirl::ktomgirl::KTGConfig();
-	//m_config->readConfig();
-	ktomgirl::KTGConfig::obj().readConfig();
+  ktomgirl::KTGConfig::obj().readConfig();
 
   // BEGIN DOCK WIDGET
   // create the dock widget...
-
+  
   // BEGIN SEARCH WINDOW
   m_searchWindow = new SearchWindow( this );
   m_searchWindow->loadNotes(m_gnmanager->get_notes());
@@ -135,18 +133,10 @@ KNotesApp::KNotesApp()
   m_searchWindow->show();
 
   connect( m_searchWindow, SIGNAL( sigNotebookClicked(const QString&) ), this, SLOT( slotUpdateNotebook(const QString&)), Qt::QueuedConnection  );
-  // connect( m_searchWindow, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
-
   connect( this, SIGNAL( sigNewNotebook(const QString&) ), m_searchWindow, SLOT( slotAddNotebook(const QString&)), Qt::QueuedConnection  );
-
   connect( m_searchWindow->actionQuit, SIGNAL( triggered() ), SLOT( slotQuit() ) );
   connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
   connect (m_searchWindow, SIGNAL(signalNoteSelected(ktomgirl::KTGItem*)), this, SLOT(openNote(ktomgirl::KTGItem*)));
-
-  // connect( m_searchWindow->actionShow_Note_Detail, SIGNAL( triggered() ), SLOT( slotSpewNoteDetail() ) );
-    
-  //connect( m_searchWindow->actionSort_Notes, SIGNAL( triggered() ), m_searchWindow, SLOT( slotSortNotes() ) );
-
   connect( m_searchWindow->actionNew_Note, SIGNAL( triggered() ), SLOT( createNote() ) );
 
   connect( m_searchWindow, SIGNAL( signalHandleSearch(QString) ), SLOT( slotHandleSearch(QString) ) );
@@ -156,8 +146,6 @@ KNotesApp::KNotesApp()
   m_tray = new ktomgirl::KTGSystray(this, "ktomgirl");
 
   KMenu *m_menu = new KMenu("KTomGirl");
-
-  //connect( m_menu, SIGNAL( triggered(QAction*) ), SLOT( slotShowNote(QAction*) ) );
 
   QAction *quitAct = new QAction("&Quit", m_tray);
   m_menu->addAction(quitAct);
@@ -172,7 +160,6 @@ KNotesApp::KNotesApp()
   QAction *createAct = new QAction(iconNewNote, "&Create new note", m_tray);
   m_menu->addAction(createAct);
   connect( createAct, SIGNAL( triggered() ), SLOT( createNote() ) );
-
 
   m_tray->setContextMenu(m_menu);
   m_tray->activate();
@@ -238,19 +225,9 @@ KNotesApp::~KNotesApp()
   m_tray->deleteLater();
 }
 
-/*
-bool KNotesApp::commitData( QSessionManager & )
-{
-  foreach ( KNote *note, m_notes ) {
-    //note->commitData();
-  }
-  saveConfigs();
-  return true;
-}
-*/
-
 // -------------------- public D-Bus interface -------------------- //
 
+/*
 QString KNotesApp::newNote( const QString &name, const QString &text )
 {
   qDebug() << __PRETTY_FUNCTION__ << " BUG: DO NOT CALL DEAD CODE. Please remove this.";
@@ -263,6 +240,7 @@ QString KNotesApp::newNoteFromClipboard( const QString &name )
   const QString &text = KApplication::clipboard()->text();
   return newNote( name, text );
 }
+*/
 
 void KNotesApp::hideAllNotes() const
 {
@@ -406,10 +384,12 @@ void KNotesApp::slotActivateRequested( bool, const QPoint&)
     }
 }
 
+/*
 void KNotesApp::slotSecondaryActivateRequested( const QPoint & )
 {
     newNote();
 }
+*/
 
 void KNotesApp::slotShowNote()
 {
@@ -583,7 +563,6 @@ void KNotesApp::createNote( ktomgirl::Journal *journal ){
   qDebug() << __PRETTY_FUNCTION__ << "*** m_gnmanager->create_new_gnote() Title: [" << title << "] uid: [" << QString::fromStdString(new_gnote->uid()) << "]";
 
   KNote *newNote = new KNote( new_gnote, m_noteGUI, journal, 0);
-	//newNote->load_gnote();
   newNote->setTitleAndBody(title, body);
   newNote->setObjectName( QString::fromStdString(new_gnote->uid()));
 
@@ -714,15 +693,6 @@ void KNotesApp::updateNetworkListener()
     m_publisher=0;
 }
 
-/*
-void KNotesApp::updateStyle()
-{
-  foreach ( KNote *note, m_notes ) {
-    QApplication::postEvent( note, new QEvent( QEvent::LayoutRequest ) );
-  }
-}
-*/
-
 /* Common code for createNote() and newNote() */
 // BEGIN noteInit()
 void KNotesApp::noteInit( KNote *newNote){
@@ -761,8 +731,6 @@ void KNotesApp::openNote(ktomgirl::KTGItem *item){
     qDebug() << __PRETTY_FUNCTION__<< "failed to load gnote";
 	  return;
   }
-
-  //qDebug() << __PRETTY_FUNCTION__<< "text content of note: [" << QString::fromStdString(gnote->text_content()) << "]";
 
   ktomgirl::Journal *journal = new ktomgirl::Journal();
 
@@ -816,28 +784,6 @@ void KNotesApp::showNote( KNote *note ) const
   note->setFocus();
 }
 // END KNotesApp::showNote(KNote *)
-
-#if 0
-// BEGIN KNotesApp::slotOpenNote(QAction*)
-void  KNotesApp::slotOpenNote(QAction *act){
-	// FIXME: Open note here...
-	QVariant qvar = act->data();
-	QString l_uid = qvar.toString();
-	if ( 0 == l_uid.length() ){
-		return;
-	}
-
-	KNote *note = m_notes.value(l_uid);
-  	if ( note ) {
-		showNote(l_uid);
-		return;	
-  	}
-
-	open Note(l_uid);
-	return;	
-}	
-// END KNotesApp::slotOpenNote(QAction*)
-#endif
 
 void  KNotesApp::slotNewNotebook(const QString &qs){
 	// tell all knotes to add the menu

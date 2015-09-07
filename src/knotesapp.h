@@ -103,9 +103,9 @@ class KNotesApp
     void slotHandleSearch(QString);
     //void slotOpenNote(QAction*);
     void slotCloseNote(const QString&);
-    QString newNote( const QString &name = QString(),
-                     const QString &text = QString() );
-    QString newNoteFromClipboard( const QString &name = QString() );
+    //QString newNote( const QString &name = QString(),
+    //                 const QString &text = QString() );
+    //QString newNoteFromClipboard( const QString &name = QString() );
 
 
     void hideAllNotes() const;
@@ -118,7 +118,7 @@ class KNotesApp
 
   protected slots:
     void slotActivateRequested( bool, const QPoint& pos);
-    void slotSecondaryActivateRequested( const QPoint& );
+    //void slotSecondaryActivateRequested( const QPoint& );
     void slotShowNote();
     void slotWalkThroughNotes();
 

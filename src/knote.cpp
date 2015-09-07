@@ -270,7 +270,7 @@ void KNote::setName( const QString& name )
   updateLabelAlignment();
 
   if ( m_editor ) {    // not called from CTOR?
-		slotSave();
+    slotSave();
   }
 #ifdef Q_WS_X11
   // set the window's name for the taskbar entry to be more helpful (#58338)
@@ -872,7 +872,7 @@ void KNote::updateFocus()
 void KNote::updateLayout()
 {
   // TODO: remove later if no longer needed.
-  updateLabelAlignment();
+  //updateLabelAlignment();
 }
 
 // -------------------- protected methods -------------------- //

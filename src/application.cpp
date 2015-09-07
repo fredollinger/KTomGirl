@@ -45,12 +45,17 @@ int Application::newInstance()
 {
   if ( !mMainWindow ) {
     mMainWindow = new KNotesApp();
-  } else {
+  } 
+  else {
+     qDebug() << __PRETTY_FUNCTION__ << " called twice!!";
+  /*
+  else {
     if ( !args()->isSet( "skip-note" ) ) {
       mMainWindow->newNote();
     }
   }
-
+  */
+  }
   return 0;
 }
 } // namespace knotes
