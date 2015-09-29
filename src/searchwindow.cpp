@@ -357,6 +357,7 @@ void SearchWindow::showUnfilteredNotes(){
 	    }
 	    catch( ... ){
 	        qDebug() << __PRETTY_FUNCTION__ << " popped exception ";
+		continue;
 	    }
 
 	    qDebug() << __PRETTY_FUNCTION__ << " END CRASH ";
