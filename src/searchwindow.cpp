@@ -6,7 +6,7 @@
  * This is the window which shows a list of all the notes or the 
  * particular notes that match a search term.
  *
- * Copyright (C) 2012, 2013 Fred Ollinger
+ * Copyright (C) 2012-2015 Frederick Ollinger
  * <follinge@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@
 // END QT INCLUDES
 
 #include <KParts/MainWindow>
-//#include <iostream>
 
 // KTOMGIRL INCLUDES
 #include "ktgconfig.h"
@@ -315,14 +314,14 @@ void SearchWindow::loadNotebooks(){
 }
 
 void SearchWindow::showAllNotes(){
-  int m_rows = m_notesDialog->tableNotes->rowCount();
-	for(int i=0;  i < m_rows; i++){
-	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
-		if (0 != item)
-      m_notesDialog->tableNotes->setRowHidden(i,false);
+    int m_rows = m_notesDialog->tableNotes->rowCount();
+    for(int i=0;  i < m_rows; i++){
+        ktomgirl::KTGItem *item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
+        if (0 != item)
+        m_notesDialog->tableNotes->setRowHidden(i,false);
     }
-  styleNotes();
-}
+    styleNotes();
+} // END showAllNotes()
 
 void SearchWindow::notebookClicked(int row, int col){
 	QTableWidgetItem *item = m_notebooksDialog->tableNotebooks->currentItem();
@@ -344,29 +343,45 @@ void SearchWindow::notebookClicked(int row, int col){
 
 // BEGIN showUnfilteredNotes
 void SearchWindow::showUnfilteredNotes(){
+    int rows = m_notesDialog->tableNotes->rowCount();
+    qDebug() << __PRETTY_FUNCTION__ << " # rows [" << rows << "]";
+    for(int i=0;  i < rows; i++){
+        ktomgirl::KTGItem *item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
+        if (0 != item){
+	    qDebug() << __PRETTY_FUNCTION__ << " BEGIN CRASH [" << i << "]";
+	    qDebug() << __PRETTY_FUNCTION__ << " item [" << item->text() << "]";
+            gnote::Note::Ptr note; 
 
-  int m_rows = m_notesDialog->tableNotes->rowCount();
-	for(int i=0;  i < m_rows; i++){
-	  ktomgirl::KTGItem	*item = static_cast<ktomgirl::KTGItem*> (m_notesDialog->tableNotes->item(i, 0));
+            try{
+                note = item->get_note(); 
+	    }
+	    catch( ... ){
+	        qDebug() << __PRETTY_FUNCTION__ << " popped exception ";
+	    }
 
-		if (0 != item){
-      gnote::Note::Ptr note = item->get_note();
-      gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook_from_note ( note );
-      if (NULL == note){
-        m_notesDialog->tableNotes->setRowHidden(i,true);
-      }
-      else {
-        m_notesDialog->tableNotes->setRowHidden(i,false);
-       }
-    }
-	}
+	    qDebug() << __PRETTY_FUNCTION__ << " END CRASH ";
+
+	    if ( 0 == note ){
+	        qDebug() << __PRETTY_FUNCTION__ << " note is NULL. Skippping.";
+		continue;
+	    }
+
+            gnote::notebooks::Notebook::Ptr notebook = gnote::notebooks::NotebookManager::instance().get_notebook_from_note ( note );
+            if (NULL == note){
+                m_notesDialog->tableNotes->setRowHidden(i,true);
+            }
+            else {
+                m_notesDialog->tableNotes->setRowHidden(i,false);
+            }
+        }  // END if (0 != item)
+    } // END for()
 } // END showUnfilteredNotes
 
 // BEGIN showFilteredNotes
 void SearchWindow::showFilteredNotes(const QString &filter) {
     gnote::notebooks::Notebook::Ptr notebook =
-        gnote::notebooks::NotebookManager::instance().get_notebook(
-            filter.toStdString());
+    gnote::notebooks::NotebookManager::instance().get_notebook(
+    filter.toStdString());
 
     qDebug() << " notebook: [" << QString::fromStdString(notebook->get_name())
              << "]";
@@ -374,7 +389,7 @@ void SearchWindow::showFilteredNotes(const QString &filter) {
     int m_rows = m_notesDialog->tableNotes->rowCount();
     for (int i = 0; i < m_rows; i++) {
         ktomgirl::KTGItem *item = static_cast<ktomgirl::KTGItem *>(
-            m_notesDialog->tableNotes->item(i, 0));
+        m_notesDialog->tableNotes->item(i, 0));
         if (0 != item) {
             gnote::Note::Ptr note = item->get_note();
             if (notebook->contains_note(note)) {
