@@ -1,12 +1,10 @@
-
 /*
  * ktomgirl
  * 
  * KTGItem is an item in the search window which can have more info about the
  * notes than a normal QTableWidgetItem.
  *
- * Copyright (C) 2012 Fred Ollinger
- * <follinge@gmail.com>
+ * Copyright (C) 2012-2015 Fred Ollinger <follinge@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
