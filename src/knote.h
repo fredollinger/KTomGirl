@@ -73,14 +73,11 @@ class KNote
     ~KNote();
     void formatText(void);
     void init( const QDomDocument& );
-    //void init_note(void);
     bool load_gnote(void);
     void loadNotebooks();
 
     gnote::Note::Ptr m_gnote;
 
-    //void changeJournal(ktomgirl::Journal *);
-    //void saveData( bool update = true);
     void saveConfig() const;
 
     QString noteId() const;
@@ -96,7 +93,6 @@ class KNote
 
     bool isModified() const;
     void blockEmitDataChanged( bool _b ) { m_blockEmitDataChanged = _b;}
-    //void commitData();
 // END class KNote public:
 
   public slots:
@@ -106,7 +102,6 @@ class KNote
     void slotMoveToNotebook(QAction*);
     void slotMakeNoteBook();
     void emitNewNote();
-    // void slotRename(void);
     void slotKill(void);
     void slotNewNoteBook(void);
     void slotShowNoteBookMenu(void);
@@ -145,13 +140,10 @@ class KNote
     void slotDataChanged(const QString&);
 
     void slotFormatTitle(void);
-    //void slotPrint();
-    //void slotMail();
     void slotNameChanged(void);
     void slotSend();
     void slotSave(void);
 
-    //void slotInsDate();
     void slotSetAlarm();
 
     void slotPreferences();
@@ -216,7 +208,7 @@ class KNote
     KToolBar      *m_tool; 
     KNoteEdit     *m_editor;
 
-    ktomgirl::Journal *m_journal;
+    //ktomgirl::Journal *m_journal;
 
     KFind         *m_find;
     KMenu         *m_menu;

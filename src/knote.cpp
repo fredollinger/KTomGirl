@@ -104,7 +104,8 @@ static const QString endTitle = "</u></font></p>";
 
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, ktomgirl::Journal *journal,  QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
-    m_button( 0 ), m_tool( 0 ), m_editor(0), m_journal(journal), 
+    m_button( 0 ), m_tool( 0 ), m_editor(0), 
+    //m_journal(journal), 
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnote(gnoteptr)
     , m_content("")
@@ -1112,7 +1113,6 @@ void KNote::slotKill()
   // delete m_config;
   // m_config = 0;
   //QString configFile = KGlobal::dirs()->saveLocation( "appdata", "notes/" );
-  // configFile += m_journal->uid();
 /*
   if ( !KIO::NetAccess::del( KUrl( configFile ), this ) ) {
     kError( 5500 ) <<"Can't remove the note config:" << configFile;
