@@ -95,6 +95,8 @@
 
 namespace knotes{
 
+static const qreal bodyPointSize=14;
+static const qreal titlePointSize=16;
 static const QString startTitle = "<p><font color=\"Blue\" size=\"16\"><u>";
 static const QString endTitle = "</u></font></p>";
 
@@ -268,7 +270,7 @@ QString KNote::text() const
 
 void KNote::setName( const QString& name )
 {
-  updateLabelAlignment();
+  //updateLabelAlignment();
 
   if ( m_editor ) {    // not called from CTOR?
     slotSave();
@@ -340,7 +342,7 @@ void KNote::setTitleAndBody( const QString &title, const QString &body ){
   QTextCharFormat bodyFormat;
   bodyFormat.setFontUnderline(false); 
   bodyFormat.setForeground(QBrush(QColor(Qt::black))); 
-  bodyFormat.setFontPointSize(14);
+  bodyFormat.setFontPointSize(bodyPointSize);
 
   QString formattedText = startTitle + title + endTitle;
   m_editor->setHtml(formattedText);
@@ -395,27 +397,10 @@ bool KNote::isModified() const {
   return true;
 }
 
-/*
-void KNote::slotRename()
-{
-  m_blockEmitDataChanged = true;
-  m_blockEmitDataChanged = false;
-  return;
-}
-*/
-
 void KNote::slotDebug(){
   qDebug() << __PRETTY_FUNCTION__ << m_editor->toHtml();
 
 }
-
-/*
-void KNote::slotInsDate()
-{
-  // m_editor->insertPlainText(
-    // KGlobal::locale()->formatDateTime( QDateTime::currentDateTime() ) );
-}
-*/
 
 void KNote::slotSetAlarm()
 {
@@ -439,9 +424,9 @@ void KNote::slotPreferences()
   #endif
 }
 
+#if 0
 void KNote::slotSend()
 {
-  #if 0
   // pop up dialog to get the IP
   // KNoteHostDlg hostDlg( i18n( "Send \"%1\"", name() ), this );
   // const bool ok = ( hostDlg.exec() == QDialog::Accepted );
@@ -467,8 +452,8 @@ void KNote::slotSend()
     KSocketFactory::connectToHost( "knotes", host, port ) );
   sender->setSenderId( KNotesGlobalConfig::senderID() );
   sender->setNote( name(), text() ); // FIXME: plainText ??
-  #endif
 }
+#endif
 
 /*
 void KNote::slotMail()
@@ -761,15 +746,8 @@ void KNote::setColor( const QColor &fg, const QColor &bg )
 {
   QPalette p = palette();
 
-  // better: from light(150) to light(100) to light(75)
-  // QLinearGradient g( width()/2, 0, width()/2, height() );
-  // g.setColorAt( 0, bg );
-  // g.setColorAt( 1, bg.dark(150) );
-
-  p.setColor( QPalette::Window,     bg );
-  // p.setBrush( QPalette::Window,     g );
+  p.setColor( QPalette::Window, bg );
   p.setColor( QPalette::Base,       bg );
-  // p.setBrush( QPalette::Base,       g );
 
   p.setColor( QPalette::WindowText, fg );
   p.setColor( QPalette::Text,       fg );
@@ -777,12 +755,6 @@ void KNote::setColor( const QColor &fg, const QColor &bg )
   p.setColor( QPalette::Button,     bg.dark( 116 ) );
   p.setColor( QPalette::ButtonText, fg );
 
-  //p.setColor( QPalette::Highlight,  bg );
-  //p.setColor( QPalette::HighlightedText, fg );
-
-  // order: Light, Midlight, Button, Mid, Dark, Shadow
-
-  // the shadow
   p.setColor( QPalette::Light, bg.light( 180 ) );
   p.setColor( QPalette::Midlight, bg.light( 150 ) );
   p.setColor( QPalette::Mid, bg.light( 150 ) );
@@ -813,7 +785,7 @@ void KNote::setColor( const QColor &fg, const QColor &bg )
   KWindowSystem::setIcons( winId(), icon, miniIcon );
 #endif
   // update the color of the title
-  updateFocus();
+  //updateFocus();
   emit sigColorChanged();
 }
 
@@ -872,11 +844,9 @@ void KNote::updateFocus()
 
 void KNote::updateLayout()
 {
-  // TODO: remove later if no longer needed.
+  // FRED: TODO USE THIS TO FIX THE PROBLEM WITH THE TITLE GETTING TRUNCATED WHEN WE RESIZE
   //updateLabelAlignment();
 }
-
-// -------------------- protected methods -------------------- //
 
 void KNote::contextMenuEvent( QContextMenuEvent *e )
 {
@@ -923,22 +893,25 @@ bool KNote::event( QEvent *ev )
 }
 
 void KNote::keyPressEvent(QKeyEvent *event) {
-        // BEGIN RETURN KEY
-        if (event->key() == Qt::Key_Return) {
-          int line = m_editor->textCursor().blockNumber() + 1;
-          if (1 == line ){
-           //qDebug() << __PRETTY_FUNCTION__ <<  line;
-		 slotFormatTitle();
-         	 QWidget::keyPressEvent(event);
-          }
-        } // END RETURN KEY
-        else if ((event->key()==Qt::Key_Z) && (event->modifiers()==Qt::ControlModifier)){
-                qDebug() << __PRETTY_FUNCTION__ << " CTRL-Z Pressed";
-        }
-        else {
-            QWidget::keyPressEvent(event);
-        }
-				m_isModified=true;
+    int line = m_editor->textCursor().blockNumber() + 1;
+    // BEGIN RETURN KEY
+    if (event->key() == Qt::Key_Return) {
+      if (1 == line ){
+          qDebug() << __PRETTY_FUNCTION__ <<  line;
+          slotFormatTitle();
+     	  QWidget::keyPressEvent(event);
+      }
+    } // END RETURN KEY
+    else if ((event->key()==Qt::Key_Z) && (event->modifiers()==Qt::ControlModifier)){
+        qDebug() << __PRETTY_FUNCTION__ << " CTRL-Z Pressed";
+    }
+    else {
+        if (0 == line ){
+            qDebug() << __PRETTY_FUNCTION__ << " other key pressed: [" << line << "]";
+	}
+        QWidget::keyPressEvent(event);
+    }
+    m_isModified=true;
 }
 
 bool KNote::eventFilter( QObject *o, QEvent *ev ) {
@@ -968,21 +941,40 @@ bool KNote::eventFilter( QObject *o, QEvent *ev ) {
           QFocusEvent *fe = static_cast<QFocusEvent *>( ev );
           if ( fe->reason() != Qt::PopupFocusReason &&
                fe->reason() != Qt::MouseFocusReason ) {
-            updateFocus();
+               updateFocus();
             if ( isModified() ) {
               saveConfig();
               if ( !m_blockEmitDataChanged )
                   slotSave();
             }
           }
-    } else if ( ev->type() == QEvent::FocusIn ) {
-      updateFocus();
-    }
+      }  // END if ( ev->type() == QEvent::FocusOut ) 
+      else if ( ev->type() == QEvent::FocusIn ) {
+        updateFocus();
+      } // END else if ( ev->type() == QEvent::FocusIn ) 
+      else if ( ev->type() == QEvent::KeyRelease ) {
+         int line = m_editor->textCursor().blockNumber() + 1;
+	 if ( 0 == line ) setCursorTitle();
+	 else setCursorBody();
+      } // END else if ( ev->type() == QEvent::KeyRelease ) 
 
     return false;
-  }
+  } // END if ( o == m_editor ) 
 
   return false;
+} // END eventFilter()
+
+void KNote::setCursorBody(){
+    m_editor->setTextColor(QColor(Qt::black));
+    m_editor->setFontUnderline(false);
+    m_editor->setFontPointSize(bodyPointSize);
+    return;
+}
+void KNote::setCursorTitle(){
+    m_editor->setTextColor(QColor(Qt::blue));
+    m_editor->setFontUnderline(true);
+    m_editor->setFontPointSize(titlePointSize);
+    return;
 }
 
 QString KNote::name(){
@@ -1163,6 +1155,7 @@ void KNote::slotHighlight( const QString& /*str*/, int idx, int len )
 }
 
 void KNote::slotNameChanged(){
+  //qDebug() << __PRETTY_FUNCTION__ << "[" <<  m_editor->textColor().name() << "]";
   std::string oldTitle = m_gnote->get_title();
   const QString newTitle = name();
   setWindowTitle(newTitle);
@@ -1348,4 +1341,4 @@ void KNote::slotTextChanged(){
 
 // END KNOTE SLOTS
 }// namespace knotes
-// Wed Nov 27 17:59:30 PST 2013
+// Sat Oct 24 13:20:22 PDT 2015

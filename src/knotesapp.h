@@ -94,6 +94,7 @@ class KNotesApp
   public slots:
     void showAllNotes(void);
     void showFilteredNotes(const QString&);
+    void slotNameChanged(const QString &neu, const QString &old);
     void showUnFiledNotes(void);
 
 	  // Here we sync up the new notebook

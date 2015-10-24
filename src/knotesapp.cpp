@@ -583,6 +583,7 @@ void KNotesApp::slotDeleteNote(const QString &qsTitle, const QString &uid){
 
 	// BEGIN FIND THE GNOTE
 	std::string title = qsTitle.toStdString();
+	// TODO: Change this to find_by_uri()
 	gnote::Note::Ptr gnote = m_gnmanager->find(qsTitle.toStdString());
 	//QString m_content = QString::fromStdString(gnote->text_content());
 	//QString uid = QString::fromStdString(gnote->uid());
@@ -608,8 +609,7 @@ void KNotesApp::slotDeleteNote(const QString &qsTitle, const QString &uid){
 	// delete gnote from list
 	m_gnmanager->delete_note(gnote);
 	m_searchWindow->deleteItem(qsTitle);	
-}
-
+} // slotDeleteNote()
 
 void KNotesApp::createNote()
 {
@@ -699,6 +699,8 @@ void KNotesApp::noteInit( KNote *newNote){
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_searchWindow, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
 
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_tray, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
+
+  connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), this, SLOT( slotNameChanged(const QString&, const QString&)), Qt::QueuedConnection  );
 
   connect( newNote, SIGNAL( sigKillNote(const QString&, const QString&) ), this, SLOT( slotDeleteNote(const QString&, const QString&)), Qt::QueuedConnection  );
 
@@ -829,5 +831,10 @@ void  KNotesApp::slotHandleSearch(QString qs){
         m_searchWindow->loadNotes(m_gnmanager->get_notes());
 }
 
+void KNotesApp::slotNameChanged(const QString &neu, const QString &old){
+    // FRED TODO FIGURE OUT IF THE NAME IS ACTUALLY TAKEN AND DO A CALLBACK TO KNOTE SOMEHOW
+    //qDebug() << __PRETTY_FUNCTION__ << neu;
+}
+
 } // namespace knotes
-// Sun Jun  1 17:08:50 PDT 2014
+// Sat Oct 24 13:20:15 PDT 2015

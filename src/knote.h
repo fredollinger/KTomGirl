@@ -141,7 +141,7 @@ class KNote
 
     void slotFormatTitle(void);
     void slotNameChanged(void);
-    void slotSend();
+    //void slotSend();
     void slotSave(void);
 
     void slotSetAlarm();
@@ -163,10 +163,10 @@ class KNote
     void slotRequestNewNote();
 // END PRIVATE SLOTS
 
-// BEGIN class KNote private:
+// BEGIN KNOTE PRIVATE 
   private:
-    void setContent( const QString &title, const QString &text );
 
+    // BEGIN KNOTE PRIVATE VARIABLES
     NewNoteBookDialog *m_dlg;
 
     QString m_content;
@@ -180,21 +180,6 @@ class KNote
     QString m_noteId; // note uuid; replaces the kcal::Journal
     QTimer *saveTimer;
     QTimer *formatTimer;
-
-    void buildGui();
-    void createActions();
-    void createNoteEditor();
-    void createNoteFooter();
-    void createNoteHeader();
-    void prepare();
-
-    void updateFocus();
-    void updateLayout();
-    void updateLabelAlignment();
-
-    void setColor( const QColor &, const QColor & );
-
-    void toDesktop( int desktop );
 
     QLayout       *m_noteLayout;
     QLabel        *m_label;
@@ -226,8 +211,31 @@ class KNote
     bool m_blockEmitDataChanged;
     bool mBlockWriteConfigDuringCommitData;
     bool m_isModified;
+    // END KNOTE PRIVATE VARIABLES
+
+    // BEGIN KNOTE PRIVATE METHODS
+    void setContent( const QString &title, const QString &text );
+    void buildGui();
+    void createActions();
+    void createNoteEditor();
+    void createNoteFooter();
+    void createNoteHeader();
+
+    void setCursorBody(void);
+    void setCursorTitle(void);
+    void prepare();
+
+    void updateFocus();
+    void updateLayout();
+    void updateLabelAlignment();
+
+    void setColor( const QColor &, const QColor & );
+
+    void toDesktop( int desktop );
+    // END KNOTE PRIVATE METHODS
+
 // END class KNote private:
 }; // class KNote
 } // namespace knotes
 #endif // KNOTE_H
-// Sun Jun  1 17:10:43 PDT 2014
+// Sat Oct 24 13:20:31 PDT 2015
