@@ -374,7 +374,7 @@ void KNote::find( KFind* kfind )
 bool KNote::isModified() const {
 
   if (m_content == m_editor->toPlainText()){
-    qDebug() << __PRETTY_FUNCTION__ << "text is unmodified";
+    // qDebug() << __PRETTY_FUNCTION__ << "text is unmodified";
     return false;
   }
 
@@ -1159,7 +1159,6 @@ void KNote::slotHighlight( const QString& /*str*/, int idx, int len )
 {
   // m_editor->textCursor().clearSelection();
   // m_editor->highlightWord( len, idx );
-
   // TODO: modify the selection color, use a different QTextCursor?
 }
 
@@ -1167,6 +1166,7 @@ void KNote::slotNameChanged(){
   std::string oldTitle = m_gnote->get_title();
   const QString newTitle = name();
   setWindowTitle(newTitle);
+  formatText();
   emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
 }
 
@@ -1175,10 +1175,10 @@ void KNote::emitNewNote(){
 }
 
 void KNote::slotSave(){
-  qDebug() << __PRETTY_FUNCTION__;
+  //qDebug() << __PRETTY_FUNCTION__;
   // only save if we changed
   if (! isModified() ){
-  	qDebug() << __PRETTY_FUNCTION__ << " not modified. Not saving.";
+  	//qDebug() << __PRETTY_FUNCTION__ << " not modified. Not saving.";
 	return;
   }
 
@@ -1297,7 +1297,6 @@ void KNote::formatText(){
   //qDebug() << "BEGIN: " << __PRETTY_FUNCTION__ << " pos: " << pos << " line: " << line << " block: " << cursor.block().blockNumber();
   bool nasty_fix=false;
 
-
   // Nasty hack to make sure we wind up in the right spot at the end.
   // If we are on line 2, only, does this manifest
   if ( 2 == line ) nasty_fix=true;
@@ -1329,9 +1328,6 @@ void KNote::formatText(){
 
   cursor.removeSelectedText();	
 
-  // FRED
-  //cursor.insertHtml(newContent);  
-  //cursor.insertBlock();
   cursor.insertText(newContent);  
 
   cursor.setPosition(bodyPos, QTextCursor::KeepAnchor );
@@ -1342,20 +1338,7 @@ void KNote::formatText(){
   // This line is needed to actually set the text cursor
   m_editor->setTextCursor(cursor); 
 
-/*
-  line = m_editor->textCursor().blockNumber() + 1;
-  if (nasty_fix && line > 2){
-    qDebug() << " need to go up: "<< line-2;
-    qDebug() << "new pos: " << __PRETTY_FUNCTION__ << " pos: " << cursor.position() << " line: " << m_editor->textCursor().blockNumber() + 1;
-    //int pos = cursor.position();
-    //cursor.setPosition(0, QTextCursor::KeepAnchor);  
-    cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::KeepAnchor, 1);  
-    //cursor.movePosition(QTextCursor::Up, QTextCursor::KeepAnchor, 1);  
-  }
-  */
-
-  //qDebug() << "END: " << __PRETTY_FUNCTION__ << " pos: " << pos << " line: " << line << " block: " << cursor.block().blockNumber();
-}
+} // END formatText()
 // END formatText()
 
 void KNote::slotTextChanged(){
