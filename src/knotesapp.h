@@ -3,7 +3,7 @@
 
  Copyright (c) 1997-2006, The KNotes Developers
 
- 2012 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
+ 2012-2015 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -76,8 +76,6 @@ class KNotesApp
     void showNote( const QString &id ) const;
     void hideNote( const QString &id ) const;
 
-    // void killNote( const QString &id, bool force );
-
     QString name( const QString &id ) const;
     QString text( const QString &id ) const;
 
@@ -85,11 +83,6 @@ class KNotesApp
     void setText( const QString &id, const QString &newText );
 
     QVariantMap notes() const;
-
-    //bool commitData( QSessionManager & );
-
-		// Replaced with singleton
-    //ktomgirl::KTGConfig *m_config;
 
   public slots:
     void showAllNotes(void);
@@ -102,16 +95,11 @@ class KNotesApp
 
 	  void slotNewNotebook(const QString&);
     void slotHandleSearch(QString);
-    //void slotOpenNote(QAction*);
     void slotCloseNote(const QString&);
-    //QString newNote( const QString &name = QString(),
-    //                 const QString &text = QString() );
-    //QString newNoteFromClipboard( const QString &name = QString() );
 
 
     void hideAllNotes() const;
     void openNote(ktomgirl::KTGItem*);
-    //void openNote(QString&);
     void showAllNotes() const;
     void slotDeleteNote(const QString&, const QString&);
     void slotShowSearchWindow(void);
@@ -119,14 +107,10 @@ class KNotesApp
 
   protected slots:
     void slotActivateRequested( bool, const QPoint& pos);
-    //void slotSecondaryActivateRequested( const QPoint& );
     void slotShowNote();
     void slotWalkThroughNotes();
 
-    //void slotOpenFindDialog();
-    //void slotFindNext();
-
-    void slotPreferences();
+    //void slotPreferences();
     void slotConfigureAccels();
 
     void slotNoteKilled( ktomgirl::Journal *journal );
@@ -139,7 +123,6 @@ class KNotesApp
     void saveNotes( const QString & uid );
     void updateNoteActions();
     void updateNetworkListener();
-    // void updateStyle();
 
     void createNote();
     void createNote( ktomgirl::Journal *journal );
@@ -159,7 +142,6 @@ class KNotesApp
 
     QList<QAction *>       m_noteActions;
 
-    //KNotesResourceManager  *m_manager;
     KNotesAlarm            *m_alarm;
     QTcpServer             *m_listener;
     DNSSD::PublicService   *m_publisher;
@@ -172,7 +154,6 @@ class KNotesApp
 
     KXMLGUIFactory  *m_guiFactory;
     KXMLGUIBuilder  *m_guiBuilder;
-   // KStatusNotifierItem *m_tray;
     ktomgirl::KTGSystray *m_tray;
     KAction         *m_findAction;
 
@@ -187,4 +168,4 @@ signals:
 }; // END class KNotesApp
 }  //namespace knotes
 #endif
-// Sat Aug  4 15:41:08 PDT 2012
+// Mon Nov  2 13:54:36 PST 2015

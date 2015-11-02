@@ -414,54 +414,8 @@ void KNotesApp::slotWalkThroughNotes()
 }
 
 #if 0
-// BEGIN DEPRECATED
-void KNotesApp::slotOpenFindDialog()
-{
-  KFindDialog findDia( this );
-  findDia.setObjectName( "find_dialog" );
-  findDia.setHasSelection( false );
-  findDia.setHasCursor( false );
-  findDia.setSupportsBackwardsFind( false );
-
-  if ( (findDia.exec() != QDialog::Accepted) ) {
-      delete m_findPos;
-      m_findPos = 0;
-      delete m_find;
-      m_find = 0;
-      return;
-  }
-
-  delete m_findPos;
-  m_findPos = new QMap<QString, KNote *>::iterator();
-  *m_findPos = m_notes.begin();
-
-  // this could be in an own method if searching without a dialog
-  // should be possible
-  delete m_find;
-  m_find = new KFind( findDia.pattern(), findDia.options(), this );
-
-  slotFindNext();
-}
-
-void KNotesApp::slotFindNext()
-{
-  if ( *m_findPos != m_notes.end() ) {
-    KNote *note = * ( (*m_findPos)++ );
-    note->find( m_find );
-  } else {
-    m_find ->displayFinalDialog();
-    m_find ->deleteLater(); //we can't delete m_find now because it is the signal emitter
-    m_find = 0;
-    delete m_findPos;
-    m_findPos = 0;
-  }
-}
-// END DEPRECATED
-#endif
-
 void KNotesApp::slotPreferences()
 {
-  #if 0
   // create a new preferences dialog...
   KNoteConfigDlg *dialog = new KNoteConfigDlg( i18n( "Settings" ), this);
   connect( dialog, SIGNAL( configWrote( ) ),
@@ -469,8 +423,8 @@ void KNotesApp::slotPreferences()
   connect( dialog, SIGNAL( configWrote(  ) ),
            this,   SLOT( updateStyle() ) );
   dialog->show();
-  #endif
 }
+#endif
 
 void KNotesApp::slotConfigureAccels()
 {
@@ -842,4 +796,4 @@ void KNotesApp::slotNameChanged(const QString &neu, const QString &old, const QS
 }
 
 } // namespace knotes
-// Sat Oct 31 20:37:28 PDT 2015
+// Mon Nov  2 13:54:36 PST 2015
