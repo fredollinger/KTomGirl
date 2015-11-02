@@ -1160,7 +1160,7 @@ void KNote::slotNameChanged(){
   const QString newTitle = name();
   setWindowTitle(newTitle);
   formatText();
-  emit sigNameChanged(newTitle, QString::fromStdString(oldTitle) );
+  emit sigNameChanged(newTitle, QString::fromStdString(oldTitle), m_noteId );
 }
 
 void KNote::emitNewNote(){

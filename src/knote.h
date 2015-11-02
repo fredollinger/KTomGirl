@@ -114,7 +114,7 @@ class KNote
     void sigRequestNewNote(void);
     void sigNameChanged(const QString &);
     void sigNameChanged(const QString &, ktomgirl::KTGItem&);
-    void sigNameChanged(const QString &, const QString &);
+    void sigNameChanged(const QString&, const QString&, const QString& );
     void sigDataChanged(const QString &);
     void sigColorChanged();
     void sigCloseNote(const QString &);

@@ -3,7 +3,7 @@
 
  Copyright (c) 1997-2009, The KNotes Developers
 
- 2012-2014 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
+ 2012-2015 Modified by Fred Ollinger <follinge@gmail.com> for KTomGirl
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -700,7 +700,7 @@ void KNotesApp::noteInit( KNote *newNote){
 
   connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), m_tray, SLOT( setItemName(const QString&, const QString&)), Qt::QueuedConnection  );
 
-  connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&) ), this, SLOT( slotNameChanged(const QString&, const QString&)), Qt::QueuedConnection  );
+  connect( newNote, SIGNAL( sigNameChanged(const QString&, const QString&, const QString&) ), this, SLOT( slotNameChanged(const QString&, const QString&, const QString&)), Qt::QueuedConnection  );
 
   connect( newNote, SIGNAL( sigKillNote(const QString&, const QString&) ), this, SLOT( slotDeleteNote(const QString&, const QString&)), Qt::QueuedConnection  );
 
@@ -831,11 +831,7 @@ void  KNotesApp::slotHandleSearch(QString qs){
         m_searchWindow->loadNotes(m_gnmanager->get_notes());
 }
 
-void KNotesApp::slotNameChanged(const QString &neu, const QString &old){
-    qDebug() << __PRETTY_FUNCTION__ << "[" << neu << "] [" << old << "]";
-    if ( neu == old ){
-        qDebug() << __PRETTY_FUNCTION__ << " Names are the same!!";
-    }
+void KNotesApp::slotNameChanged(const QString &neu, const QString &old, const QString &uuid){
     gnote::Note::Ptr gnote = m_gnmanager->find(neu.toStdString());
     if ( NULL == gnote ) { 
             qDebug() << __PRETTY_FUNCTION__ << " NOTE Does not EXIST";
