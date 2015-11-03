@@ -1329,6 +1329,10 @@ void KNote::formatText(){
 void KNote::slotTextChanged(){
 }
 
+void KNote::slotSaveCB(){
+	qDebug() << __PRETTY_FUNCTION__;
+}
+
 // END KNOTE SLOTS
 }// namespace knotes
 // Mon Nov  2 14:00:45 PST 2015
