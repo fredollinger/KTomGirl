@@ -31,7 +31,6 @@
 
 // gnote includes
 #include <libktomgirl/notebookmanager.hpp>
-//#include <libktomgirl/note.hpp>
 
 // BEGIN KDE INCLUDES
 #include <kaction.h>
@@ -100,14 +99,9 @@ static const qreal titlePointSize=16;
 static const QString startTitle = "<p><font color=\"Blue\" size=\"16\"><u>";
 static const QString endTitle = "</u></font></p>";
 
-//static const QString startNormal = "<p><font face=\"georgia, serif\" color=\"Black\" size=\"15\">";
-//static const QString endNormal = "</font></p>";
-
-
 KNote::KNote( gnote::Note::Ptr gnoteptr, const QDomDocument& buildDoc, ktomgirl::Journal *journal,  QWidget *parent )
   : QFrame( parent), m_label( 0 ), m_grip( 0 ),
     m_button( 0 ), m_tool( 0 ), m_editor(0), 
-    //m_journal(journal), 
     m_find( 0 ), m_kwinConf( KSharedConfig::openConfig( "kwinrc" ) ), m_blockEmitDataChanged( false ),mBlockWriteConfigDuringCommitData( false )
     , m_gnote(gnoteptr)
     , m_content("")
@@ -1266,7 +1260,6 @@ void KNote::loadNotebooks(){
 
 void KNote::slotMoveToNotebook(QAction *act){
   QString qs = act->text().remove("&"); 
-  //qDebug() << __PRETTY_FUNCTION__ << qs;
   gnote::notebooks::NotebookManager::instance().move_note_to_notebook(m_gnote, qs.toStdString() );
 
   act->setIconText(qs);
@@ -1287,7 +1280,6 @@ void KNote::formatText(){
   int pos = cursor.position();
   int col = cursor.columnNumber();
   int line = m_editor->textCursor().blockNumber() + 1;
-  //qDebug() << "BEGIN: " << __PRETTY_FUNCTION__ << " pos: " << pos << " line: " << line << " block: " << cursor.block().blockNumber();
   bool nasty_fix=false;
 
   // Nasty hack to make sure we wind up in the right spot at the end.
@@ -1335,10 +1327,8 @@ void KNote::formatText(){
 // END formatText()
 
 void KNote::slotTextChanged(){
- // qDebug() << __PRETTY_FUNCTION__;
-  //QTextCursor cursor = m_editor->textCursor();
 }
 
 // END KNOTE SLOTS
 }// namespace knotes
-// Sat Oct 24 13:20:22 PDT 2015
+// Mon Nov  2 14:00:45 PST 2015

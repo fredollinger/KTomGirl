@@ -109,8 +109,6 @@ class KNotesApp
     void slotActivateRequested( bool, const QPoint& pos);
     void slotShowNote();
     void slotWalkThroughNotes();
-
-    //void slotPreferences();
     void slotConfigureAccels();
 
     void slotNoteKilled( ktomgirl::Journal *journal );

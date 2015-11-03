@@ -791,7 +791,12 @@ void KNotesApp::slotNameChanged(const QString &neu, const QString &old, const QS
             qDebug() << __PRETTY_FUNCTION__ << " NOTE Does not EXIST";
 	    return;
     }
-    qDebug() << __PRETTY_FUNCTION__ << " NOTE EXISTS [" << QString::fromStdString(gnote->get_title()) << "]";
+    QMap<QString, KNote*>::const_iterator i = m_notes.find( uuid );
+    //qDebug() << __PRETTY_FUNCTION__ << " NOTE EXISTS [" << QString::fromStdString(gnote->get_title()) << "]";
+   if (i == m_notes.end()) {
+    return;
+  }
+    qDebug() << __PRETTY_FUNCTION__ << " NOTE EXISTS [" << (*i)->name() << "]";
     // FRED TODO FIGURE OUT IF THE NAME IS ACTUALLY TAKEN AND DO A CALLBACK TO KNOTE SOMEHOW
 }
 
