@@ -89,6 +89,8 @@ class KNote
     void setText( const QString &text );
     void setTitleAndBody( const QString &title, const QString &body ); 
 
+    void saveCB(bool);
+
     void find( KFind* kfind );
 
     bool isModified() const;
@@ -104,7 +106,6 @@ class KNote
     void emitNewNote();
     void slotKill(void);
     void slotNewNoteBook(void);
-    void slotSaveCB(void);
     void slotShowNoteBookMenu(void);
     void slotShowSearchWindow(void);
     void slotTextChanged(void);
@@ -115,6 +116,7 @@ class KNote
     void sigRequestNewNote(void);
     void sigNameChanged(const QString &);
     void sigNameChanged(const QString &, ktomgirl::KTGItem&);
+    void sigNameChanged(const QString&, const QString& );
     void sigNameChanged(const QString&, const QString&, const QString& );
     void sigDataChanged(const QString &);
     void sigColorChanged();
@@ -142,7 +144,6 @@ class KNote
 
     void slotFormatTitle(void);
     void slotNameChanged(void);
-    //void slotSend();
     void slotSave(void);
 
     void slotSetAlarm();

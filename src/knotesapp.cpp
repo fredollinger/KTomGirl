@@ -801,7 +801,7 @@ void KNotesApp::slotNameChanged(const QString &neu, const QString &old, const QS
         return;
     }
     qDebug() << __PRETTY_FUNCTION__ << " NOTE EXISTS [" << (*i)->name() << "]";
-    //(i*)->slotSaveCB(); 
+    //i.value()->saveCB(true); 
     // FRED TODO FIGURE OUT IF THE NAME IS ACTUALLY TAKEN AND DO A CALLBACK TO KNOTE SOMEHOW
 } // END slotNameChanged()
 

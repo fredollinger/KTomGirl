@@ -1329,8 +1329,8 @@ void KNote::formatText(){
 void KNote::slotTextChanged(){
 }
 
-void KNote::slotSaveCB(){
-	qDebug() << __PRETTY_FUNCTION__;
+void KNote::saveCB(bool b){
+    qDebug() << __PRETTY_FUNCTION__;
 }
 
 // END KNOTE SLOTS
