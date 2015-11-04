@@ -90,10 +90,10 @@ class KNotesApp
     void slotNameChanged(const QString &neu, const QString &old, const QString &uuid);
     void showUnFiledNotes(void);
 
-	  // Here we sync up the new notebook
-		void slotUpdateNotebook(const QString&);
+	// Here we sync up the new notebook
+	void slotUpdateNotebook(const QString&);
 
-	  void slotNewNotebook(const QString&);
+	void slotNewNotebook(const QString&);
     void slotHandleSearch(QString);
     void slotCloseNote(const QString&);
 
@@ -157,7 +157,7 @@ class KNotesApp
 
     QDomDocument    m_noteGUI;
     QString m_noteUidModify;
-		QString m_notebook;
+	QString m_notebook;
     // END KNotesApp private:
 signals:
 	// Should be connected to all knotes so we can update

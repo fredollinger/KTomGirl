@@ -60,8 +60,6 @@
 #include <kxmlguibuilder.h>
 #include <kxmlguifactory.h>
 #include <KStatusNotifierItem>
-//#include <kcal/calendarlocal.h>
-//#include <kcal/journal.h>
 #include <kiconloader.h>
 // END   KDE INCLUDES
 
@@ -789,21 +787,19 @@ void KNotesApp::slotNameChanged(const QString &neu, const QString &old, const QS
 
     if ( neu == old ) return;
 
+    QMap<QString, KNote*>::const_iterator i = m_notes.find( uuid );
+    if (i == m_notes.end()) return;
+
     gnote::Note::Ptr gnote = m_gnmanager->find(neu.toStdString());
 
     if ( NULL == gnote ) { 
-            qDebug() << __PRETTY_FUNCTION__ << " NOTE Does not EXIST";
+        qDebug() << __PRETTY_FUNCTION__ << " NOTE Does not EXIST";
+        i.value()->saveCB(false); 
 	    return;
     }
-    QMap<QString, KNote*>::const_iterator i = m_notes.find( uuid );
-    //qDebug() << __PRETTY_FUNCTION__ << " NOTE EXISTS [" << QString::fromStdString(gnote->get_title()) << "]";
-    if (i == m_notes.end()) {
-        return;
-    }
-    qDebug() << __PRETTY_FUNCTION__ << " NOTE EXISTS [" << (*i)->name() << "]";
-    //i.value()->saveCB(true); 
-    // FRED TODO FIGURE OUT IF THE NAME IS ACTUALLY TAKEN AND DO A CALLBACK TO KNOTE SOMEHOW
+
+    i.value()->saveCB(true); 
 } // END slotNameChanged()
 
 } // namespace knotes
-// Mon Nov  2 13:54:36 PST 2015
+// Wed Nov  4 15:56:26 PST 2015
