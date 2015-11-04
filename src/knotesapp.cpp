@@ -786,19 +786,24 @@ void  KNotesApp::slotHandleSearch(QString qs){
 }
 
 void KNotesApp::slotNameChanged(const QString &neu, const QString &old, const QString &uuid){
+
+    if ( neu == old ) return;
+
     gnote::Note::Ptr gnote = m_gnmanager->find(neu.toStdString());
+
     if ( NULL == gnote ) { 
             qDebug() << __PRETTY_FUNCTION__ << " NOTE Does not EXIST";
 	    return;
     }
     QMap<QString, KNote*>::const_iterator i = m_notes.find( uuid );
     //qDebug() << __PRETTY_FUNCTION__ << " NOTE EXISTS [" << QString::fromStdString(gnote->get_title()) << "]";
-   if (i == m_notes.end()) {
-    return;
-  }
+    if (i == m_notes.end()) {
+        return;
+    }
     qDebug() << __PRETTY_FUNCTION__ << " NOTE EXISTS [" << (*i)->name() << "]";
+    //(i*)->slotSaveCB(); 
     // FRED TODO FIGURE OUT IF THE NAME IS ACTUALLY TAKEN AND DO A CALLBACK TO KNOTE SOMEHOW
-}
+} // END slotNameChanged()
 
 } // namespace knotes
 // Mon Nov  2 13:54:36 PST 2015
