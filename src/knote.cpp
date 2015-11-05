@@ -1152,7 +1152,7 @@ void KNote::slotNameChanged(){
   //qDebug() << __PRETTY_FUNCTION__ << "[" <<  m_editor->textColor().name() << "]";
   std::string oldTitle = m_gnote->get_title();
   const QString newTitle = name();
-  setWindowTitle(newTitle);
+  //setWindowTitle(newTitle);
   formatText();
   emit sigNameChanged(newTitle, QString::fromStdString(oldTitle), m_noteId );
 }
@@ -1329,8 +1329,9 @@ void KNote::formatText(){
 void KNote::slotTextChanged(){
 }
 
-void KNote::saveCB(bool b){
+void KNote::saveCB(const QString &newTitle){
     qDebug() << __PRETTY_FUNCTION__;
+    setWindowTitle(newTitle);
 }
 
 // END KNOTE SLOTS

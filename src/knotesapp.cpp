@@ -794,11 +794,10 @@ void KNotesApp::slotNameChanged(const QString &neu, const QString &old, const QS
 
     if ( NULL == gnote ) { 
         qDebug() << __PRETTY_FUNCTION__ << " NOTE Does not EXIST";
-        i.value()->saveCB(false); 
 	    return;
     }
 
-    i.value()->saveCB(true); 
+    i.value()->saveCB(neu); 
 } // END slotNameChanged()
 
 } // namespace knotes
