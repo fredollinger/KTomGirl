@@ -1332,12 +1332,12 @@ void KNote::formatText(){
 void KNote::slotTextChanged(){
 }
 
-void KNote::saveCB(const QString &newTitle){
+void KNote::saveCB(const QString &newTitle, bool err){
     qDebug() << __PRETTY_FUNCTION__;
 
 	static QString l_oldTitle="";
 
-	if ( "" == newTitle ) {
+	if ( err ) {
 	    // If the user has all ready been warned about a given name being taken, don't keep spamming them with this 
 	    // if ( l_oldTitle == newTitle ) return;
         qDebug() << __PRETTY_FUNCTION__ << " Note title taken A note with that title all ready exists. Please choose another name before continuing.";
@@ -1345,7 +1345,6 @@ void KNote::saveCB(const QString &newTitle){
 		l_oldTitle = newTitle;
 		return;
 	}
-
 
     setWindowTitle(newTitle);
 

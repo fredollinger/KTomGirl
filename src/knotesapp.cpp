@@ -785,21 +785,24 @@ void  KNotesApp::slotHandleSearch(QString qs){
 
 void KNotesApp::slotNameChanged(const QString &neu, const QString &old, const QString &uuid){
 
-    if ( neu == old ) return;
-
     QMap<QString, KNote*>::const_iterator i = m_notes.find( uuid );
     if (i == m_notes.end()) return;
+
+	if ( neu == old ){
+        i.value()->saveCB(neu, false); 
+		return;
+	}
 
     gnote::Note::Ptr gnote = m_gnmanager->find(neu.toStdString());
 
     if ( NULL == gnote ) { 
         qDebug() << __PRETTY_FUNCTION__ << " No duplicate note";
-        i.value()->saveCB(neu); 
+        i.value()->saveCB(neu, false); 
 	    return;
     }
 
     qDebug() << __PRETTY_FUNCTION__ << " Duplicate note";
-    i.value()->saveCB(""); 
+    i.value()->saveCB(neu, true); 
 } // END slotNameChanged()
 
 } // namespace knotes

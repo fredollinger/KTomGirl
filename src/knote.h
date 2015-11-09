@@ -89,7 +89,7 @@ class KNote
     void setText( const QString &text );
     void setTitleAndBody( const QString &title, const QString &body ); 
 
-    void saveCB(const QString&);
+    void saveCB(const QString&, bool);
 
     void find( KFind* kfind );
 
