@@ -793,11 +793,13 @@ void KNotesApp::slotNameChanged(const QString &neu, const QString &old, const QS
     gnote::Note::Ptr gnote = m_gnmanager->find(neu.toStdString());
 
     if ( NULL == gnote ) { 
-        qDebug() << __PRETTY_FUNCTION__ << " NOTE Does not EXIST";
+        qDebug() << __PRETTY_FUNCTION__ << " No duplicate note";
+        i.value()->saveCB(neu); 
 	    return;
     }
 
-    i.value()->saveCB(neu); 
+    qDebug() << __PRETTY_FUNCTION__ << " Duplicate note";
+    i.value()->saveCB(""); 
 } // END slotNameChanged()
 
 } // namespace knotes

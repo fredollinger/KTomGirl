@@ -1173,6 +1173,7 @@ void KNote::slotSave(){
 
   slotNameChanged();
 
+#if 0
   // cache content so we know if we are modified/saved in the future
   m_content = m_editor->toPlainText();
 
@@ -1186,6 +1187,8 @@ void KNote::slotSave(){
   m_gnote->changed();
 
   m_isModified = false;
+#endif
+
 }
 
 void KNote::slotMakeNoteBook(){
@@ -1331,8 +1334,35 @@ void KNote::slotTextChanged(){
 
 void KNote::saveCB(const QString &newTitle){
     qDebug() << __PRETTY_FUNCTION__;
+
+	static QString l_oldTitle="";
+
+	if ( "" == newTitle ) {
+	    // If the user has all ready been warned about a given name being taken, don't keep spamming them with this 
+	    // if ( l_oldTitle == newTitle ) return;
+        qDebug() << __PRETTY_FUNCTION__ << " Note title taken A note with that title all ready exists. Please choose another name before continuing.";
+        KMessageBox::sorry( this, i18n( "Note title taken A note with that title all ready exists. Please choose another name before continuing." ) );
+		l_oldTitle = newTitle;
+		return;
+	}
+
+
     setWindowTitle(newTitle);
-}
+
+    // cache content so we know if we are modified/saved in the future
+    m_content = m_editor->toPlainText();
+  
+    m_gnote->set_text_content(m_content.toStdString());
+    m_gnote->set_title(name().toStdString());
+    m_gnote->save();
+  
+    // This cues the note up for a save next time it is requested
+    // we do this to save resources so we don't save every single note
+    // that is closed only those who have changed.
+    m_gnote->changed();
+  
+    m_isModified = false;
+} // END saveCB()
 
 // END KNOTE SLOTS
 }// namespace knotes
