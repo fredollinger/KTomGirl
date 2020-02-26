@@ -1,7 +1,8 @@
+# https://techbase.kde.org/Development/Tutorials/First_program#CMakeLists.txt
 cmake_minimum_required(VERSION 3.0)
 project(ktomgirl)
 
-set (QT_QMAKE_EXECUTABLE "/usr/bin/qmake-qt4")
+#set (QT_QMAKE_EXECUTABLE "/usr/bin/qmake-qt4")
 set (CMAKE_INSTALL_PREFIX "/usr")
 set(QT_MIN_VERSION "5.3.0")
 set(KF5_MIN_VERSION "5.2.0")
@@ -9,6 +10,16 @@ set(KF5_MIN_VERSION "5.2.0")
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SIGC2 REQUIRED sigc++-2.0)
 include_directories(${SIGC2_INCLUDE_DIRS})
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+if(CMAKE_VERSION VERSION_LESS "3.7.0")
+    set(CMAKE_INCLUDE_CURRENT_DIR ON)
+endif()
+
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 find_package(LibXml2 REQUIRED)
 include_directories(${LibXML_INCLUDE_DIRS})
@@ -61,6 +72,9 @@ set(ktomgirl_SRCS
 #
 #kde4_add_executable(ktomgirl ${ktomgirl_SRCS} ${QtApp_RCC_SRCS})
 add_executable(ktomgirl ${ktomgirl_SRCS})
+
+target_link_libraries(ktomgirl Qt5::Widgets)
+
 #
 #target_link_libraries(ktomgirl ${CMAKE_CXX_FLAGS} ${KDEPIMLIBS_KCAL_LIBS} ${KDEPIMLIBS_KRESOURCES_LIBS} ${KDE4_KIO_LIBS}  ${KDE4_KDNSSD_LIBS}
 #${LibXML_LIBRARIES}  ${SIGC2_LIBRARIES} 
